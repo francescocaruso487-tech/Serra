@@ -1,0 +1,37 @@
+{
+  "name": "Mini-Serra Living Soil",
+  "short_name": "Mini-Serra",
+  "description": "Gestione serra personale",
+  "start_url": "manuale_mini_serra_completo.html",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#1a2e0a",
+  "theme_color": "#1a2e0a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
