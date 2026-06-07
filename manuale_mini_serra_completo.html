@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1a2e0a">
+<title>🌱 Mini-Serra</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --soil:#1a1208;--bark:#3a2010;--moss:#2d4a1e;--leaf:#4a7a2a;--sage:#7aaa5a;
+  --mint:#a8d480;--cream:#f5f0e8;--paper:#f8f5f0;--sand:#e0d0b8;--gold:#c8a84b;
+  --amber:#d4870a;--terra:#c05030;--sky:#3a80b0;--exp:#7a50a0;
+  --text:#1a1208;--soft:#503820;--muted:#8a7060;--sh:rgba(26,18,8,0.12);
+  --card:#ffffff;--radius:16px;--radius-sm:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overscroll-behavior:none;}
+body{font-family:'Nunito',sans-serif;background:var(--paper);color:var(--text);display:flex;flex-direction:column;}
+
+/* ===== TOAST ===== */
+#toast{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%) translateY(40px);background:var(--moss);color:#fff;padding:.55rem 1.2rem;border-radius:100px;font-size:.82rem;font-weight:700;z-index:9999;transition:transform .25s,opacity .25s;opacity:0;pointer-events:none;white-space:nowrap;}
+#toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+/* ===== POP-UP ===== */
+#pop{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9990;display:none;align-items:flex-end;justify-content:center;}
+#pop.on{display:flex;}
+#pop-box{background:#fff;border-radius:22px 22px 0 0;width:100%;max-width:540px;max-height:88vh;overflow-y:auto;padding:0 0 2rem;animation:su .22s ease;}
+@keyframes su{from{transform:translateY(50px);opacity:0;}to{transform:none;opacity:1;}}
+#pop-handle{width:40px;height:4px;background:var(--sand);border-radius:2px;margin:12px auto 0;}
+#pop-head{padding:1rem 1.2rem .6rem;}
+#pop-title{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--moss);}
+#pop-sub{font-size:.8rem;color:var(--muted);margin-top:.15rem;}
+#pop-body{padding:.2rem 1.2rem 0;}
+.pop-sec{margin-bottom:1rem;}
+.pop-sec h4{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--bark);margin-bottom:.5rem;}
+.pop-row{display:flex;justify-content:space-between;align-items:center;padding:.32rem 0;border-bottom:1px solid var(--sand);font-size:.85rem;}
+.pop-row:last-child{border-bottom:none;}
+.pop-k{color:var(--soft);font-weight:600;}
+.pop-v{font-family:'DM Mono',monospace;font-size:.79rem;color:var(--text);text-align:right;max-width:55%;}
+.pop-tip{background:var(--cream);border-left:3px solid var(--leaf);border-radius:0 10px 10px 0;padding:.6rem .8rem;font-size:.83rem;color:var(--soft);line-height:1.65;margin:.6rem 0;}
+.pop-btn{display:inline-flex;align-items:center;gap:.35rem;background:var(--moss);color:#fff;border:none;border-radius:10px;padding:.5rem 1rem;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;margin:.3rem .3rem 0 0;}
+.pop-btn.ghost{background:var(--sand);color:var(--soft);}
+.tag-ok{background:#e8f5e9;color:#2e7d32;display:inline-block;padding:.15rem .55rem;border-radius:100px;font-size:.72rem;font-family:'DM Mono',monospace;margin:.1rem;}
+.tag-no{background:#fce4ec;color:#b71c1c;display:inline-block;padding:.15rem .55rem;border-radius:100px;font-size:.72rem;font-family:'DM Mono',monospace;margin:.1rem;}
+.tag-warn{background:#fff8e1;color:#f57f17;display:inline-block;padding:.15rem .55rem;border-radius:100px;font-size:.72rem;font-family:'DM Mono',monospace;margin:.1rem;}
+
+/* ===== NAV BOTTOM ===== */
+#nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:#fff;border-top:1px solid var(--sand);display:flex;justify-content:space-around;padding:.5rem 0 calc(.5rem + env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(0,0,0,.08);}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:.15rem;padding:.3rem .8rem;cursor:pointer;border:none;background:none;color:var(--muted);font-family:'Nunito',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;transition:color .15s;flex:1;}
+.nav-item.active{color:var(--moss);}
+.nav-item .ni{font-size:1.3rem;line-height:1;}
+.nav-item .nl{font-size:.58rem;}
+
+/* ===== MAIN SCROLL ===== */
+#main{flex:1;overflow-y:auto;padding-bottom:5rem;}
+.sec{display:none;padding:0;}
+.sec.on{display:block;}
+
+/* ===== SEZIONE HEADER ===== */
+.sec-header{background:linear-gradient(135deg,var(--soil),var(--bark) 50%,var(--moss));padding:1.4rem 1.2rem 1.8rem;color:#fff;}
+.sec-header h1{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--mint);}
+.sec-header p{font-size:.75rem;color:rgba(255,255,255,.6);font-family:'DM Mono',monospace;letter-spacing:.06em;text-transform:uppercase;margin-top:.2rem;}
+
+/* ===== CARD BASE ===== */
+.wrap{padding:.9rem .9rem 0;}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:0 2px 10px var(--sh);padding:1rem 1.1rem;margin-bottom:.75rem;cursor:pointer;transition:transform .12s,box-shadow .12s;}
+.card:active{transform:scale(.98);box-shadow:0 1px 5px var(--sh);}
+.card.nc{cursor:default;}
+.card.nc:active{transform:none;box-shadow:0 2px 10px var(--sh);}
+.card-label{font-family:'DM Mono',monospace;font-size:.65rem;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.3rem;}
+.card-title{font-family:'DM Serif Display',serif;font-size:1.05rem;color:var(--bark);margin-bottom:.25rem;}
+
+/* ===== HOME ===== */
+/* Banner stato oggi */
+.home-banner{background:linear-gradient(135deg,var(--soil),var(--moss));color:#fff;padding:1.2rem 1.1rem;margin-bottom:.75rem;}
+.hb-data{font-family:'DM Mono',monospace;font-size:.68rem;opacity:.65;margin-bottom:.3rem;}
+.hb-row{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-bottom:.4rem;}
+.hb-meteo{display:flex;align-items:center;gap:.4rem;}
+.hb-temp{font-family:'DM Serif Display',serif;font-size:2rem;line-height:1;}
+.hb-desc{font-size:.8rem;opacity:.8;}
+.hb-luna{display:flex;align-items:center;gap:.4rem;border-left:1px solid rgba(255,255,255,.2);padding-left:.8rem;}
+.hb-luna-ico{font-size:1.6rem;}
+.hb-luna-nome{font-size:.82rem;font-weight:700;}
+.hb-luna-cons{font-size:.72rem;opacity:.75;}
+.hb-alerts{display:flex;flex-direction:column;gap:.3rem;margin-top:.5rem;}
+.hb-alert{background:rgba(255,255,255,.12);border-radius:8px;padding:.35rem .65rem;font-size:.8rem;display:flex;align-items:center;gap:.4rem;}
+.hb-alert.urg{background:rgba(200,80,50,.35);}
+.hb-alert.ok{background:rgba(80,180,80,.2);}
+
+/* Quick actions */
+.qa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.75rem;}
+.qa{background:var(--card);border-radius:var(--radius-sm);box-shadow:0 1px 6px var(--sh);padding:.75rem .5rem;text-align:center;cursor:pointer;transition:transform .12s;}
+.qa:active{transform:scale(.95);}
+.qa-ico{font-size:1.5rem;margin-bottom:.2rem;}
+.qa-lbl{font-size:.68rem;font-weight:700;color:var(--soft);font-family:'Nunito',sans-serif;line-height:1.2;}
+
+/* Piante strip */
+.piante-strip{display:flex;gap:.6rem;overflow-x:auto;padding:.2rem .9rem .9rem;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.piante-strip::-webkit-scrollbar{display:none;}
+.ps-card{flex-shrink:0;width:150px;background:var(--card);border-radius:var(--radius-sm);box-shadow:0 1px 7px var(--sh);overflow:hidden;cursor:pointer;transition:transform .12s;}
+.ps-card:active{transform:scale(.96);}
+.ps-head{padding:.6rem .7rem .4rem;}
+.ps-head.auto{background:linear-gradient(135deg,#c8a800,#ffe600);color:#1a1208;}
+.ps-head.fem{background:linear-gradient(135deg,#0060bb,#00aaff);color:#fff;}
+.ps-nome{font-weight:800;font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ps-tipo{font-size:.6rem;opacity:.7;font-family:'DM Mono',monospace;text-transform:uppercase;}
+.ps-fase{font-size:.64rem;font-weight:700;margin-top:.15rem;}
+.ps-body{padding:.5rem .7rem;}
+.ps-pbar{background:var(--sand);border-radius:100px;height:4px;overflow:hidden;margin-bottom:.25rem;}
+.ps-pinner{height:4px;border-radius:100px;}
+.ps-pct{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted);}
+.ps-next{font-size:.68rem;color:var(--soft);margin-top:.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* Additivi strip */
+.add-strip{display:flex;gap:.6rem;overflow-x:auto;padding:.2rem .9rem .9rem;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.add-strip::-webkit-scrollbar{display:none;}
+.as-card{flex-shrink:0;width:160px;background:var(--card);border-radius:var(--radius-sm);box-shadow:0 1px 7px var(--sh);padding:.7rem .8rem;cursor:pointer;border-top:3px solid var(--leaf);transition:transform .12s;}
+.as-card:active{transform:scale(.96);}
+.as-card.scad{border-top-color:var(--terra);}
+.as-card.pres{border-top-color:var(--amber);}
+.as-ico{font-size:1.2rem;margin-bottom:.2rem;}
+.as-nome{font-weight:700;font-size:.8rem;color:var(--text);}
+.as-stato{font-family:'DM Mono',monospace;font-size:.68rem;margin-top:.2rem;}
+.as-stato.ok{color:#2e7d32;}
+.as-stato.warn{color:var(--amber);}
+.as-stato.urg{color:var(--terra);}
+
+/* Sezione label con link */
+.sec-lbl{display:flex;align-items:center;justify-content:space-between;padding:.5rem .9rem .1rem;}
+.sec-lbl h3{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--bark);}
+.sec-lbl a{font-size:.75rem;color:var(--moss);font-weight:700;text-decoration:none;cursor:pointer;}
+
+/* ===== DIARIO ===== */
+.diario-date-bar{background:var(--card);border-bottom:1px solid var(--sand);padding:.7rem .9rem;display:flex;align-items:center;gap:.5rem;position:sticky;top:0;z-index:10;}
+.ddb-btn{background:var(--sand);border:none;border-radius:8px;width:32px;height:32px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.ddb-btn.today{background:var(--moss);color:#fff;font-size:.7rem;font-weight:800;width:auto;padding:0 .7rem;}
+#d-date{border:1.5px solid var(--sand);border-radius:8px;padding:.28rem .5rem;font-family:'DM Mono',monospace;font-size:.82rem;color:var(--bark);flex:1;}
+#d-label{font-family:'DM Serif Display',serif;font-size:.95rem;color:var(--bark);margin-left:.3rem;}
+
+.timer-bar{background:linear-gradient(90deg,var(--soil),var(--bark));color:#fff;padding:.55rem .9rem;display:flex;align-items:center;justify-content:space-between;}
+.tb-left{display:flex;align-items:center;gap:.5rem;}
+.tb-ico{font-size:1rem;}
+.tb-tit{font-size:.8rem;font-weight:700;}
+.tb-info{font-size:.7rem;opacity:.7;}
+.tb-badge{font-family:'DM Mono',monospace;font-size:.68rem;padding:.15rem .5rem;border-radius:100px;font-weight:700;}
+.tb-off{background:#e57373;color:#fff;}
+.tb-stand{background:var(--amber);color:#fff;}
+.tb-auto{background:var(--sage);color:var(--soil);}
+
+/* Op list */
+.op-list{padding:.5rem .9rem;}
+.op-item{background:var(--card);border-radius:var(--radius-sm);box-shadow:0 1px 5px var(--sh);margin-bottom:.5rem;overflow:hidden;cursor:pointer;transition:transform .1s;}
+.op-item:active{transform:scale(.99);}
+.op-item.done{border-left:4px solid var(--leaf);}
+.op-item.skip{border-left:4px solid #e57373;opacity:.7;}
+.op-main{display:flex;align-items:center;gap:.7rem;padding:.75rem .9rem;}
+.op-ico{font-size:1.15rem;flex-shrink:0;}
+.op-info{flex:1;}
+.op-name{font-weight:700;font-size:.88rem;}
+.op-freq{font-size:.68rem;color:var(--muted);font-family:'DM Mono',monospace;}
+.op-check{width:24px;height:24px;border-radius:7px;border:2px solid var(--sand);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;}
+.op-item.done .op-check{background:var(--leaf);border-color:var(--leaf);color:#fff;}
+.op-item.skip .op-check{background:#e57373;border-color:#e57373;color:#fff;}
+.op-detail-panel{background:var(--cream);border-top:1px solid var(--sand);padding:.7rem .9rem;display:none;}
+.op-detail-panel.on{display:block;}
+.odf{margin-bottom:.45rem;}
+.odf label{display:block;font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.18rem;}
+.odf select{width:100%;border:1.5px solid var(--sand);border-radius:8px;padding:.32rem .5rem;font-family:'Nunito',sans-serif;font-size:.84rem;color:var(--text);background:#fff;}
+.odf select:focus{outline:none;border-color:var(--sage);}
+.od-tip{background:#fff;border-left:3px solid var(--leaf);border-radius:0 8px 8px 0;padding:.4rem .6rem;font-size:.8rem;color:var(--soft);line-height:1.6;margin:.5rem 0;}
+.od-save{background:var(--moss);color:#fff;border:none;border-radius:8px;padding:.4rem .9rem;font-family:'Nunito',sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;margin-top:.5rem;}
+
+.nota-wrap{padding:.4rem .9rem .9rem;}
+.nota-lbl{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem;display:flex;justify-content:space-between;align-items:center;}
+.save-st{font-size:.68rem;color:var(--sage);font-family:'DM Mono',monospace;font-weight:400;}
+.nota{width:100%;min-height:80px;border:1.5px solid var(--sand);border-radius:var(--radius-sm);padding:.6rem .7rem;font-family:'Nunito',sans-serif;font-size:.87rem;color:var(--text);background:var(--card);resize:none;}
+.nota:focus{outline:none;border-color:var(--sage);}
+
+/* Storico */
+.sto-wrap{padding:0 .9rem .9rem;}
+.sto-item{background:var(--card);border-radius:var(--radius-sm);box-shadow:0 1px 5px var(--sh);padding:.65rem .8rem;margin-bottom:.4rem;cursor:pointer;}
+.sto-date{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);margin-bottom:.3rem;}
+.sto-ops{display:flex;flex-wrap:wrap;gap:.2rem;}
+.sto-b{font-size:.68rem;padding:.1rem .4rem;border-radius:100px;font-family:'DM Mono',monospace;}
+.sto-done{background:#e8f5e9;color:#2e7d32;}
+.sto-skip{background:#fce4ec;color:#b71c1c;}
+.sto-det{background:#e3f2fd;color:#0d47a1;}
+.sto-nota{font-size:.78rem;color:var(--soft);font-style:italic;margin-top:.25rem;border-top:1px solid var(--sand);padding-top:.22rem;}
+
+/* ===== NATURA (Meteo + Luna) ===== */
+/* Meteo ora */
+.meteo-card{background:linear-gradient(150deg,#0d2040,#1a3a6a,#2060a0);color:#fff;border-radius:var(--radius);margin:.9rem .9rem .75rem;padding:1.2rem 1.3rem;cursor:pointer;transition:transform .12s;}
+.meteo-card:active{transform:scale(.98);}
+.mc-top{display:flex;align-items:flex-start;justify-content:space-between;}
+.mc-left{}
+.mc-luogo{font-family:'DM Mono',monospace;font-size:.65rem;opacity:.6;margin-bottom:.25rem;}
+.mc-temp{font-family:'DM Serif Display',serif;font-size:3.2rem;line-height:1;}
+.mc-desc{font-size:.85rem;opacity:.82;margin-top:.15rem;font-style:italic;}
+.mc-right{text-align:right;}
+.mc-ico{font-size:3rem;}
+.mc-perc{font-size:.75rem;opacity:.7;margin-top:.2rem;}
+.mc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;margin-top:.9rem;}
+.mc-item{background:rgba(255,255,255,.12);border-radius:9px;padding:.4rem .3rem;text-align:center;}
+.mc-val{font-family:'DM Mono',monospace;font-size:.85rem;font-weight:700;}
+.mc-lbl{font-size:.58rem;opacity:.7;text-transform:uppercase;margin-top:.05rem;}
+
+/* 7gg scroll */
+.gg7-scroll{display:flex;gap:.5rem;overflow-x:auto;padding:.2rem .9rem .9rem;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.gg7-scroll::-webkit-scrollbar{display:none;}
+.gg7-card{flex-shrink:0;background:var(--card);border-radius:var(--radius-sm);box-shadow:0 1px 6px var(--sh);padding:.7rem .6rem;text-align:center;min-width:75px;cursor:pointer;transition:transform .1s;}
+.gg7-card:active{transform:scale(.95);}
+.gg7-card.oggi{border:2px solid var(--sky);background:#f0f6ff;}
+.gg7-nome{font-family:'DM Mono',monospace;font-size:.62rem;font-weight:700;text-transform:uppercase;color:var(--muted);}
+.gg7-ico{font-size:1.5rem;margin:.25rem 0;}
+.gg7-t{font-weight:800;font-size:.85rem;}
+.gg7-pioggia{font-size:.65rem;color:var(--sky);margin-top:.1rem;}
+.gg7-uv{font-size:.6rem;color:var(--amber);}
+
+/* Luna */
+.luna-card{background:linear-gradient(150deg,#08081e,#141430,#1e1e50);color:#fff;border-radius:var(--radius);margin:.75rem .9rem;padding:1.1rem 1.3rem;cursor:pointer;transition:transform .12s;}
+.luna-card:active{transform:scale(.98);}
+.lc-top{display:flex;align-items:center;justify-content:space-between;}
+.lc-info{}
+.lc-label{font-family:'DM Mono',monospace;font-size:.63rem;opacity:.55;margin-bottom:.2rem;}
+.lc-fase{font-family:'DM Serif Display',serif;font-size:1.4rem;}
+.lc-cons{font-size:.8rem;opacity:.8;margin-top:.3rem;line-height:1.5;}
+.lc-ico{font-size:3rem;}
+.lc-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.7rem;}
+.lc-tag{border-radius:100px;padding:.15rem .55rem;font-size:.68rem;font-family:'DM Mono',monospace;}
+.lc-ok{background:rgba(80,200,80,.25);}
+.lc-no{background:rgba(220,60,60,.25);}
+
+/* Calendario lunare mese */
+.cal-luna{padding:0 .9rem .9rem;}
+.cl-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.cl-hdr{text-align:center;font-size:.6rem;font-weight:700;color:var(--muted);padding:.2rem 0;font-family:'DM Mono',monospace;}
+.cl-day{background:var(--card);border-radius:7px;padding:.35rem .2rem;text-align:center;cursor:pointer;border:1px solid var(--sand);transition:transform .1s;}
+.cl-day:active{transform:scale(.9);}
+.cl-day.oggi{border:2px solid var(--gold);background:#fffde7;}
+.cl-day.past{opacity:.45;}
+.cl-num{font-family:'DM Mono',monospace;font-size:.6rem;font-weight:700;color:var(--muted);}
+.cl-ico{font-size:1rem;line-height:1.2;}
+
+/* Consiglio irrigazione */
+.irr-card{border-radius:var(--radius);margin:.75rem .9rem;overflow:hidden;cursor:pointer;transition:transform .12s;}
+.irr-card:active{transform:scale(.98);}
+.irr-head{padding:.85rem 1.1rem;color:#fff;}
+.irr-head.salta{background:linear-gradient(135deg,#1a5070,var(--sky));}
+.irr-head.ok{background:linear-gradient(135deg,#1a3a10,var(--moss));}
+.irr-head.attenzione{background:linear-gradient(135deg,#503000,var(--amber));}
+.irr-head.urgente{background:linear-gradient(135deg,#501000,var(--terra));}
+.irr-head h3{font-family:'DM Serif Display',serif;font-size:1rem;}
+.irr-head p{font-size:.78rem;opacity:.85;margin-top:.12rem;}
+.irr-body{background:var(--card);padding:.8rem 1.1rem;}
+.irr-az{background:var(--cream);border-radius:8px;padding:.38rem .6rem;margin-bottom:.28rem;font-size:.82rem;border-left:3px solid var(--leaf);}
+.irr-nota{font-size:.8rem;color:var(--soft);padding:.15rem 0;border-bottom:1px solid var(--sand);}
+.irr-nota:last-child{border-bottom:none;}
+.piano7{display:grid;grid-template-columns:repeat(7,1fr);gap:.3rem;margin-top:.7rem;}
+.p7{border-radius:8px;padding:.38rem .25rem;text-align:center;border:1px solid var(--sand);background:var(--card);}
+.p7.irriga{background:#edfae0;border-color:var(--leaf);}
+.p7.salta{background:#e8f4fb;border-color:var(--sky);}
+.p7-nome{font-family:'DM Mono',monospace;font-size:.58rem;font-weight:700;text-transform:uppercase;color:var(--muted);}
+.p7-ico{font-size:.9rem;}
+.p7-t{font-size:.68rem;font-weight:700;}
+
+/* ===== PIANTE ===== */
+.piante-list{padding:.5rem .9rem;}
+.pianta-card{background:var(--card);border-radius:var(--radius);box-shadow:0 2px 10px var(--sh);margin-bottom:.75rem;overflow:hidden;cursor:pointer;transition:transform .12s;}
+.pianta-card:active{transform:scale(.99);}
+.pc-head{padding:.85rem 1rem .65rem;}
+.pc-head.auto{background:linear-gradient(135deg,#b89800,#ffe600);color:#1a1208;}
+.pc-head.fem{background:linear-gradient(135deg,#0050aa,#00aaff);color:#fff;}
+.pc-nome{font-family:'DM Serif Display',serif;font-size:1.05rem;}
+.pc-sub{font-family:'DM Mono',monospace;font-size:.64rem;opacity:.72;text-transform:uppercase;margin-top:.1rem;}
+.pc-fase{font-size:.7rem;font-weight:700;background:rgba(0,0,0,.15);display:inline-block;padding:.12rem .5rem;border-radius:100px;margin-top:.18rem;}
+.pc-body{padding:.7rem 1rem;}
+.pc-bar{background:var(--sand);border-radius:100px;height:6px;overflow:hidden;margin-bottom:.3rem;}
+.pc-bar-inner{height:6px;border-radius:100px;}
+.pc-pct{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--muted);text-align:right;margin-bottom:.5rem;}
+.pc-row{display:flex;justify-content:space-between;padding:.22rem 0;border-bottom:1px solid var(--sand);font-size:.82rem;}
+.pc-row:last-child{border-bottom:none;}
+.pc-k{color:var(--soft);font-weight:600;}
+.pc-v{font-family:'DM Mono',monospace;font-size:.76rem;text-align:right;}
+.pc-next{background:var(--cream);border-radius:8px;padding:.3rem .55rem;margin-top:.4rem;font-size:.8rem;display:flex;justify-content:space-between;}
+.pc-next span:last-child{font-weight:700;color:var(--moss);}
+
+/* ===== TECNICHE ===== */
+.tec-list{padding:.5rem .9rem;}
+.tec-item{background:var(--card);border-radius:var(--radius-sm);box-shadow:0 1px 7px var(--sh);margin-bottom:.5rem;overflow:hidden;}
+.tec-h{display:flex;align-items:center;justify-content:space-between;padding:.75rem .9rem;cursor:pointer;}
+.tec-left{display:flex;align-items:center;gap:.6rem;}
+.tec-ico{font-size:1.15rem;}
+.tec-name{font-weight:700;font-size:.87rem;}
+.tec-st{font-family:'DM Mono',monospace;font-size:.64rem;padding:.13rem .45rem;border-radius:100px;}
+.tsi{background:#e8f5e9;color:#2e7d32;}
+.tno{background:#fce4ec;color:#b71c1c;}
+.tec-btn{background:none;border:2px solid var(--sand);border-radius:8px;width:30px;height:30px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tec-btn.si{background:var(--leaf);border-color:var(--leaf);color:#fff;}
+.tec-btn.no{background:#fce4ec;border-color:#e57373;color:#b71c1c;}
+.tec-body{border-top:1px solid var(--sand);padding:0 .9rem .8rem;display:none;}
+.tec-body.on{display:block;}
+.tec-body p{font-size:.83rem;color:var(--soft);line-height:1.7;margin-top:.55rem;}
+.tec-nota{width:100%;min-height:60px;border:1.5px solid var(--sand);border-radius:8px;padding:.45rem .55rem;font-family:'Nunito',sans-serif;font-size:.83rem;background:var(--cream);resize:none;margin-top:.45rem;}
+.tec-nota:focus{outline:none;border-color:var(--sage);}
+
+/* ===== CALENDARIO ===== */
+.cal-list{padding:.5rem .9rem;}
+.cal-mese{background:var(--card);border-radius:var(--radius);box-shadow:0 2px 8px var(--sh);margin-bottom:.75rem;overflow:hidden;}
+.cm-head{background:linear-gradient(135deg,var(--moss),var(--leaf));color:#fff;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;}
+.cm-head.cur{background:linear-gradient(135deg,#0a1e05,var(--moss));}
+.cm-title{font-family:'DM Serif Display',serif;font-size:.97rem;}
+.cm-date{font-family:'DM Mono',monospace;font-size:.67rem;opacity:.8;}
+.cm-events{padding:.5rem .8rem;}
+.ce{display:flex;align-items:flex-start;gap:.5rem;padding:.35rem .45rem;border-radius:7px;margin-bottom:.18rem;cursor:pointer;transition:background .1s;}
+.ce:active{opacity:.75;}
+.ce.rec{background:#e8f4fb;border-left:3px solid var(--sky);}
+.ce.mil{background:#fff3e0;border-left:3px solid var(--gold);}
+.ce.har{background:#fce4ec;border-left:3px solid var(--terra);}
+.ce.exp{background:#f3e5ff;border-left:3px solid var(--exp);}
+.ce.aut{background:#fffde7;border-left:3px solid #c8a800;}
+.ce.fem{background:#e3f2fd;border-left:3px solid #0077aa;}
+.ce.pos{background:#f0f0f8;border-left:3px solid #9090b0;}
+.ce-ico{font-size:.85rem;flex-shrink:0;margin-top:.05rem;}
+.ce-tx{flex:1;}
+.ce-ti{font-weight:700;font-size:.82rem;color:var(--text);}
+.ce-de{color:var(--soft);font-size:.72rem;margin-top:.03rem;}
+.cm-nota{width:100%;min-height:60px;border:1.5px solid var(--sand);border-radius:8px;padding:.5rem .6rem;font-family:'Nunito',sans-serif;font-size:.82rem;background:var(--cream);resize:none;margin:.4rem 0 .5rem;}
+.cm-nota:focus{outline:none;border-color:var(--sage);}
+
+/* ===== GUIDA ===== */
+.guida-list{padding:.5rem .9rem;}
+.guida-card{background:var(--card);border-radius:var(--radius-sm);box-shadow:0 1px 7px var(--sh);margin-bottom:.5rem;overflow:hidden;cursor:pointer;}
+.gc-h{display:flex;align-items:center;justify-content:space-between;padding:.75rem .9rem;}
+.gc-left{display:flex;align-items:center;gap:.6rem;}
+.gc-ico{font-size:1.15rem;}
+.gc-title{font-weight:700;font-size:.9rem;}
+.gc-body{border-top:1px solid var(--sand);padding:.7rem .9rem;display:none;}
+.gc-body.on{display:block;}
+.gc-body p,.gc-body li{font-size:.83rem;color:var(--soft);line-height:1.7;}
+.gc-table{width:100%;border-collapse:collapse;margin:.5rem 0;}
+.gc-table th{background:var(--moss);color:#fff;padding:.45rem .6rem;font-size:.72rem;text-align:left;font-family:'DM Mono',monospace;text-transform:uppercase;}
+.gc-table td{padding:.42rem .6rem;font-size:.81rem;border-bottom:1px solid var(--sand);}
+.gc-table tr:last-child td{border-bottom:none;}
+.gc-table tr:nth-child(even) td{background:var(--cream);}
+.gc-table td:first-child{font-weight:700;color:var(--bark);}
+.gc-cl{list-style:none;}
+.gc-cl li{padding:.32rem 0;border-bottom:1px solid var(--sand);font-size:.83rem;color:var(--soft);display:flex;gap:.5rem;}
+.gc-cl li:last-child{border-bottom:none;}
+.gc-cl li::before{content:'→';color:var(--sage);flex-shrink:0;}
+
+/* Overlay save */
+#save-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9989;display:none;align-items:center;justify-content:center;padding:1.5rem;}
+#save-overlay.on{display:flex;}
+.sov-box{background:#fff;border-radius:18px;padding:1.4rem;max-width:300px;width:100%;text-align:center;}
+.sov-box h3{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--moss);margin-bottom:.4rem;}
+.sov-box p{font-size:.84rem;color:var(--soft);line-height:1.6;margin-bottom:.9rem;}
+.sov-btn{background:var(--moss);color:#fff;border:none;border-radius:10px;padding:.55rem 1.3rem;font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;}
+
+@media(max-width:380px){
+  .qa-grid{grid-template-columns:repeat(3,1fr);}
+  .mc-grid{grid-template-columns:repeat(2,2fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- OVERLAY SAVE -->
+<div id="save-overlay">
+  <div class="sov-box">
+    <h3>💾 Tutto salvato</h3>
+    <p>Le tue note e operazioni sono al sicuro sul telefono.</p>
+    <button class="sov-btn" onclick="closeSave()">✅ Ok</button>
+  </div>
+</div>
+
+<!-- POP-UP -->
+<div id="pop" onclick="closePopIfBg(event)">
+  <div id="pop-box">
+    <div id="pop-handle"></div>
+    <div id="pop-head">
+      <div id="pop-title"></div>
+      <div id="pop-sub"></div>
+    </div>
+    <div id="pop-body"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- MAIN -->
+<div id="main">
+
+<!-- ===== HOME ===== -->
+<div id="home" class="sec on">
+  <!-- Banner stato oggi -->
+  <div class="home-banner" id="hb"></div>
+
+  <!-- Quick actions -->
+  <div style="padding:.6rem .9rem .1rem;">
+    <div style="font-family:'DM Serif Display',serif;font-size:.95rem;color:var(--bark);margin-bottom:.4rem;">⚡ Azioni rapide</div>
+    <div class="qa-grid">
+      <div class="qa" onclick="goNav('diario')"><div class="qa-ico">📓</div><div class="qa-lbl">Diario oggi</div></div>
+      <div class="qa" onclick="goNav('natura')"><div class="qa-ico">🌤</div><div class="qa-lbl">Meteo & Luna</div></div>
+      <div class="qa" onclick="goNav('piante')"><div class="qa-ico">🌿</div><div class="qa-lbl">Piante</div></div>
+      <div class="qa" onclick="goNav('calendario')"><div class="qa-ico">📅</div><div class="qa-lbl">Calendario</div></div>
+      <div class="qa" onclick="goNav('tecniche')"><div class="qa-ico">⚡</div><div class="qa-lbl">Tecniche</div></div>
+      <div class="qa" onclick="goNav('guida')"><div class="qa-ico">📖</div><div class="qa-lbl">Guida</div></div>
+    </div>
+  </div>
+
+  <!-- Piante strip -->
+  <div class="sec-lbl"><h3>🌿 Le mie piante</h3><a onclick="goNav('piante')">Tutte →</a></div>
+  <div class="piante-strip" id="home-piante-strip"></div>
+
+  <!-- Additivi -->
+  <div class="sec-lbl"><h3>⏰ Additivi & scadenze</h3><a onclick="goNav('diario')">Diario →</a></div>
+  <div class="add-strip" id="home-add-strip"></div>
+
+  <!-- Consiglio irrigazione compact -->
+  <div style="padding:0 .9rem .5rem;">
+    <div style="font-family:'DM Serif Display',serif;font-size:.95rem;color:var(--bark);margin-bottom:.4rem;">💧 Irrigazione di oggi</div>
+    <div id="home-irr"></div>
+  </div>
+</div>
+
+<!-- ===== DIARIO ===== -->
+<div id="diario" class="sec">
+  <div class="diario-date-bar">
+    <button class="ddb-btn" onclick="cambiaGiorno(-1)">◀</button>
+    <input type="date" id="d-date" onchange="caricaGiorno()">
+    <button class="ddb-btn today" onclick="vaiOggi()">Oggi</button>
+    <button class="ddb-btn" onclick="cambiaGiorno(1)">▶</button>
+    <span id="d-label"></span>
+  </div>
+  <div class="timer-bar" onclick="apriPopupTimer()">
+    <div class="tb-left"><span class="tb-ico">⏱</span><div><div class="tb-tit">Timer irrigazione</div><div class="tb-info" id="tb-info">Tocca per impostare</div></div></div>
+    <span class="tb-badge tb-off" id="tb-badge">🔴 Manuale</span>
+  </div>
+  <div class="op-list" id="op-list"></div>
+  <div class="nota-wrap">
+    <div class="nota-lbl">📝 Note del giorno <span class="save-st" id="nota-st"></span></div>
+    <textarea class="nota" id="d-nota" placeholder="Osservazioni sulle piante, misurazioni, problemi..."></textarea>
+  </div>
+  <div class="sec-lbl" style="margin-top:.2rem;"><h3>📚 Storico recente</h3><a onclick="apriPopupStorico()">Tutto →</a></div>
+  <div class="sto-wrap" id="sto-list"></div>
+</div>
+
+<!-- ===== NATURA (Meteo + Luna) ===== -->
+<div id="natura" class="sec">
+  <div style="padding:.7rem .9rem .1rem;font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--bark);">🌤 Meteo — Caserta</div>
+  <div class="meteo-card" id="meteo-card" onclick="apriPopupMeteoOggi()">
+    <div style="opacity:.7;font-family:'DM Mono',monospace;font-size:.8rem;">⏳ Caricamento...</div>
+  </div>
+
+  <div class="sec-lbl"><h3>📅 Prossimi 7 giorni</h3></div>
+  <div class="gg7-scroll" id="gg7"></div>
+
+  <div style="padding:.3rem .9rem .1rem;font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--bark);">💧 Consigli irrigazione</div>
+  <div id="irr-box" style="margin:.4rem 0;"></div>
+
+  <div style="padding:.3rem .9rem .1rem;font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--bark);">🌙 Luna di oggi</div>
+  <div class="luna-card" id="luna-card" onclick="apriPopupLunaOggi()">
+    <div style="opacity:.7;font-size:.85rem;">Caricamento...</div>
+  </div>
+
+  <div class="sec-lbl"><h3>📆 Calendario lunare — questo mese</h3></div>
+  <div class="cal-luna">
+    <div class="cl-grid" id="cl-grid"></div>
+  </div>
+
+  <div class="sec-lbl"><h3>🔮 Prossime fasi</h3></div>
+  <div style="display:flex;gap:.5rem;overflow-x:auto;padding:.2rem .9rem .9rem;scrollbar-width:none;">
+    <div id="prossime-fasi" style="display:flex;gap:.5rem;"></div>
+  </div>
+
+  <div class="card nc" style="margin:.2rem .9rem .9rem;background:#f0f6ff;border-left:4px solid var(--sky);">
+    <div class="card-label">🌱 Luna & agricoltura</div>
+    <p style="font-size:.82rem;color:var(--soft);line-height:1.65;">🌒 <b>Crescente</b> — crescita aerea, irrigare, fertilizzare · 🌕 <b>Piena</b> — massima energia, raccolta, riduci irrigazione · 🌘 <b>Calante</b> — radici, substrato, trapianti · 🌑 <b>Nuova</b> — riposo, trattamenti preventivi</p>
+  </div>
+</div>
+
+<!-- ===== PIANTE ===== -->
+<div id="piante" class="sec">
+  <div style="padding:.7rem .9rem .2rem;">
+    <div id="piante-riepilogo" style="font-size:.85rem;color:var(--soft);margin-bottom:.3rem;"></div>
+  </div>
+  <div class="piante-list" id="piante-list"></div>
+</div>
+
+<!-- ===== CALENDARIO ===== -->
+<div id="calendario" class="sec">
+  <div class="cal-list" id="cal-list"></div>
+</div>
+
+<!-- ===== TECNICHE ===== -->
+<div id="tecniche" class="sec">
+  <div style="padding:.7rem .9rem .3rem;">
+    <p style="font-size:.83rem;color:var(--soft);">Tocca ✓/✗ per aggiornare lo stato. Tocca il titolo per leggere le istruzioni e aggiungere note.</p>
+  </div>
+  <div class="tec-list" id="tec-list"></div>
+</div>
+
+<!-- ===== GUIDA ===== -->
+<div id="guida" class="sec">
+  <div class="guida-list" id="guida-list"></div>
+</div>
+
+</div><!-- /main -->
+
+<!-- NAV BOTTOM -->
+<nav id="nav">
+  <button class="nav-item active" onclick="goNav('home',this)"><span class="ni">🏠</span><span class="nl">Home</span></button>
+  <button class="nav-item" onclick="goNav('diario',this)"><span class="ni">📓</span><span class="nl">Diario</span></button>
+  <button class="nav-item" onclick="goNav('natura',this)"><span class="ni">🌤</span><span class="nl">Meteo & Luna</span></button>
+  <button class="nav-item" onclick="goNav('piante',this)"><span class="ni">🌿</span><span class="nl">Piante</span></button>
+  <button class="nav-item" onclick="goNav('altro',this)"><span class="ni">⋯</span><span class="nl">Altro</span></button>
+</nav>
+
+<!-- MENU ALTRO -->
+<div id="menu-altro" style="position:fixed;bottom:4.5rem;left:0;right:0;background:#fff;border-top:1px solid var(--sand);padding:.7rem .9rem;display:none;z-index:99;box-shadow:0 -4px 16px rgba(0,0,0,.1);">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;">
+    <div class="qa" onclick="goNav('calendario');chiudiAltro()"><div class="qa-ico">📅</div><div class="qa-lbl">Calendario</div></div>
+    <div class="qa" onclick="goNav('tecniche');chiudiAltro()"><div class="qa-ico">⚡</div><div class="qa-lbl">Tecniche</div></div>
+    <div class="qa" onclick="goNav('guida');chiudiAltro()"><div class="qa-ico">📖</div><div class="qa-lbl">Guida</div></div>
+    <div class="qa" onclick="attivaNotifiche();chiudiAltro()"><div class="qa-ico" id="notif-ico">🔔</div><div class="qa-lbl">Notifiche</div></div>
+  </div>
+</div>
+
+<script>
+'use strict';
+// ================================================================
+// DB
+// ================================================================
+var DB={days:{},tecStatus:{},tecNotes:{},calNotes:{},meteoHistory:[],notifAttive:false};
+(function(){try{var s=localStorage.getItem('serra5');if(s)DB=JSON.parse(s);}catch(e){}})();
+function salva(){try{localStorage.setItem('serra5',JSON.stringify(DB));}catch(e){}}
+
+// ================================================================
+// UTILS
+// ================================================================
+function pd(s){var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
+function fmt(d){return d.toLocaleDateString('it-IT',{day:'2-digit',month:'short'});}
+function fmtL(d){return d.toLocaleDateString('it-IT',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});}
+function fmtKey(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+function oggi(){return new Date(new Date().toDateString());}
+function diff(a,b){return Math.round((b-a)/86400000);}
+function addD(d,n){var r=new Date(d);r.setDate(r.getDate()+n);return r;}
+
+var toastT;
+function toast(msg,dur){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('show');},dur||2000);
+}
+function showSt(id){
+  var el=document.getElementById(id);if(!el)return;
+  el.textContent='✓';clearTimeout(el._t);el._t=setTimeout(function(){el.textContent='';},2000);
+}
+
+// ================================================================
+// NAV
+// ================================================================
+var altroAperto=false;
+function goNav(id,btn){
+  if(id==='altro'){
+    altroAperto=!altroAperto;
+    document.getElementById('menu-altro').style.display=altroAperto?'block':'none';
+    return;
+  }
+  chiudiAltro();
+  document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('on');});
+  document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active');});
+  var el=document.getElementById(id);
+  if(el) el.classList.add('on');
+  if(btn) btn.classList.add('active');
+  else{
+    var navItems=document.querySelectorAll('.nav-item');
+    navItems.forEach(function(b){
+      if(b.getAttribute('onclick')&&b.getAttribute('onclick').indexOf("'"+id+"'")>=0) b.classList.add('active');
+    });
+  }
+  document.getElementById('main').scrollTop=0;
+}
+function chiudiAltro(){
+  altroAperto=false;
+  document.getElementById('menu-altro').style.display='none';
+}
+
+// ================================================================
+// POP-UP
+// ================================================================
+function apriPopup(titolo,sottotitolo,html){
+  document.getElementById('pop-title').textContent=titolo;
+  document.getElementById('pop-sub').textContent=sottotitolo||'';
+  document.getElementById('pop-body').innerHTML=html;
+  document.getElementById('pop').classList.add('on');
+  document.getElementById('main').style.overflow='hidden';
+}
+function chiudiPopup(){
+  document.getElementById('pop').classList.remove('on');
+  document.getElementById('main').style.overflow='';
+}
+function closePopIfBg(e){if(e.target===document.getElementById('pop')) chiudiPopup();}
+function closeSave(){document.getElementById('save-overlay').classList.remove('on');}
+
+// ================================================================
+// PIANTE
+// ================================================================
+var PIANTE=[
+  {id:7,nome:'Epsilon F1',tipo:'auto',h:'50-70 cm',fd:'30-40 gg',
+   germ:'2026-04-21',fior:'2026-05-21',tag:'2026-06-20',
+   essI:'2026-06-20',essF:'2026-07-05',conI:'2026-07-05',conF:'2026-07-25',boI:'2026-07-25',boF:'2026-08-09'},
+  {id:1,nome:'Milky Way F1',tipo:'auto',h:'55-75 cm',fd:'42-45 gg',
+   germ:'2026-04-23',fior:'2026-06-04',tag:'2026-07-02',
+   essI:'2026-07-07',essF:'2026-07-22',conI:'2026-07-22',conF:'2026-08-11',boI:'2026-08-11',boF:'2026-08-26'},
+  {id:2,nome:'Titan F1',tipo:'auto',h:'55-75 cm',fd:'40-45 gg',
+   germ:'2026-04-22',fior:'2026-06-01',tag:'2026-07-01',
+   essI:'2026-07-06',essF:'2026-07-21',conI:'2026-07-21',conF:'2026-08-10',boI:'2026-08-10',boF:'2026-08-25'},
+  {id:3,nome:'Medusa F1',tipo:'auto',h:'60-90 cm',fd:'40-45 gg',
+   germ:'2026-04-21',fior:'2026-05-31',tag:'2026-06-30',
+   essI:'2026-07-05',essF:'2026-07-20',conI:'2026-07-20',conF:'2026-08-09',boI:'2026-08-09',boF:'2026-08-24'},
+  {id:8,nome:'Gaia F1',tipo:'auto',h:'50-70 cm',fd:'40-45 gg',
+   germ:'2026-04-21',fior:'2026-05-31',tag:'2026-06-25',
+   essI:'2026-06-30',essF:'2026-07-15',conI:'2026-07-15',conF:'2026-08-04',boI:'2026-08-04',boF:'2026-08-19'},
+  {id:4,nome:'Astro Lemonade F1',tipo:'fem',h:'100-130 cm',fd:'50-60 gg',
+   germ:'2026-04-21',fior:'2026-06-10',tag:'2026-10-01',
+   essI:'2026-10-15',essF:'2026-10-30',conI:'2026-10-30',conF:'2026-11-19',boI:'2026-11-19',boF:'2026-12-04'},
+  {id:11,nome:'Cosmic Cheddar F1',tipo:'fem',h:'80-120 cm',fd:'50-60 gg',
+   germ:'2026-05-02',fior:'2026-06-21',tag:'2026-10-01',
+   essI:'2026-10-15',essF:'2026-10-30',conI:'2026-10-30',conF:'2026-11-19',boI:'2026-11-19',boF:'2026-12-04'},
+  {id:6,nome:'Orbital Banana F1',tipo:'fem',h:'100-130 cm',fd:'55-65 gg',
+   germ:'2026-04-30',fior:'2026-06-24',tag:'2026-10-01',
+   essI:'2026-10-15',essF:'2026-10-30',conI:'2026-10-30',conF:'2026-11-19',boI:'2026-11-19',boF:'2026-12-04'},
+  {id:10,nome:'Royal Gorilla',tipo:'fem',h:'130-170 cm',fd:'55-65 gg',
+   germ:'2026-04-22',fior:'2026-06-16',tag:'2026-10-15',
+   essI:'2026-10-25',essF:'2026-11-09',conI:'2026-11-09',conF:'2026-11-29',boI:'2026-11-29',boF:'2026-12-14'},
+  {id:9,nome:'Mexican Rush',tipo:'fem',h:'150-200 cm',fd:'60-70 gg',
+   germ:'2026-04-21',fior:'2026-06-20',tag:'2026-10-15',
+   essI:'2026-10-25',essF:'2026-11-09',conI:'2026-11-09',conF:'2026-11-29',boI:'2026-11-29',boF:'2026-12-14'}
+];
+
+function getFase(p){
+  var o=oggi();
+  if(o<pd(p.fior)) return {l:'🌿 Vegetativa',c:'#4a7a2a'};
+  if(o<pd(p.tag)) return {l:'🌸 Fioritura',c:'#e07000'};
+  if(o<pd(p.essI)) return {l:'✂️ Al taglio',c:'#b84030'};
+  if(o<pd(p.conI)) return {l:'🌬 Essicazione',c:'#7a40b0'};
+  if(o<pd(p.boI)) return {l:'🫙 Concia',c:'#2d5a20'};
+  if(o<pd(p.boF)) return {l:'⚡ Boost',c:'#a08020'};
+  return {l:'✅ Completato',c:'#2060a0'};
+}
+function getPct(p){
+  var o=oggi(),s=pd(p.germ),e=pd(p.boF);
+  return Math.min(100,Math.max(0,Math.round(diff(s,o)/diff(s,e)*100)));
+}
+function getBarCol(p){
+  var o=oggi();
+  if(o<pd(p.fior)) return '#6aaa3a';
+  if(o<pd(p.tag)) return '#e07800';
+  if(o<pd(p.conI)) return '#b85030';
+  if(o<pd(p.boI)) return '#8b5e9e';
+  return '#c8a84b';
+}
+function getProssimo(p){
+  var o=oggi();
+  var steps=[{d:p.tag,l:'✂️ Taglio'},{d:p.essI,l:'🌬 Essic.'},{d:p.conI,l:'🫙 Concia'},{d:p.boI,l:'⚡ Boost'},{d:p.boF,l:'✅ Fine'}];
+  for(var i=0;i<steps.length;i++){var g=diff(o,pd(steps[i].d));if(g>0) return {l:steps[i].l,g:g};}
+  return null;
+}
+
+function renderPianteHome(){
+  var html='';
+  PIANTE.forEach(function(p){
+    var fa=getFase(p),pct=getPct(p),bar=getBarCol(p),nx=getProssimo(p);
+    html+='<div class="ps-card" onclick="apriPopupPianta('+p.id+')">';
+    html+='<div class="ps-head '+p.tipo+'"><div class="ps-nome">#'+p.id+' '+p.nome+'</div>';
+    html+='<div class="ps-tipo">'+(p.tipo==='auto'?'Auto':'Fem')+'</div>';
+    html+='<div class="ps-fase">'+fa.l+'</div></div>';
+    html+='<div class="ps-body">';
+    html+='<div class="ps-pbar"><div class="ps-pinner" style="width:'+pct+'%;background:'+bar+'"></div></div>';
+    html+='<div class="ps-pct">'+pct+'%</div>';
+    html+='<div class="ps-next">'+(nx?nx.l+' tra '+nx.g+' gg':'✅ Completato')+'</div>';
+    html+='</div></div>';
+  });
+  document.getElementById('home-piante-strip').innerHTML=html;
+}
+
+function renderPianteFull(){
+  var o=oggi(),cnt={v:0,f:0,t:0,post:0},html='';
+  PIANTE.forEach(function(p){
+    var fa=getFase(p),pct=getPct(p),bar=getBarCol(p),nx=getProssimo(p);
+    if(fa.l.indexOf('Vegetativa')>=0) cnt.v++;
+    else if(fa.l.indexOf('Fioritura')>=0) cnt.f++;
+    else if(fa.l.indexOf('taglio')>=0||fa.l.indexOf('Taglio')>=0) cnt.t++;
+    else cnt.post++;
+    html+='<div class="pianta-card" onclick="apriPopupPianta('+p.id+')">';
+    html+='<div class="pc-head '+p.tipo+'"><div class="pc-nome">#'+p.id+' '+p.nome+'</div>';
+    html+='<div class="pc-sub">'+(p.tipo==='auto'?'Autofiorente':'Femminizzata')+' · '+p.h+'</div>';
+    html+='<div class="pc-fase">'+fa.l+'</div></div>';
+    html+='<div class="pc-body">';
+    html+='<div class="pc-bar"><div class="pc-bar-inner" style="width:'+pct+'%;background:'+bar+'"></div></div>';
+    html+='<div class="pc-pct">Ciclo: '+pct+'%</div>';
+    html+='<div class="pc-row"><span class="pc-k">🌱 Germinazione</span><span class="pc-v">'+fmt(pd(p.germ))+'</span></div>';
+    html+='<div class="pc-row"><span class="pc-k">🌸 Fioritura</span><span class="pc-v">'+fmt(pd(p.fior))+' ('+p.fd+')</span></div>';
+    html+='<div class="pc-row"><span class="pc-k">✂️ Taglio</span><span class="pc-v">'+fmt(pd(p.tag))+'</span></div>';
+    html+='<div class="pc-row"><span class="pc-k">🌬 Fine essic.</span><span class="pc-v">'+fmt(pd(p.essF))+'</span></div>';
+    html+='<div class="pc-row"><span class="pc-k">🫙 Fine concia</span><span class="pc-v">'+fmt(pd(p.conF))+'</span></div>';
+    html+='<div class="pc-row"><span class="pc-k">⚡ Fine boost</span><span class="pc-v">'+fmt(pd(p.boF))+'</span></div>';
+    if(nx) html+='<div class="pc-next"><span>⏳ '+nx.l+' tra</span><span>'+nx.g+' giorni</span></div>';
+    html+='</div></div>';
+  });
+  document.getElementById('piante-list').innerHTML=html;
+  var parts=[];
+  if(cnt.v) parts.push(cnt.v+' in vegetativa');
+  if(cnt.f) parts.push(cnt.f+' in fioritura');
+  if(cnt.t) parts.push(cnt.t+' al taglio');
+  if(cnt.post) parts.push(cnt.post+' in post-raccolta');
+  document.getElementById('piante-riepilogo').textContent='Oggi: '+parts.join(' · ');
+}
+
+function apriPopupPianta(id){
+  var p=PIANTE.find(function(x){return x.id===id;});
+  if(!p) return;
+  var o=oggi(),fa=getFase(p),pct=getPct(p);
+  var fl=faseLunare(o),lunaI=infoFase(fl);
+  var html='<div class="pop-sec">';
+  var tl=[
+    {i:'🌱',l:'Germinazione',d:p.germ},{i:'🌸',l:'Inizio fioritura',d:p.fior},
+    {i:'✂️',l:'Taglio',d:p.tag},{i:'🌬',l:'Inizio essicazione',d:p.essI},
+    {i:'🌬',l:'Fine essicazione',d:p.essF},{i:'🫙',l:'Inizio concia',d:p.conI},
+    {i:'🫙',l:'Fine concia',d:p.conF},{i:'⚡',l:'Inizio boost',d:p.boI},{i:'⚡',l:'Fine boost',d:p.boF}
+  ];
+  tl.forEach(function(t){
+    var dd=pd(t.d),g=diff(o,dd);
+    var quando=g===0?'📍 Oggi!':g<0?Math.abs(g)+' gg fa':'tra '+g+' gg';
+    html+='<div class="pop-row" style="'+(g<0?'opacity:.5':'')+'"><span class="pop-k">'+t.i+' '+t.l+'</span><span class="pop-v">'+fmt(dd)+' ('+quando+')</span></div>';
+  });
+  html+='</div>';
+  html+='<div class="pop-tip">'+lunaI.ico+' Luna oggi: <b>'+lunaI.nome+'</b><br>'+lunaI.consigli+'</div>';
+  apriPopup('#'+p.id+' '+p.nome,(p.tipo==='auto'?'Autofiorente':'Femminizzata')+' · '+p.h+' · '+pct+'%',html);
+}
+
+// ================================================================
+// ADDITIVI
+// ================================================================
+var ADDITIVI=[
+  {id:'melassa',ico:'🍯',n:'Melassa',dose:'1 ml/L',cadenza:15,note:'Bottiglia separata'},
+  {id:'biologica',ico:'🌿',n:'Giornata Biologica',dose:'Ortiche + Miscela + Humus',cadenza:30,note:'Tutto in una sessione'},
+  {id:'bordi',ico:'🫙',n:'Serbatoio + Bordi',dose:'10-15 sec agitazione',cadenza:7,note:'Bagna i bordi laterali'},
+  {id:'banana',ico:'🍌',n:'Tè banana + cenere',dose:'Dil. 1:5',cadenza:14,note:'Solo fioritura Femminizzate'},
+  {id:'etilene',ico:'🍎',n:'Generatore etilene',dose:'1 mela o banana',cadenza:4,note:'Ultime 4-6 sett. Femm.'},
+  {id:'magneti',ico:'🧲',n:'Controllo magneti',dose:'Verifica posizione',cadenza:7,note:'Magnete + Geomag'}
+];
+
+function ultimaVolta(opId){
+  var keys=Object.keys(DB.days).sort().reverse();
+  for(var i=0;i<keys.length;i++){if((DB.days[keys[i]].ops||{})[opId]==='done') return pd(keys[i]);}
+  return null;
+}
+
+function renderAdditiviHome(){
+  var o=oggi(),html='';
+  ADDITIVI.forEach(function(a){
+    var ul=ultimaVolta(a.id);
+    var gg=ul?diff(ul,o):null;
+    var cls='',statoCls='ok',stato='';
+    if(a.cadenza===0){stato='Libera';}
+    else if(gg===null){stato='Mai fatto';cls='scad';statoCls='urg';}
+    else if(gg>=a.cadenza){stato='⚠️ Scaduto +' +(gg-a.cadenza)+'gg';cls='scad';statoCls='urg';}
+    else if(gg>=a.cadenza-3){stato='Tra '+(a.cadenza-gg)+' gg';cls='pres';statoCls='warn';}
+    else{stato='✓ '+gg+'gg fa';}
+    html+='<div class="as-card '+cls+'" onclick="apriPopupAdditivo(\''+a.id+'\')">';
+    html+='<div class="as-ico">'+a.ico+'</div>';
+    html+='<div class="as-nome">'+a.n+'</div>';
+    html+='<div class="as-stato '+statoCls+'">'+stato+'</div>';
+    html+='</div>';
+  });
+  document.getElementById('home-add-strip').innerHTML=html;
+}
+
+function apriPopupAdditivo(id){
+  var a=ADDITIVI.find(function(x){return x.id===id;});
+  if(!a) return;
+  var o=oggi(),ul=ultimaVolta(a.id);
+  var gg=ul?diff(ul,o):null;
+  var html='<div class="pop-sec">';
+  html+='<div class="pop-row"><span class="pop-k">Dose</span><span class="pop-v">'+a.dose+'</span></div>';
+  html+='<div class="pop-row"><span class="pop-k">Cadenza</span><span class="pop-v">'+(a.cadenza?'ogni '+a.cadenza+' gg':'libera')+'</span></div>';
+  html+='<div class="pop-row"><span class="pop-k">Ultimo</span><span class="pop-v">'+(ul?fmt(ul)+' ('+gg+' gg fa)':'Mai registrato')+'</span></div>';
+  if(a.cadenza&&gg!==null) html+='<div class="pop-row"><span class="pop-k">Prossimo</span><span class="pop-v">'+(gg>=a.cadenza?'Oggi!':'tra '+(a.cadenza-gg)+' gg')+'</span></div>';
+  html+='</div>';
+  html+='<div class="pop-tip">'+a.note+'</div>';
+  html+='<button class="pop-btn" onclick="chiudiPopup();goNav(\'diario\')">📓 Segna nel Diario</button>';
+  apriPopup(a.ico+' '+a.n,'',html);
+}
+
+// ================================================================
+// LUNA
+// ================================================================
+function faseLunare(data){
+  var y=data.getFullYear(),m=data.getMonth()+1,d=data.getDate();
+  if(m<3){y--;m+=12;}
+  var A=Math.floor(y/100),B=2-A+Math.floor(A/4);
+  var JD=Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5;
+  var f=(JD-2451550.1)/29.530588853;
+  f=f-Math.floor(f);
+  return f<0?f+1:f;
+}
+function infoFase(fl){
+  var ico,nome,consigli,ok,no;
+  if(fl<0.03||fl>0.97){ico='🌑';nome='Luna Nuova';consigli='Riposo e rigenerazione. Ottimo per trattamenti preventivi anti-parassiti e preparare il substrato.';ok=['Trattamento preventivo','Preparazione substrato'];no=['Irrigazione abbondante','Raccolta'];}
+  else if(fl<0.25){ico='🌒';nome='Luna Crescente';consigli='La linfa sale verso le parti aeree. Ottimo per crescita fogliare, irrigare e fertilizzare.';ok=['Irrigazione','Additivi biologici','Osservazione crescita'];no=['Trapianti','Interventi radici'];}
+  else if(fl<0.28){ico='🌓';nome='Primo Quarto';consigli='Forte crescita vegetativa. Piante assorbono meglio acqua e nutrienti. Ottimo per additivi.';ok=['Melassa','Additivi','Irrigazione abbondante'];no=['Trapianti'];}
+  else if(fl<0.47){ico='🌔';nome='Gibbosa Crescente';consigli='Massima vitalità in avvicinamento. Ottimo per potatura leggera e tè banana.';ok=['Potatura','Tè banana','Irrigazione'];no=['Interventi drastici'];}
+  else if(fl<0.53){ico='🌕';nome='Luna Piena';consigli='Massima energia. Le piante sono al massimo. Riduci irrigazione — assorbono di più.';ok=['Raccolta','Osservazione','Additivi fogliari'];no=['Irrigazione abbondante','Potatura invasiva'];}
+  else if(fl<0.75){ico='🌖';nome='Gibbosa Calante';consigli='Linfa verso le radici. Ottimo per interventi al substrato.';ok=['Aggiunta substrato','Humus','Trapianti'];no=['Potatura fogliare'];}
+  else if(fl<0.78){ico='🌗';nome='Ultimo Quarto';consigli='Momento ideale per giornata biologica e rinnovo humus.';ok=['Giornata biologica','Rinnovo humus','Aggiunta terra'];no=['Raccolta'];}
+  else{ico='🌘';nome='Luna Calante';consigli='Fine del ciclo. La pianta accumula energia nelle radici. Irrigazione moderata.';ok=['Substrato','Osservazione radici'];no=['Operazioni aeree intensive'];}
+  return{ico:ico,nome:nome,consigli:consigli,ok:ok,no:no,fase:fl};
+}
+function prossimeFasi(start,n){
+  var res=[],prec=faseLunare(start),trov=0;
+  var ms=[{s:0,n:'🌑 Luna Nuova'},{s:0.25,n:'🌓 Primo Quarto'},{s:0.5,n:'🌕 Luna Piena'},{s:0.75,n:'🌗 Ultimo Quarto'}];
+  for(var i=1;i<=35&&trov<n;i++){
+    var dd=addD(start,i),fa=faseLunare(dd);
+    ms.forEach(function(m){
+      if(Math.abs(fa-m.s)<0.03&&Math.abs(fa-m.s)<Math.abs(prec-m.s)&&trov<n){
+        res.push({data:new Date(dd),nome:m.n});trov++;
+      }
+    });
+    prec=fa;
+  }
+  return res;
+}
+
+function renderLunaOggi(){
+  var o=oggi(),fl=faseLunare(o),info=infoFase(fl);
+  var card=document.getElementById('luna-card');
+  if(!card) return;
+  var html='<div class="lc-top"><div class="lc-info">';
+  html+='<div class="lc-label">Fase lunare · '+fmt(o)+'</div>';
+  html+='<div class="lc-fase">'+info.ico+' '+info.nome+'</div>';
+  html+='<div class="lc-cons">'+info.consigli+'</div></div>';
+  html+='<div class="lc-ico">'+info.ico+'</div></div>';
+  html+='<div class="lc-tags">';
+  info.ok.forEach(function(t){html+='<span class="lc-tag lc-ok">✓ '+t+'</span>';});
+  info.no.forEach(function(t){html+='<span class="lc-tag lc-no">✗ '+t+'</span>';});
+  html+='</div>';
+  card.innerHTML=html;
+}
+
+function renderCalLuna(){
+  var o=oggi(),grid=document.getElementById('cl-grid');
+  if(!grid) return;
+  var GG=['L','M','M','G','V','S','D'];
+  var html='';
+  GG.forEach(function(g){html+='<div class="cl-hdr">'+g+'</div>';});
+  var primo=new Date(o.getFullYear(),o.getMonth(),1);
+  var ultimo=new Date(o.getFullYear(),o.getMonth()+1,0);
+  var off=(primo.getDay()+6)%7;
+  for(var i=0;i<off;i++) html+='<div></div>';
+  for(var g=1;g<=ultimo.getDate();g++){
+    var dd=new Date(o.getFullYear(),o.getMonth(),g);
+    var info=infoFase(faseLunare(dd));
+    var isO=g===o.getDate(),isPast=dd<o;
+    html+='<div class="cl-day'+(isO?' oggi':isPast?' past':'')+'" onclick="apriPopupLunaGiorno(\''+fmtKey(dd)+'\')">';
+    html+='<div class="cl-num">'+g+'</div><div class="cl-ico">'+info.ico+'</div></div>';
+  }
+  grid.innerHTML=html;
+
+  // Prossime fasi
+  var pf=prossimeFasi(o,6),pfEl=document.getElementById('prossime-fasi');
+  if(!pfEl) return;
+  html='';
+  pf.forEach(function(ev){
+    var g=diff(o,ev.data);
+    html+='<div style="flex-shrink:0;background:#fff;border-radius:10px;box-shadow:0 1px 6px var(--sh);padding:.65rem .8rem;min-width:130px;cursor:pointer;" onclick="apriPopupLunaGiorno(\''+fmtKey(ev.data)+'\')">';
+    html+='<div style="font-size:1.4rem;margin-bottom:.2rem;">'+ev.nome.split(' ')[0]+'</div>';
+    html+='<div style="font-weight:700;font-size:.8rem;color:var(--bark);">'+ev.nome.substring(ev.nome.indexOf(' ')+1)+'</div>';
+    html+='<div style="font-family:\'DM Mono\',monospace;font-size:.7rem;color:var(--muted);margin-top:.15rem;">'+fmt(ev.data)+(g===0?' — Oggi':g===1?' — Domani':' — '+g+' gg')+'</div>';
+    html+='</div>';
+  });
+  pfEl.innerHTML=html;
+}
+
+function apriPopupLunaOggi(){apriPopupLunaGiorno(fmtKey(oggi()));}
+function apriPopupLunaGiorno(key){
+  var data=pd(key),fl=faseLunare(data),info=infoFase(fl);
+  var o=oggi(),g=diff(o,data);
+  var quando=g===0?'Oggi':g<0?Math.abs(g)+' gg fa':'tra '+g+' gg';
+  var pct=Math.round(fl*100);
+  var html='<div class="pop-sec">';
+  html+='<div style="text-align:center;font-size:3rem;margin:.3rem 0;">'+info.ico+'</div>';
+  html+='<div style="background:var(--cream);border-radius:10px;padding:.6rem .9rem;margin-bottom:.7rem;">';
+  html+='<div style="font-size:.75rem;color:var(--muted);margin-bottom:.3rem;">Ciclo lunare</div>';
+  html+='<div style="background:var(--sand);border-radius:100px;height:7px;overflow:hidden;">';
+  html+='<div style="height:7px;border-radius:100px;background:linear-gradient(90deg,var(--gold),#fff8);width:'+pct+'%;"></div></div>';
+  html+='<div style="font-family:\'DM Mono\',monospace;font-size:.7rem;color:var(--muted);text-align:right;margin-top:.2rem;">'+pct+'%</div></div>';
+  html+='<p style="font-size:.86rem;color:var(--soft);line-height:1.65;margin-bottom:.7rem;">'+info.consigli+'</p>';
+  html+='<div style="margin-bottom:.3rem;font-weight:700;font-size:.75rem;text-transform:uppercase;color:#2e7d32;">✅ Oggi è buono per</div>';
+  info.ok.forEach(function(t){html+='<span class="tag-ok">'+t+'</span>';});
+  html+='<div style="margin:.6rem 0 .3rem;font-weight:700;font-size:.75rem;text-transform:uppercase;color:#b71c1c;">✗ Evita</div>';
+  info.no.forEach(function(t){html+='<span class="tag-no">'+t+'</span>';});
+  if(DB.days&&DB.days[key]&&DB.days[key].nota){
+    html+='<div style="margin-top:.7rem;background:var(--cream);border-radius:8px;padding:.5rem .7rem;">';
+    html+='<div style="font-size:.7rem;font-weight:700;color:var(--muted);margin-bottom:.15rem;">📝 Nota del giorno</div>';
+    html+='<div style="font-size:.82rem;">'+DB.days[key].nota+'</div></div>';
+  }
+  html+='</div>';
+  apriPopup(info.ico+' '+info.nome,quando+' — '+fmt(data),html);
+}
+
+// ================================================================
+// METEO
+// ================================================================
+var LAT=41.07,LON=14.33;
+var WMO={0:{d:'Soleggiato',i:'☀️'},1:{d:'Sereno',i:'🌤'},2:{d:'Parz. nuvoloso',i:'⛅'},3:{d:'Nuvoloso',i:'☁️'},45:{d:'Nebbia',i:'🌫'},51:{d:'Pioggerella',i:'🌦'},53:{d:'Pioggerella',i:'🌦'},55:{d:'Pioggia',i:'🌧'},61:{d:'Pioggia lieve',i:'🌧'},63:{d:'Pioggia',i:'🌧'},65:{d:'Pioggia intensa',i:'🌧'},80:{d:'Rovesci',i:'🌦'},81:{d:'Rovesci',i:'🌧'},82:{d:'Rovesci violenti',i:'⛈'},95:{d:'Temporale',i:'⛈'},96:{d:'Temporale',i:'⛈'},99:{d:'Temporale',i:'⛈'}};
+function wmo(c){return WMO[c]||{d:'—',i:'🌡'};}
+
+var meteoCache=null;
+
+function renderMeteoCard(temp,tempApp,umid,vento,pioggia,uvNow,wmoCode){
+  var el=document.getElementById('meteo-card');if(!el) return;
+  var w=wmo(wmoCode),ora=new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+  var html='<div class="mc-top"><div class="mc-left">';
+  html+='<div class="mc-luogo">📍 Caserta · '+ora+'</div>';
+  html+='<div class="mc-temp">'+Math.round(temp)+'°C</div>';
+  html+='<div class="mc-desc">'+w.d+'</div></div>';
+  html+='<div class="mc-right"><div class="mc-ico">'+w.i+'</div>';
+  html+='<div class="mc-perc">UV '+Math.round(uvNow)+'</div></div></div>';
+  html+='<div class="mc-grid">';
+  html+='<div class="mc-item"><div class="mc-val">'+Math.round(tempApp)+'°</div><div class="mc-lbl">Percepita</div></div>';
+  html+='<div class="mc-item"><div class="mc-val">'+umid+'%</div><div class="mc-lbl">Umidità</div></div>';
+  html+='<div class="mc-item"><div class="mc-val">'+Math.round(vento)+'km/h</div><div class="mc-lbl">Vento</div></div>';
+  html+='<div class="mc-item"><div class="mc-val">'+pioggia.toFixed(1)+'mm</div><div class="mc-lbl">Pioggia</div></div>';
+  html+='</div>';
+  el.innerHTML=html;
+}
+
+function render7Giorni(days){
+  var el=document.getElementById('gg7');if(!el) return;
+  var GG=['Dom','Lun','Mar','Mer','Gio','Ven','Sab'];
+  var oStr=new Date().toDateString(),html='';
+  days.forEach(function(d){
+    var data=new Date(d.date),nome=data.toDateString()===oStr?'Oggi':GG[data.getDay()];
+    var w=wmo(d.wmo);
+    html+='<div class="gg7-card'+(data.toDateString()===oStr?' oggi':'')+'" onclick="apriPopupMeteoGiorno(\''+nome+'\',\''+w.i+'\','+d.tMax+','+d.tMin+','+d.pioggia+','+d.uvMax+')">';
+    html+='<div class="gg7-nome">'+nome+'</div><div class="gg7-ico">'+w.i+'</div>';
+    html+='<div class="gg7-t">'+Math.round(d.tMax)+'°/'+Math.round(d.tMin)+'°</div>';
+    html+='<div class="gg7-pioggia">'+d.pioggia.toFixed(1)+'mm</div>';
+    html+='<div class="gg7-uv">UV '+Math.round(d.uvMax)+'</div></div>';
+  });
+  el.innerHTML=html;
+}
+
+function calcolaIrr(days,umid){
+  var d0=days[0],tMax=d0.tMax,tMin=d0.tMin,pioggia=d0.pioggia,uv=d0.uvMax;
+  var p7=days.reduce(function(s,d){return s+d.pioggia;},0);
+  var urgenza,titolo,sotto,azioni=[],note=[],uvAlert=uv<3;
+  if(pioggia>=5){urgenza='salta';titolo='🌧 Non irrigare';sotto='Pioggia oggi ('+pioggia.toFixed(1)+' mm)';azioni.push('✅ Nessuna irrigazione necessaria');azioni.push('👆 Test dito se vuoi verificare umidità terreno');}
+  else if(p7>18){urgenza='salta';titolo='🌧 Settimana piovosa';sotto='Piogge abbondanti 7gg ('+p7.toFixed(0)+' mm)';azioni.push('👆 Test dito prima di irrigare');azioni.push('🔍 Controlla i bordi dei vasi');}
+  else if(tMax>=28){urgenza='urgente';titolo='🌡 Irrigare oggi!';sotto='Temperatura alta ('+Math.round(tMax)+'°C)';azioni.push('💧 2-2.5 L per vaso');azioni.push('🕐 Mattina presto (prima delle 8) o sera (dopo le 19)');azioni.push('🫙 Bagna anche i bordi manualmente');}
+  else if(tMax<15&&umid>=75){urgenza='attenzione';titolo='❄️ Irrigazione ridotta';sotto='Temp. bassa + umidità alta';azioni.push('💧 0.5-1 L per vaso se asciutto');azioni.push('👆 Test dito: se umido a 3 cm, aspetta');}
+  else{urgenza='ok';titolo='✅ Nella norma';sotto='Clima mite — 1x/settimana';azioni.push('💧 1-1.5 L per vaso');azioni.push('🕐 Mattina presto o sera');}
+  var ul=ultimaVolta('irrigazione')||ultimaVolta('bordi');
+  if(ul){var gi=diff(ul,oggi());note.push(gi>=7?'⚠️ '+gi+' giorni dall\'ultima irrigazione':gi>=5?'📅 Ultima: '+gi+' gg fa':'✅ Ultima: '+gi+' gg fa');}
+  else note.push('📝 Segna l\'irrigazione nel diario per il conteggio automatico.');
+  var GG=['Dom','Lun','Mar','Mer','Gio','Ven','Sab'];
+  var piano=days.map(function(d,i){
+    var dt=new Date(d.date),nome=i===0?'Oggi':GG[dt.getDay()];
+    var irriga=false,cons='';
+    if(d.pioggia>=5){cons='🌧';}else if(d.tMax>=28){irriga=true;cons='💧';}else if(i===0&&urgenza!=='salta'){irriga=true;cons='💧';}else{cons='○';}
+    return{nome:nome,irriga:irriga,cons:cons,ico:wmo(d.wmo).i,tMax:d.tMax};
+  });
+  return{urgenza:urgenza,titolo:titolo,sotto:sotto,azioni:azioni,note:note,piano:piano,uvAlert:uvAlert,uv:uv};
+}
+
+function renderIrr(irr,elId){
+  var el=document.getElementById(elId);if(!el) return;
+  var html='<div class="irr-card" onclick="apriPopupIrr()">';
+  html+='<div class="irr-head '+irr.urgenza+'"><h3>'+irr.titolo+'</h3><p>'+irr.sotto+'</p></div>';
+  html+='<div class="irr-body">';
+  irr.azioni.forEach(function(a){html+='<div class="irr-az">'+a+'</div>';});
+  irr.note.forEach(function(n){html+='<div class="irr-nota">'+n+'</div>';});
+  html+='<div class="piano7">';
+  irr.piano.forEach(function(g){
+    html+='<div class="p7'+(g.irriga?' irriga':g.cons==='🌧'?' salta':'')+'">';
+    html+='<div class="p7-nome">'+g.nome.substring(0,3)+'</div>';
+    html+='<div class="p7-ico">'+g.ico+'</div>';
+    html+='<div class="p7-t">'+Math.round(g.tMax)+'°</div></div>';
+  });
+  html+='</div></div></div>';
+  el.innerHTML=html;
+}
+
+var irrCache=null;
+function apriPopupIrr(){
+  if(!irrCache) return;
+  var irr=irrCache;
+  var html='<div class="pop-sec"><h4>Cosa fare oggi</h4>';
+  irr.azioni.forEach(function(a){html+='<div style="background:var(--cream);border-radius:8px;padding:.38rem .6rem;margin-bottom:.28rem;font-size:.85rem;border-left:3px solid var(--leaf);">'+a+'</div>';});
+  html+='</div><div class="pop-sec"><h4>Note</h4>';
+  irr.note.forEach(function(n){html+='<div class="pop-row"><span>'+n+'</span></div>';});
+  html+='</div>';
+  html+='<div class="pop-sec"><h4>Piano 7 giorni</h4><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:.3rem;">';
+  irr.piano.forEach(function(g){
+    html+='<div style="border-radius:8px;padding:.38rem .25rem;text-align:center;border:1px solid var(--sand);background:'+(g.irriga?'#edfae0':g.cons==='🌧'?'#e8f4fb':'#fff')+';">';
+    html+='<div style="font-family:\'DM Mono\',monospace;font-size:.58rem;font-weight:700;color:var(--muted);">'+g.nome.substring(0,3)+'</div>';
+    html+='<div style="font-size:.9rem;">'+g.ico+'</div>';
+    html+='<div style="font-size:.7rem;font-weight:700;">'+Math.round(g.tMax)+'°</div>';
+    html+='<div style="font-size:.62rem;color:var(--soft);">'+g.cons+'</div></div>';
+  });
+  html+='</div></div>';
+  apriPopup(irr.titolo,irr.sotto,html);
+}
+
+function apriPopupMeteoGiorno(nome,ico,tMax,tMin,pioggia,uvMax){
+  var cons='';
+  if(pioggia>=5) cons='🌧 Pioggia — non irrigare. Il terreno si bagna da solo.';
+  else if(tMax>=28) cons='🌡 Caldo — irrigare mattina presto o sera. 2-2.5 L per vaso.';
+  else if(tMax<15) cons='❄️ Freddo — irrigazione ridotta. 0.5-1 L se necessario.';
+  else cons='✅ Condizioni nella norma. 1-1.5 L per vaso se il terreno è asciutto.';
+  var html='<div class="pop-sec">';
+  html+='<div style="text-align:center;font-size:3rem;margin:.3rem 0;">'+ico+'</div>';
+  html+='<div class="pop-row"><span class="pop-k">🌡 Temp.</span><span class="pop-v">'+Math.round(tMax)+'° / '+Math.round(tMin)+'°C</span></div>';
+  html+='<div class="pop-row"><span class="pop-k">🌧 Pioggia</span><span class="pop-v">'+pioggia.toFixed(1)+' mm</span></div>';
+  html+='<div class="pop-row"><span class="pop-k">☀️ UV Index</span><span class="pop-v">'+Math.round(uvMax)+'</span></div>';
+  html+='</div><div class="pop-tip">💧 '+cons+'</div>';
+  apriPopup(nome,'',html);
+}
+function apriPopupMeteoOggi(){
+  if(!meteoCache) return;
+  var m=meteoCache;
+  apriPopupMeteoGiorno('Meteo oggi a Caserta',wmo(m.wmo).i,m.tMax,m.tMin,m.pioggia,m.uvMax);
+}
+
+function renderHomeBanner(irr){
+  var o=oggi(),fl=faseLunare(o),lunaI=infoFase(fl);
+  var el=document.getElementById('hb');if(!el) return;
+  var m=meteoCache;
+  var w=m?wmo(m.wmo):{d:'—',i:'🌡'};
+  var html='<div class="hb-data">'+fmtL(o)+'</div>';
+  html+='<div class="hb-row">';
+  html+='<div class="hb-meteo"><div class="hb-temp">'+(m?Math.round(m.temp):'--')+'°</div>';
+  html+='<div><div style="font-size:1.4rem;">'+w.i+'</div><div class="hb-desc">'+w.d+'</div></div></div>';
+  html+='<div class="hb-luna"><div class="hb-luna-ico">'+lunaI.ico+'</div>';
+  html+='<div><div class="hb-luna-nome">'+lunaI.nome+'</div>';
+  html+='<div class="hb-luna-cons">'+lunaI.ok.slice(0,1).join(', ')+'</div></div></div></div>';
+  html+='<div class="hb-alerts">';
+  if(irr){
+    var cls=irr.urgenza==='ok'?'ok':irr.urgenza==='salta'?'ok':'urg';
+    html+='<div class="hb-alert '+cls+'"><span>💧</span><span>'+irr.titolo+' — '+irr.sotto+'</span></div>';
+  }
+  // Additivi scaduti
+  var scaduti=ADDITIVI.filter(function(a){
+    if(!a.cadenza) return false;
+    var ul=ultimaVolta(a.id),g=ul?diff(ul,o):a.cadenza+1;
+    return g>=a.cadenza;
+  });
+  if(scaduti.length){
+    html+='<div class="hb-alert urg"><span>⏰</span><span>'+scaduti.map(function(a){return a.ico+' '+a.n;}).join(' · ')+'</span></div>';
+  }
+  // Step piante urgenti
+  PIANTE.forEach(function(p){
+    [{d:p.tag,l:'Taglio'},{d:p.essI,l:'Essicazione'},{d:p.boI,l:'Boost'}].forEach(function(s){
+      var g=diff(o,pd(s.d));
+      if(g>=0&&g<=2) html+='<div class="hb-alert urg"><span>✂️</span><span>'+s.l+': '+p.nome+(g===0?' — OGGI!':' — tra '+g+' gg')+'</span></div>';
+    });
+  });
+  html+='</div>';
+  el.innerHTML=html;
+}
+
+async function caricaMeteo(){
+  try{
+    var url='https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+'&current=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,wind_speed_10m,weather_code,uv_index&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,uv_index_max&timezone=Europe%2FRome&forecast_days=7';
+    var resp=await fetch(url);
+    if(!resp.ok) throw new Error('HTTP '+resp.status);
+    var data=await resp.json();
+    var c=data.current;
+    var temp=c.temperature_2m,tempApp=c.apparent_temperature,umid=c.relative_humidity_2m,
+        pioggia=c.precipitation,vento=c.wind_speed_10m,wmoCode=c.weather_code,uvNow=c.uv_index||0;
+    renderMeteoCard(temp,tempApp,umid,vento,pioggia,uvNow,wmoCode);
+    var dd=data.daily;
+    var days=dd.time.map(function(t,i){return{date:t,wmo:dd.weather_code[i],tMax:dd.temperature_2m_max[i],tMin:dd.temperature_2m_min[i],pioggia:dd.precipitation_sum[i],uvMax:dd.uv_index_max[i]};});
+    render7Giorni(days);
+    meteoCache={temp:temp,tMax:days[0].tMax,tMin:days[0].tMin,umid:umid,pioggia:days[0].pioggia,uvMax:days[0].uvMax,wmo:wmoCode};
+    var irr=calcolaIrr(days,umid);
+    irrCache=irr;
+    renderIrr(irr,'irr-box');
+    renderIrr(irr,'home-irr');
+    renderHomeBanner(irr);
+  }catch(e){
+    console.warn('Meteo:',e);
+    renderHomeBanner(null);
+  }
+}
+
+// ================================================================
+// OPERAZIONI DIARIO
+// ================================================================
+var OPS=[
+  {id:'irrigazione',ico:'💧',n:'Irrigazione',freq:'a tua discrezione',cadenza:0,
+   campi:[{id:'litri',lbl:'Litri per vaso',opz:['0.5 L','1 L','1.5 L','2 L','2.5 L','3 L+']},{id:'modalita',lbl:'Modalità',opz:['Manuale','Timer automatico']},{id:'ora',lbl:'Orario',opz:['Mattina presto (6-8)','Mattina (8-10)','Sera (18-20)','Sera tardi (20+']}],
+   tip:function(){var m=meteoCache;if(!m) return 'Controlla il terreno con il dito prima di irrigare.';if(m.pioggia>=5) return '🌧 Ha piovuto — controlla se il terreno è già umido.';if(m.tMax>=28) return '🌡 Caldo! 2-2.5 L/vaso, mattina o sera.';return '✅ Clima mite — 1-1.5 L per vaso.';}},
+  {id:'timer',ico:'⏱',n:'Timer irrigazione',freq:'imposta modalità',cadenza:0,
+   campi:[{id:'stato',lbl:'Stato',opz:['🔴 Manuale','🟡 Standby','🟢 Automatico']},{id:'freq_t',lbl:'Frequenza',opz:['Ogni giorno','Ogni 2 giorni','Ogni 3 giorni','1x/settimana','Disattivato']},{id:'ora_t',lbl:'Orario',opz:['6:00','7:00','8:00','18:00','19:00','20:00']}],
+   tip:function(){return 'Attualmente in modalità manuale. Puoi passare ad automatico quando fa più caldo.';}},
+  {id:'bordi',ico:'🫙',n:'Serbatoio + Bordi vasi',freq:'1x/settimana',cadenza:7,
+   campi:[{id:'bordi_ok',lbl:'Bordi bagnati',opz:['Sì — tutti','Sì — alcuni','No — già umidi']},{id:'serbatoio',lbl:'Serbatoio agitato',opz:['Sì — 10-15 sec','No']},{id:'livello',lbl:'Livello acqua',opz:['Pieno','Metà','Basso — rabboccare','Quasi vuoto']}],
+   tip:function(){return 'Bagna i bordi con annaffiatoio. Agita la tanica 10-15 secondi per ossigenare.';}},
+  {id:'melassa',ico:'🍯',n:'Melassa (1 ml/L)',freq:'ogni 15 giorni',cadenza:15,
+   campi:[{id:'litri_m',lbl:'Litri preparati',opz:['5 L','10 L','15 L','20 L','25 L']},{id:'metodo_m',lbl:'Metodo',opz:['Bottiglia separata','Annaffiatoio']}],
+   tip:function(){return 'MAI nel serbatoio principale. 1 ml per ogni litro in bottiglia separata.';}},
+  {id:'biologica',ico:'🌿',n:'Giornata Biologica',freq:'1x/mese',cadenza:30,
+   campi:[{id:'ortiche',lbl:'Infuso ortiche',opz:['✓ Fatto','✗ Saltato','○ Dopo']},{id:'miscela',lbl:'Miscela organica',opz:['✓ Fatto','✗ Saltato','○ Dopo']},{id:'humus_r',lbl:'Rinnovo humus',opz:['✓ Fatto','✗ Saltato','○ Dopo']}],
+   tip:function(){return 'Ortiche dil. 1:10 (1-2L/vaso) + miscela organica (1 cucchiaio/vaso) + rinnovo humus serbatoio.';}},
+  {id:'potatura',ico:'✂️',n:'Potatura / Training',freq:'libera',cadenza:0,
+   campi:[{id:'tipo_p',lbl:'Tipo',opz:['Foglie basse','Topping','LST','Defoliazione','Rami secchi','Altro']},{id:'piante_p',lbl:'Piante',opz:['Tutte','Solo auto','Solo fem','1-2 specifiche']},{id:'esito',lbl:'Esito',opz:['Ottimo','Buono','Incerto','Problema']}],
+   tip:function(){return 'Dopo potatura: non irrigare per 24h. Disinfetta le forbici con alcool.';}},
+  {id:'substrato',ico:'🌱',n:'Aggiunta substrato',freq:'libera',cadenza:0,
+   campi:[{id:'mat',lbl:'Materiale',opz:['Worm Humus','Fibra cocco','Top dressing','Terra nuova','Altro']},{id:'qty',lbl:'Quantità',opz:['1 cucchiaio/vaso','50-100 g/vaso','150-200 g/vaso','Strato superficiale']}],
+   tip:function(){return 'Top dressing: strato di humus in superficie senza scavare. Annaffia subito dopo.';}},
+  {id:'ph',ico:'🧪',n:'Controllo pH acqua',freq:'libera',cadenza:0,
+   campi:[{id:'ph_val',lbl:'Valore pH',opz:['< 5.5','5.5','6.0','6.2 — ideale','6.5','6.8','7.0','> 7.0']},{id:'corr',lbl:'Correzione',opz:['Nessuna — ok','pH down','pH up','Da correggere']}],
+   tip:function(){return 'pH ideale: 6.0-6.8. Acqua di Caserta ~7.2-7.5 — potrebbe servire pH down.';}},
+  {id:'parassiti',ico:'🐛',n:'Trattamento anti-parassiti',freq:'libera',cadenza:0,
+   campi:[{id:'tipo_par',lbl:'Problema',opz:['Moscerini substrato','Ragnetto rosso','Afidi','Tripidi','Muffe','Altro']},{id:'tratt',lbl:'Trattamento',opz:['Sabbia quarzo','Olio di neem','Sapone Marsiglia','Trappole gialle','Manuale','Altro']},{id:'grav',lbl:'Gravità',opz:['Lieve','Moderata','Grave']}],
+   tip:function(){return 'Moscerini: sabbia quarzo 2 cm in superficie. Ragnetto: aumenta umidità + olio neem.';}},
+  {id:'banana',ico:'🍌',n:'Tè banana + cenere',freq:'ogni 2 sett.',cadenza:14,
+   campi:[{id:'bucce',lbl:'Bucce',opz:['3','4','5+']},{id:'dil',lbl:'Diluizione',opz:['1:5 standard','1:3 concentrato','1:8 leggero']}],
+   tip:function(){return 'Bolli le bucce 15 min in 1 L, filtra, + cenere, diluisci 1:5. Solo Femminizzate in fioritura.';}},
+  {id:'etilene',ico:'🍎',n:'Generatore etilene',freq:'ogni 3-4 gg',cadenza:4,
+   campi:[{id:'frutto',lbl:'Frutto',opz:['Mela rossa matura','Banana annerita','Pera matura']},{id:'pos',lbl:'Posizione',opz:['Vicino alle piante','Centro serra']}],
+   tip:function(){return 'Sostituisci ogni 3-4 giorni. Solo ultime 4-6 settimane Femminizzate.';}},
+  {id:'magneti',ico:'🧲',n:'Verifica magneti + spirali',freq:'1x/settimana',cadenza:7,
+   campi:[{id:'mag',lbl:'Magnete principale',opz:['✓ Ok','⚠️ Spostato','✗ Mancante']},{id:'geo',lbl:'Geomag gocciolatori',opz:['✓ Tutti ok','⚠️ Alcuni spostati','✗ Mancanti']},{id:'rame',lbl:'Spirali rame',opz:['✓ Ok','⚠️ Lieve ossidazione','✗ Molto ossidate']}],
+   tip:function(){return 'Polo Nord del magnete verso il flusso acqua. Ossidazione verde del rame è normale.';}},
+  {id:'osserva',ico:'👁',n:'Osservazione piante',freq:'libera',cadenza:0,
+   campi:[{id:'salute',lbl:'Salute generale',opz:['🟢 Ottima','🟡 Buona','🟠 Qualche problema','🔴 Preoccupante']},{id:'colore',lbl:'Colore foglie',opz:['Verde scuro — ottimo','Verde normale','Verde chiaro','Giallo — attenzione','Macchie — controllare']}],
+   tip:function(){return 'Controlla sempre la pagina inferiore delle foglie. Giallo diffuso in alto: controlla pH.';}},
+  {id:'altro',ico:'✏️',n:'Altro',freq:'libera',cadenza:0,campi:[],tip:function(){return '';}}
+];
+
+var curDate=oggi();
+function vaiOggi(){curDate=oggi();document.getElementById('d-date').value=fmtKey(curDate);caricaGiorno();}
+function cambiaGiorno(d){curDate=addD(curDate,d);if(curDate>oggi())curDate=oggi();document.getElementById('d-date').value=fmtKey(curDate);caricaGiorno();}
+
+function caricaGiorno(){
+  var v=document.getElementById('d-date').value;
+  if(v){var p=v.split('-');curDate=new Date(+p[0],+p[1]-1,+p[2]);}
+  var key=fmtKey(curDate);
+  if(!DB.days[key]) DB.days[key]={ops:{},nota:'',det:{}};
+  var data=DB.days[key];
+  var isOggi=(key===fmtKey(oggi()));
+  document.getElementById('d-label').textContent=isOggi?'📍 Oggi':'';
+  renderOpList(key,data);
+  document.getElementById('d-nota').value=data.nota||'';
+  document.getElementById('nota-st').textContent='';
+  renderStorico();
+  renderAdditiviHome();
+  aggiornaTimerBar();
+}
+
+function renderOpList(key,data){
+  var html='';
+  OPS.forEach(function(op){
+    var st=data.ops[op.id]||'none';
+    var cls=st==='done'?'done':st==='skip'?'skip':'';
+    var ch=st==='done'?'✓':st==='skip'?'✗':'';
+    html+='<div class="op-item '+cls+'" id="oi_'+op.id+'">';
+    html+='<div class="op-main" onclick="tapOp(\''+op.id+'\')" oncontextmenu="skipOp(event,\''+op.id+'\')">';
+    html+='<span class="op-ico">'+op.ico+'</span>';
+    html+='<div class="op-info"><div class="op-name">'+op.n+'</div><div class="op-freq">'+op.freq+'</div></div>';
+    html+='<div class="op-check">'+ch+'</div></div>';
+    // Pannello dettagli se done e ha campi
+    if(st==='done'&&op.campi&&op.campi.length){
+      var saved=(data.det&&data.det[op.id])||{};
+      html+='<div class="op-detail-panel on" id="dp_'+op.id+'">';
+      op.campi.forEach(function(c){
+        html+='<div class="odf"><label>'+c.lbl+'</label><select id="dc_'+op.id+'_'+c.id+'" onchange="salvaDetOp(\''+op.id+'\',\''+key+'\')">';
+        c.opz.forEach(function(o){html+='<option'+(saved[c.id]===o?' selected':'')+'>'+o+'</option>';});
+        html+='</select></div>';
+      });
+      var tip=op.tip?op.tip():'';
+      if(tip) html+='<div class="od-tip">💡 '+tip+'</div>';
+      html+='</div>';
+    }
+    html+='</div>';
+  });
+  document.getElementById('op-list').innerHTML=html;
+}
+
+function tapOp(id){
+  var key=fmtKey(curDate);
+  if(!DB.days[key]) DB.days[key]={ops:{},nota:'',det:{}};
+  var cur=DB.days[key].ops[id]||'none';
+  DB.days[key].ops[id]=cur==='done'?'none':'done';
+  salva();caricaGiorno();
+  if(id==='timer') aggiornaTimerBar();
+  toast(DB.days[key].ops[id]==='done'?'✓ Fatto!':'○ Rimossa',1400);
+}
+function skipOp(e,id){
+  e.preventDefault();
+  var key=fmtKey(curDate);
+  if(!DB.days[key]) DB.days[key]={ops:{},nota:'',det:{}};
+  var cur=DB.days[key].ops[id]||'none';
+  DB.days[key].ops[id]=cur==='skip'?'none':'skip';
+  salva();caricaGiorno();
+  toast(DB.days[key].ops[id]==='skip'?'✗ Saltato':'○ Rimossa',1400);
+}
+function salvaDetOp(opId,key){
+  var op=OPS.find(function(o){return o.id===opId;});
+  if(!op||!op.campi) return;
+  if(!DB.days[key].det) DB.days[key].det={};
+  var vals={};
+  op.campi.forEach(function(c){
+    var el=document.getElementById('dc_'+opId+'_'+c.id);
+    if(el) vals[c.id]=el.value;
+  });
+  DB.days[key].det[opId]=vals;
+  if(opId==='timer') aggiornaTimerBar();
+  salva();toast('💾 Salvato',1200);
+}
+
+var notaTimer;
+document.addEventListener('DOMContentLoaded',function(){
+  var el=document.getElementById('d-nota');
+  if(el) el.addEventListener('input',function(){
+    clearTimeout(notaTimer);document.getElementById('nota-st').textContent='...';
+    notaTimer=setTimeout(function(){
+      var key=fmtKey(curDate);
+      if(!DB.days[key]) DB.days[key]={ops:{},nota:'',det:{}};
+      DB.days[key].nota=el.value;salva();showSt('nota-st');
+    },700);
+  });
+});
+
+function renderStorico(){
+  var el=document.getElementById('sto-list');if(!el) return;
+  var keys=Object.keys(DB.days).sort().reverse().slice(0,7);
+  var html='';
+  keys.forEach(function(k){
+    var d=DB.days[k];
+    var hD=Object.values(d.ops||{}).some(function(v){return v==='done';});
+    var hS=Object.values(d.ops||{}).some(function(v){return v==='skip';});
+    var hN=d.nota&&d.nota.trim().length>0;
+    if(!hD&&!hS&&!hN) return;
+    html+='<div class="sto-item" onclick="apriPopupStoricoGiorno(\''+k+'\')"><div class="sto-date">'+fmtL(pd(k))+'</div>';
+    html+='<div class="sto-ops">';
+    OPS.forEach(function(op){
+      var st=d.ops[op.id];
+      if(st==='done'){
+        html+='<span class="sto-b sto-done">'+op.ico+' '+op.n+'</span>';
+        var det=d.det&&d.det[op.id];
+        if(det){var v=Object.values(det)[0];if(v) html+='<span class="sto-b sto-det">'+v+'</span>';}
+      } else if(st==='skip'){
+        html+='<span class="sto-b sto-skip">'+op.ico+' '+op.n+'</span>';
+      }
+    });
+    html+='</div>';
+    if(hN) html+='<div class="sto-nota">'+d.nota.substring(0,120)+(d.nota.length>120?'…':'')+'</div>';
+    html+='</div>';
+  });
+  el.innerHTML=html||'<p style="color:var(--muted);font-size:.84rem;padding:.3rem 0;">Nessuna attività ancora. Inizia a registrare nel diario.</p>';
+}
+
+function apriPopupStoricoGiorno(key){
+  var data=pd(key),d=DB.days[key];if(!d) return;
+  var html='<div class="pop-sec">';
+  OPS.forEach(function(op){
+    var st=d.ops[op.id];
+    if(!st||st==='none') return;
+    html+='<div class="pop-row"><span class="pop-k">'+op.ico+' '+op.n+'</span>';
+    html+='<span class="pop-v" style="color:'+(st==='done'?'#2e7d32':'#b71c1c')+'">'+(st==='done'?'✓ Fatto':'✗ Saltato')+'</span></div>';
+    var det=d.det&&d.det[op.id];
+    if(det&&st==='done'){
+      Object.keys(det).forEach(function(k){if(det[k]) html+='<div style="font-size:.78rem;color:var(--muted);padding:.1rem 0 .1rem 1rem;">→ '+k+': '+det[k]+'</div>';});
+    }
+  });
+  html+='</div>';
+  if(d.nota) html+='<div class="pop-tip">📝 '+d.nota+'</div>';
+  apriPopup('📓 '+fmtL(data),'',html);
+}
+
+function apriPopupStorico(){
+  var keys=Object.keys(DB.days).sort().reverse().slice(0,30);
+  var html='<div class="pop-sec">';
+  keys.forEach(function(k){
+    var d=DB.days[k];
+    var ops=OPS.filter(function(op){return d.ops&&d.ops[op.id]==='done';});
+    if(!ops.length&&(!d.nota||!d.nota.trim())) return;
+    html+='<div style="padding:.45rem 0;border-bottom:1px solid var(--sand);cursor:pointer;" onclick="chiudiPopup();apriPopupStoricoGiorno(\''+k+'\')">';
+    html+='<div style="font-family:\'DM Mono\',monospace;font-size:.7rem;color:var(--muted);">'+fmt(pd(k))+'</div>';
+    html+='<div style="font-size:.82rem;">'+ops.map(function(op){return op.ico+' '+op.n;}).join(' · ')+'</div>';
+    if(d.nota) html+='<div style="font-size:.77rem;color:var(--muted);font-style:italic;">'+d.nota.substring(0,60)+'…</div>';
+    html+='</div>';
+  });
+  html+='</div>';
+  apriPopup('📚 Storico completo','',html);
+}
+
+function aggiornaTimerBar(){
+  var badge=document.getElementById('tb-badge'),info=document.getElementById('tb-info');
+  if(!badge) return;
+  var keys=Object.keys(DB.days).sort().reverse();
+  for(var i=0;i<keys.length;i++){
+    var d=DB.days[keys[i]];
+    if(d.det&&d.det.timer){
+      var t=d.det.timer;
+      if(t.stato&&t.stato.indexOf('Automatico')>=0){
+        badge.textContent='🟢 Automatico';badge.className='tb-badge tb-auto';
+        if(info) info.textContent=(t.freq_t||'—')+' alle '+(t.ora_t||'—');
+      } else if(t.stato&&t.stato.indexOf('Standby')>=0){
+        badge.textContent='🟡 Standby';badge.className='tb-badge tb-stand';
+        if(info) info.textContent=t.freq_t||'—';
+      } else {
+        badge.textContent='🔴 Manuale';badge.className='tb-badge tb-off';
+        if(info) info.textContent='Irrigazione a tua discrezione';
+      }
+      return;
+    }
+  }
+  badge.textContent='🔴 Manuale';badge.className='tb-badge tb-off';
+  if(info) info.textContent='Tocca per impostare';
+}
+
+function apriPopupTimer(){
+  var html='<div class="pop-sec"><p style="font-size:.85rem;color:var(--soft);margin-bottom:.8rem;">Imposta la modalità del timer. Le modifiche si registrano nel diario del giorno corrente.</p>';
+  var op=OPS.find(function(o){return o.id==='timer';});
+  var key=fmtKey(oggi());
+  if(!DB.days[key]) DB.days[key]={ops:{},nota:'',det:{}};
+  var saved=(DB.days[key].det&&DB.days[key].det.timer)||{};
+  op.campi.forEach(function(c){
+    html+='<div class="odf" style="margin-bottom:.5rem;"><label style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.2rem;">'+c.lbl+'</label>';
+    html+='<select id="ptdc_'+c.id+'" style="width:100%;border:1.5px solid var(--sand);border-radius:8px;padding:.35rem .5rem;font-size:.85rem;">';
+    c.opz.forEach(function(o){html+='<option'+(saved[c.id]===o?' selected':'')+'>'+o+'</option>';});
+    html+='</select></div>';
+  });
+  html+='</div>';
+  html+='<div style="padding:0 0 .5rem;"><button class="pop-btn" onclick="salvaTimer()">💾 Salva impostazioni timer</button></div>';
+  apriPopup('⏱ Timer Irrigazione','',html);
+}
+
+function salvaTimer(){
+  var key=fmtKey(oggi());
+  if(!DB.days[key]) DB.days[key]={ops:{},nota:'',det:{}};
+  if(!DB.days[key].det) DB.days[key].det={};
+  var op=OPS.find(function(o){return o.id==='timer';});
+  var vals={};
+  op.campi.forEach(function(c){var el=document.getElementById('ptdc_'+c.id);if(el) vals[c.id]=el.value;});
+  DB.days[key].det.timer=vals;
+  DB.days[key].ops.timer='done';
+  salva();aggiornaTimerBar();chiudiPopup();toast('✅ Timer aggiornato',1800);
+}
+
+// ================================================================
+// TECNICHE
+// ================================================================
+var TECNICHE=[
+  {id:'magneti',ico:'🧲',n:'Acqua Magnetizzata',def:true,desc:'(1) Magnete principale attorno al tubo vicino all\'inizio della linea. (2) 1 Geomag (~5 cm) per ogni gocciolatoio, fissato con nastro. POLARITÀ: polo Nord (negativo) verso l\'acqua. SPERIMENTALE.'},
+  {id:'elettro',ico:'⚡',n:'Elettrocoltura (Spirale Rame)',def:true,desc:'Bastoncino ~40 cm + filo rame a spirale + punta rame in cima. Uscita minima 10 cm sopra la pianta. Teoria: captare cariche atmosferiche. SPERIMENTALE.'},
+  {id:'lakho',ico:'🔁',n:'Circuito di Lakhovsky',def:false,desc:'Filo rame (~50 cm) a cerchio alla base della pianta. Le due estremità NON si toccano — sovrapporle 2-3 cm con 1 cm di spazio, isolato con nastro. SPERIMENTALE.'},
+  {id:'pantacle',ico:'🔗',n:'Pantacle di Rame',def:false,desc:'Filo rame nudo che forma archi dal terreno di un vaso a quello vicino — tutti in serie. Collegamento galvanico distribuisce le cariche. SPERIMENTALE.'},
+  {id:'pila',ico:'⚙️',n:'Pila Galvanica Ferro-Rame',def:false,desc:'1 chiodo ferro arrugginito per vaso + filo rame, collegati. Chiodo 5-10 cm dal fusto in profondità. NO acciaio inox. SPERIMENTALE.'},
+  {id:'escav',ico:'💡',n:'Escavatori di Luce (Mylar)',def:false,desc:'Dischi cartone rivestiti Mylar (~25 cm) con buco per il fusto. Applicare alla base di ogni pianta. Riflette luce verso la pagina inferiore delle foglie.'}
+];
+
+function renderTecniche(){
+  var html='';
+  TECNICHE.forEach(function(t){
+    var ap=DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def;
+    html+='<div class="tec-item"><div class="tec-h" onclick="toggleTec(\''+t.id+'\')">';
+    html+='<div class="tec-left"><span class="tec-ico">'+t.ico+'</span><div>';
+    html+='<div class="tec-name">'+t.n+'</div>';
+    html+='<span class="tec-st '+(ap?'tsi':'tno')+'">'+(ap?'✓ Applicata':'✗ Non ancora')+'</span></div></div>';
+    html+='<button class="tec-btn '+(ap?'si':'no')+'" onclick="event.stopPropagation();toggleApTec(\''+t.id+'\')">'+(ap?'✓':'✗')+'</button>';
+    html+='</div>';
+    html+='<div class="tec-body" id="tb_'+t.id+'"><p>'+t.desc+'</p>';
+    html+='<div style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-top:.6rem;margin-bottom:.2rem;">📝 Note personali</div>';
+    html+='<textarea class="tec-nota" placeholder="Quando applicata, osservazioni..." oninput="saveTecNota(\''+t.id+'\',this.value)">'+(DB.tecNotes&&DB.tecNotes[t.id]||'')+'</textarea>';
+    html+='</div></div>';
+  });
+  document.getElementById('tec-list').innerHTML=html;
+}
+function toggleTec(id){document.getElementById('tb_'+id).classList.toggle('on');}
+function toggleApTec(id){
+  if(!DB.tecStatus) DB.tecStatus={};
+  var def=TECNICHE.find(function(t){return t.id===id;}).def;
+  DB.tecStatus[id]=!(DB.tecStatus.hasOwnProperty(id)?DB.tecStatus[id]:def);
+  salva();renderTecniche();toast(DB.tecStatus[id]?'✓ Applicata':'✗ Non applicata',1400);
+}
+var tecT={};
+function saveTecNota(id,val){
+  clearTimeout(tecT[id]);tecT[id]=setTimeout(function(){
+    if(!DB.tecNotes) DB.tecNotes={};DB.tecNotes[id]=val;salva();toast('📝 Nota salvata',1200);
+  },800);
+}
+
+// ================================================================
+// CALENDARIO
+// ================================================================
+function renderCalendario(){
+  var html='',o=oggi();
+  var MESI=[
+    {l:'Mese 1',m:'Apr–Mag 2026',s:'2026-04-21',e:'2026-05-20'},
+    {l:'Mese 2',m:'Mag–Giu 2026',s:'2026-05-21',e:'2026-06-19'},
+    {l:'Mese 3',m:'Giu–Lug 2026',s:'2026-06-20',e:'2026-07-19'},
+    {l:'Mese 4',m:'Lug–Ago 2026',s:'2026-07-20',e:'2026-08-18'},
+    {l:'Mese 5',m:'Ago–Set 2026',s:'2026-08-19',e:'2026-09-17'},
+    {l:'Mese 6',m:'Set–Ott 2026',s:'2026-09-18',e:'2026-10-17'},
+    {l:'Mese 7',m:'Ott–Nov 2026',s:'2026-10-18',e:'2026-11-16'},
+    {l:'Mese 8',m:'Nov–Dic 2026',s:'2026-11-17',e:'2026-12-16'},
+    {l:'Mese 9',m:'Dic 2026–Gen 2027',s:'2026-12-17',e:'2027-01-15'},
+    {l:'Mese 10',m:'Gen–Feb 2027',s:'2027-01-16',e:'2027-02-14'}
+  ];
+  MESI.forEach(function(m,i){
+    var ms=pd(m.s),me=pd(m.e);
+    var isCur=(o>=ms&&o<=me),isPast=o>me;
+    var ck='cal_'+i;
+    html+='<div class="cal-mese"><div class="cm-head'+(isCur?' cur':'')+'">';
+    html+='<span class="cm-title">'+(isCur?'📍 ':isPast?'✓ ':'')+m.l+' — '+m.m+'</span>';
+    html+='<span class="cm-date">'+fmt(ms)+' → '+fmt(me)+'</span></div>';
+    html+='<div class="cm-events">';
+    PIANTE.forEach(function(p){
+      var fields=[
+        {d:p.fior,c:p.tipo==='auto'?'aut':'fem',i:'🌸',t:'Inizio fioritura: #'+p.id+' '+p.nome,desc:p.fd+' · '+p.h},
+        {d:p.tag,c:'har',i:'✂️',t:'TAGLIO: #'+p.id+' '+p.nome,desc:''},
+        {d:p.essI,c:'pos',i:'🌬',t:'Essicazione: #'+p.id+' '+p.nome,desc:'15 gg → fine: '+fmt(pd(p.essF))},
+        {d:p.conI,c:'pos',i:'🫙',t:'Concia: #'+p.id+' '+p.nome,desc:'20 gg → fine: '+fmt(pd(p.conF))},
+        {d:p.boI,c:'pos',i:'⚡',t:'Boost: #'+p.id+' '+p.nome,desc:'15 gg → fine: '+fmt(pd(p.boF))}
+      ];
+      fields.forEach(function(f){
+        var d=pd(f.d);
+        if(d>=ms&&d<=me){
+          html+='<div class="ce '+f.c+'" onclick="apriPopupEvCal(\''+f.t+'\',\''+f.desc+'\',\''+f.d+'\')">';
+          html+='<div class="ce-ico">'+f.i+'</div><div class="ce-tx">';
+          html+='<div class="ce-ti">'+f.t+'</div>';
+          if(f.desc) html+='<div class="ce-de">'+f.desc+'</div>';
+          html+='</div></div>';
+        }
+      });
+    });
+    if(i<7){
+      html+='<div class="ce rec" onclick="apriPopupEvCal(\'Routine settimanale\',\'Controlla terreno, gocciolatori, livello acqua, bordi vasi. Agita serbatoio 10-15 sec.\',\''+m.s+'\')">';
+      html+='<div class="ce-ico">🔍</div><div class="ce-tx"><div class="ce-ti">Controllo base ogni 3-4 giorni</div><div class="ce-de">Terreno · Gocciolatori · Acqua · Bordi</div></div></div>';
+      html+='<div class="ce mil" onclick="apriPopupEvCal(\'Giornata Biologica\',\'Infuso ortiche (dil. 1:10) + Miscela organica (1 cucchiaio/vaso) + Rinnovo humus serbatoio.\',\''+m.s+'\')">';
+      html+='<div class="ce-ico">🌿</div><div class="ce-tx"><div class="ce-ti">Giornata Biologica — 1x/mese</div><div class="ce-de">Ortiche · Miscela organica · Humus</div></div></div>';
+    }
+    if(i>=2&&i<7){
+      html+='<div class="ce exp" onclick="apriPopupEvCal(\'Tè banana + cenere\',\'Bolli 3-4 bucce in 1L per 15 min, filtra, + cenere di legna, diluisci 1:5. Solo Femminizzate in fioritura.\',\''+m.s+'\')">';
+      html+='<div class="ce-ico">🍌</div><div class="ce-tx"><div class="ce-ti">Tè banana + cenere — ogni 2 sett.</div><div class="ce-de">Solo Femminizzate · fioritura</div></div></div>';
+    }
+    if(i>=5&&i<=7){
+      html+='<div class="ce exp" onclick="apriPopupEvCal(\'Generatore di etilene\',\'1 mela matura o banana annerita nella serra vicino alle piante. Sostituire ogni 3-4 giorni.\',\''+m.s+'\')">';
+      html+='<div class="ce-ico">🍎</div><div class="ce-tx"><div class="ce-ti">Generatore etilene — ogni 3-4 gg</div><div class="ce-de">Solo Femminizzate · ultime settimane</div></div></div>';
+    }
+    html+='</div>';
+    var calNoteKey='cal_'+i;
+    var savedNota=(DB.calNotes&&DB.calNotes[calNoteKey])||'';
+    html+='<div style="padding:.2rem .8rem .6rem;"><textarea class="cm-nota" placeholder="Note..." oninput="saveCalNota(\''+calNoteKey+'\',this.value)">'+savedNota+'</textarea></div>';
+    html+='</div>';
+  });
+  document.getElementById('cal-list').innerHTML=html;
+}
+function apriPopupEvCal(titolo,desc,dataStr){
+  var d=pd(dataStr),fl=faseLunare(d),li=infoFase(fl);
+  var o=oggi(),g=diff(o,d);
+  var html='<div class="pop-sec">';
+  html+='<div class="pop-row"><span class="pop-k">📅 Data</span><span class="pop-v">'+fmt(d)+(g===0?' — Oggi':g<0?' — '+Math.abs(g)+' gg fa':' — tra '+g+' gg')+'</span></div>';
+  html+='<div class="pop-row"><span class="pop-k">🌙 Fase lunare</span><span class="pop-v">'+li.ico+' '+li.nome+'</span></div>';
+  html+='</div>';
+  if(desc) html+='<p style="font-size:.84rem;color:var(--soft);line-height:1.65;margin:.5rem 0 .8rem;">'+desc+'</p>';
+  html+='<div class="pop-tip">'+li.consigli+'</div>';
+  html+='<button class="pop-btn" onclick="chiudiPopup();goNav(\'diario\')">📓 Vai al Diario</button>';
+  apriPopup(titolo,'',html);
+}
+var calNotaT={};
+function saveCalNota(k,v){clearTimeout(calNotaT[k]);calNotaT[k]=setTimeout(function(){if(!DB.calNotes) DB.calNotes={};DB.calNotes[k]=v;salva();},700);}
+
+// ================================================================
+// GUIDA
+// ================================================================
+function renderGuida(){
+  var sezioni=[
+    {ico:'🏗',titolo:'Struttura del Sistema',corpo:'<table class="gc-table"><tr><th>Elemento</th><th>Dettaglio</th></tr><tr><td>Piante</td><td>10 totali — 5 Autofiorenti + 5 Femminizzate</td></tr><tr><td>Vasi</td><td>Tessuto traspirante 10 L / ⌀25 cm su supporti forati</td></tr><tr><td>Riflettori</td><td>Pellicola Mylar sotto i vasi + 3 lati privi di sole</td></tr><tr><td>Escavatori luce</td><td>Dischi cartone + Mylar con buco centrale per fusto</td></tr><tr><td>Serbatoio</td><td>Tanica 50 L oscurata con sacco nero</td></tr><tr><td>Irrigazione</td><td>Pompa solare + tubo ⌀16 mm + 1 gocciolatoio/pianta + timer 12V</td></tr></table><div style="background:#fffbf0;border-left:3px solid var(--amber);border-radius:0 8px 8px 0;padding:.5rem .7rem;font-size:.82rem;color:var(--soft);margin-top:.5rem;">⚠️ I bordi dei vasi in tessuto si seccano facilmente. Bagnali manualmente ogni 7-10 giorni.</div>'},
+    {ico:'🌱',titolo:'Substrato & Water-Only',corpo:'<table class="gc-table"><tr><th>Componente</th><th>Quantità</th><th>Funzione</th></tr><tr><td>BioBizz Light-Mix</td><td>100 L</td><td>Terriccio base</td></tr><tr><td>Fibra di cocco</td><td>10 L</td><td>Drenaggio e aerazione</td></tr><tr><td>Super Soil</td><td>Dose per 100 L</td><td>Fertilizzazione lenta — water-only</td></tr><tr><td>BioBizz Worm Humus</td><td>~3 kg</td><td>Microbi benefici</td></tr><tr><td>Micorrize</td><td>0.5-1 g/pianta</td><td>Sviluppo radicale al trapianto</td></tr></table>'},
+    {ico:'💧',titolo:'Gestione Serbatoio',corpo:'<ul class="gc-cl"><li>Infuso humus: 5 L acqua + 100-150 g humus separatamente, poi versare nella tanica</li><li>Oscura la tanica con sacco nero per bloccare la luce (meno alghe)</li><li>Agita 10-15 secondi ogni settimana per ossigenare</li><li>Acqua magnetizzata: magnete principale sul tubo + 1 Geomag per gocciolatoio</li><li>Rinnova infuso humus 1x al mese insieme alla giornata biologica</li></ul>'},
+    {ico:'🧪',titolo:'Additivi Biologici',corpo:'<table class="gc-table"><tr><th>Additivo</th><th>Dose</th><th>Cadenza</th></tr><tr><td>🍯 Melassa</td><td>1 ml/L</td><td>ogni 15 giorni</td></tr><tr><td>🌿 Giornata biologica</td><td>Ortiche + Miscela + Humus</td><td>1x/mese</td></tr><tr><td>🫙 Serbatoio + Bordi</td><td>10-15 sec agitazione</td><td>1x/settimana</td></tr><tr><td>🍌 Tè banana</td><td>dil. 1:5</td><td>ogni 2 sett. (fioritura)</td></tr><tr><td>🍎 Etilene</td><td>1 frutto</td><td>ogni 3-4 gg (finale)</td></tr></table>'},
+    {ico:'✅',titolo:'Routine di Controllo',corpo:'<div style="font-weight:700;font-size:.82rem;color:var(--bark);margin-bottom:.3rem;">Ogni 3-4 giorni</div><ul class="gc-cl"><li>Superficie terreno: umida o secca?</li><li>Gocciolatori funzionanti per tutte le piante?</li><li>Livello acqua serbatoio?</li><li>Bordi vasi secchi? Bagnare manualmente</li></ul><div style="font-weight:700;font-size:.82rem;color:var(--bark);margin:.6rem 0 .3rem;">Ogni settimana</div><ul class="gc-cl"><li>Agita tanica 10-15 secondi</li><li>Bagna bordi di tutti i vasi</li><li>Verifica tubi, gocciolatori, connessioni</li><li>Osserva piante: colore foglie, crescita, salute</li><li>Controlla magnete e Geomag</li><li>Controlla spirali rame elettrocoltura</li></ul>'},
+    {ico:'📦',titolo:'Lista Materiali',corpo:'<table class="gc-table"><tr><th>Elemento</th><th>Qty</th></tr><tr><td>Vasi tessuto 10 L</td><td>10 pz</td></tr><tr><td>Tanica 50 L</td><td>1 pz</td></tr><tr><td>Pompa solare + pannello 5-10W</td><td>1 pz</td></tr><tr><td>Gocciolatori regolabili</td><td>10 pz</td></tr><tr><td>Timer 12V</td><td>1 pz</td></tr><tr><td>Pellicola Mylar</td><td>q.b.</td></tr><tr><td>BioBizz Light-Mix 50 L</td><td>2 sacchi</td></tr><tr><td>BioBizz Worm Humus</td><td>~3.5 kg</td></tr><tr><td>Bastoncini tutore ~40 cm</td><td>10 pz</td></tr><tr><td>Filo rame non isolato</td><td>~50 cm/pianta</td></tr><tr><td>Magnete principale + Geomag x10</td><td>11 pz</td></tr></table>'}
+  ];
+  var html='';
+  sezioni.forEach(function(s,i){
+    html+='<div class="guida-card"><div class="gc-h" onclick="toggleGuida(\'gc_'+i+'\')">';
+    html+='<div class="gc-left"><span class="gc-ico">'+s.ico+'</span><div class="gc-title">'+s.titolo+'</div></div>';
+    html+='<span>▼</span></div>';
+    html+='<div class="gc-body" id="gc_'+i+'">'+s.corpo+'</div></div>';
+  });
+  document.getElementById('guida-list').innerHTML=html;
+}
+function toggleGuida(id){document.getElementById(id).classList.toggle('on');}
+
+// ================================================================
+// NOTIFICHE
+// ================================================================
+function attivaNotifiche(){
+  if(!('Notification' in window)){toast('❌ Browser non supporta le notifiche',3000);return;}
+  if(Notification.permission==='granted'){
+    DB.notifAttive=true;salva();
+    pianificaDomenica();
+    document.getElementById('notif-ico').textContent='✅';
+    toast('✅ Notifiche già attive!',2000);return;
+  }
+  Notification.requestPermission().then(function(r){
+    if(r==='granted'){
+      DB.notifAttive=true;salva();
+      pianificaDomenica();
+      document.getElementById('notif-ico').textContent='✅';
+      toast('✅ Notifiche attivate!',2500);
+    } else toast('❌ Permesso negato — vai in Impostazioni Chrome → Notifiche',3000);
+  });
+}
+function pianificaDomenica(){
+  if(!DB.notifAttive) return;
+  var o=new Date(),g=(7-o.getDay())%7||7;
+  var dom=new Date(o);dom.setDate(dom.getDate()+g);dom.setHours(9,0,0,0);
+  setTimeout(function(){
+    inviaNotifica();
+    setInterval(inviaNotifica,7*24*60*60*1000);
+  },dom-o);
+}
+function inviaNotifica(){
+  if(!('Notification' in window)||Notification.permission!=='granted') return;
+  var o=oggi();
+  var scad=ADDITIVI.filter(function(a){
+    if(!a.cadenza) return false;
+    var ul=ultimaVolta(a.id),g=ul?diff(ul,o):a.cadenza+1;
+    return g>=a.cadenza;
+  }).map(function(a){return a.ico+' '+a.n;});
+  var fl=faseLunare(o),li=infoFase(fl);
+  new Notification('🌱 Mini-Serra',{
+    body:(scad.length?'Da fare: '+scad.join(', ')+'\n':'')+'Luna: '+li.ico+' '+li.nome,
+    icon:'./icon-192.png',badge:'./icon-192.png',vibrate:[200,100,200],tag:'serra'
+  });
+}
+
+// ================================================================
+// SAVE OVERLAY
+// ================================================================
+var lastSave=Date.now();
+document.addEventListener('visibilitychange',function(){
+  if(document.visibilityState==='hidden'){salva();lastSave=Date.now();}
+  if(document.visibilityState==='visible'&&Date.now()-lastSave>3000){
+    document.getElementById('save-overlay').classList.add('on');
+    setTimeout(function(){document.getElementById('save-overlay').classList.remove('on');},3000);
+  }
+});
+window.addEventListener('beforeunload',function(){salva();});
+
+// ================================================================
+// SERVICE WORKER
+// ================================================================
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').catch(function(e){console.warn('SW:',e);});
+}
+
+// ================================================================
+// INIT
+// ================================================================
+window.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('d-date').value=fmtKey(oggi());
+  caricaGiorno();
+  renderPianteHome();
+  renderPianteFull();
+  renderAdditiviHome();
+  renderTecniche();
+  renderCalendario();
+  renderGuida();
+  renderLunaOggi();
+  renderCalLuna();
+  renderHomeBanner(null);
+  aggiornaTimerBar();
+  caricaMeteo();
+  if(DB.notifAttive&&Notification.permission==='granted'){
+    document.getElementById('notif-ico').textContent='✅';
+    pianificaDomenica();
+  }
+});
+</script>
+</body>
+</html>
