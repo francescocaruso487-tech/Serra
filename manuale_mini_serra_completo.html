@@ -1790,40 +1790,6 @@ function renderLunaOggi(){
   card.innerHTML=html;
 }
 
-function renderCalLuna(){
-  var o=oggi(),grid=document.getElementById('cl-grid');
-  if(!grid) return;
-  var GG=['L','M','M','G','V','S','D'];
-  var html='';
-  GG.forEach(function(g){html+='<div class="cl-hdr">'+g+'</div>';});
-  var primo=new Date(o.getFullYear(),o.getMonth(),1);
-  var ultimo=new Date(o.getFullYear(),o.getMonth()+1,0);
-  var off=(primo.getDay()+6)%7;
-  for(var i=0;i<off;i++) html+='<div></div>';
-  for(var g=1;g<=ultimo.getDate();g++){
-    var dd=new Date(o.getFullYear(),o.getMonth(),g);
-    var info=infoFase(faseLunare(dd));
-    var isO=g===o.getDate(),isPast=dd<o;
-    html+='<div class="cl-day'+(isO?' oggi':isPast?' past':'')+'" onclick="apriPopupLunaGiorno(\''+fmtKey(dd)+'\')">';
-    html+='<div class="cl-num">'+g+'</div><div class="cl-ico">'+info.ico+'</div></div>';
-  }
-  grid.innerHTML=html;
-
-  // Prossime fasi
-  var pf=prossimeFasi(o,6),pfEl=document.getElementById('prossime-fasi');
-  if(!pfEl) return;
-  html='';
-  pf.forEach(function(ev){
-    var g=diff(o,ev.data);
-    html+='<div style="flex-shrink:0;background:#fff;border-radius:10px;box-shadow:0 1px 6px var(--sh);padding:.65rem .8rem;min-width:130px;cursor:pointer;" onclick="apriPopupLunaGiorno(\''+fmtKey(ev.data)+'\')">';
-    html+='<div style="font-size:1.4rem;margin-bottom:.2rem;">'+ev.nome.split(' ')[0]+'</div>';
-    html+='<div style="font-weight:700;font-size:.8rem;color:var(--bark);">'+ev.nome.substring(ev.nome.indexOf(' ')+1)+'</div>';
-    html+='<div style="font-family:\'DM Mono\',monospace;font-size:.7rem;color:var(--muted);margin-top:.15rem;">'+fmt(ev.data)+(g===0?' — Oggi':g===1?' — Domani':' — '+g+' gg')+'</div>';
-    html+='</div>';
-  });
-  pfEl.innerHTML=html;
-}
-
 function apriPopupLunaOggi(){apriPopupLunaGiorno(fmtKey(oggi()));}
 function apriPopupLunaGiorno(key){
   var data=pd(key),fl=faseLunare(data),info=infoFase(fl);
