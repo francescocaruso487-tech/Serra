@@ -4299,65 +4299,98 @@ function apriEsperimento(catId, espId) {
   if(!cat) return;
   var esp = cat.esperimenti.find(function(e){return e.id===espId;});
   if(!esp) return;
+  window._espCatCol = cat.colore;
 
-  var html = '<div class="pop-sec">';
-  html += '<div style="font-size:1.5rem;margin-bottom:.3rem;">'+cat.ico+'</div>';
-  html += '<div style="font-family:\'DM Serif Display\',serif;font-size:1.1rem;color:var(--bark);margin-bottom:.5rem;">'+esp.nome+'</div>';
-  
-  // Stato e scientificità
-  html += '<div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.7rem;">';
   var statCol = esp.stato==='attivo'?'#27ae60':esp.stato==='opzionale'?'#e67e22':'#95a5a6';
-  html += '<span style="font-size:.7rem;background:'+statCol+';color:#fff;border-radius:20px;padding:.15rem .5rem;">'+esp.stato+'</span>';
-  html += '<span style="font-size:.7rem;background:var(--sand);color:var(--bark);border-radius:20px;padding:.15rem .5rem;">'+esp.scientificita+'</span>';
-  if(esp.difficolta>0) { var d=''; for(var i=0;i<esp.difficolta;i++) d+='⭐'; html+='<span style="font-size:.7rem;">'+d+'</span>'; }
+  var diff = ''; for(var i=0;i<(esp.difficolta||0);i++) diff+='⭐';
+
+  var html = '';
+  // Badge riga
+  html += '<div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.7rem;">';
+  html += '<span style="font-size:.68rem;background:'+statCol+';color:#fff;border-radius:20px;padding:.15rem .5rem;">'+esp.stato+'</span>';
+  html += '<span style="font-size:.68rem;background:var(--sand);color:var(--bark);border-radius:20px;padding:.15rem .5rem;">'+esp.scientificita+'</span>';
+  if(diff) html += '<span style="font-size:.75rem;">'+diff+'</span>';
   html += '</div>';
 
-  // Principio
-  html += '<div style="background:var(--cream);border-radius:10px;padding:.6rem .8rem;margin-bottom:.6rem;">';
-  html += '<div style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem;">💡 Principio</div>';
-  html += '<div style="font-size:.82rem;line-height:1.55;color:var(--soft);">'+esp.principio+'</div>';
+  // Tab bar
+  html += '<div style="display:flex;gap:0;border-bottom:2px solid var(--sand);margin-bottom:.8rem;">';
+  html += '<button onclick="espTab(this,'esp-p')" class="esp-tab-btn esp-tab-att" style="flex:1;padding:.45rem .2rem;font-size:.73rem;font-weight:700;background:none;border:none;border-bottom:2px solid '+cat.colore+';color:'+cat.colore+';margin-bottom:-2px;cursor:pointer;">💡 Principio</button>';
+  html += '<button onclick="espTab(this,'esp-c')" class="esp-tab-btn" style="flex:1;padding:.45rem .2rem;font-size:.73rem;font-weight:700;background:none;border:none;color:var(--muted);cursor:pointer;">🛠 Come fare</button>';
+  html += '<button onclick="espTab(this,'esp-f')" class="esp-tab-btn" style="flex:1;padding:.45rem .2rem;font-size:.73rem;font-weight:700;background:none;border:none;color:var(--muted);cursor:pointer;">📚 Fonti</button>';
   html += '</div>';
 
-  // Materiali
-  if(esp.materiali && esp.materiali.length) {
-    html += '<div style="margin-bottom:.6rem;">';
-    html += '<div style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem;">🛠 Materiali</div>';
-    esp.materiali.forEach(function(m){ html += '<div style="font-size:.82rem;color:var(--soft);padding:.15rem 0;">· '+m+'</div>'; });
-    html += '</div>';
-  }
-
-  // Procedura
-  if(esp.procedura && esp.procedura.length) {
-    html += '<div style="margin-bottom:.6rem;">';
-    html += '<div style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem;">📋 Procedura</div>';
-    esp.procedura.forEach(function(p,i){ html += '<div style="font-size:.82rem;color:var(--soft);padding:.2rem 0;"><span style="color:'+cat.colore+';font-weight:700;">'+(i+1)+'.</span> '+p+'</div>'; });
-    html += '</div>';
-  }
-
-  // Note
-  if(esp.note) {
-    html += '<div style="background:#fff8e1;border-radius:8px;padding:.5rem .7rem;margin-bottom:.6rem;border-left:3px solid #f39c12;">';
-    html += '<div style="font-size:.7rem;font-weight:700;color:#e67e22;margin-bottom:.2rem;">⚠️ Note importanti</div>';
-    html += '<div style="font-size:.8rem;color:var(--soft);">'+esp.note+'</div>';
-    html += '</div>';
-  }
-
-  // Risultati attesi
+  // Pannello Principio
+  html += '<div id="esp-p">';
+  html += '<div style="background:var(--cream);border-radius:10px;padding:.7rem;margin-bottom:.6rem;border-left:3px solid '+cat.colore+';">';
+  html += '<div style="font-size:.83rem;line-height:1.6;color:var(--soft);">'+esp.principio+'</div>';
+  html += '</div>';
   if(esp.risultati_attesi) {
-    html += '<div style="background:#e8f5e9;border-radius:8px;padding:.5rem .7rem;margin-bottom:.6rem;">';
-    html += '<div style="font-size:.7rem;font-weight:700;color:#27ae60;margin-bottom:.2rem;">✅ Risultati attesi</div>';
-    html += '<div style="font-size:.8rem;color:var(--soft);">'+esp.risultati_attesi+'</div>';
+    html += '<div style="background:#e8f5e9;border-radius:10px;padding:.6rem .7rem;margin-bottom:.5rem;">';
+    html += '<div style="font-size:.68rem;font-weight:700;color:#27ae60;margin-bottom:.25rem;">✅ Risultati attesi</div>';
+    html += '<div style="font-size:.82rem;color:var(--soft);">'+esp.risultati_attesi+'</div>';
     html += '</div>';
   }
-
-  // Fonti
-  html += '<div style="margin-top:.5rem;">';
-  html += '<div style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem;">📚 Fonti</div>';
-  esp.fonti.forEach(function(f){ html += '<div style="font-size:.75rem;color:var(--muted);padding:.1rem 0;">· '+f+'</div>'; });
+  if(esp.note) {
+    html += '<div style="background:#fff8e1;border-radius:10px;padding:.6rem .7rem;border-left:3px solid #f39c12;">';
+    html += '<div style="font-size:.68rem;font-weight:700;color:#e67e22;margin-bottom:.25rem;">⚠️ Importante</div>';
+    html += '<div style="font-size:.82rem;color:var(--soft);">'+esp.note+'</div>';
+    html += '</div>';
+  }
   html += '</div>';
 
+  // Pannello Come fare
+  html += '<div id="esp-c" style="display:none;">';
+  if(esp.materiali && esp.materiali.length) {
+    html += '<div style="font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.4rem;">Occorre</div>';
+    esp.materiali.forEach(function(m){
+      html += '<div style="display:flex;align-items:center;gap:.5rem;padding:.35rem 0;border-bottom:1px solid var(--sand);">';
+      html += '<span style="color:'+cat.colore+';font-size:1rem;">◆</span>';
+      html += '<span style="font-size:.82rem;color:var(--soft);">'+m+'</span></div>';
+    });
+    html += '<div style="height:.6rem;"></div>';
+  }
+  if(esp.procedura && esp.procedura.length) {
+    html += '<div style="font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.4rem;">Passi</div>';
+    esp.procedura.forEach(function(p,i){
+      html += '<div style="display:flex;gap:.55rem;align-items:flex-start;padding:.45rem 0;border-bottom:1px solid var(--sand);">';
+      html += '<div style="min-width:1.5rem;height:1.5rem;border-radius:50%;background:'+cat.colore+';color:#fff;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+(i+1)+'</div>';
+      html += '<div style="font-size:.82rem;color:var(--soft);line-height:1.5;padding-top:.1rem;">'+p+'</div></div>';
+    });
+  }
   html += '</div>';
-  apriPopup('🔬 Esperimento', html);
+
+  // Pannello Fonti
+  html += '<div id="esp-f" style="display:none;">';
+  html += '<div style="font-size:.78rem;color:var(--soft);margin-bottom:.6rem;line-height:1.5;">Estratto e sintetizzato da:</div>';
+  (esp.fonti||[]).forEach(function(f){
+    var p = f.split(' - ');
+    html += '<div style="background:var(--cream);border-radius:8px;padding:.55rem .7rem;margin-bottom:.4rem;border-left:3px solid '+cat.colore+';">';
+    html += '<div style="font-size:.8rem;font-weight:700;color:var(--bark);">'+p[0]+'</div>';
+    if(p[1]) html += '<div style="font-size:.75rem;color:var(--muted);margin-top:.1rem;">'+p[1]+'</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+
+  apriPopup(cat.ico+' '+esp.nome, '', html);
+}
+
+function espTab(btn, pannelloId) {
+  // Reset tutti i tab
+  var btns = btn.parentElement.querySelectorAll('.esp-tab-btn');
+  btns.forEach(function(b){
+    b.style.color='var(--muted)';
+    b.style.borderBottom='none';
+    b.style.marginBottom='0';
+  });
+  // Attiva tab cliccato
+  btn.style.color = window._espCatCol||'var(--bark)';
+  btn.style.borderBottom = '2px solid '+(window._espCatCol||'var(--bark)');
+  btn.style.marginBottom = '-2px';
+  // Mostra/nascondi pannelli
+  ['esp-p','esp-c','esp-f'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.style.display = id===pannelloId ? '' : 'none';
+  });
 }
 </script>
 </body>
