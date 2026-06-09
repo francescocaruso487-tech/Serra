@@ -932,6 +932,524 @@
           ]
         }
       ]
+    },
+    {
+      "id": "storici",
+      "nome": "Archivio Storico (1800-1976)",
+      "ico": "📜",
+      "colore": "#6d4c41",
+      "descrizione": "Tecniche dai testi originali di elettrocoltura dal 1800 al 1976",
+      "esperimenti": [
+        {
+          "id": "lemstrom_filo_aereo",
+          "nome": "Filo Aereo di Lemstrom (1904)",
+          "stato": "opzionale",
+          "difficolta": 3,
+          "fase_ideale": [
+            "veg"
+          ],
+          "luna_ideale": [
+            "crescente",
+            "piena"
+          ],
+          "bio_ideale": [
+            "radice",
+            "foglia"
+          ],
+          "sinergie": [
+            "antenna_spirale",
+            "anello_lakhovsky"
+          ],
+          "controindicazioni": [
+            "vento forte"
+          ],
+          "fonti": [
+            "S. Lemstrom - Electricity in Agriculture and Horticulture (1904)"
+          ],
+          "principio": "Lemstrom, professore finlandese, tese fili di rame sottili orizzontalmente sopra i campi a 30-50 cm dalle piante, collegati a puntali verticali nel terreno. Documentò aumenti di crescita del 30-50% in fragole, rape e segale. Il filo cattura le cariche elettrostatiche dell'atmosfera e le scarica nel terreno attraverso le piante.",
+          "materiali": [
+            "Filo di rame sottile",
+            "Pali di sostegno",
+            "Puntali nel terreno",
+            "Connettori"
+          ],
+          "procedura": [
+            "Tendere fili di rame orizzontalmente a 30-50 cm sopra le piante",
+            "Collegare ogni estremità del filo a puntali metallici conficcati nel terreno",
+            "Creare una griglia di fili paralleli distanziati 30 cm",
+            "Il sistema raccoglie le cariche atmosferiche 24/7"
+          ],
+          "note": "Tecnica originale del 1904, verificata da esperimenti accademici. Adattare per mini-serra con fili tesi tra pareti.",
+          "risultati_attesi": "+30-50% crescita verificato da Lemstrom su fragole e rape",
+          "scientificita": "documentato storicamente (1904)",
+          "compatibile_diario": false,
+          "tags": [
+            "filo",
+            "atmosfera",
+            "storico",
+            "lemstrom",
+            "rame"
+          ]
+        },
+        {
+          "id": "hull_corona_discharge",
+          "nome": "Corona Discharge di Hull (1898)",
+          "stato": "opzionale",
+          "difficolta": 3,
+          "fase_ideale": [
+            "veg",
+            "fior"
+          ],
+          "luna_ideale": [
+            "crescente"
+          ],
+          "bio_ideale": [
+            "foglia",
+            "radice"
+          ],
+          "sinergie": [
+            "antenna_spirale",
+            "pila_ferro_rame"
+          ],
+          "controindicazioni": [],
+          "fonti": [
+            "Geo. S. Hull - Electro-Horticulture (1898)"
+          ],
+          "principio": "Hull, medico di Pasadena, documentò nel 1898 che scariche corona a bassa tensione applicate ai semi accelerano la germinazione e la crescita. La scarica corona crea ozono e ioni negativi che stimolano i processi biochimici del seme. Risultati verificati su pomodori, rape e cereali.",
+          "materiali": [
+            "Generatore di alta tensione (piccolo)",
+            "Puntali metallici",
+            "Semi da trattare"
+          ],
+          "procedura": [
+            "Esporre i semi a scariche corona per 15-30 minuti prima della semina",
+            "Mantenere i semi a 5-10 cm dal punto di scarica",
+            "Alternativa sicura: antenna rame con punta appuntita che genera micro-scariche naturali"
+          ],
+          "note": "Per sicurezza: l'antenna rame a spirale con punta genera naturalmente micro-scariche corona. È una versione sicura dello stesso principio.",
+          "risultati_attesi": "Germinazione 2-3 volte più rapida, piante più vigorose",
+          "scientificita": "documentato storicamente (1898)",
+          "compatibile_diario": false,
+          "tags": [
+            "corona",
+            "scarica",
+            "semi",
+            "storico",
+            "hull"
+          ]
+        },
+        {
+          "id": "dudgeon_alta_tensione",
+          "nome": "Coltivazione ad Alta Tensione di Dudgeon",
+          "stato": "opzionale",
+          "difficolta": 3,
+          "fase_ideale": [
+            "veg"
+          ],
+          "luna_ideale": [
+            "crescente",
+            "piena"
+          ],
+          "bio_ideale": [
+            "radice",
+            "foglia"
+          ],
+          "sinergie": [
+            "antenna_spirale",
+            "lemstrom_filo_aereo"
+          ],
+          "controindicazioni": [
+            "sicurezza: non usare corrente di rete"
+          ],
+          "fonti": [
+            "E.C. Dudgeon - Growing Crops by Electricity (Londra, 1800s)",
+            "Sir Oliver Lodge - High Tension Discharge Patents"
+          ],
+          "principio": "Dudgeon, licenziatario dei brevetti di Sir Oliver Lodge, installò sistemi di scariche ad alta tensione sopra i campi agricoli. Documentò aumenti di resa del 20-40% su diverse colture. I brevetti di Lodge prevedevano sistemi di fili aerei con scariche periodiche controllate che ionizzano l'aria sopra le piante.",
+          "materiali": [
+            "Sistema di fili aerei (adattare: rame nudo in mini-serra)",
+            "Sorgente di cariche atmosferiche"
+          ],
+          "procedura": [
+            "Tendi fili di rame nudo orizzontalmente sopra tutte le piante",
+            "Collega alle antenne verticali già presenti (elettrocoltura)",
+            "Il sistema usa solo cariche atmosferiche — sicuro e gratuito",
+            "Ogni giorno atmosferico carica il sistema automaticamente"
+          ],
+          "note": "Adattamento sicuro: usando solo cariche atmosferiche (no corrente elettrica). Combinare con le antenne già installate.",
+          "risultati_attesi": "+20-40% resa, riduzione infestanti e parassiti",
+          "scientificita": "documentato storicamente",
+          "compatibile_diario": false,
+          "tags": [
+            "alta-tensione",
+            "fili",
+            "lodge",
+            "dudgeon",
+            "storico"
+          ]
+        },
+        {
+          "id": "magna_culture_rf",
+          "nome": "Magna Culture — Frequenze RF per la Crescita",
+          "stato": "opzionale",
+          "difficolta": 2,
+          "fase_ideale": [
+            "veg",
+            "fior"
+          ],
+          "luna_ideale": [
+            "crescente",
+            "piena"
+          ],
+          "bio_ideale": [
+            "fiore",
+            "frutto",
+            "radice",
+            "foglia"
+          ],
+          "sinergie": [
+            "anello_lakhovsky",
+            "musica_piante"
+          ],
+          "controindicazioni": [],
+          "fonti": [
+            "Magna Culture - New Age Science Journal (1976)",
+            "World Federation of Science and Engineering"
+          ],
+          "principio": "Il New Age Science Journal (1976) documentò che ogni pianta ha un proprio 'RF factor' — una frequenza radio specifica. Sistemi di antenne sintonizzate su queste frequenze aumentano la produttività. Esperimenti con campi in US documentarono controllo degli insetti senza pesticidi tramite frequenze specifiche, e incrementi di resa tramite antenne RF.",
+          "materiali": [
+            "Antenna rame (già presente)",
+            "Circuito Lakhovsky (già presente)",
+            "Orientamento Nord-Sud preciso"
+          ],
+          "procedura": [
+            "Assicurarsi che le antenne siano orientate Nord-Sud (campo magnetico terrestre)",
+            "Il circuito Lakhovsky aperto crea già risonanza RF naturale",
+            "Osservare la salute delle piante con e senza il sistema",
+            "Documentare eventuali differenze in crescita, colore, resistenza"
+          ],
+          "note": "Il sistema Lakhovsky + antenne già installato copre questo principio. Ottimizzare l'orientamento per massimizzare l'effetto RF naturale.",
+          "risultati_attesi": "Controllo naturale insetti, incremento resa, piante più resistenti",
+          "scientificita": "sperimentale (documentato 1976)",
+          "compatibile_diario": true,
+          "tags": [
+            "RF",
+            "frequenze",
+            "antenna",
+            "magna-culture",
+            "insetti"
+          ]
+        },
+        {
+          "id": "stratificazione_elettrica_semi",
+          "nome": "Stratificazione Elettrica dei Semi (Russia 1960s)",
+          "stato": "opzionale",
+          "difficolta": 2,
+          "fase_ideale": [
+            "pre-semina"
+          ],
+          "luna_ideale": [
+            "crescente"
+          ],
+          "bio_ideale": [
+            "radice"
+          ],
+          "sinergie": [
+            "trattamento_magnetico_semi",
+            "piramide_rame"
+          ],
+          "controindicazioni": [],
+          "fonti": [
+            "Russian Scientific Literature 1960s - ElCult3 (Rex Research)",
+            "Electromagnetic treatment of seeds"
+          ],
+          "principio": "Studi sovietici degli anni '60 documentarono che semi trattati con stratificazione elettrica (esposizione a campo elettrico controllato per ore) mostravano: tasso di successo raddoppiato, gemme di innesto con tasso del 100%, crescita accelerata. Solo 30 minuti di trattamento giornaliero producevano aumenti significativi di resa con semina precoce.",
+          "materiali": [
+            "Due piastre metalliche parallele",
+            "Semi da trattare",
+            "Campo elettrostatico (antenna rame come sorgente)"
+          ],
+          "procedura": [
+            "Posizionare i semi tra due piccole piastre di rame parallele",
+            "Collocare vicino all'antenna rame già installata per 30 minuti",
+            "Alternativa: lasciare i semi sotto la piramide di rame orientata correttamente",
+            "Trattare 24h prima della semina"
+          ],
+          "note": "I Russi riportarono risultati eccezionali anche su innesti (100% successo). Combinare con trattamento magnetico per effetto doppio.",
+          "risultati_attesi": "Tasso germinazione raddoppiato, crescita accelerata, innesti con 100% successo",
+          "scientificita": "documentato (letteratura scientifica sovietica 1960s)",
+          "compatibile_diario": false,
+          "tags": [
+            "stratificazione",
+            "semi",
+            "sovietico",
+            "campo-elettrico",
+            "innesto"
+          ]
+        },
+        {
+          "id": "luce_colorata_insetti",
+          "nome": "Filtri Luce Colorata per Controllo Insetti",
+          "stato": "opzionale",
+          "difficolta": 1,
+          "fase_ideale": [
+            "veg",
+            "fior",
+            "raccolta"
+          ],
+          "luna_ideale": [
+            "crescente",
+            "piena",
+            "calante",
+            "nuova"
+          ],
+          "bio_ideale": [
+            "fiore",
+            "frutto",
+            "radice",
+            "foglia"
+          ],
+          "sinergie": [
+            "escavatore_luce",
+            "magna_culture_rf"
+          ],
+          "controindicazioni": [],
+          "fonti": [
+            "Russian Scientific Literature 1960s - ElCult3 (Rex Research)"
+          ],
+          "principio": "Studi sovietici degli anni '60 documentarono effetti specifici delle diverse frequenze luminose sugli insetti: luce rosso/verde respinge determinati parassiti; luce blu-verde attrae e confonde altri; luce violetta usata come trappola. Effetti dimostrati anche su crescita vegetale con diverse lunghezze d'onda.",
+          "materiali": [
+            "Pellicola colorata (rosso, verde, viola)",
+            "Lampada o fonte di luce"
+          ],
+          "procedura": [
+            "Applicare pellicola rosso-verde sulle superfici Mylar già presenti",
+            "Usare luce viola come trappola per insetti notturni",
+            "Il Mylar già installato può essere parzialmente colorato per test"
+          ],
+          "note": "Esperimento facile e a basso costo. Il Mylar riflettente può essere testato con pellicole colorate diverse.",
+          "risultati_attesi": "Riduzione insetti parassiti senza pesticidi, effetti differenziati sulla crescita",
+          "scientificita": "documentato (letteratura scientifica sovietica 1960s)",
+          "compatibile_diario": true,
+          "tags": [
+            "luce",
+            "colori",
+            "insetti",
+            "controllo",
+            "viola",
+            "rosso"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "avanzati",
+      "nome": "Esperimenti Avanzati",
+      "ico": "🧪",
+      "colore": "#00796b",
+      "descrizione": "Tecniche avanzate da combinare con il sistema base",
+      "esperimenti": [
+        {
+          "id": "acqua_vortice",
+          "nome": "Vortice nell'Acqua (Viktor Schauberger)",
+          "stato": "opzionale",
+          "difficolta": 2,
+          "fase_ideale": [
+            "veg",
+            "fior",
+            "raccolta"
+          ],
+          "luna_ideale": [
+            "crescente",
+            "piena",
+            "calante",
+            "nuova"
+          ],
+          "bio_ideale": [
+            "fiore",
+            "frutto",
+            "radice",
+            "foglia"
+          ],
+          "sinergie": [
+            "acqua_magnetizzata",
+            "infuso_humus"
+          ],
+          "controindicazioni": [],
+          "fonti": [
+            "Viktor Schauberger - Living Water (principi)",
+            "La Vita Segreta delle Piante - Tompkins & Bird"
+          ],
+          "principio": "Viktor Schauberger dimostrò che l'acqua che scorre in forma di vortice (spirale) sviluppa proprietà energetiche diverse. L'acqua vortexata ha una struttura molecolare diversa, migliore capacità di assorbimento dei minerali e proprietà biologiche superiori. Schauberger costruì canali a spirale per trasportare l'acqua.",
+          "materiali": [
+            "Contenitore cilindrico 5L",
+            "Cucchiaio lungo o paletta"
+          ],
+          "procedura": [
+            "Versare l'acqua del serbatoio in un contenitore 5L",
+            "Creare un vortice ruotando vigorosamente per 1-2 minuti in senso orario",
+            "Poi ruotare in senso antiorario per 1-2 minuti",
+            "Versare immediatamente nella tanica o usare per irrigazione diretta"
+          ],
+          "note": "Da abbinare a acqua magnetizzata: prima vortice, poi magnetizzazione. L'acqua vortexata ha un'effervescenza naturale visibile.",
+          "risultati_attesi": "Migliore assorbimento radicale, radici più sane, piante più vigorose",
+          "scientificita": "sperimentale (principi di Schauberger)",
+          "compatibile_diario": true,
+          "tags": [
+            "vortice",
+            "acqua",
+            "schauberger",
+            "spirale",
+            "struttura"
+          ]
+        },
+        {
+          "id": "harina_rocas",
+          "nome": "Farina di Roccia Basaltica",
+          "stato": "opzionale",
+          "difficolta": 1,
+          "fase_ideale": [
+            "veg",
+            "fior"
+          ],
+          "luna_ideale": [
+            "crescente"
+          ],
+          "bio_ideale": [
+            "radice",
+            "foglia"
+          ],
+          "sinergie": [
+            "living_soil",
+            "infuso_ortiche",
+            "pila_ferro_rame"
+          ],
+          "controindicazioni": [],
+          "fonti": [
+            "Agricultura Orgánica - Jairo Restrepo Rivera & Sebastião Pinheiro"
+          ],
+          "principio": "Restrepo Rivera documenta che la farina di roccia basaltica (roccia vulcanica macinata finissima) rimineralizza il suolo con oltre 60 microelementi. Rilasciati lentamente dai microbi del suolo, questi elementi sono biodisponibili naturalmente. Particolarmente ricca di silicio, ferro, magnesio e microelementi rari che i suoli moderni non hanno.",
+          "materiali": [
+            "Farina di roccia basaltica (ferramenta agricola)",
+            "Polvere di granito opzionale"
+          ],
+          "procedura": [
+            "Aggiungere 50-100g per vaso mescolando nei primi 5cm di terreno",
+            "Annaffiare subito dopo",
+            "Ripetere ogni 2-3 mesi",
+            "Abbinare all'infuso di ortiche per attivare i minerali"
+          ],
+          "note": "Disponibile in ferramenta agricola o garden center. La roccia vulcanica è la migliore. Alternativa: polvere di granito o ardesia.",
+          "risultati_attesi": "Remineralizzazione completa del suolo, piante più dense e aromatiche",
+          "scientificita": "documentato (agronomia biologica)",
+          "compatibile_diario": true,
+          "tags": [
+            "minerali",
+            "roccia",
+            "basalto",
+            "rimineralizzazione",
+            "silicio"
+          ]
+        },
+        {
+          "id": "biochar_carbone",
+          "nome": "Biochar — Carbone Vegetale per il Suolo",
+          "stato": "opzionale",
+          "difficolta": 1,
+          "fase_ideale": [
+            "veg"
+          ],
+          "luna_ideale": [
+            "crescente"
+          ],
+          "bio_ideale": [
+            "radice"
+          ],
+          "sinergie": [
+            "living_soil",
+            "infuso_humus",
+            "melassa_microbi"
+          ],
+          "controindicazioni": [],
+          "fonti": [
+            "An Agricultural Testament - Albert Howard",
+            "The Soil Biology Primer - Elaine Ingham"
+          ],
+          "principio": "Il biochar (carbone vegetale attivato) ha una struttura porosa che ospita milioni di microbi benefici per grammo. Howard e Ingham documentano che il biochar attivato (pre-inoculato con microbi) migliora la ritenzione idrica del 30-40% e aumenta il CEC (capacità di scambio cationico) del suolo, rendendo disponibili i nutrienti per anni.",
+          "materiali": [
+            "Biochar (carbone vegetale) 50-100g per vaso",
+            "Infuso di humus per attivazione"
+          ],
+          "procedura": [
+            "Mescolare il biochar secco con infuso di humus per 24h (attivazione)",
+            "Aggiungere 50-100g per vaso mescolando nei primi 7cm",
+            "Non usare biochar secco — va attivato prima con microbi",
+            "Annaffiare abbondantemente dopo l'aggiunta"
+          ],
+          "note": "Il biochar dura nel suolo centinaia di anni. Una volta aggiunto, migliora permanentemente il substrato. Trovarlo in garden shop come 'carbone vegetale attivato'.",
+          "risultati_attesi": "Ritenzione idrica +30-40%, disponibilità nutrienti aumentata, microbi più attivi",
+          "scientificita": "scientificamente documentato",
+          "compatibile_diario": true,
+          "tags": [
+            "biochar",
+            "carbone",
+            "microbi",
+            "ritenzione",
+            "permanente"
+          ]
+        },
+        {
+          "id": "fermentato_bokashi",
+          "nome": "Bokashi — Fermentato Giapponese",
+          "stato": "opzionale",
+          "difficolta": 2,
+          "fase_ideale": [
+            "veg",
+            "fior"
+          ],
+          "luna_ideale": [
+            "crescente",
+            "piena"
+          ],
+          "bio_ideale": [
+            "radice",
+            "foglia"
+          ],
+          "sinergie": [
+            "infuso_ortiche",
+            "melassa_microbi",
+            "infuso_humus"
+          ],
+          "controindicazioni": [],
+          "fonti": [
+            "Agricultura Orgánica - Jairo Restrepo Rivera"
+          ],
+          "principio": "Il Bokashi è un fermentato giapponese di materia organica con microbi EM (Effective Microorganisms). Restrepo documenta che il tè di Bokashi è un attivatore biologico potentissimo — contiene enzimi, aminoacidi e colture di Lactobacillus, Saccharomyces e Rhodopseudomonas che trasformano la materia organica in minerali biodisponibili in pochi giorni.",
+          "materiali": [
+            "Scarti organici cucina",
+            "Crusca di riso o pane raffermo",
+            "Contenitore ermetico",
+            "EM (Effective Microorganisms) — acquistabile online"
+          ],
+          "procedura": [
+            "Alternare strati di scarti organici con crusca e EM in contenitore ermetico",
+            "Premere bene ogni strato eliminando l'aria",
+            "Fermentare 2 settimane a temperatura ambiente",
+            "Diluire il 'tè' (liquido) 1:100 con acqua per irrigazione"
+          ],
+          "note": "Il tè di Bokashi diluito 1:100 non odora. La materia fermentata va interrata a 10-15cm.",
+          "risultati_attesi": "Attivazione microbi suolo, disponibilità nutrienti rapida, piante più vigorose",
+          "scientificita": "documentato (microbiologia applicata)",
+          "compatibile_diario": true,
+          "tags": [
+            "bokashi",
+            "fermentato",
+            "EM",
+            "giapponese",
+            "lactobacillus"
+          ]
+        }
+      ]
     }
   ],
   "connessioni": [
@@ -1024,6 +1542,54 @@
       "a": "acqua_magnetizzata",
       "tipo": "sinergia",
       "nota": "Corrente galvanica + acqua strutturata = doppio effetto ionizzante"
+    },
+    {
+      "da": "lemstrom_filo_aereo",
+      "a": "antenna_spirale",
+      "tipo": "sinergia",
+      "nota": "Lemstrom + spirale = captazione atmosferica su due livelli (orizzontale + verticale)"
+    },
+    {
+      "da": "stratificazione_elettrica_semi",
+      "a": "trattamento_magnetico_semi",
+      "tipo": "sinergia",
+      "nota": "Pre-trattamento semi con doppio effetto elettrico + magnetico"
+    },
+    {
+      "da": "acqua_vortice",
+      "a": "acqua_magnetizzata",
+      "tipo": "sinergia",
+      "nota": "Prima vortice poi magnetizzazione = massima strutturazione dell'acqua"
+    },
+    {
+      "da": "harina_rocas",
+      "a": "pila_ferro_rame",
+      "tipo": "sinergia",
+      "nota": "Minerali dalla roccia + ionizzazione dalla pila = assorbimento ottimale"
+    },
+    {
+      "da": "biochar_carbone",
+      "a": "infuso_humus",
+      "tipo": "sinergia",
+      "nota": "Biochar + microbi humus = microbioma stabile a lungo termine"
+    },
+    {
+      "da": "magna_culture_rf",
+      "a": "anello_lakhovsky",
+      "tipo": "sinergia",
+      "nota": "Lakhovsky + orientamento RF = risonanza ottimizzata per ogni pianta"
+    },
+    {
+      "da": "luce_colorata_insetti",
+      "a": "escavatore_luce",
+      "tipo": "sinergia",
+      "nota": "Mylar + pellicola colorata = ottimizzazione spettro luce + controllo insetti"
+    },
+    {
+      "da": "fermentato_bokashi",
+      "a": "melassa_microbi",
+      "tipo": "sinergia",
+      "nota": "Bokashi + melassa = combo microbi potentissima per il suolo"
     }
   ]
 }
