@@ -41,6 +41,10 @@ body.dark .nota,body.dark .cm-nota,body.dark .tec-nota,body.dark .cal-nota{backg
 body.dark .odf select,body.dark .d-ar-btn,body.dark .pd-az,body.dark .cf-btn{background:var(--cream);color:var(--text);border-color:var(--sand);}
 body.dark #main{background:var(--main-bg);}
 body.dark .diario-date-bar,body.dark .timer-bar{background:#1a2010;}
+body.dark .lib-card{background:#1e2a18;color:#d8e8c0;border-color:#2a3a20;}
+body.dark .lib-cat{background:#1a2410;color:#90d4a0;border-color:#2a3a20;}
+body.dark .sugg-card{background:rgba(30,110,58,0.15);border-color:rgba(90,170,110,0.3);}
+body.dark .insight-widget{background:linear-gradient(135deg,#0a1a0a,#1a3020);}
 body.dark .d-azioni-rapide,body.dark .d-log-section,body.dark .nota-wrap,body.dark .sto-wrap{background:var(--main-bg);}
 body.dark .pop-row{border-bottom-color:var(--sand);}
 body.dark #pop-box{background:#1a1f10;}
@@ -50,8 +54,8 @@ body.dark .sov-box{background:#1a1f10;color:var(--text);}
 body.dark .exit-banner-box,body.dark #exit-banner{background:#111810;}
 
 /* Indicatore tema */
-#tema-toggle{position:fixed;bottom:calc(env(safe-area-inset-bottom)+4.2rem);right:.7rem;z-index:150;background:rgba(255,255,255,0.85);border:1px solid rgba(0,0,0,0.1);border-radius:100px;padding:.3rem .6rem;font-size:.82rem;cursor:pointer;color:var(--bark);box-shadow:0 2px 8px rgba(0,0,0,.12);backdrop-filter:blur(8px);}
-body.dark #tema-toggle{background:rgba(30,35,20,0.85);color:var(--mint);border-color:rgba(255,255,255,.1);}
+#tema-toggle{position:fixed;top:.5rem;right:.6rem;z-index:200;background:rgba(255,255,255,0.9);border:1.5px solid rgba(0,0,0,0.08);border-radius:100px;padding:.25rem .55rem;font-size:.8rem;cursor:pointer;color:var(--bark);box-shadow:0 2px 8px rgba(0,0,0,.1);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+body.dark #tema-toggle{background:rgba(20,28,15,0.9);color:var(--mint);border-color:rgba(255,255,255,.12);}
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;overscroll-behavior:none;}
@@ -4578,8 +4582,13 @@ function renderMappa() {
   caricaEDB(function(){
     var canvas=document.getElementById('lib-canvas');
     if(!canvas) return;
-    var W=canvas.parentElement.clientWidth-32;
-    canvas.width=W; canvas.height=Math.min(W*1.1,500);
+    var dpr=window.devicePixelRatio||1;
+    var W=canvas.parentElement.clientWidth-24;
+    var H=Math.min(W*1.2,520);
+    canvas.style.width=W+'px';
+    canvas.style.height=H+'px';
+    canvas.width=W*dpr;
+    canvas.height=H*dpr;
     canvasCtx=canvas.getContext('2d');
     
     // Posizione iniziale a cerchio
@@ -4590,14 +4599,14 @@ function renderMappa() {
       n.vx=0; n.vy=0;
     });
 
-    // Touch/click su canvas
+    // Touch/click su canvas — coordinate CSS pixels
     canvas.onclick=function(e){
       var rect=canvas.getBoundingClientRect();
-      var mx=(e.clientX-rect.left)*(canvas.width/rect.width);
-      var my=(e.clientY-rect.top)*(canvas.height/rect.height);
+      var mx=(e.clientX-rect.left);
+      var my=(e.clientY-rect.top);
       mapNodi.forEach(function(n){
         var d=Math.sqrt((n.x-mx)*(n.x-mx)+(n.y-my)*(n.y-my));
-        if(d<22) mostraDettaglioNodo(n.id);
+        if(d<28) mostraDettaglioNodo(n.id);
       });
     };
 
@@ -4611,7 +4620,8 @@ function forceSimulation() {
     if(iter++>200) { disegnaCanvas(); return; }
     var canvas=document.getElementById('lib-canvas');
     if(!canvas) return;
-    var W=canvas.width, H=canvas.height;
+    var W=parseFloat(canvas.style.width)||canvas.width;
+    var H=parseFloat(canvas.style.height)||canvas.height;
     
     // Repulsione tra nodi
     mapNodi.forEach(function(a){
@@ -4654,39 +4664,74 @@ function disegnaCanvas() {
   var canvas=document.getElementById('lib-canvas');
   if(!canvas||!canvasCtx) return;
   var ctx=canvasCtx, W=canvas.width, H=canvas.height;
+  var dpr=window.devicePixelRatio||1;
+  
   ctx.clearRect(0,0,W,H);
-  ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--cream')||'#f5f0e8';
+  
+  // Sfondo con gradiente leggero
+  var isDark=document.body.classList.contains('dark');
+  var bgCol=isDark?'#0f1a0a':'#f8f5f0';
+  var textCol=isDark?'#d8e8c0':'#2c1f0e';
+  ctx.fillStyle=bgCol;
   ctx.fillRect(0,0,W,H);
 
-  // Disegna link
+  // Scala per DPR
+  var sc=dpr;
+
+  // Disegna link con gradiente
   mapLinks.forEach(function(l){
     var a=mapNodi.find(function(n){return n.id===l.da;});
     var b=mapNodi.find(function(n){return n.id===l.a;});
     if(!a||!b) return;
+    var grad=ctx.createLinearGradient(a.x*sc,a.y*sc,b.x*sc,b.y*sc);
+    var col=l.tipo==='sinergia'?'rgba(39,174,96,':'rgba(231,76,60,';
+    grad.addColorStop(0,col+'0.6)');
+    grad.addColorStop(1,col+'0.2)');
     ctx.beginPath();
-    ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
-    ctx.strokeStyle=l.tipo==='sinergia'?'rgba(39,174,96,0.4)':'rgba(231,76,60,0.3)';
-    ctx.lineWidth=1.5; ctx.stroke();
+    ctx.moveTo(a.x*sc,a.y*sc); ctx.lineTo(b.x*sc,b.y*sc);
+    ctx.strokeStyle=grad;
+    ctx.lineWidth=2*sc; ctx.stroke();
+    // Freccia al centro
+    var mx=(a.x+b.x)/2*sc, my=(a.y+b.y)/2*sc;
+    ctx.beginPath(); ctx.arc(mx,my,3*sc,0,Math.PI*2);
+    ctx.fillStyle=l.tipo==='sinergia'?'rgba(39,174,96,0.6)':'rgba(231,76,60,0.4)';
+    ctx.fill();
   });
 
   // Disegna nodi
-  var ratio=window.devicePixelRatio||1;
   mapNodi.forEach(function(n){
+    var r=24*sc;
+    // Ombra
+    ctx.shadowColor='rgba(0,0,0,0.15)';
+    ctx.shadowBlur=8*sc;
+    // Cerchio riempito
     ctx.beginPath();
-    ctx.arc(n.x,n.y,18,0,Math.PI*2);
-    ctx.fillStyle=n.col+'33';
+    ctx.arc(n.x*sc,n.y*sc,r,0,Math.PI*2);
+    ctx.fillStyle=n.col+'28';
     ctx.fill();
+    ctx.shadowBlur=0;
+    // Bordo
     ctx.strokeStyle=n.col;
-    ctx.lineWidth=2.5; ctx.stroke();
-    ctx.font='13px Arial';
+    ctx.lineWidth=2.5*sc; ctx.stroke();
+    // Secondo cerchio interno sottile
+    ctx.beginPath();
+    ctx.arc(n.x*sc,n.y*sc,r-6*sc,0,Math.PI*2);
+    ctx.strokeStyle=n.col+'50';
+    ctx.lineWidth=1*sc; ctx.stroke();
+    // Emoji
+    ctx.font=(16*sc)+'px Arial';
     ctx.textAlign='center'; ctx.textBaseline='middle';
     ctx.fillStyle=n.col;
-    ctx.fillText(n.ico,n.x,n.y);
-    // Nome sotto
-    ctx.font='bold '+(W<400?'7':'8')+'px Arial';
-    ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--bark')||'#3d2b1f';
-    var nome=n.nome.split(' ').slice(0,2).join(' ');
-    ctx.fillText(nome,n.x,n.y+26);
+    ctx.shadowColor='transparent';
+    ctx.fillText(n.ico,n.x*sc,n.y*sc);
+    // Nome sotto — max 2 parole
+    var parole=n.nome.split(' ');
+    var nome1=parole.slice(0,2).join(' ');
+    var nome2=parole.length>2?parole.slice(2,4).join(' '):'';
+    ctx.font='bold '+(8*sc)+'px Arial';
+    ctx.fillStyle=textCol;
+    ctx.fillText(nome1,n.x*sc,(n.y+r/sc+10)*sc);
+    if(nome2) ctx.fillText(nome2,n.x*sc,(n.y+r/sc+20)*sc);
   });
 }
 
@@ -5018,7 +5063,6 @@ async function inviaAI(domandaPreset) {
   var input = document.getElementById('ai-input');
   var domanda = domandaPreset || (input ? input.value.trim() : '');
   if(!domanda) return;
-  
   if(input) input.value = '';
   aiTyping = true;
 
@@ -5032,7 +5076,11 @@ async function inviaAI(domandaPreset) {
     var sysPrompt = buildSistemaPrompt();
     var resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
@@ -5040,14 +5088,48 @@ async function inviaAI(domandaPreset) {
         messages: aiHistory
       })
     });
+    if(!resp.ok) throw new Error('HTTP '+resp.status);
     var data = await resp.json();
-    var risposta = (data.content && data.content[0]) ? data.content[0].text : 'Errore nella risposta.';
+    var risposta = '';
+    if(data.content && data.content.length) {
+      data.content.forEach(function(b){ if(b.type==='text') risposta += b.text; });
+    }
+    if(!risposta) throw new Error('empty');
     removeAITyping();
     appendAIMsg('assistant', risposta);
     aiHistory.push({role:'assistant', content:risposta});
   } catch(e) {
     removeAITyping();
-    appendAIMsg('assistant', '⚠️ Errore di connessione. Riprova tra qualche secondo.\n\n(Assicurati di avere connessione internet attiva)');
+    // Fallback: genera prompt ottimizzato e offri di copiarlo
+    var bio = calcolaBio ? calcolaBio(oggi()) : null;
+    var bioCtx = bio ? 'Oggi: giorno '+bio.tipo.nome+', Luna '+bio.lunaInfo.nome+'.' : '';
+    var labCtx = labAttivi.length ? 'Lab attivo: '+labAttivi.slice(0,3).join(', ')+'.' : '';
+    var promptCompleto = '[CONTESTO SERRA]\n'+bioCtx+' '+labCtx+'\n\nEsperimenticatalogati: Antenna Rame Spirale, Anello Lakhovsky, Acqua Magnetizzata, Pila Galvanica Ferro-Rame, Pantacle Rame, Infuso Ortiche, Tè Banana Cenere, Melassa Microbi, Generatore Etilene, Spirale Ighina, Living Soil, Musica Piante.\n\nManuali: Christofleau (Electroculture 1920), Lakhovsky (1925), Ighina (Atomo Magnetico 1954), Donnoli (Starter Kit), Ingham (Soil Biology), Tompkins&Bird (Vita Segreta Piante), Howard (Agricultural Testament), Ruhlmann (Mélodie des Végétaux), US Patents Electroculture, Kybalion, Pizzuti (Scoperte non Autorizzate).\n\n[DOMANDA]\n'+domanda;
+    var msg = "⚠️ L'API AI non è raggiungibile da browser (CORS).\n\n";
+    msg += '📋 Ho preparato il tuo prompt ottimizzato — toccalo per copiarlo e incollalo in Claude.ai:';
+    appendAIMsg('assistant', msg);
+    // Card copiabile
+    var chat = document.getElementById('ai-chat');
+    if(chat) {
+      var card = document.createElement('div');
+      card.style.cssText = 'background:rgba(30,110,58,0.12);border:1.5px solid rgba(30,110,58,0.3);border-radius:14px;padding:.7rem .9rem;font-size:.75rem;color:var(--soft);line-height:1.5;cursor:pointer;';
+      card.textContent = promptCompleto;
+      card.title = 'Tocca per copiare';
+      card.onclick = function() {
+        navigator.clipboard.writeText(promptCompleto).then(function(){
+          mostraToast('📋 Prompt copiato! Incollalo in Claude.ai');
+        }).catch(function(){
+          mostraToast('Seleziona e copia il testo manualmente');
+        });
+      };
+      chat.appendChild(card);
+      // Link a Claude.ai
+      var linkDiv = document.createElement('div');
+      linkDiv.style.cssText = 'text-align:center;margin-top:.4rem;';
+      linkDiv.innerHTML = '<a href="https://claude.ai" target="_blank" style="font-size:.78rem;color:var(--moss);font-weight:700;text-decoration:none;">→ Apri Claude.ai</a>';
+      chat.appendChild(linkDiv);
+      chat.scrollTop = chat.scrollHeight;
+    }
   }
   aiTyping = false;
 }
