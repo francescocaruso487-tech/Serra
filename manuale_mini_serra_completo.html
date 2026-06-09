@@ -12,12 +12,17 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --soil:#1a1208;--bark:#3a2010;--moss:#2d4a1e;--leaf:#4a7a2a;--sage:#7aaa5a;
-  --mint:#a8d480;--cream:#f5f0e8;--paper:#f8f5f0;--sand:#e0d0b8;--gold:#c8a84b;
-  --amber:#d4870a;--terra:#c05030;--sky:#3a80b0;--exp:#7a50a0;
-  --text:#1a1208;--soft:#503820;--muted:#8a7060;--sh:rgba(26,18,8,0.12);
-  --card:#ffffff;--radius:16px;--radius-sm:10px;
-  --nav-bg:#ffffff;--nav-border:#e0d0b8;--main-bg:#f8f5f0;
+  /* Palette naturale, ma tonalità Samsung One UI */
+  --soil:#1a1208;--bark:#2c1f0e;--moss:#1e6e3a;--leaf:#2e8b4a;--sage:#5aaa6e;
+  --mint:#90d4a0;--cream:#f4f1ec;--paper:#f0ece4;--sand:#ddd4c0;--gold:#c4943a;
+  --amber:#d4870a;--terra:#c05030;--sky:#2a7ab8;--exp:#6a48a8;
+  --text:#1a1208;--soft:#3d2c18;--muted:#7a6a58;--sh:rgba(0,0,0,0.08);
+  --card:#ffffff;--radius:20px;--radius-sm:14px;--radius-xs:10px;
+  --nav-bg:#ffffff;--nav-border:#e8e0d0;--main-bg:#f0ece4;
+  /* One UI specific */
+  --one-surface:#ffffff;--one-surface2:#f8f5f0;--one-accent:#1e6e3a;
+  --one-shadow:0 4px 20px rgba(0,0,0,0.08);
+  --one-shadow-sm:0 2px 10px rgba(0,0,0,0.06);
 }
 
 /* TEMA NOTTURNO */
@@ -59,7 +64,7 @@ body{font-family:'Nunito',sans-serif;background:var(--paper);color:var(--text);d
 /* ===== POP-UP ===== */
 #pop{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9990;display:none;align-items:flex-end;justify-content:center;}
 #pop.on{display:flex;}
-#pop-box{background:#fff;border-radius:22px 22px 0 0;width:100%;max-width:540px;max-height:88vh;overflow-y:auto;padding:0 0 2rem;animation:su .22s ease;}
+#pop-box{background:#fff;border-radius:28px 28px 0 0;width:100%;max-width:540px;max-height:88vh;overflow-y:auto;padding:0 0 2rem;animation:su .25s cubic-bezier(0.2,0.8,0.3,1);}
 @keyframes su{from{transform:translateY(50px);opacity:0;}to{transform:none;opacity:1;}}
 #pop-handle{width:40px;height:4px;background:var(--sand);border-radius:2px;margin:12px auto 0;}
 #pop-head{padding:1rem 1.2rem .6rem;}
@@ -80,11 +85,14 @@ body{font-family:'Nunito',sans-serif;background:var(--paper);color:var(--text);d
 .tag-warn{background:#fff8e1;color:#f57f17;display:inline-block;padding:.15rem .55rem;border-radius:100px;font-size:.72rem;font-family:'DM Mono',monospace;margin:.1rem;}
 
 /* ===== NAV BOTTOM ===== */
-#nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:#fff;border-top:1px solid var(--sand);display:flex;justify-content:space-around;padding:.5rem 0 calc(.5rem + env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(0,0,0,.08);}
-.nav-item{display:flex;flex-direction:column;align-items:center;gap:.15rem;padding:.3rem .8rem;cursor:pointer;border:none;background:none;color:var(--muted);font-family:'Nunito',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;transition:color .15s;flex:1;}
-.nav-item.active{color:var(--moss);}
-.nav-item .ni{font-size:1.3rem;line-height:1;}
-.nav-item .nl{font-size:.58rem;}
+#nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,0.06);display:flex;justify-content:space-around;padding:.4rem .5rem calc(.5rem + env(safe-area-inset-bottom));gap:.2rem;}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:.1rem;padding:.35rem .5rem;cursor:pointer;border:none;background:none;color:var(--muted);font-family:'Nunito',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.01em;transition:all .2s;flex:1;border-radius:14px;}
+.nav-item.active{color:var(--moss);background:rgba(30,110,58,0.1);}
+.nav-item .ni{font-size:1.25rem;line-height:1;transition:transform .2s;}
+.nav-item.active .ni{transform:scale(1.15);}
+.nav-item .nl{font-size:.57rem;font-weight:800;}
+body.dark #nav{background:rgba(15,18,8,0.95);border-top-color:rgba(255,255,255,0.06);}
+body.dark .nav-item.active{background:rgba(90,170,110,0.15);}
 
 /* ===== MAIN SCROLL ===== */
 #main{flex:1;overflow-y:auto;padding-bottom:5rem;}
@@ -97,37 +105,39 @@ body{font-family:'Nunito',sans-serif;background:var(--paper);color:var(--text);d
 .sec-header p{font-size:.75rem;color:rgba(255,255,255,.6);font-family:'DM Mono',monospace;letter-spacing:.06em;text-transform:uppercase;margin-top:.2rem;}
 
 /* ===== CARD BASE ===== */
-.wrap{padding:.9rem .9rem 0;}
-.card{background:var(--card);border-radius:var(--radius);box-shadow:0 2px 10px var(--sh);padding:1rem 1.1rem;margin-bottom:.75rem;cursor:pointer;transition:transform .12s,box-shadow .12s;}
-.card:active{transform:scale(.98);box-shadow:0 1px 5px var(--sh);}
+.wrap{padding:.85rem .85rem 0;}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--one-shadow-sm);padding:1.1rem 1.15rem;margin-bottom:.7rem;cursor:pointer;transition:transform .15s,box-shadow .15s;}
+.card:active{transform:scale(.975);box-shadow:0 1px 6px var(--sh);}
 .card.nc{cursor:default;}
-.card.nc:active{transform:none;box-shadow:0 2px 10px var(--sh);}
-.card-label{font-family:'DM Mono',monospace;font-size:.65rem;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.3rem;}
-.card-title{font-family:'DM Serif Display',serif;font-size:1.05rem;color:var(--bark);margin-bottom:.25rem;}
+.card.nc:active{transform:none;box-shadow:var(--one-shadow-sm);}
+.card-label{font-family:'DM Mono',monospace;font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:.35rem;}
+.card-title{font-family:'DM Serif Display',serif;font-size:1.08rem;color:var(--bark);margin-bottom:.3rem;line-height:1.3;}
 
 /* ===== HOME ===== */
 /* Banner stato oggi */
-.home-banner{background:linear-gradient(135deg,var(--soil),var(--moss));color:#fff;padding:1.2rem 1.1rem;margin-bottom:.75rem;}
-.hb-data{font-family:'DM Mono',monospace;font-size:.68rem;opacity:.65;margin-bottom:.3rem;}
-.hb-row{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-bottom:.4rem;}
-.hb-meteo{display:flex;align-items:center;gap:.4rem;}
-.hb-temp{font-family:'DM Serif Display',serif;font-size:2rem;line-height:1;}
-.hb-desc{font-size:.8rem;opacity:.8;}
-.hb-luna{display:flex;align-items:center;gap:.4rem;border-left:1px solid rgba(255,255,255,.2);padding-left:.8rem;}
-.hb-luna-ico{font-size:1.6rem;}
-.hb-luna-nome{font-size:.82rem;font-weight:700;}
-.hb-luna-cons{font-size:.72rem;opacity:.75;}
+.home-banner{background:linear-gradient(150deg,#0d3d1e 0%,#1e6e3a 60%,#2d5a3a 100%);color:#fff;padding:1.4rem 1.1rem 1.2rem;margin-bottom:.7rem;border-radius:0 0 24px 24px;}
+.hb-data{font-family:'DM Mono',monospace;font-size:.63rem;opacity:.6;margin-bottom:.4rem;letter-spacing:.08em;text-transform:uppercase;}
+.hb-row{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-bottom:.5rem;}
+.hb-meteo{display:flex;align-items:center;gap:.5rem;}
+.hb-temp{font-family:'DM Serif Display',serif;font-size:2.2rem;line-height:1;}
+.hb-desc{font-size:.8rem;opacity:.75;}
+.hb-luna{display:flex;align-items:center;gap:.4rem;border-left:1px solid rgba(255,255,255,.2);padding-left:.9rem;}
+.hb-luna-ico{font-size:1.7rem;line-height:1;}
+.hb-luna-nome{font-size:.84rem;font-weight:800;}
+.hb-luna-cons{font-size:.7rem;opacity:.7;}
 .hb-alerts{display:flex;flex-direction:column;gap:.3rem;margin-top:.5rem;}
-.hb-alert{background:rgba(255,255,255,.12);border-radius:8px;padding:.35rem .65rem;font-size:.8rem;display:flex;align-items:center;gap:.4rem;}
-.hb-alert.urg{background:rgba(200,80,50,.35);}
+.hb-alert{background:rgba(255,255,255,.1);border-radius:12px;padding:.4rem .7rem;font-size:.78rem;display:flex;align-items:center;gap:.4rem;}
+.hb-alert.urg{background:rgba(200,80,50,.3);}
 .hb-alert.ok{background:rgba(80,180,80,.2);}
 
 /* Quick actions */
-.qa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.75rem;}
-.qa{background:var(--card);border-radius:var(--radius-sm);box-shadow:0 1px 6px var(--sh);padding:.75rem .5rem;text-align:center;cursor:pointer;transition:transform .12s;}
-.lib-card{background:var(--card);border-radius:10px;box-shadow:0 1px 6px var(--sh);padding:.7rem .8rem;margin-bottom:.55rem;cursor:pointer;transition:transform .1s;border-left:3px solid var(--sand);}
-.lib-card:active{transform:scale(.98);}
-.lib-cat{font-size:.72rem;padding:.25rem .65rem;border-radius:20px;border:1px solid var(--sand);cursor:pointer;background:var(--cream);color:var(--soft);white-space:nowrap;}
+.qa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.7rem;}
+.qa{background:var(--card);border-radius:var(--radius-sm);box-shadow:var(--one-shadow-sm);padding:.8rem .5rem;text-align:center;cursor:pointer;transition:transform .15s,box-shadow .15s;}
+.qa:active{transform:scale(.94);box-shadow:0 1px 4px var(--sh);}
+.lib-card{background:var(--card);border-radius:var(--radius-sm);box-shadow:var(--one-shadow-sm);padding:.75rem .9rem;margin-bottom:.5rem;cursor:pointer;transition:transform .15s,box-shadow .15s;border-left:3px solid var(--sand);}
+.lib-card:active{transform:scale(.975);}
+.lib-cat{font-size:.72rem;padding:.3rem .7rem;border-radius:100px;border:1.5px solid var(--sand);cursor:pointer;background:var(--cream);color:var(--soft);white-space:nowrap;font-weight:700;transition:all .15s;}
+.lib-cat.att{background:var(--moss);color:#fff;border-color:var(--moss);}
 .lib-cat.att{background:var(--bark);color:#fff;border-color:var(--bark);}
 .esp-tab-btn{flex:1;padding:.45rem .2rem;font-size:.73rem;font-weight:700;background:none;border:none;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;}
 .lib-node{cursor:pointer;transition:transform .15s;}
@@ -577,6 +587,33 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   .qa-grid{grid-template-columns:repeat(3,1fr);}
   .mc-grid{grid-template-columns:repeat(2,2fr);}
 }
+
+/* ===== INSIGHT DEL GIORNO (One UI Widget) ===== */
+.insight-widget{background:linear-gradient(135deg,#1a3a2a,#2d5a3a);border-radius:20px;padding:1rem 1.1rem;margin-bottom:.7rem;color:#fff;position:relative;overflow:hidden;cursor:pointer;}
+.insight-widget::before{content:'';position:absolute;top:-20px;right:-20px;width:120px;height:120px;background:rgba(255,255,255,0.04);border-radius:50%;}
+.insight-badge{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-bottom:.35rem;}
+.insight-title{font-family:'DM Serif Display',serif;font-size:1.1rem;margin-bottom:.3rem;line-height:1.3;}
+.insight-body{font-size:.78rem;opacity:.8;line-height:1.5;}
+.insight-footer{display:flex;align-items:center;justify-content:space-between;margin-top:.6rem;}
+.insight-src{font-size:.65rem;opacity:.5;font-family:'DM Mono',monospace;}
+.insight-arrow{font-size:.8rem;opacity:.6;}
+
+/* ===== SUGGERIMENTO CONTESTUALE (inline card) ===== */
+.sugg-card{background:linear-gradient(135deg,rgba(30,110,58,0.08),rgba(30,110,58,0.04));border:1.5px solid rgba(30,110,58,0.2);border-radius:var(--radius-sm);padding:.7rem .85rem;margin-bottom:.6rem;cursor:pointer;}
+.sugg-tag{font-size:.62rem;font-weight:700;color:var(--moss);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.2rem;}
+.sugg-title{font-size:.85rem;font-weight:700;color:var(--bark);margin-bottom:.15rem;}
+.sugg-body{font-size:.75rem;color:var(--soft);line-height:1.45;}
+
+/* ===== SEZIONE TITOLO One UI ===== */
+.one-sec-title{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--bark);padding:.9rem 1rem .2rem;line-height:1.2;}
+.one-sec-sub{font-size:.75rem;color:var(--muted);padding:0 1rem .6rem;line-height:1.4;}
+
+/* ===== PIANTA CARD One UI ===== */
+.ps-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--one-shadow-sm);padding:1rem 1.1rem;margin-bottom:.6rem;cursor:pointer;transition:transform .15s;}
+.ps-card:active{transform:scale(.975);}
+
+/* ===== CONNESSIONE PROGRESSIVA ===== */
+.conn-badge{display:inline-flex;align-items:center;gap:.3rem;background:rgba(106,72,168,0.1);color:#6a48a8;border-radius:100px;padding:.2rem .5rem;font-size:.68rem;font-weight:700;}
 </style>
 </head>
 <body>
@@ -622,8 +659,13 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <!-- Banner stato oggi -->
   <div class="home-banner" id="hb"></div>
 
+  <!-- INSIGHT DEL GIORNO -->
+  <div style="padding:.7rem .85rem .1rem;">
+    <div id="insight-home"></div>
+  </div>
+
   <!-- Quick actions -->
-  <div style="padding:.6rem .9rem .1rem;">
+  <div style="padding:.3rem .85rem .1rem;">
     <div style="font-family:'DM Serif Display',serif;font-size:.95rem;color:var(--bark);margin-bottom:.4rem;">⚡ Azioni rapide</div>
     <div class="qa-grid">
       <div class="qa" onclick="goNav('diario')"><div class="qa-ico">📓</div><div class="qa-lbl">Diario oggi</div></div>
@@ -679,6 +721,9 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
     <div class="d-ar-grid" id="d-ar-grid"></div>
   </div>
 
+  <!-- SUGGERIMENTO LAB DEL GIORNO -->
+  <div id="sugg-diario" style="padding:.1rem .85rem .2rem;"></div>
+
   <!-- Selettore pianta per log -->
   <div style="padding:.2rem .9rem .1rem;font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">🌿 Per quale pianta?</div>
   <div class="d-pianta-selector" id="d-pianta-sel">
@@ -718,6 +763,9 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <!-- CALENDARIO INTEGRATO: Luna + Biodinamico + Lavorazioni -->
   <div style="padding:.4rem .9rem .1rem;font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--bark);">🌙 Luna & Biodinamica — oggi</div>
   <div id="bio-oggi-card" style="margin:.3rem .9rem .6rem;cursor:pointer;" onclick="apriPopupBioOggi()"></div>
+
+  <!-- INSIGHT BIODINAMICO DAI MANUALI -->
+  <div id="sugg-luna" style="padding:0 .85rem .4rem;"></div>
 
   <!-- Griglia mese integrata -->
   <div class="sec-lbl"><h3>📆 Calendario mese — tocca un giorno</h3></div>
@@ -3157,8 +3205,10 @@ function goNav(id, btn) {
     renderCalLuna();
   }
   if(id === 'archivio') renderArchivio();
-  if(id === 'diario') setTimeout(vaiOggi, 50);
+  if(id === 'diario') { setTimeout(vaiOggi, 50); setTimeout(renderSuggDiario, 400); }
   if(id === 'libreria') { var lf=document.getElementById('lib-filtri'); if(lf) lf.innerHTML=''; renderLibreria(); }
+  if(id === 'natura') setTimeout(renderSuggLuna, 500);
+  if(id === 'home') setTimeout(renderInsightHome, 300);
 }
 
 function chiudiExitBanner() {
@@ -4253,6 +4303,12 @@ window.addEventListener('DOMContentLoaded',function(){
     document.getElementById('notif-ico').textContent='✅';
     pianificaDomenica();
   }
+  // Insight progressivi
+  setTimeout(function(){
+    renderInsightHome();
+    renderSuggDiario();
+    renderSuggLuna();
+  }, 800);
 });
 
 </script>
@@ -4753,6 +4809,127 @@ function espT(btn,pid){
   btn.style.marginBottom='-2px';
   ['ep','ec','ef','es'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display=id===pid?'':'none';});
 }
+
+// ================================================================
+// SISTEMA INSIGHT PROGRESSIVI — One UI Widget
+// Ogni giorno mostra un insight diverso incrociando i dati
+// ================================================================
+
+function getDayIndex() {
+  var d=oggi(); return Math.floor(d.getTime()/(1000*60*60*24));
+}
+
+function getInsightDelGiorno(db) {
+  if(!db||!db.categorie) return null;
+  var tutti=[];
+  db.categorie.forEach(function(cat){
+    cat.esperimenti.forEach(function(esp){
+      tutti.push({esp:esp,cat:cat});
+    });
+  });
+  if(!tutti.length) return null;
+  var idx=getDayIndex() % tutti.length;
+  return tutti[idx];
+}
+
+function getConnessioneProgressiva(db) {
+  if(!db||!db.connessioni||!db.connessioni.length) return null;
+  var conns=db.connessioni;
+  var idx=(getDayIndex()+7) % conns.length;
+  return conns[idx];
+}
+
+function renderInsightHome() {
+  caricaEDB(function(){
+    var el=document.getElementById('insight-home'); if(!el) return;
+    var r=getInsightDelGiorno(EDBV2);
+    var conn=getConnessioneProgressiva(EDBV2);
+    if(!r) return;
+    var esp=r.esp, cat=r.cat;
+    var html='';
+
+    // Insight principale
+    html+='<div class="insight-widget" onclick="apriEsp(\''+cat.id+'\',\''+esp.id+'\')">';
+    html+='<div class="insight-badge">🧬 Insight del giorno · dai manuali</div>';
+    html+='<div class="insight-title">'+cat.ico+' '+esp.nome+'</div>';
+    html+='<div class="insight-body">'+esp.principio.substring(0,120)+'…</div>';
+    html+='<div class="insight-footer">';
+    html+='<span class="insight-src">'+esp.fonti[0].split(' - ')[0]+'</span>';
+    html+='<span class="insight-arrow">Scopri →</span>';
+    html+='</div></div>';
+
+    // Connessione del giorno
+    if(conn) {
+      var da=getEsp(conn.da), al=getEsp(conn.a);
+      if(da&&al) {
+        html+='<div class="sugg-card" onclick="apriEsp(\''+da.cat.id+'\',\''+da.esp.id+'\')">';
+        html+='<div class="sugg-tag">🔗 Connessione scoperta oggi</div>';
+        html+='<div class="sugg-title">'+da.cat.ico+' '+da.esp.nome+' + '+al.cat.ico+' '+al.esp.nome+'</div>';
+        html+='<div class="sugg-body">'+conn.nota+'</div>';
+        html+='</div>';
+      }
+    }
+
+    el.innerHTML=html;
+  });
+}
+
+function renderSuggDiario() {
+  caricaEDB(function(){
+    var el=document.getElementById('sugg-diario'); if(!el) return;
+    if(!EDBV2) return;
+    var bio=calcolaBio?calcolaBio(oggi()):null;
+    var consigliatiBio=[];
+    EDBV2.categorie.forEach(function(cat){
+      cat.esperimenti.forEach(function(esp){
+        if(!bio) return;
+        var ok=(esp.bio_ideale||[]).indexOf(bio.tipoId)!==-1;
+        if(ok && esp.compatibile_diario) consigliatiBio.push({esp:esp,cat:cat});
+      });
+    });
+    if(!consigliatiBio.length) return;
+    var pick=consigliatiBio[getDayIndex()%consigliatiBio.length];
+    var html='<div class="sugg-card" onclick="apriEsp(\''+pick.cat.id+'\',\''+pick.esp.id+'\')">';
+    html+='<div class="sugg-tag">✨ Consiglio per oggi — '+(bio?bio.tipo.nome:'')+'</div>';
+    html+='<div class="sugg-title">'+pick.cat.ico+' '+pick.esp.nome+'</div>';
+    html+='<div class="sugg-body">'+pick.esp.risultati_attesi.substring(0,90)+'</div>';
+    html+='</div>';
+    el.innerHTML=html;
+  });
+}
+
+function renderSuggLuna() {
+  caricaEDB(function(){
+    var el=document.getElementById('sugg-luna'); if(!el) return;
+    if(!EDBV2) return;
+    var bio=calcolaBio?calcolaBio(oggi()):null;
+    if(!bio) return;
+    var luna=bio.lunaInfo;
+    var adatti=[];
+    EDBV2.categorie.forEach(function(cat){
+      cat.esperimenti.forEach(function(esp){
+        var lunaOk=(esp.luna_ideale||[]).some(function(l){
+          return luna&&luna.nome&&luna.nome.toLowerCase().indexOf(l)!==-1;
+        });
+        var bioOk=(esp.bio_ideale||[]).indexOf(bio.tipoId)!==-1;
+        if(lunaOk&&bioOk) adatti.push({esp:esp,cat:cat});
+      });
+    });
+    if(!adatti.length) return;
+    var pick=adatti[getDayIndex()%adatti.length];
+    var html='<div class="sugg-card" onclick="apriEsp(\''+pick.cat.id+'\',\''+pick.esp.id+'\')">';
+    html+='<div class="sugg-tag">'+luna.ico+' Ideale con '+luna.nome+' + Giorno '+bio.tipo.nome+'</div>';
+    html+='<div class="sugg-title">'+pick.cat.ico+' '+pick.esp.nome+'</div>';
+    html+='<div class="sugg-body">'+pick.esp.principio.substring(0,100)+'…</div>';
+    html+='</div>';
+    el.innerHTML=html;
+  });
+}
+
+// Chiama all'avvio e quando si naviga
+(function() {
+  var origGoNav = typeof goNav === 'function' ? goNav : null;
+})();
 </script>
 </body>
 </html>
