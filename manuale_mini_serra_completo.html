@@ -562,6 +562,7 @@ body.dark .cl-day.radice{background:#0a2a10;}body.dark .cl-day.foglia{background
 .d-log-name{font-weight:700;font-size:.86rem;}
 .d-log-freq{font-size:.67rem;color:var(--muted);font-family:'DM Mono',monospace;}
 .d-log-det{font-size:.7rem;color:var(--moss);font-family:'DM Mono',monospace;margin-top:.08rem;}
+.d-log-ul{font-size:.65rem;color:var(--muted);font-style:italic;margin-top:.1rem;opacity:.75;}
 .d-log-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--sand);display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;}
 .d-log-item.done .d-log-check{background:var(--leaf);border-color:var(--leaf);color:#fff;}
 .d-log-item.skip .d-log-check{background:#e57373;border-color:#e57373;color:#fff;}
@@ -4145,11 +4146,24 @@ function renderOpList(key, data) {
     var arMatch = AR_RAPIDE.find(function(a){return a.id===op.id;});
     var icoCol = arMatch ? arMatch.col : 'var(--moss)';
 
+    // Ultima volta che è stata eseguita
+    var ul = ultimaVolta(op.id);
+    var ulStr = '';
+    if(ul) {
+      var gg = diff(ul, oggi());
+      if(gg === 0) ulStr = 'Ultima volta: oggi';
+      else if(gg === 1) ulStr = 'Ultima volta: ieri';
+      else ulStr = 'Ultima volta: ' + gg + ' gg fa';
+    } else {
+      ulStr = 'Mai eseguita';
+    }
+
     html += '<div class="d-log-item '+cls+'" data-opid="'+op.id+'">';
     html += '<div class="d-log-ico" style="background:'+icoCol+'20;color:'+icoCol+'">'+op.ico+'</div>';
     html += '<div class="d-log-info"><div class="d-log-name">'+op.n+'</div>';
     html += '<div class="d-log-freq">'+op.freq+'</div>';
     if(detStr) html += '<div class="d-log-det">→ '+detStr+'</div>';
+    html += '<div class="d-log-ul">'+ulStr+'</div>';
     html += '</div>';
     html += '<div class="d-log-check">'+ch+'</div></div>';
   });
