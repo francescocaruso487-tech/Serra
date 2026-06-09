@@ -927,7 +927,7 @@ function goNav(id,btn){
     });
   }
   document.getElementById('main').scrollTop=0;
-  if(id==='diario') vaiOggi();
+  if(id==='diario') setTimeout(vaiOggi, 50);
 }
 function chiudiAltro(){
   altroAperto=false;
@@ -2629,7 +2629,7 @@ var OPS=[
 ];
 
 var curDate=oggi();
-function vaiOggi(){curDate=oggi();document.getElementById('d-date').value=fmtKey(curDate);caricaGiorno();}
+function vaiOggi(){curDate=oggi();var el=document.getElementById('d-date');if(el){el.value=fmtKey(curDate);}caricaGiorno();}
 function cambiaGiorno(d){curDate=addD(curDate,d);if(curDate>oggi())curDate=oggi();document.getElementById('d-date').value=fmtKey(curDate);caricaGiorno();}
 
 function caricaGiorno(){
@@ -3146,7 +3146,7 @@ function goNav(id, btn) {
     renderCalLuna();
   }
   if(id === 'archivio') renderArchivio();
-  if(id === 'diario') vaiOggi();
+  if(id === 'diario') setTimeout(vaiOggi, 50);
 }
 
 function chiudiExitBanner() {
