@@ -1558,144 +1558,6 @@
   ],
   "connessioni": [
     {
-      "da": "antenna_spirale",
-      "a": "anello_lakhovsky",
-      "tipo": "sinergia",
-      "nota": "Combinare per captazione + risonanza"
-    },
-    {
-      "da": "antenna_spirale",
-      "a": "pila_ferro_rame",
-      "tipo": "sinergia",
-      "nota": "Il rame dell'antenna è già il polo positivo della pila"
-    },
-    {
-      "da": "anello_lakhovsky",
-      "a": "acqua_magnetizzata",
-      "tipo": "sinergia",
-      "nota": "Risonanza cellulare + acqua strutturata = effetto amplificato"
-    },
-    {
-      "da": "pila_ferro_rame",
-      "a": "pantacle_rame",
-      "tipo": "sinergia",
-      "nota": "Il pantacle distribuisce la corrente galvanica a tutti i vasi"
-    },
-    {
-      "da": "melassa_microbi",
-      "a": "infuso_ortiche",
-      "tipo": "sinergia",
-      "nota": "Nutrire i microbi + apportare nutrienti organici"
-    },
-    {
-      "da": "melassa_microbi",
-      "a": "infuso_humus",
-      "tipo": "sinergia",
-      "nota": "Giornata biologica mensile completa"
-    },
-    {
-      "da": "infuso_ortiche",
-      "a": "infuso_humus",
-      "tipo": "sinergia",
-      "nota": "Fare insieme 1x al mese"
-    },
-    {
-      "da": "piramide_rame",
-      "a": "trattamento_magnetico_semi",
-      "tipo": "sinergia",
-      "nota": "Pre-trattamento semi con doppio effetto energia+magnetismo"
-    },
-    {
-      "da": "anello_lakhovsky",
-      "a": "spirale_ighina",
-      "tipo": "sinergia",
-      "nota": "Risonanza + concentrazione magnetica locale"
-    },
-    {
-      "da": "acqua_magnetizzata",
-      "a": "pila_ferro_rame",
-      "tipo": "sinergia",
-      "nota": "Acqua ionizzata migliora la conducibilità della pila"
-    },
-    {
-      "da": "musica_piante",
-      "a": "anello_lakhovsky",
-      "tipo": "sinergia",
-      "nota": "Entrambi agiscono sulle frequenze cellulari della pianta"
-    },
-    {
-      "da": "living_soil",
-      "a": "infuso_humus",
-      "tipo": "sinergia",
-      "nota": "Il tè di humus mantiene attivo il microbioma del living soil"
-    },
-    {
-      "da": "escavatore_luce",
-      "a": "antenna_spirale",
-      "tipo": "sinergia",
-      "nota": "Più luce + più energia atmosferica = crescita massimizzata"
-    },
-    {
-      "da": "generatore_etilene",
-      "a": "te_banana_cenere",
-      "tipo": "sequenza",
-      "nota": "Banana per K in fioritura, poi etilene per maturazione"
-    },
-    {
-      "da": "pila_ferro_rame",
-      "a": "acqua_magnetizzata",
-      "tipo": "sinergia",
-      "nota": "Corrente galvanica + acqua strutturata = doppio effetto ionizzante"
-    },
-    {
-      "da": "lemstrom_filo_aereo",
-      "a": "antenna_spirale",
-      "tipo": "sinergia",
-      "nota": "Lemstrom + spirale = captazione atmosferica su due livelli (orizzontale + verticale)"
-    },
-    {
-      "da": "stratificazione_elettrica_semi",
-      "a": "trattamento_magnetico_semi",
-      "tipo": "sinergia",
-      "nota": "Pre-trattamento semi con doppio effetto elettrico + magnetico"
-    },
-    {
-      "da": "acqua_vortice",
-      "a": "acqua_magnetizzata",
-      "tipo": "sinergia",
-      "nota": "Prima vortice poi magnetizzazione = massima strutturazione dell'acqua"
-    },
-    {
-      "da": "harina_rocas",
-      "a": "pila_ferro_rame",
-      "tipo": "sinergia",
-      "nota": "Minerali dalla roccia + ionizzazione dalla pila = assorbimento ottimale"
-    },
-    {
-      "da": "biochar_carbone",
-      "a": "infuso_humus",
-      "tipo": "sinergia",
-      "nota": "Biochar + microbi humus = microbioma stabile a lungo termine"
-    },
-    {
-      "da": "magna_culture_rf",
-      "a": "anello_lakhovsky",
-      "tipo": "sinergia",
-      "nota": "Lakhovsky + orientamento RF = risonanza ottimizzata per ogni pianta"
-    },
-    {
-      "da": "luce_colorata_insetti",
-      "a": "escavatore_luce",
-      "tipo": "sinergia",
-      "nota": "Mylar + pellicola colorata = ottimizzazione spettro luce + controllo insetti"
-    },
-    {
-      "da": "fermentato_bokashi",
-      "a": "melassa_microbi",
-      "tipo": "sinergia",
-      "nota": "Bokashi + melassa = combo microbi potentissima per il suolo"
-    },
-    {
       "a": "Abbé Bertholon - De l'Électricité des Végétaux (1783)",
       "b": "Antenna Rame a Spirale (Christofleau)",
       "nota": "Bertholon fu il primo scienziato a documentare l'effetto dell'elettricità atmosferica sulle piante nel 1783 — 137 anni prima di Christofleau. Inventò l'elettro-vegetometro per misurare la carica elettrica delle piante. Christofleau perfezionò e semplificò il suo lavoro con la spirale di rame.",
@@ -2000,6 +1862,137 @@
         "osservazione",
         "percezione",
         "sottile"
+      ]
+    },
+    {
+      "a": "Chiave di Salomone — Ore Planetarie",
+      "b": "Calendario Biodinamico Steiner + Acqua Magnetizzata",
+      "nota": "La Chiave di Salomone attribuisce a ogni ora del giorno un pianeta dominante. Steiner usa lo stesso principio lunare per la biodinamica. L'acqua magnetizzata cambiando polarità (Nord/Sud) segue lo stesso principio — pianeta = polarità magnetica = ora del giorno.",
+      "tags": [
+        "salomone",
+        "steiner",
+        "ore-planetarie",
+        "magnetismo",
+        "tempo"
+      ]
+    },
+    {
+      "a": "Bertholon 1783 — Elettricità atmosferica sulle piante",
+      "b": "Kybalion — Principio di Causa ed Effetto",
+      "nota": "Bertholon dimostrò che ogni variazione nell'elettricità atmosferica causa una variazione misurabile nella crescita vegetale. Il Kybalion insegna che ogni causa produce un effetto. Bertholon fu il primo a misurare scientificamente questa legge hermetica applicata alle piante.",
+      "tags": [
+        "bertholon",
+        "kybalion",
+        "causa-effetto",
+        "misura",
+        "atmosfera"
+      ]
+    },
+    {
+      "a": "Tesla — Risonanza come forza universale",
+      "b": "Anello di Lakhovsky + Aradia (Vangelo delle Streghe)",
+      "nota": "Aradia insegna che i rituali circolari (cerchi magici) amplificano le energie. L'anello di Lakhovsky è un cerchio fisico che risuona con le frequenze cellulari delle piante — esattamente il principio del cerchio magico applicato alla biologia vegetale, come Tesla avrebbe descritto in termini di risonanza.",
+      "tags": [
+        "tesla",
+        "aradia",
+        "cerchio",
+        "risonanza",
+        "lakhovsky",
+        "rituale"
+      ]
+    },
+    {
+      "a": "Agrippa — Virtù dei Metalli secondo i Pianeti",
+      "b": "Pila Galvanica Ferro (Marte) + Rame (Venere)",
+      "nota": "Agrippa nel 1486 catalogò il ferro come metallo di Marte (forza, penetrazione) e il rame come metallo di Venere (nutrimento, dolcezza). La pila galvanica usa esattamente questa coppia: ferro negativo (Marte) e rame positivo (Venere) — la prima batteria della storia è una coppia planetaria agrippiana.",
+      "tags": [
+        "agrippa",
+        "marte",
+        "venere",
+        "ferro",
+        "rame",
+        "metalli",
+        "pianeti"
+      ]
+    },
+    {
+      "a": "Lemstrom 1904 — Fili di rame sopra i campi",
+      "b": "Esoterismo Wicca — Il cielo come fonte di potere",
+      "nota": "La Wicca pratica rituali sotto il cielo aperto per captare l'energia cosmica. Lemstrom faceva esattamente lo stesso con i fili di rame: tendeva fili orizzontali sotto il cielo per captare l'elettricità cosmica atmosferica. La strega Wicca e Lemstrom cercavano la stessa energia da fonti diverse.",
+      "tags": [
+        "lemstrom",
+        "wicca",
+        "cielo",
+        "energia-cosmica",
+        "rame",
+        "fili"
+      ]
+    },
+    {
+      "a": "Corpus Hermeticum — Logos come principio ordinante",
+      "b": "Living Soil Water-Only + Albert Howard",
+      "nota": "Il Logos ermetico è l'ordine invisibile che governa la materia. Howard dimostrò che il suolo vivente si autoregola tramite una rete invisibile di relazioni microbiche — un logos biologico. Il Living Soil funziona perché si affida a questo logos invisibile invece di interferire con fertilizzanti chimici.",
+      "tags": [
+        "logos",
+        "hermete",
+        "living-soil",
+        "howard",
+        "autoregolazione",
+        "invisibile"
+      ]
+    },
+    {
+      "a": "Registri Akashici — Memoria universale dell'universo",
+      "b": "Worm Humus + Biochar — Memoria biologica del suolo",
+      "nota": "I Registri Akashici conservano ogni memoria dell'universo. Il Worm Humus e il Biochar sono la memoria biologica del suolo: ogni grammo contiene informazioni genetiche di milioni di anni di vita microbica. Nutrire il suolo con humus e biochar significa nutrirlo con la sua propria memoria akashica.",
+      "tags": [
+        "akashici",
+        "memoria",
+        "humus",
+        "biochar",
+        "informazione",
+        "suolo"
+      ]
+    },
+    {
+      "a": "Grande Grimorio — Sigilli come amplificatori di intenzione",
+      "b": "Pantacle di Rame + Spirale Ighina",
+      "nota": "Il Grande Grimorio usa sigilli fisici incisi per amplificare e dirigere le energie. Il Pantacle di rame e la spirale Ighina sono sigilli fisici conduttivi — amplificano e dirigono le cariche elettrostatiche nello stesso modo in cui i sigilli del Grimorio amplificano l'intenzione magica.",
+      "tags": [
+        "grimorio",
+        "sigillo",
+        "pantacle",
+        "ighina",
+        "amplificazione",
+        "conduzione"
+      ]
+    },
+    {
+      "a": "Dawson Church — Il cervello quantico modifica la realtà",
+      "b": "Musica 528Hz + Intenzione Coltivatore + Tompkins",
+      "nota": "Church documenta che il cervello emette campi EM misurabili che influenzano la materia fisica. Tompkins misurò con galvanometro che le piante rispondono ai pensieri del coltivatore. Musica 528Hz + intenzione consapevole + coltivazione meditativa = il coltivatore diventa uno strumento quantistico.",
+      "tags": [
+        "church",
+        "quantum",
+        "intenzione",
+        "528Hz",
+        "tompkins",
+        "galvanometro",
+        "coltivatore"
+      ]
+    },
+    {
+      "a": "Guerzoni — Magnetite nel corpo umano (Rabdomanzia)",
+      "b": "Acqua Magnetizzata + Pila Galvanica",
+      "nota": "Guerzoni dimostra che cristalli di magnetite nel corpo umano permettono la percezione dei campi magnetici terrestri (rabdomanzia). Anche le piante contengono magnetite nelle radici. Acqua magnetizzata e pila galvanica interagiscono con questi cristalli naturali, creando un sistema elettrobiologico che risponde al campo magnetico terrestre.",
+      "tags": [
+        "guerzoni",
+        "magnetite",
+        "rabdomanzia",
+        "radici",
+        "acqua-magnetizzata",
+        "pila",
+        "bioelettrico"
       ]
     }
   ]
