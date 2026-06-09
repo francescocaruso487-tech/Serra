@@ -32,7 +32,7 @@ body.dark{
   --nav-bg:#182010;--nav-border:#2a3820;--main-bg:#1a2214;
   --bark:#e8f4d8;--gold:#f0c060;
 }
-body.dark #nav{background:var(--nav-bg);border-top-color:var(--nav-border);}
+body.dark body.dark #nav{background:var(--nav-bg);border-top-color:var(--nav-border);}
 body.dark .card{background:var(--card);}
 body.dark .pianta-detail,body.dark .cal-mese,body.dark .tec-item,
 body.dark .guida-card,body.dark .sto-item,body.dark .d-log-item,
@@ -917,8 +917,7 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
 </div>
 
 <div id="libreria" class="sec">
-  <!-- redirect per compatibilità -->
-  <script>setTimeout(function(){goNav('laboratorio');},10);</script>
+  <!-- redirect per compatibilità — apre laboratorio SOLO se navigato esplicitamente -->
 </div>
 
 <!-- ===== LABORATORIO ===== -->
@@ -5864,11 +5863,8 @@ var _origGoNav = typeof goNav === 'function' ? null : null;
 document.addEventListener('DOMContentLoaded', function(){
   setTimeout(function(){
     initCervello();
-    // Rendi laboratorio navigabile
-    if(typeof DB !== 'undefined') {
-      mostraCervelloHome();
-    }
-  }, 1200);
+    mostraCervelloHome();
+  }, 1500);
 });
 </script>
 </body>
