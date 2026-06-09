@@ -125,10 +125,11 @@ body{font-family:'Nunito',sans-serif;background:var(--paper);color:var(--text);d
 /* Quick actions */
 .qa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.75rem;}
 .qa{background:var(--card);border-radius:var(--radius-sm);box-shadow:0 1px 6px var(--sh);padding:.75rem .5rem;text-align:center;cursor:pointer;transition:transform .12s;}
-.lib-card{background:var(--card);border-radius:10px;box-shadow:0 1px 6px var(--sh);padding:.7rem .8rem;margin-bottom:.55rem;cursor:pointer;transition:transform .1s;}
+.lib-card{background:var(--card);border-radius:10px;box-shadow:0 1px 6px var(--sh);padding:.7rem .8rem;margin-bottom:.55rem;cursor:pointer;transition:transform .1s;border-left:3px solid var(--sand);}
 .lib-card:active{transform:scale(.98);}
-.lib-cat{font-size:.72rem;padding:.25rem .6rem;border-radius:20px;border:1px solid var(--sand);cursor:pointer;background:var(--cream);color:var(--soft);white-space:nowrap;}
+.lib-cat{font-size:.72rem;padding:.25rem .65rem;border-radius:20px;border:1px solid var(--sand);cursor:pointer;background:var(--cream);color:var(--soft);white-space:nowrap;}
 .lib-cat.att{background:var(--bark);color:#fff;border-color:var(--bark);}
+.esp-tab-btn{flex:1;padding:.45rem .2rem;font-size:.73rem;font-weight:700;background:none;border:none;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;}
 .qa:active{transform:scale(.95);}
 .qa-ico{font-size:1.5rem;margin-bottom:.2rem;}
 .qa-lbl{font-size:.68rem;font-weight:700;color:var(--soft);font-family:'Nunito',sans-serif;line-height:1.2;}
@@ -801,19 +802,15 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <div id="archivio-list" style="padding:.3rem .9rem;"></div>
 </div>
 
-<!-- SEZIONE LIBRERIA ESPERIMENTI -->
 <div id="libreria" class="sec">
   <div style="padding:.8rem .9rem .3rem;">
     <div style="font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--bark);margin-bottom:.2rem;">🔬 Libreria Esperimenti</div>
-    <div style="font-size:.8rem;color:var(--soft);margin-bottom:.6rem;">Estratti dai manuali — tecniche e esperimenti applicabili alla tua coltivazione.</div>
-    <!-- Filtro categorie -->
+    <div style="font-size:.8rem;color:var(--soft);margin-bottom:.6rem;">Estratti dai manuali — tecniche e esperimenti per la tua coltivazione.</div>
     <div id="lib-filtri" style="display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.7rem;"></div>
-    <!-- Barra ricerca -->
     <input id="lib-search" type="text" placeholder="🔍 Cerca esperimento..." oninput="renderLibreria()" style="width:100%;padding:.5rem .7rem;border-radius:10px;border:1px solid var(--sand);background:var(--cream);font-size:.85rem;box-sizing:border-box;margin-bottom:.5rem;">
   </div>
-  <div id="lib-lista" style="padding:0 .9rem .9rem;"></div>
+  <div id="lib-lista" style="padding:0 .9rem 5rem;"></div>
 </div>
-
 </div><!-- /main -->
 
 <!-- NAV BOTTOM -->
@@ -3131,7 +3128,7 @@ function goNav(id, btn) {
   }
   if(id === 'archivio') renderArchivio();
   if(id === 'diario') setTimeout(vaiOggi, 50);
-  if(id === 'libreria') renderLibreria();
+  if(id === 'libreria') { var lf=document.getElementById('lib-filtri'); if(lf) lf.innerHTML=''; renderLibreria(); }
 }
 
 function chiudiExitBanner() {
@@ -4237,159 +4234,143 @@ var libCatAttiva = 'tutti';
 function caricaLibreria(cb) {
   if(ESPERIMENTI_DB) { if(cb) cb(); return; }
   fetch('manuali/esperimenti_database.json')
-    .then(function(r){return r.json();})
-    .then(function(data){ ESPERIMENTI_DB=data; if(cb) cb(); })
-    .catch(function(){ ESPERIMENTI_DB={categorie:[]}; if(cb) cb(); });
+    .then(function(r){ return r.json(); })
+    .then(function(data){ ESPERIMENTI_DB = data; if(cb) cb(); })
+    .catch(function(){ ESPERIMENTI_DB = {categorie:[]}; if(cb) cb(); });
 }
 
 function renderLibreria() {
-  caricaLibreria(function(){
-    var search = (document.getElementById('lib-search')||{}).value||'';
+  caricaLibreria(function() {
+    var search = (document.getElementById('lib-search') || {}).value || '';
     search = search.toLowerCase();
-
-    // Filtri categoria
     var filtriEl = document.getElementById('lib-filtri');
     if(filtriEl && filtriEl.children.length === 0) {
-      var html = '<span class="lib-cat'+(libCatAttiva==='tutti'?' att':'')+'" onclick="libCat(\'tutti\')">🔬 Tutti</span>';
-      ESPERIMENTI_DB.categorie.forEach(function(c){
-        html += '<span class="lib-cat'+(libCatAttiva===c.id?' att':'')+'" onclick="libCat(\''+c.id+'\')" style="border-color:'+c.colore+';">'+c.ico+' '+c.nome+'</span>';
+      var fhtml = '<span class="lib-cat' + (libCatAttiva==='tutti' ? ' att' : '') + '" onclick="libFiltro(\'tutti\')">🔬 Tutti</span>';
+      ESPERIMENTI_DB.categorie.forEach(function(c) {
+        fhtml += '<span class="lib-cat' + (libCatAttiva===c.id ? ' att' : '') + '" onclick="libFiltro(\'' + c.id + '\')">' + c.ico + ' ' + c.nome + '</span>';
       });
-      filtriEl.innerHTML = html;
+      filtriEl.innerHTML = fhtml;
     }
-
-    // Lista esperimenti
     var lista = document.getElementById('lib-lista');
     if(!lista) return;
     var html = '';
-    ESPERIMENTI_DB.categorie.forEach(function(cat){
+    ESPERIMENTI_DB.categorie.forEach(function(cat) {
       if(libCatAttiva !== 'tutti' && libCatAttiva !== cat.id) return;
-      cat.esperimenti.forEach(function(esp){
-        if(search && esp.nome.toLowerCase().indexOf(search)===-1 && 
-           esp.principio.toLowerCase().indexOf(search)===-1) return;
-        var diff = ['','⭐','⭐⭐','⭐⭐⭐'][esp.difficolta]||'';
-        var statCol = esp.stato==='attivo'?'#27ae60':esp.stato==='opzionale'?'#e67e22':'#95a5a6';
-        html += '<div class="lib-card" onclick="apriEsperimento(\''+cat.id+'\',\''+esp.id+'\')" style="border-left:3px solid '+cat.colore+';">';
+      cat.esperimenti.forEach(function(esp) {
+        if(search && esp.nome.toLowerCase().indexOf(search) === -1 && esp.principio.toLowerCase().indexOf(search) === -1) return;
+        var diff = ['','⭐','⭐⭐','⭐⭐⭐'][esp.difficolta] || '';
+        var statCol = esp.stato==='attivo' ? '#27ae60' : esp.stato==='opzionale' ? '#e67e22' : '#95a5a6';
+        html += '<div class="lib-card" onclick="apriEsp(\'' + cat.id + '\',\'' + esp.id + '\')" style="border-left-color:' + cat.colore + ';">';
         html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.25rem;">';
-        html += '<div style="font-weight:700;font-size:.9rem;color:var(--bark);flex:1;">'+cat.ico+' '+esp.nome+'</div>';
-        html += '<span style="font-size:.65rem;background:'+statCol+';color:#fff;border-radius:20px;padding:.1rem .4rem;white-space:nowrap;margin-left:.4rem;">'+esp.stato+'</span>';
+        html += '<div style="font-weight:700;font-size:.88rem;color:var(--bark);flex:1;">' + cat.ico + ' ' + esp.nome + '</div>';
+        html += '<span style="font-size:.65rem;background:' + statCol + ';color:#fff;border-radius:20px;padding:.1rem .4rem;white-space:nowrap;margin-left:.4rem;">' + esp.stato + '</span>';
         html += '</div>';
-        html += '<div style="font-size:.75rem;color:var(--soft);line-height:1.4;margin-bottom:.3rem;">'+esp.principio.substring(0,120)+'...</div>';
+        html += '<div style="font-size:.75rem;color:var(--soft);line-height:1.4;margin-bottom:.3rem;">' + esp.principio.substring(0, 110) + '…</div>';
         html += '<div style="display:flex;gap:.5rem;font-size:.7rem;color:var(--muted);">';
-        if(diff) html += '<span>'+diff+'</span>';
-        html += '<span style="color:'+statCol+';">● '+esp.scientificita+'</span>';
-        html += '<span>'+esp.fonti[0].split(' - ')[0]+'</span>';
+        if(diff) html += '<span>' + diff + '</span>';
+        html += '<span style="color:' + statCol + ';">● ' + esp.scientificita + '</span>';
+        html += '<span>' + (esp.fonti[0] || '').split(' - ')[0] + '</span>';
         html += '</div></div>';
       });
     });
-    if(!html) html = '<div style="text-align:center;color:var(--muted);padding:2rem;font-size:.85rem;">Nessun esperimento trovato</div>';
+    if(!html) html = '<div style="text-align:center;color:var(--muted);padding:2rem;font-size:.85rem;">Nessun risultato</div>';
     lista.innerHTML = html;
   });
 }
 
-function libCat(id) {
+function libFiltro(id) {
   libCatAttiva = id;
   var filtriEl = document.getElementById('lib-filtri');
   if(filtriEl) filtriEl.innerHTML = '';
   renderLibreria();
 }
 
-function apriEsperimento(catId, espId) {
+function apriEsp(catId, espId) {
   if(!ESPERIMENTI_DB) return;
-  var cat = ESPERIMENTI_DB.categorie.find(function(c){return c.id===catId;});
+  var cat = ESPERIMENTI_DB.categorie.find(function(c){ return c.id === catId; });
   if(!cat) return;
-  var esp = cat.esperimenti.find(function(e){return e.id===espId;});
+  var esp = cat.esperimenti.find(function(e){ return e.id === espId; });
   if(!esp) return;
-  window._espCatCol = cat.colore;
+  window._espCol = cat.colore;
 
-  var statCol = esp.stato==='attivo'?'#27ae60':esp.stato==='opzionale'?'#e67e22':'#95a5a6';
-  var diff = ''; for(var i=0;i<(esp.difficolta||0);i++) diff+='⭐';
+  var statCol = esp.stato==='attivo' ? '#27ae60' : esp.stato==='opzionale' ? '#e67e22' : '#95a5a6';
+  var diff = ''; for(var i=0; i<(esp.difficolta||0); i++) diff += '⭐';
 
-  var html = '';
-  // Badge riga
-  html += '<div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.7rem;">';
-  html += '<span style="font-size:.68rem;background:'+statCol+';color:#fff;border-radius:20px;padding:.15rem .5rem;">'+esp.stato+'</span>';
-  html += '<span style="font-size:.68rem;background:var(--sand);color:var(--bark);border-radius:20px;padding:.15rem .5rem;">'+esp.scientificita+'</span>';
-  if(diff) html += '<span style="font-size:.75rem;">'+diff+'</span>';
-  html += '</div>';
+  var h = '';
+  h += '<div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.7rem;">';
+  h += '<span style="font-size:.68rem;background:' + statCol + ';color:#fff;border-radius:20px;padding:.15rem .5rem;">' + esp.stato + '</span>';
+  h += '<span style="font-size:.68rem;background:var(--sand);color:var(--bark);border-radius:20px;padding:.15rem .5rem;">' + esp.scientificita + '</span>';
+  if(diff) h += '<span style="font-size:.75rem;">' + diff + '</span>';
+  h += '</div>';
 
-  // Tab bar
-  html += '<div style="display:flex;gap:0;border-bottom:2px solid var(--sand);margin-bottom:.8rem;">';
-  html += '<button onclick="espTab(this,\'esp-p\')" class="esp-tab-btn esp-tab-att" style="flex:1;padding:.45rem .2rem;font-size:.73rem;font-weight:700;background:none;border:none;border-bottom:2px solid '+cat.colore+';color:'+cat.colore+';margin-bottom:-2px;cursor:pointer;">💡 Principio</button>';
-  html += '<button onclick="espTab(this,\'esp-c\')" class="esp-tab-btn" style="flex:1;padding:.45rem .2rem;font-size:.73rem;font-weight:700;background:none;border:none;color:var(--muted);cursor:pointer;">🛠 Come fare</button>';
-  html += '<button onclick="espTab(this,\'esp-f\')" class="esp-tab-btn" style="flex:1;padding:.45rem .2rem;font-size:.73rem;font-weight:700;background:none;border:none;color:var(--muted);cursor:pointer;">📚 Fonti</button>';
-  html += '</div>';
+  h += '<div style="display:flex;border-bottom:2px solid var(--sand);margin-bottom:.8rem;" id="esp-tabs">';
+  h += '<button class="esp-tab-btn" onclick="espT(this,\'ep\')" style="color:' + cat.colore + ';border-bottom:2px solid ' + cat.colore + ';margin-bottom:-2px;">💡 Principio</button>';
+  h += '<button class="esp-tab-btn" onclick="espT(this,\'ec\')">🛠 Come fare</button>';
+  h += '<button class="esp-tab-btn" onclick="espT(this,\'ef\')">📚 Fonti</button>';
+  h += '</div>';
 
-  // Pannello Principio
-  html += '<div id="esp-p">';
-  html += '<div style="background:var(--cream);border-radius:10px;padding:.7rem;margin-bottom:.6rem;border-left:3px solid '+cat.colore+';">';
-  html += '<div style="font-size:.83rem;line-height:1.6;color:var(--soft);">'+esp.principio+'</div>';
-  html += '</div>';
+  h += '<div id="ep">';
+  h += '<div style="background:var(--cream);border-radius:10px;padding:.7rem;margin-bottom:.6rem;border-left:3px solid ' + cat.colore + ';">';
+  h += '<div style="font-size:.83rem;line-height:1.6;color:var(--soft);">' + esp.principio + '</div></div>';
   if(esp.risultati_attesi) {
-    html += '<div style="background:#e8f5e9;border-radius:10px;padding:.6rem .7rem;margin-bottom:.5rem;">';
-    html += '<div style="font-size:.68rem;font-weight:700;color:#27ae60;margin-bottom:.25rem;">✅ Risultati attesi</div>';
-    html += '<div style="font-size:.82rem;color:var(--soft);">'+esp.risultati_attesi+'</div>';
-    html += '</div>';
+    h += '<div style="background:#e8f5e9;border-radius:10px;padding:.6rem .7rem;margin-bottom:.5rem;">';
+    h += '<div style="font-size:.68rem;font-weight:700;color:#27ae60;margin-bottom:.2rem;">✅ Risultati attesi</div>';
+    h += '<div style="font-size:.82rem;color:var(--soft);">' + esp.risultati_attesi + '</div></div>';
   }
   if(esp.note) {
-    html += '<div style="background:#fff8e1;border-radius:10px;padding:.6rem .7rem;border-left:3px solid #f39c12;">';
-    html += '<div style="font-size:.68rem;font-weight:700;color:#e67e22;margin-bottom:.25rem;">⚠️ Importante</div>';
-    html += '<div style="font-size:.82rem;color:var(--soft);">'+esp.note+'</div>';
-    html += '</div>';
+    h += '<div style="background:#fff8e1;border-radius:10px;padding:.6rem .7rem;border-left:3px solid #f39c12;">';
+    h += '<div style="font-size:.68rem;font-weight:700;color:#e67e22;margin-bottom:.2rem;">⚠️ Importante</div>';
+    h += '<div style="font-size:.82rem;color:var(--soft);">' + esp.note + '</div></div>';
   }
-  html += '</div>';
+  h += '</div>';
 
-  // Pannello Come fare
-  html += '<div id="esp-c" style="display:none;">';
+  h += '<div id="ec" style="display:none;">';
   if(esp.materiali && esp.materiali.length) {
-    html += '<div style="font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.4rem;">Occorre</div>';
-    esp.materiali.forEach(function(m){
-      html += '<div style="display:flex;align-items:center;gap:.5rem;padding:.35rem 0;border-bottom:1px solid var(--sand);">';
-      html += '<span style="color:'+cat.colore+';font-size:1rem;">◆</span>';
-      html += '<span style="font-size:.82rem;color:var(--soft);">'+m+'</span></div>';
+    h += '<div style="font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.4rem;">Occorre</div>';
+    esp.materiali.forEach(function(m) {
+      h += '<div style="display:flex;align-items:center;gap:.5rem;padding:.35rem 0;border-bottom:1px solid var(--sand);">';
+      h += '<span style="color:' + cat.colore + ';">◆</span><span style="font-size:.82rem;color:var(--soft);">' + m + '</span></div>';
     });
-    html += '<div style="height:.6rem;"></div>';
+    h += '<div style="height:.6rem;"></div>';
   }
   if(esp.procedura && esp.procedura.length) {
-    html += '<div style="font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.4rem;">Passi</div>';
-    esp.procedura.forEach(function(p,i){
-      html += '<div style="display:flex;gap:.55rem;align-items:flex-start;padding:.45rem 0;border-bottom:1px solid var(--sand);">';
-      html += '<div style="min-width:1.5rem;height:1.5rem;border-radius:50%;background:'+cat.colore+';color:#fff;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">'+(i+1)+'</div>';
-      html += '<div style="font-size:.82rem;color:var(--soft);line-height:1.5;padding-top:.1rem;">'+p+'</div></div>';
+    h += '<div style="font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.4rem;">Passi</div>';
+    esp.procedura.forEach(function(p, i) {
+      h += '<div style="display:flex;gap:.55rem;align-items:flex-start;padding:.45rem 0;border-bottom:1px solid var(--sand);">';
+      h += '<div style="min-width:1.5rem;height:1.5rem;border-radius:50%;background:' + cat.colore + ';color:#fff;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">' + (i+1) + '</div>';
+      h += '<div style="font-size:.82rem;color:var(--soft);line-height:1.5;padding-top:.1rem;">' + p + '</div></div>';
     });
   }
-  html += '</div>';
+  h += '</div>';
 
-  // Pannello Fonti
-  html += '<div id="esp-f" style="display:none;">';
-  html += '<div style="font-size:.78rem;color:var(--soft);margin-bottom:.6rem;line-height:1.5;">Estratto e sintetizzato da:</div>';
-  (esp.fonti||[]).forEach(function(f){
-    var p = f.split(' - ');
-    html += '<div style="background:var(--cream);border-radius:8px;padding:.55rem .7rem;margin-bottom:.4rem;border-left:3px solid '+cat.colore+';">';
-    html += '<div style="font-size:.8rem;font-weight:700;color:var(--bark);">'+p[0]+'</div>';
-    if(p[1]) html += '<div style="font-size:.75rem;color:var(--muted);margin-top:.1rem;">'+p[1]+'</div>';
-    html += '</div>';
+  h += '<div id="ef" style="display:none;">';
+  h += '<div style="font-size:.78rem;color:var(--soft);margin-bottom:.6rem;">Estratto e sintetizzato da:</div>';
+  (esp.fonti || []).forEach(function(f) {
+    var pts = f.split(' - ');
+    h += '<div style="background:var(--cream);border-radius:8px;padding:.55rem .7rem;margin-bottom:.4rem;border-left:3px solid ' + cat.colore + ';">';
+    h += '<div style="font-size:.8rem;font-weight:700;color:var(--bark);">' + pts[0] + '</div>';
+    if(pts[1]) h += '<div style="font-size:.75rem;color:var(--muted);margin-top:.1rem;">' + pts[1] + '</div>';
+    h += '</div>';
   });
-  html += '</div>';
+  h += '</div>';
 
-  apriPopup(cat.ico+' '+esp.nome, '', html);
+  apriPopup(cat.ico + ' ' + esp.nome, '', h);
 }
 
-function espTab(btn, pannelloId) {
-  // Reset tutti i tab
-  var btns = btn.parentElement.querySelectorAll('.esp-tab-btn');
-  btns.forEach(function(b){
-    b.style.color='var(--muted)';
-    b.style.borderBottom='none';
-    b.style.marginBottom='0';
+function espT(btn, pid) {
+  var tabs = document.getElementById('esp-tabs');
+  if(!tabs) return;
+  tabs.querySelectorAll('.esp-tab-btn').forEach(function(b) {
+    b.style.color = 'var(--muted)';
+    b.style.borderBottom = '2px solid transparent';
+    b.style.marginBottom = '0';
   });
-  // Attiva tab cliccato
-  btn.style.color = window._espCatCol||'var(--bark)';
-  btn.style.borderBottom = '2px solid '+(window._espCatCol||'var(--bark)');
+  btn.style.color = window._espCol || 'var(--bark)';
+  btn.style.borderBottom = '2px solid ' + (window._espCol || 'var(--bark)');
   btn.style.marginBottom = '-2px';
-  // Mostra/nascondi pannelli
-  ['esp-p','esp-c','esp-f'].forEach(function(id){
+  ['ep','ec','ef'].forEach(function(id) {
     var el = document.getElementById(id);
-    if(el) el.style.display = id===pannelloId ? '' : 'none';
+    if(el) el.style.display = id === pid ? '' : 'none';
   });
 }
 </script>
