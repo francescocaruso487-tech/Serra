@@ -172,6 +172,26 @@ body.dark .nav-item.active{background:rgba(90,170,110,0.15);}
 .esp-tab-btn{flex:1;padding:.45rem .2rem;font-size:.73rem;font-weight:700;background:none;border:none;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;}
 .lib-node{cursor:pointer;transition:transform .15s;}
 .lib-node:hover{transform:scale(1.1);}
+/* ── LABORATORIO ── */
+.lab-tab{padding:.3rem .65rem;font-size:.7rem;font-weight:700;border-radius:100px;border:1.5px solid var(--sand);background:var(--cream);color:var(--soft);cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;}
+.lab-tab.att{background:var(--moss);color:#fff;border-color:var(--moss);}
+.lab-panel{transition:opacity .15s;}
+/* Cervello insight card */
+.cervello-card{background:linear-gradient(135deg,#0d3320,#1a5030);border-radius:16px;padding:.9rem 1rem;color:#fff;cursor:pointer;position:relative;overflow:hidden;}
+.cervello-card::after{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;background:rgba(255,255,255,.04);border-radius:50%;}
+.cervello-badge{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-bottom:.3rem;}
+.cervello-title{font-family:'DM Serif Display',serif;font-size:1.05rem;line-height:1.3;margin-bottom:.3rem;}
+.cervello-body{font-size:.77rem;opacity:.82;line-height:1.5;}
+.cervello-foot{display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;}
+.cervello-src{font-size:.62rem;opacity:.5;font-family:'DM Mono',monospace;}
+/* Log insight */
+.log-item{background:var(--card);border-radius:var(--radius-xs);padding:.55rem .75rem;border-left:3px solid var(--moss);cursor:pointer;}
+.log-item-ora{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted);margin-bottom:.1rem;}
+.log-item-nome{font-size:.82rem;font-weight:700;color:var(--text);}
+.log-item-conn{font-size:.72rem;color:var(--soft);margin-top:.1rem;}
+/* Connessione card */
+.conn-card{background:var(--card);border-radius:var(--radius-xs);padding:.65rem .8rem;border-left:3px solid #27ae60;}
+
 .qa:active{transform:scale(.95);}
 .qa-ico{font-size:1.5rem;margin-bottom:.2rem;}
 .qa-lbl{font-size:.68rem;font-weight:700;color:var(--soft);font-family:'Nunito',sans-serif;line-height:1.2;}
@@ -703,7 +723,7 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
       <div class="qa" onclick="goNav('natura')"><div class="qa-ico">🌤</div><div class="qa-lbl">Meteo & Luna</div></div>
       <div class="qa" onclick="goNav('piante')"><div class="qa-ico">🌿</div><div class="qa-lbl">Piante</div></div>
       <div class="qa" onclick="goNav('calendario')"><div class="qa-ico">📅</div><div class="qa-lbl">Calendario</div></div>
-      <div class="qa" onclick="goNav('tecniche')"><div class="qa-ico">⚡</div><div class="qa-lbl">Tecniche</div></div>
+      <div class="qa" onclick="goNav('laboratorio')"><div class="qa-ico">⚗️</div><div class="qa-lbl">Laboratorio</div></div>
       <div class="qa" onclick="goNav('guida')"><div class="qa-ico">📖</div><div class="qa-lbl">Guida</div></div>
     </div>
   </div>
@@ -863,10 +883,14 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
 
 <!-- ===== TECNICHE ===== -->
 <div id="tecniche" class="sec">
-  <div style="padding:.7rem .9rem .3rem;">
-    <p style="font-size:.83rem;color:var(--soft);">Tocca ✓/✗ per aggiornare lo stato. Tocca il titolo per leggere le istruzioni e aggiungere note.</p>
+  <!-- Tecniche ora è integrata nel Laboratorio -->
+  <div style="padding:2rem 1rem;text-align:center;">
+    <div style="font-size:2.5rem;margin-bottom:.5rem;">⚗️</div>
+    <div style="font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--bark);margin-bottom:.4rem;">Tecniche → Laboratorio</div>
+    <div style="font-size:.83rem;color:var(--soft);margin-bottom:1rem;">Le tecniche sono ora integrate nel Laboratorio — un sistema unificato e sincronizzato.</div>
+    <button onclick="goNav('laboratorio')" style="background:var(--moss);color:#fff;border:none;border-radius:100px;padding:.6rem 1.5rem;font-size:.9rem;font-weight:700;cursor:pointer;">⚗️ Apri il Laboratorio →</button>
   </div>
-  <div class="tec-list" id="tec-list"></div>
+  <div class="tec-list" id="tec-list" style="display:none;"></div>
 </div>
 
 <!-- ===== GUIDA ===== -->
@@ -884,83 +908,89 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
 </div>
 
 <div id="libreria" class="sec">
-  <!-- Tab navigation -->
-  <div style="position:sticky;top:0;z-index:10;background:var(--main-bg);padding:.6rem .9rem .4rem;border-bottom:1px solid var(--sand);border-radius:0;">
-    <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--bark);margin-bottom:.5rem;">🔬 Lab Sperimentale</div>
-    <div style="display:flex;gap:.3rem;">
-      <button class="lib-tab att" onclick="libTab(this,'lib-esplora')" style="flex:1;padding:.35rem .1rem;font-size:.68rem;font-weight:700;border-radius:8px;border:none;background:var(--bark);color:#fff;cursor:pointer;">🧬 Esplora</button>
-      <button class="lib-tab" onclick="libTab(this,'lib-mappa')" style="flex:1;padding:.35rem .1rem;font-size:.68rem;font-weight:700;border-radius:8px;border:none;background:var(--sand);color:var(--bark);cursor:pointer;">🕸 Mappa</button>
-      <button class="lib-tab" onclick="libTab(this,'lib-lab')" style="flex:1;padding:.35rem .1rem;font-size:.68rem;font-weight:700;border-radius:8px;border:none;background:var(--sand);color:var(--bark);cursor:pointer;">⚗️ Lab</button>
-      <button class="lib-tab" onclick="libTab(this,'lib-oggi')" style="flex:1;padding:.35rem .1rem;font-size:.68rem;font-weight:700;border-radius:8px;border:none;background:var(--sand);color:var(--bark);cursor:pointer;">✨ Oggi</button>
-      <button class="lib-tab" onclick="libTab(this,'lib-ai')" style="flex:1;padding:.35rem .1rem;font-size:.68rem;font-weight:700;border-radius:8px;border:none;background:var(--sand);color:var(--bark);cursor:pointer;">🤖 AI</button>
+  <!-- redirect per compatibilità -->
+  <script>setTimeout(function(){goNav('laboratorio');},10);</script>
+</div>
+
+<!-- ===== LABORATORIO ===== -->
+<div id="laboratorio" class="sec">
+  <!-- Header sticky -->
+  <div id="lab-header" style="position:sticky;top:0;z-index:20;background:var(--main-bg);border-bottom:1px solid var(--sand);">
+    <div style="padding:.6rem .9rem .3rem;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--text);">⚗️ Laboratorio</div>
+      <div id="lab-cervello-status" style="font-size:.65rem;font-family:monospace;color:var(--moss);"></div>
+    </div>
+    <!-- Tab bar -->
+    <div style="display:flex;gap:.25rem;padding:.1rem .7rem .4rem;overflow-x:auto;scrollbar-width:none;">
+      <button class="lab-tab att" data-panel="lab-cervello" onclick="labSwitchTab(this)">🧠 Cervello</button>
+      <button class="lab-tab" data-panel="lab-tecniche" onclick="labSwitchTab(this)">⚡ Tecniche</button>
+      <button class="lab-tab" data-panel="lab-esplora" onclick="labSwitchTab(this)">🧬 Esplora</button>
+      <button class="lab-tab" data-panel="lab-mappa" onclick="labSwitchTab(this)">🕸 Mappa</button>
+      <button class="lab-tab" data-panel="lab-oggi" onclick="labSwitchTab(this)">✨ Oggi</button>
+      <button class="lab-tab" data-panel="lab-ai" onclick="labSwitchTab(this)">🤖 AI</button>
     </div>
   </div>
 
-  <!-- ESPLORA -->
-  <div id="lib-esplora" style="padding:.6rem .9rem 5rem;">
-    <input id="lib-search" type="text" placeholder="🔍 Cerca esperimento, tecnica, ingrediente..." oninput="renderLibreria()" style="width:100%;padding:.5rem .7rem;border-radius:10px;border:1px solid var(--sand);background:var(--cream);font-size:.85rem;box-sizing:border-box;margin-bottom:.6rem;">
+  <!-- ── TAB: CERVELLO ── -->
+  <div id="lab-cervello" class="lab-panel" style="padding:.6rem .85rem 5rem;">
+    <!-- Insight ora corrente -->
+    <div id="cervello-insight-ora" style="margin-bottom:.6rem;"></div>
+    <!-- Connessione scoperta ora -->
+    <div id="cervello-conn-ora" style="margin-bottom:.6rem;"></div>
+    <!-- Log 24 insight del giorno -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;">
+      <div style="font-size:.68rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">📅 Insight di oggi</div>
+      <div id="cervello-count" style="font-size:.7rem;font-family:monospace;color:var(--moss);font-weight:700;"></div>
+    </div>
+    <div id="cervello-log" style="display:flex;flex-direction:column;gap:.35rem;"></div>
+  </div>
+
+  <!-- ── TAB: TECNICHE ── -->
+  <div id="lab-tecniche" class="lab-panel" style="display:none;padding:0 0 5rem;">
+    <div id="tec-list-lab"></div>
+  </div>
+
+  <!-- ── TAB: ESPLORA ── -->
+  <div id="lab-esplora" class="lab-panel" style="display:none;padding:.6rem .9rem 5rem;">
+    <input id="lib-search" type="text" placeholder="🔍 Cerca tecnica, ingrediente, autore..." oninput="renderLabEsplora()" style="width:100%;padding:.5rem .7rem;border-radius:10px;border:1px solid var(--sand);background:var(--cream);font-size:.85rem;box-sizing:border-box;color:var(--text);margin-bottom:.6rem;">
     <div id="lib-filtri" style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.7rem;"></div>
     <div id="lib-lista"></div>
   </div>
 
-  <!-- MAPPA CONNESSIONI -->
-  <div id="lib-mappa" style="display:none;padding:.6rem .9rem 5rem;">
-    <div style="font-size:.8rem;color:var(--soft);margin-bottom:.6rem;line-height:1.5;">Le connessioni tra esperimenti — tocca un nodo per vedere le sinergie.</div>
-    <canvas id="lib-canvas" style="width:100%;border-radius:12px;background:var(--cream);touch-action:none;"></canvas>
+  <!-- ── TAB: MAPPA ── -->
+  <div id="lab-mappa" class="lab-panel" style="display:none;padding:.6rem .9rem 5rem;">
+    <div style="font-size:.78rem;color:var(--soft);margin-bottom:.6rem;">Tocca un nodo per vedere le sinergie tra esperimenti.</div>
+    <canvas id="lib-canvas" style="width:100%;border-radius:14px;touch-action:none;display:block;"></canvas>
     <div id="lib-mappa-detail" style="margin-top:.7rem;"></div>
   </div>
 
-  <!-- IL MIO LAB -->
-  <div id="lib-lab" style="display:none;padding:.6rem .9rem 5rem;">
-    <div style="font-size:.8rem;color:var(--soft);margin-bottom:.7rem;line-height:1.5;">Attiva gli esperimenti che stai facendo. Appariranno nel diario come operazioni da tracciare.</div>
-    <div id="lib-lab-lista"></div>
-  </div>
-
-  <!-- OGGI: raccomandazioni contestuali -->
-  <div id="lib-oggi" style="display:none;padding:.6rem .9rem 5rem;">
+  <!-- ── TAB: OGGI ── -->
+  <div id="lab-oggi" class="lab-panel" style="display:none;padding:.6rem .9rem 5rem;">
     <div id="lib-oggi-content"></div>
   </div>
 
-  <!-- AI ASSISTANT -->
-  <div id="lib-ai" style="display:none;padding:.6rem .9rem 5rem;">
+  <!-- ── TAB: AI ── -->
+  <div id="lab-ai" class="lab-panel" style="display:none;padding:.6rem .9rem 5rem;">
     <div style="background:linear-gradient(135deg,#0d2818,#1e4a2a);border-radius:16px;padding:.9rem 1rem;margin-bottom:.7rem;color:#fff;">
-      <div style="font-size:.65rem;font-family:monospace;letter-spacing:.08em;opacity:.6;margin-bottom:.3rem;">🤖 ASSISTENTE IA — POWERED BY CLAUDE</div>
-      <div style="font-family:'DM Serif Display',serif;font-size:1rem;margin-bottom:.2rem;">Analisi & Combinazioni dai Manuali</div>
-      <div style="font-size:.75rem;opacity:.75;line-height:1.5;">Fai domande sui tuoi 40+ manuali. Chiedi combinazioni, confronti, esperimenti incrociati.</div>
+      <div style="font-size:.65rem;font-family:monospace;letter-spacing:.08em;opacity:.6;margin-bottom:.25rem;">🤖 ASSISTENTE IA</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1rem;margin-bottom:.2rem;">Analisi dai Manuali</div>
+      <div style="font-size:.75rem;opacity:.75;line-height:1.5;">Chiedi combinazioni, confronti e piani sperimentali basati sui tuoi 40+ PDF.</div>
     </div>
-
-    <!-- Suggerimenti rapidi -->
-    <div style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem;">💡 Domande rapide</div>
-    <div style="display:flex;flex-direction:column;gap:.3rem;margin-bottom:.7rem;" id="ai-quick-btns">
-      <button onclick="inviaAI('Quali esperimenti posso combinare oggi in base al giorno biodinamico e alla fase lunare?')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--soft);text-align:left;cursor:pointer;">🌙 Cosa fare oggi con luna e biodinamica?</button>
-      <button onclick="inviaAI('Confronta le tecniche di Lakhovsky, Christofleau e Ighina: quali sono le differenze e come si possono combinare nella mia mini-serra?')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--soft);text-align:left;cursor:pointer;">🔬 Confronta Lakhovsky, Christofleau e Ighina</button>
-      <button onclick="inviaAI('Crea un piano sperimentale settimanale che combina elettrocoltura, acqua magnetizzata e alchimia vegetale per massimizzare la crescita delle mie piante')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--soft);text-align:left;cursor:pointer;">📋 Piano sperimentale settimanale</button>
-      <button onclick="inviaAI('Quali sono le connessioni tra le teorie di Nikola Tesla, Lakhovsky e Ighina applicate alla coltivazione? Come posso usarle insieme?')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--soft);text-align:left;cursor:pointer;">⚡ Tesla + Lakhovsky + Ighina: connessioni</button>
+    <div style="display:flex;flex-direction:column;gap:.3rem;margin-bottom:.7rem;">
+      <button onclick="inviaAI('Cosa fare oggi con luna e biodinamica? Suggerisci le migliori tecniche')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--soft);text-align:left;cursor:pointer;">🌙 Cosa fare oggi?</button>
+      <button onclick="inviaAI('Confronta Lakhovsky, Christofleau, Ighina e Lemstrom: differenze e come combinarli')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--soft);text-align:left;cursor:pointer;">🔬 Confronta i grandi autori</button>
+      <button onclick="inviaAI('Crea un piano sperimentale settimanale ottimale per la mia mini-serra')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--soft);text-align:left;cursor:pointer;">📋 Piano settimanale</button>
+      <button onclick="inviaAI('Quali connessioni nascoste esistono tra i testi di magia (Kybalion, Tavole Smeraldine) e l\'elettrocoltura?')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--soft);text-align:left;cursor:pointer;">⚗️ Magia + Elettrocoltura: connessioni</button>
     </div>
-
-    <!-- Chat -->
     <div id="ai-chat" style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:.7rem;min-height:60px;"></div>
-
-    <!-- Input -->
     <div style="position:sticky;bottom:5.5rem;background:var(--main-bg);padding:.3rem 0;">
       <div style="display:flex;gap:.4rem;align-items:flex-end;">
-        <textarea id="ai-input" placeholder="Chiedi qualcosa sui manuali... es. Come combinare l'anello di Lakhovsky con la pila galvanica?" style="flex:1;padding:.55rem .75rem;border-radius:14px;border:1.5px solid var(--sand);background:var(--card);font-family:'Nunito',sans-serif;font-size:.82rem;color:var(--text);resize:none;min-height:2.8rem;max-height:6rem;line-height:1.4;outline:none;" rows="2" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();inviaAI();}"></textarea>
-        <button onclick="inviaAI()" style="padding:.55rem .8rem;background:var(--moss);color:#fff;border:none;border-radius:14px;font-size:1rem;cursor:pointer;flex-shrink:0;height:2.8rem;">→</button>
+        <textarea id="ai-input" placeholder="Chiedi qualcosa..." style="flex:1;padding:.55rem .75rem;border-radius:14px;border:1.5px solid var(--sand);background:var(--card);font-family:'Nunito',sans-serif;font-size:.82rem;color:var(--text);resize:none;min-height:2.8rem;max-height:6rem;outline:none;" rows="2" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();inviaAI();}"></textarea>
+        <button onclick="inviaAI()" style="padding:.55rem .8rem;background:var(--moss);color:#fff;border:none;border-radius:14px;font-size:1rem;cursor:pointer;height:2.8rem;">→</button>
       </div>
-      <div style="font-size:.65rem;color:var(--muted);margin-top:.3rem;text-align:center;">Shift+Invio per andare a capo · Invio per inviare</div>
     </div>
   </div>
 </div>
-</div><!-- /main -->
-
-<!-- NAV BOTTOM -->
-<nav id="nav">
-  <button class="nav-item active" onclick="goNav('home',this)"><span class="ni">🏠</span><span class="nl">Home</span></button>
-  <button class="nav-item" onclick="goNav('diario',this)"><span class="ni">📓</span><span class="nl">Diario</span></button>
-  <button class="nav-item" onclick="goNav('natura',this)"><span class="ni">🌤</span><span class="nl">Meteo & Luna</span></button>
-  <button class="nav-item" onclick="goNav('piante',this)"><span class="ni">🌿</span><span class="nl">Piante</span></button>
-  <button class="nav-item" onclick="goNav('altro',this)"><span class="ni">⋯</span><span class="nl">Altro</span></button>
-</nav>
 
 <!-- MENU ALTRO -->
 <div id="menu-altro" style="position:fixed;bottom:4.2rem;left:0;right:0;background:var(--card);border-top:2px solid var(--sand);padding:.8rem .85rem .9rem;display:none;z-index:99;box-shadow:0 -8px 32px rgba(0,0,0,.15);border-radius:20px 20px 0 0;">
@@ -968,10 +998,10 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <div style="font-size:.65rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;">Sezioni</div>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-bottom:.5rem;">
     <div class="qa" onclick="goNav('calendario');chiudiAltro()"><div class="qa-ico">📅</div><div class="qa-lbl">Calendario</div></div>
-    <div class="qa" onclick="goNav('tecniche');chiudiAltro()"><div class="qa-ico">⚡</div><div class="qa-lbl">Tecniche</div></div>
+    <div class="qa" onclick="goNav('laboratorio');chiudiAltro()"><div class="qa-ico">⚡</div><div class="qa-lbl">Tecniche</div></div>
     <div class="qa" onclick="goNav('guida');chiudiAltro()"><div class="qa-ico">📖</div><div class="qa-lbl">Guida</div></div>
     <div class="qa" onclick="goNav('archivio');chiudiAltro()"><div class="qa-ico">🗄</div><div class="qa-lbl">Archivio</div></div>
-    <div class="qa" onclick="goNav('libreria');chiudiAltro()"><div class="qa-ico">🔬</div><div class="qa-lbl">Lab</div></div>
+    <div class="qa" onclick="goNav('laboratorio');chiudiAltro()"><div class="qa-ico">⚗️</div><div class="qa-lbl">Laboratorio</div></div>
     <div class="qa" onclick="attivaNotifiche();chiudiAltro()"><div class="qa-ico" id="notif-ico">🔔</div><div class="qa-lbl">Notifiche</div></div>
   </div>
 </div>
@@ -3442,9 +3472,14 @@ function goNav(id, btn) {
   }
   if(id === 'archivio') renderArchivio();
   if(id === 'diario') { setTimeout(vaiOggi, 50); setTimeout(renderSuggDiario, 400); }
-  if(id === 'libreria') { var lf=document.getElementById('lib-filtri'); if(lf) lf.innerHTML=''; renderLibreria(); }
+  if(id === 'libreria') goNav('laboratorio');
+  if(id === 'laboratorio') {
+    var lf=document.getElementById('lib-filtri'); if(lf) lf.innerHTML='';
+    setTimeout(function(){ if(typeof initCervello==='function'&&!CERVELLO.inizializzato) initCervello(); renderCervelloPanel(); mostraCervelloHome(); }, 200);
+  }
   if(id === 'natura') setTimeout(renderSuggLuna, 500);
-  if(id === 'home') setTimeout(renderInsightHome, 300);
+  if(id === 'home') setTimeout(function(){ if(typeof mostraCervelloHome==='function') mostraCervelloHome(); }, 400);
+  if(id === 'tecniche') goNav('laboratorio');
 }
 
 function chiudiExitBanner() {
@@ -4539,12 +4574,11 @@ window.addEventListener('DOMContentLoaded',function(){
     document.getElementById('notif-ico').textContent='✅';
     pianificaDomenica();
   }
-  // Insight progressivi
+  // Insight progressivi (rimpiazzati dal Cervello)
   setTimeout(function(){
-    renderInsightHome();
-    renderSuggDiario();
-    renderSuggLuna();
-    renderRecapSerale();
+    if(typeof mostraCervelloHome==='function') mostraCervelloHome();
+    if(typeof renderSuggDiario==='function') renderSuggDiario();
+    if(typeof renderSuggLuna==='function') renderSuggLuna();
   }, 800);
 });
 
@@ -5411,6 +5445,426 @@ function renderSuggLuna() {
 (function() {
   var origGoNav = typeof goNav === 'function' ? goNav : null;
 })();
+</script>
+</body>
+</html>
+<script>
+// ================================================================
+// ⚗️ CERVELLO — Motore unificato Laboratorio
+// Genera insight ogni ora incrociando TECNICHE + EDBV2 + magia
+// ================================================================
+
+// Matrice di connessioni cross-dominio (magia ↔ elettrocoltura)
+var CONNESSIONI_CROSS = [
+  {a:'Kybalion — Principio di Vibrazione', b:'Anello di Lakhovsky', nota:'Lakhovsky applicò il principio ermetico di vibrazione: ogni cellula risuona su frequenze proprie, esattamente come insegna il Kybalion.', tags:['vibrazione','frequenza','ermetismo']},
+  {a:'Tavole Smeraldine — Ciò che è in alto è come ciò che è in basso', b:'Antenna Rame a Spirale', nota:'L\'antenna cattura l\'energia cosmica (alto) e la porta nel terreno (basso) — la spirale è il medium tra i due piani, come insegnano le Tavole Smeraldine.', tags:['ermetismo','spirale','cosmo']},
+  {a:'Corpo Ermetico — Pneuma universale', b:'Elettrocoltura atmosferica', nota:'Il pneuma di Ermete Trismegisto è l\'energia vitale universale nell\'aria. Christofleau lo captava con il rame senza saperlo nominare con un termine ermetico.', tags:['pneuma','atmosfera','ermete']},
+  {a:'Strega Verde — Cristalli come amplificatori', b:'Acqua Magnetizzata', nota:'I cristalli di quarzo amplificano i campi energetici proprio come i magneti strutturano l\'acqua — entrambi agiscono sulle frequenze molecolari del sistema vivente.', tags:['cristalli','magnete','frequenza']},
+  {a:'Kybalion — Principio di Polarità', b:'Pila Galvanica Ferro-Rame', nota:'Ferro (polo negativo/Marte) e Rame (polo positivo/Venere) — la pila galvanica è l\'applicazione fisica del principio di polarità del Kybalion: ogni cosa ha i suoi poli opposti.', tags:['polarità','ferro','rame','alchimia']},
+  {a:'Magia Simpatetica — Ciò che è simile attira il simile', b:'Compagnia di Erbe Aromatiche', nota:'La magia simpatetica insegna che piante con affinità si potenziano a vicenda. La permacultura lo chiama companion planting — è lo stesso principio con nomi diversi.', tags:['magia','erbe','affinità']},
+  {a:'Kabbalah — Albero della Vita (Sefirot)', b:'Sistema Living Soil', nota:'Le 10 Sefirot dell\'Albero della Vita corrispondono ai 10 vasi: ogni vaso è un nodo della rete, collegato dagli archi di rame (Pantacle) come i cammini cabalistici.', tags:['kabbalah','rete','10','pantacle']},
+  {a:'Ighina — Atomo Magnetico come fonte di tutto', b:'Farina di Roccia Basaltica', nota:'Ighina vedeva l\'atomo magnetico come la forza primordiale della materia. La roccia basaltica vulcanica è materia compressa da forze magnetiche terrestri — nutrire il suolo con essa è nutrirlo di forza magnetica primordiale.', tags:['ighina','magnetico','basalto','materia']},
+  {a:'Tesla — Risonanza come principio universale', b:'Musica e Vibrazioni per le Piante', nota:'Tesla scoprì che la risonanza è il principio più potente della fisica. Ruhlmann applicò la stessa idea alle piante: trovare la frequenza di risonanza cellulare e amplificarla con il suono.', tags:['tesla','risonanza','suono','frequenza']},
+  {a:'Simboli della Scienza Sacra (Guénon) — Il Centro', b:'Piramide Rame per Semi', nota:'Guénon descrive il centro geometrico come punto di massima concentrazione energetica. La piramide rame concentra l\'energia esattamente nei punti centrali di forza — 1/3 dell\'altezza e agli spigoli.', tags:['guénon','geometria','centro','piramide']},
+  {a:'Tertium Organum (Ouspensky) — La quarta dimensione', b:'Vortice di Schauberger', nota:'Ouspensky descrive la quarta dimensione come direzione perpendicolare a tutte le altre. Schauberger intuì che il vortice d\'acqua crea una dimensione di flusso che va oltre il visibile — la spirale come porta dimensionale.', tags:['ouspensky','vortice','spirale','dimensione']},
+  {a:'Wicca — I 5 Elementi (Terra, Acqua, Fuoco, Aria, Spirito)', b:'Biodinamica Steiner', nota:'Steiner associò i giorni biodinamici ai 4 elementi (Radice=Terra, Foglia=Acqua, Fiore=Aria, Frutto=Fuoco). La Wicca usa la stessa cosmologia elementale — due tradizioni che descrivono la stessa realtà.', tags:['wicca','elementi','biodinamica','steiner']},
+  {a:'Registri Akashici — Memoria dell\'Universo', b:'Tè di Humus nel Serbatoio', nota:'I Registri Akashici conservano ogni memoria dell\'universo. Il Worm Humus è la "memoria biologica" del suolo: ogni grammo contiene tracce di milioni di anni di vita decomposte — è il registro akashico della terra.', tags:['akashici','memoria','humus','suolo']},
+  {a:'Liber 333 / Crowley — Do what thou wilt (forza della volontà)', b:'Intenzione e Consapevolezza', nota:'Crowley insegnava che la volontà focalizzata è la forza più potente. Tompkins e Bird documentarono sperimentalmente che l\'intenzione del coltivatore influenza la crescita delle piante — la volontà è misurabile.', tags:['crowley','volontà','intenzione','tompkins']},
+  {a:'Energia della Griglia (Bruce Cathie)', b:'Pantacle di Rame', nota:'Cathie mappò la griglia energetica della Terra (harmonic grid). Il Pantacle di rame collega i vasi creando una mini-griglia energetica locale — una versione in miniatura della griglia terrestre.', tags:['cathie','griglia','pantacle','geometria']},
+  {a:'Nollet — Elettricità animale (1752)', b:'Pila Galvanica Ferro-Rame', nota:'L\'abate Nollet fu il primo a studiare l\'effetto dell\'elettricità sulla crescita vegetale nel 1752. La sua "elettricità animale" è lo stesso principio della pila galvanica — 270 anni dopo usiamo la stessa idea.', tags:['nollet','storico','galvanica','1752']},
+  {a:'Howard — Non-interference con la Natura', b:'Water-Only Living Soil', nota:'Howard insegnò che il coltivatore saggio non interferisce ma crea le condizioni perché la natura faccia il lavoro. Il Living Soil Water-Only è l\'applicazione pratica: si crea il substrato e si lascia che i microbi facciano tutto.', tags:['howard','natura','living-soil','non-interferenza']},
+  {a:'Restrepo — La Vita come spirale infinita', b:'Vortice di Schauberger + Anello Lakhovsky', nota:'Restrepo descrive la vita come spirale infinita. Schauberger usa la spirale nell\'acqua, Lakhovsky usa la spirale nell\'anello — tre autori da tre continenti che convergono sullo stesso principio fondamentale.', tags:['restrepo','spirale','schauberger','lakhovsky']},
+  {a:'Quinta Accordo (Ruiz) — Sii scettico ma aperto', b:'Approccio Sperimentale', nota:'Ruiz insegna di essere scettici ma sempre aperti. Questo è il metodo scientifico dell\'elettrocoltura: applicare, osservare, misurare, rimanere aperti ai risultati sia positivi che negativi.', tags:['ruiz','metodo','sperimentale','apertura']},
+  {a:'Dawson Church — Cervello Quantico', b:'Intenzione + Musica + Lakhovsky', nota:'Church documenta che l\'intenzionalità quantistica modifica la realtà fisica. Combinare intenzione consapevole, musica 528Hz e anello Lakhovsky crea un sistema tripartito che agisce sui tre livelli: mentale, sonoro, elettromagnetico.', tags:['church','quantistico','intenzione','frequenza']},
+  {a:'Activating The Inner Eye (Joseph)', b:'Osservazione quotidiana delle piante', nota:'Joseph insegna che l\'occhio interiore (attenzione profonda) percepisce pattern invisibili all\'occhio normale. L\'osservazione quotidiana delle piante con attenzione totale è una pratica contemplativa che migliora sia il coltivatore che le piante.', tags:['joseph','osservazione','contemplazione','pattern']},
+  {a:'Misteri dell\'Antico Egitto (Tresoldi)', b:'Piramide Rame + Orientamento cardinale', nota:'Tresoldi documenta che le piramidi egizie erano orientate astronomicamente con precisione millimetrica. La piramide di rame funziona solo se orientata verso i 4 punti cardinali esatti — la geometria sacra egizia applicata alla mini-serra.', tags:['egitto','piramide','orientamento','geometria']},
+  {a:'Ricerca Agro-alimentare 2019 — Microbioma del suolo', b:'Bokashi + Melassa + Humus', nota:'La ricerca agro-alimentare del 2019 conferma che la diversità microbica del suolo è il fattore principale di produttività. Bokashi, melassa e humus agiscono in sinergia creando un microbioma diversificato.', tags:['ricerca','microbioma','2019','sinergia']},
+  {a:'Rol Il Grande Veggente (Allegri) — Energia universale come campo', b:'Sistema elettromagnetico completo', nota:'Rol manifestava fenomeni spiegabili come modulazione di campi energetici. Il sistema completo antenna+Lakhovsky+pila+pantacle crea un campo elettromagnetico strutturato attorno alle piante — un campo Rol applicato alla coltivazione.', tags:['rol','campo','energia','sistema']}
+];
+
+// ── STATO CERVELLO ──
+var CERVELLO = {
+  turnoAttuale: 0,
+  logDelGiorno: [],
+  ultimaNotifica: 0,
+  inizializzato: false
+};
+
+function initCervello() {
+  // Carica stato da localStorage
+  var saved = localStorage.getItem('cervello_stato');
+  if(saved) {
+    try {
+      var s = JSON.parse(saved);
+      var oggi_key = fmtKey(oggi());
+      if(s.data === oggi_key) {
+        CERVELLO.logDelGiorno = s.log || [];
+        CERVELLO.turnoAttuale = s.turno || 0;
+      }
+    } catch(e){}
+  }
+  CERVELLO.inizializzato = true;
+  
+  // Calcola turno corrente (ora del giorno)
+  var ora = new Date().getHours();
+  CERVELLO.turnoAttuale = ora;
+  
+  eseguiTurno();
+  
+  // Aggiorna ogni ora
+  var msAlProssimoOra = (60 - new Date().getMinutes()) * 60000;
+  setTimeout(function() {
+    eseguiTurnoPeriodico();
+    setInterval(eseguiTurnoPeriodico, 3600000);
+  }, msAlProssimoOra);
+}
+
+function eseguiTurnoPeriodico() {
+  CERVELLO.turnoAttuale = new Date().getHours();
+  eseguiTurno();
+  mostraCervelloHome();
+  // Notifica push
+  inviaNotificaCervello();
+}
+
+function eseguiTurno() {
+  caricaEDB(function(){
+    if(!EDBV2) return;
+    
+    var tutti = getAllEsperimentiFlat(EDBV2);
+    var allTecniche = TECNICHE || [];
+    
+    // Pool unificato: esperimenti DB + tecniche + connessioni cross
+    var pool = [];
+    tutti.forEach(function(r){ pool.push({tipo:'esp', data:r}); });
+    allTecniche.forEach(function(t){ pool.push({tipo:'tec', data:t}); });
+    CONNESSIONI_CROSS.forEach(function(c){ pool.push({tipo:'cross', data:c}); });
+    
+    // Seleziona insight per questa ora (ciclico sul pool)
+    var idx = CERVELLO.turnoAttuale % pool.length;
+    var item = pool[idx];
+    
+    // Seleziona connessione
+    var allConns = (EDBV2.connessioni||[]).concat(CONNESSIONI_CROSS);
+    var connIdx = (CERVELLO.turnoAttuale + 7) % allConns.length;
+    var conn = allConns[connIdx];
+    
+    // Registra nel log
+    var ora = new Date().getHours();
+    var oraStr = (ora < 10 ? '0' : '') + ora + ':00';
+    var logItem = {
+      ora: oraStr,
+      tipo: item.tipo,
+      item: item,
+      conn: conn,
+      timestamp: Date.now()
+    };
+    
+    // Evita duplicati nella stessa ora
+    var haOra = CERVELLO.logDelGiorno.some(function(l){ return l.ora===oraStr; });
+    if(!haOra) {
+      CERVELLO.logDelGiorno.push(logItem);
+      if(CERVELLO.logDelGiorno.length > 24) CERVELLO.logDelGiorno.shift();
+    }
+    
+    // Salva
+    localStorage.setItem('cervello_stato', JSON.stringify({
+      data: fmtKey(oggi()),
+      log: CERVELLO.logDelGiorno,
+      turno: CERVELLO.turnoAttuale
+    }));
+    
+    CERVELLO.ultimoItem = item;
+    CERVELLO.ultimaConn = conn;
+    
+    // Render
+    renderCervelloPanel();
+    mostraCervelloHome();
+    // Aggiorna tecniche se nuova connessione cross trovata
+    aggiornaLabTecniche();
+  });
+}
+
+function nomeItem(item) {
+  if(!item) return '';
+  if(item.tipo==='esp') return item.data.cat.ico+' '+item.data.esp.nome;
+  if(item.tipo==='tec') return item.data.ico+' '+item.data.n;
+  if(item.tipo==='cross') return '🔗 '+item.data.a.split(' — ')[0];
+  return '';
+}
+
+function descItem(item) {
+  if(!item) return '';
+  if(item.tipo==='esp') return item.data.esp.principio.substring(0,110)+'…';
+  if(item.tipo==='tec') return item.data.desc.substring(0,110)+'…';
+  if(item.tipo==='cross') return item.data.nota.substring(0,120)+'…';
+  return '';
+}
+
+function fonteItem(item) {
+  if(!item) return '';
+  if(item.tipo==='esp') return item.data.esp.fonti[0].split(' - ')[0];
+  if(item.tipo==='tec') return item.data.fonte||'';
+  if(item.tipo==='cross') return item.data.a.split(' — ')[0];
+  return '';
+}
+
+function nomeConn(conn) {
+  if(!conn) return '';
+  if(conn.da) {
+    var da=getEsp(conn.da), al=getEsp(conn.a);
+    if(da&&al) return da.cat.ico+' '+da.esp.nome+' + '+al.cat.ico+' '+al.esp.nome;
+  }
+  if(conn.a&&conn.b) return conn.a.split(' — ')[0]+' + '+conn.b.split(' ')[0];
+  return '';
+}
+
+function renderCervelloPanel() {
+  var ora = new Date().getHours();
+  var oraStr = (ora<10?'0':'')+ora+':00';
+  
+  // Status
+  var status = document.getElementById('lab-cervello-status');
+  if(status) status.textContent = '⟳ '+oraStr+' · '+CERVELLO.logDelGiorno.length+'/24';
+  
+  // Insight ora corrente
+  var insEl = document.getElementById('cervello-insight-ora');
+  if(insEl && CERVELLO.ultimoItem) {
+    var it = CERVELLO.ultimoItem;
+    insEl.innerHTML = '<div class="cervello-card" onclick="cervelloApriItem()">' +
+      '<div class="cervello-badge">🧬 INSIGHT ORE '+oraStr+' · DAI MANUALI GITHUB</div>' +
+      '<div class="cervello-title">'+nomeItem(it)+'</div>' +
+      '<div class="cervello-body">'+descItem(it)+'</div>' +
+      '<div class="cervello-foot"><span class="cervello-src">'+fonteItem(it)+'</span>' +
+      '<span style="font-size:.72rem;opacity:.7;">Scopri →</span></div></div>';
+  }
+  
+  // Connessione ora
+  var connEl = document.getElementById('cervello-conn-ora');
+  if(connEl && CERVELLO.ultimaConn) {
+    var c = CERVELLO.ultimaConn;
+    var nota = c.nota || c.nota || '';
+    var nome = nomeConn(c);
+    connEl.innerHTML = '<div class="conn-card" onclick="cervelloApriConn()">' +
+      '<div style="font-size:.65rem;font-weight:800;color:#27ae60;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25rem;">🔗 CONNESSIONE SCOPERTA ORA</div>' +
+      '<div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:.2rem;">'+nome+'</div>' +
+      '<div style="font-size:.75rem;color:var(--soft);line-height:1.45;">'+nota+'</div></div>';
+  }
+  
+  // Log insight giornata
+  var count = document.getElementById('cervello-count');
+  if(count) count.textContent = CERVELLO.logDelGiorno.length+'/24 oggi';
+  
+  var log = document.getElementById('cervello-log');
+  if(log) {
+    var html = '';
+    var sorted = CERVELLO.logDelGiorno.slice().reverse();
+    sorted.forEach(function(l){
+      html += '<div class="log-item">' +
+        '<div class="log-item-ora">'+l.ora+'</div>' +
+        '<div class="log-item-nome">'+nomeItem(l.item)+'</div>';
+      if(l.conn) html += '<div class="log-item-conn">🔗 '+nomeConn(l.conn)+'</div>';
+      html += '</div>';
+    });
+    if(!html) html = '<div style="color:var(--muted);font-size:.82rem;text-align:center;padding:1rem;">Il cervello sta analizzando i manuali…</div>';
+    log.innerHTML = html;
+  }
+}
+
+function cervelloApriItem() {
+  if(!CERVELLO.ultimoItem) return;
+  var it = CERVELLO.ultimoItem;
+  if(it.tipo==='esp') apriEsp(it.data.cat.id, it.data.esp.id);
+  else if(it.tipo==='tec') {
+    goNav('laboratorio');
+    labSwitchTabById('lab-tecniche');
+  } else if(it.tipo==='cross') {
+    apriPopup('🔗 Connessione', '', 
+      '<div style="padding:.5rem 0;font-size:.85rem;color:var(--text);line-height:1.6;">' +
+      '<b>'+it.data.a+'</b><br>+<br><b>'+it.data.b+'</b><br><br>'+it.data.nota+'</div>'
+    );
+  }
+}
+
+function cervelloApriConn() {
+  if(!CERVELLO.ultimaConn) return;
+  var c = CERVELLO.ultimaConn;
+  if(c.da) {
+    var da=getEsp(c.da);
+    if(da) apriEsp(da.cat.id, da.esp.id);
+  } else {
+    apriPopup('🔗 Connessione', '',
+      '<div style="padding:.5rem 0;font-size:.85rem;color:var(--text);line-height:1.6;">' +
+      '<b>'+c.a+'</b><br>+<br><b>'+c.b+'</b><br><br>'+c.nota+'</div>'
+    );
+  }
+}
+
+// ── HOME: mostra insight corrente ──
+function mostraCervelloHome() {
+  caricaEDB(function(){
+    if(!EDBV2||!CERVELLO.ultimoItem) return;
+    var el = document.getElementById('insight-home');
+    if(!el) return;
+    var it = CERVELLO.ultimoItem;
+    var c = CERVELLO.ultimaConn;
+    var html = '<div class="insight-widget" onclick="goNav(\'laboratorio\')">' +
+      '<div class="insight-badge">🧬 Insight del giorno · dai manuali · cambia ogni ora</div>' +
+      '<div class="insight-title">'+nomeItem(it)+'</div>' +
+      '<div class="insight-body">'+descItem(it)+'</div>' +
+      '<div class="insight-footer"><span class="insight-src">'+fonteItem(it)+'</span>' +
+      '<span class="insight-arrow">⚗️ Laboratorio →</span></div></div>';
+    if(c) {
+      html += '<div class="sugg-card" onclick="goNav(\'laboratorio\')">' +
+        '<div class="sugg-tag">🔗 Connessione scoperta oggi</div>' +
+        '<div class="sugg-title">'+nomeConn(c)+'</div>' +
+        '<div class="sugg-body">'+(c.nota||'').substring(0,90)+'</div></div>';
+    }
+    el.innerHTML = html;
+    
+    // Recap insight
+    var recapEl = document.getElementById('insight-recap');
+    if(recapEl && CERVELLO.logDelGiorno.length > 1) {
+      var html2 = '<div style="background:var(--card);border-radius:var(--radius-sm);padding:.7rem .9rem;margin-top:.4rem;">' +
+        '<div style="font-size:.68rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem;">📚 Oggi: '+CERVELLO.logDelGiorno.length+' insight generati</div>';
+      CERVELLO.logDelGiorno.slice(-3).reverse().forEach(function(l){
+        html2 += '<div style="font-size:.76rem;color:var(--soft);padding:.15rem 0;border-bottom:1px solid var(--sand);">'+l.ora+' · '+nomeItem(l.item)+'</div>';
+      });
+      html2 += '<div style="font-size:.7rem;color:var(--muted);margin-top:.3rem;cursor:pointer;" onclick="goNav(\'laboratorio\')">Vedi tutti nel Laboratorio →</div></div>';
+      recapEl.innerHTML = html2;
+    }
+  });
+}
+
+// ── NOTIFICA PUSH ──
+function inviaNotificaCervello() {
+  if(!CERVELLO.ultimoItem) return;
+  if(Notification.permission !== 'granted') return;
+  var ora = new Date().getHours();
+  if(CERVELLO.ultimaNotifica === ora) return;
+  CERVELLO.ultimaNotifica = ora;
+  var it = CERVELLO.ultimoItem;
+  new Notification('⚗️ Nuovo insight — Serra', {
+    body: nomeItem(it)+'\n'+descItem(it).substring(0,80),
+    icon: './icon-192.png',
+    tag: 'cervello-insight',
+    renotify: true
+  });
+}
+
+// ── TAB SWITCHING LABORATORIO ──
+function labSwitchTab(btn) {
+  var panelId = btn.getAttribute('data-panel');
+  document.querySelectorAll('.lab-tab').forEach(function(b){ b.classList.remove('att'); });
+  btn.classList.add('att');
+  document.querySelectorAll('.lab-panel').forEach(function(p){ p.style.display='none'; });
+  var panel = document.getElementById(panelId);
+  if(panel) panel.style.display='';
+  if(panelId==='lab-tecniche') aggiornaLabTecniche();
+  if(panelId==='lab-esplora') { renderLabEsplora(); }
+  if(panelId==='lab-mappa') renderMappa();
+  if(panelId==='lab-oggi') renderOggiLib();
+  if(panelId==='lab-cervello') renderCervelloPanel();
+  if(panelId==='lab-ai') initAI();
+}
+
+function labSwitchTabById(id) {
+  var btn = document.querySelector('[data-panel="'+id+'"]');
+  if(btn) labSwitchTab(btn);
+}
+
+// ── LABORATORIO: TECNICHE unificate con Lab ──
+function aggiornaLabTecniche() {
+  var el = document.getElementById('tec-list-lab');
+  if(!el) return;
+  
+  var CAT_COLORI = {'Elettromagnetico':'#c0392b','Galvanico':'#d35400','Suolo Vivente':'#27ae60','Acqua':'#2980b9','Vibrazione':'#8e44ad','Alchimia':'#d4870a','Biodinamica':'#1e6e3a'};
+  var cats = {};
+  TECNICHE.forEach(function(t){
+    var c = t.cat||'Altro';
+    if(!cats[c]) cats[c]=[];
+    cats[c].push(t);
+  });
+  
+  var totAp = TECNICHE.filter(function(t){
+    return DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def;
+  }).length;
+  
+  var html = '<div style="background:var(--card);border-radius:var(--radius-sm);padding:.65rem .9rem;margin:.5rem .9rem .4rem;display:flex;gap:.7rem;align-items:center;">' +
+    '<div style="flex:1;"><div style="font-family:\'DM Serif Display\',serif;font-size:1rem;color:var(--text);">'+TECNICHE.length+' Tecniche dai Manuali</div>' +
+    '<div style="font-size:.72rem;color:var(--muted);">'+totAp+' applicate · '+(TECNICHE.length-totAp)+' da provare · '+CONNESSIONI_CROSS.length+' connessioni cross</div></div>' +
+    '<div style="background:var(--moss);color:#fff;border-radius:100px;padding:.2rem .6rem;font-size:.73rem;font-weight:700;">'+totAp+'/'+TECNICHE.length+'</div></div>';
+  
+  // Mostra prima le connessioni cross trovate dal Cervello
+  if(CERVELLO.ultimaConn && CERVELLO.ultimaConn.a && CERVELLO.ultimaConn.b) {
+    var c = CERVELLO.ultimaConn;
+    html += '<div style="margin:.2rem .9rem .5rem;">' +
+      '<div style="font-size:.65rem;font-weight:800;color:#8e44ad;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;">⚗️ Connessione Cervello — ora</div>' +
+      '<div style="background:rgba(142,68,173,0.1);border-radius:10px;padding:.55rem .8rem;border-left:3px solid #8e44ad;">' +
+      '<div style="font-size:.82rem;font-weight:700;color:var(--text);">'+c.a.split(' — ')[0]+' ↔ '+c.b+'</div>' +
+      '<div style="font-size:.74rem;color:var(--soft);margin-top:.15rem;line-height:1.4;">'+c.nota+'</div>' +
+      '<div style="font-size:.65rem;color:var(--muted);margin-top:.2rem;">'+(c.tags||[]).map(function(t){return '#'+t;}).join(' ')+'</div>' +
+      '</div></div>';
+  }
+  
+  Object.keys(cats).forEach(function(cat){
+    var col = CAT_COLORI[cat]||'var(--muted)';
+    html += '<div style="font-size:.65rem;font-weight:800;color:'+col+';text-transform:uppercase;letter-spacing:.1em;padding:.6rem .9rem .2rem;">'+cat+'</div>';
+    cats[cat].forEach(function(t){
+      var ap = DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def;
+      var inLab = labAttivi.indexOf(t.id)!==-1;
+      html += '<div class="tec-item" style="border-left:3px solid '+(ap?col:'var(--sand)')+';">' +
+        '<div class="tec-h" onclick="toggleTec(\''+t.id+'\')">' +
+        '<div class="tec-left"><span class="tec-ico">'+t.ico+'</span><div>' +
+        '<div class="tec-name" style="color:var(--text);">'+t.n+'</div>';
+      if(t.fonte) html += '<div style="font-size:.6rem;color:var(--muted);">📚 '+t.fonte+'</div>';
+      html += '<div style="display:flex;gap:.3rem;margin-top:.1rem;">';
+      html += '<span class="tec-st '+(ap?'tsi':'tno')+'">'+(ap?'✓ Applicata':'○ Non ancora')+'</span>';
+      if(inLab) html += '<span style="font-size:.62rem;background:#1565c0;color:#fff;border-radius:20px;padding:.05rem .35rem;">⚗️Lab</span>';
+      html += '</div></div></div>';
+      html += '<div style="display:flex;gap:.3rem;">';
+      html += '<button class="tec-btn '+(ap?'si':'no')+'" onclick="event.stopPropagation();toggleApTec(\''+t.id+'\')" title="Applicata/Non applicata">'+(ap?'✓':'○')+'</button>';
+      html += '<button style="background:rgba(21,101,192,0.1);border:1px solid rgba(21,101,192,0.3);border-radius:8px;width:30px;height:30px;cursor:pointer;font-size:.75rem;display:flex;align-items:center;justify-content:center;" onclick="event.stopPropagation();toggleLabFromTec(\''+t.id+'\')" title="Aggiungi al Lab">⚗️</button>';
+      html += '</div></div>';
+      html += '<div class="tec-body" id="tb_'+t.id+'"><p style="color:var(--soft);">'+t.desc+'</p>' +
+        '<div style="font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-top:.6rem;margin-bottom:.2rem;">📝 Note</div>' +
+        '<textarea class="tec-nota" placeholder="Osservazioni..." oninput="saveTecNota(\''+t.id+'\',this.value)">'+(DB.tecNotes&&DB.tecNotes[t.id]||'')+'</textarea></div></div>';
+    });
+  });
+  
+  el.innerHTML = html;
+  // Aggiorna anche tec-list classico
+  var tl = document.getElementById('tec-list');
+  if(tl) tl.innerHTML = html;
+}
+
+function toggleLabFromTec(id) {
+  var idx = labAttivi.indexOf(id);
+  if(idx===-1) labAttivi.push(id); else labAttivi.splice(idx,1);
+  localStorage.setItem('lab_attivi', JSON.stringify(labAttivi));
+  aggiornaLabTecniche();
+  mostraToast(labAttivi.indexOf(id)!==-1?'⚗️ Aggiunto al Lab':'Rimosso dal Lab', 1400);
+}
+
+function renderLabEsplora() {
+  caricaEDB(function(){ renderEsploraTab(); });
+}
+
+// ── GONAV LABORATORIO ──
+// Override per gestire il laboratorio
+var _origGoNav = typeof goNav === 'function' ? null : null;
+
+// ── INIT ──
+// Aggiungi laboratorio all'init
+document.addEventListener('DOMContentLoaded', function(){
+  setTimeout(function(){
+    initCervello();
+    // Rendi laboratorio navigabile
+    if(typeof DB !== 'undefined') {
+      mostraCervelloHome();
+    }
+  }, 1200);
+});
 </script>
 </body>
 </html>
