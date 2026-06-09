@@ -27,9 +27,10 @@
 
 /* TEMA NOTTURNO */
 body.dark{
-  --paper:#0f1208;--card:#1a1f10;--cream:#151a0d;--sand:#2a3020;
-  --text:#d8e8c0;--soft:#a0b888;--muted:#607050;--sh:rgba(0,0,0,0.4);
-  --nav-bg:#111810;--nav-border:#2a3020;--main-bg:#0f1208;
+  --paper:#1c2416;--card:#243020;--cream:#1e2a18;--sand:#2e3c28;
+  --text:#e8f4d8;--soft:#c0d4a0;--muted:#90a870;--sh:rgba(0,0,0,0.3);
+  --nav-bg:#182010;--nav-border:#2a3820;--main-bg:#1a2214;
+  --bark:#e8f4d8;--gold:#f0c060;
 }
 body.dark #nav{background:var(--nav-bg);border-top-color:var(--nav-border);}
 body.dark .card{background:var(--card);}
@@ -691,6 +692,7 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <!-- INSIGHT DEL GIORNO -->
   <div style="padding:.7rem .85rem .1rem;">
     <div id="insight-home"></div>
+    <div id="insight-recap"></div>
   </div>
 
   <!-- Quick actions -->
@@ -883,7 +885,7 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
 
 <div id="libreria" class="sec">
   <!-- Tab navigation -->
-  <div style="position:sticky;top:0;z-index:10;background:var(--bg);padding:.6rem .9rem .4rem;border-bottom:1px solid var(--sand);">
+  <div style="position:sticky;top:0;z-index:10;background:var(--main-bg);padding:.6rem .9rem .4rem;border-bottom:1px solid var(--sand);border-radius:0;">
     <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--bark);margin-bottom:.5rem;">🔬 Lab Sperimentale</div>
     <div style="display:flex;gap:.3rem;">
       <button class="lib-tab att" onclick="libTab(this,'lib-esplora')" style="flex:1;padding:.35rem .1rem;font-size:.68rem;font-weight:700;border-radius:8px;border:none;background:var(--bark);color:#fff;cursor:pointer;">🧬 Esplora</button>
@@ -961,13 +963,15 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
 </nav>
 
 <!-- MENU ALTRO -->
-<div id="menu-altro" style="position:fixed;bottom:4.5rem;left:0;right:0;background:#fff;border-top:1px solid var(--sand);padding:.7rem .9rem;display:none;z-index:99;box-shadow:0 -4px 16px rgba(0,0,0,.1);">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;">
+<div id="menu-altro" style="position:fixed;bottom:4.2rem;left:0;right:0;background:var(--card);border-top:2px solid var(--sand);padding:.8rem .85rem .9rem;display:none;z-index:99;box-shadow:0 -8px 32px rgba(0,0,0,.15);border-radius:20px 20px 0 0;">
+  <div style="width:36px;height:4px;background:var(--sand);border-radius:2px;margin:0 auto .7rem;"></div>
+  <div style="font-size:.65rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;">Sezioni</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-bottom:.5rem;">
     <div class="qa" onclick="goNav('calendario');chiudiAltro()"><div class="qa-ico">📅</div><div class="qa-lbl">Calendario</div></div>
     <div class="qa" onclick="goNav('tecniche');chiudiAltro()"><div class="qa-ico">⚡</div><div class="qa-lbl">Tecniche</div></div>
     <div class="qa" onclick="goNav('guida');chiudiAltro()"><div class="qa-ico">📖</div><div class="qa-lbl">Guida</div></div>
     <div class="qa" onclick="goNav('archivio');chiudiAltro()"><div class="qa-ico">🗄</div><div class="qa-lbl">Archivio</div></div>
-    <div class="qa" onclick="goNav('libreria');chiudiAltro()"><div class="qa-ico">🔬</div><div class="qa-lbl">Libreria</div></div>
+    <div class="qa" onclick="goNav('libreria');chiudiAltro()"><div class="qa-ico">🔬</div><div class="qa-lbl">Lab</div></div>
     <div class="qa" onclick="attivaNotifiche();chiudiAltro()"><div class="qa-ico" id="notif-ico">🔔</div><div class="qa-lbl">Notifiche</div></div>
   </div>
 </div>
@@ -3066,30 +3070,107 @@ function salvaTimer(){
 // TECNICHE
 // ================================================================
 var TECNICHE=[
-  {id:'magneti',ico:'🧲',n:'Acqua Magnetizzata',def:true,desc:'(1) Magnete principale attorno al tubo vicino all\'inizio della linea. (2) 1 Geomag (~5 cm) per ogni gocciolatoio, fissato con nastro. POLARITÀ: polo Nord (negativo) verso l\'acqua. SPERIMENTALE.'},
-  {id:'elettro',ico:'⚡',n:'Elettrocoltura (Spirale Rame)',def:true,desc:'Bastoncino ~40 cm + filo rame a spirale + punta rame in cima. Uscita minima 10 cm sopra la pianta. Teoria: captare cariche atmosferiche. SPERIMENTALE.'},
-  {id:'lakho',ico:'🔁',n:'Circuito di Lakhovsky',def:false,desc:'Filo rame (~50 cm) a cerchio alla base della pianta. Le due estremità NON si toccano — sovrapporle 2-3 cm con 1 cm di spazio, isolato con nastro. SPERIMENTALE.'},
-  {id:'pantacle',ico:'🔗',n:'Pantacle di Rame',def:false,desc:'Filo rame nudo che forma archi dal terreno di un vaso a quello vicino — tutti in serie. Collegamento galvanico distribuisce le cariche. SPERIMENTALE.'},
-  {id:'pila',ico:'⚙️',n:'Pila Galvanica Ferro-Rame',def:false,desc:'1 chiodo ferro arrugginito per vaso + filo rame, collegati. Chiodo 5-10 cm dal fusto in profondità. NO acciaio inox. SPERIMENTALE.'},
-  {id:'escav',ico:'💡',n:'Escavatori di Luce (Mylar)',def:false,desc:'Dischi cartone rivestiti Mylar (~25 cm) con buco per il fusto. Applicare alla base di ogni pianta. Riflette luce verso la pagina inferiore delle foglie.'}
+  // ── ELETTROMAGNETICO ──
+  {id:'magneti',ico:'🧲',n:'Acqua Magnetizzata',cat:'Elettromagnetico',fonte:'US Patents #4020590',def:true,
+   desc:'(1) Magnete principale attorno al tubo principale, polo Nord (negativo) verso il flusso. (2) 1 Geomag per ogni gocciolatoio fissato con nastro. Riduce tensione superficiale e aumenta assorbimento radicale. Documentato da brevetti USA.'},
+  {id:'elettro',ico:'📡',n:'Antenna Rame a Spirale (Christofleau)',cat:'Elettromagnetico',fonte:'Justin Christofleau - Electroculture (1920)',def:true,
+   desc:'Bastoncino 40 cm + filo rame avvolto a spirale + punta rame in cima. La spirale cattura l\'elettricità atmosferica e la convoglia nel terreno. Christofleau documentò +100-300% di resa. Punta minimo 10 cm sopra la pianta. Orientare verso Nord.'},
+  {id:'lakho',ico:'🔁',n:'Anello di Lakhovsky (1925)',cat:'Elettromagnetico',fonte:'Georges Lakhovsky - ricerche 1925',def:false,
+   desc:'Filo rame ~50 cm piegato a cerchio attorno alla base della pianta. LE ESTREMITÀ NON DEVONO TOCCARSI: sovrapporle 2-3 cm con 1 cm di spazio, isolato con nastro. Con 1 anello: apertura verso Nord. L\'anello aperto risuona con le frequenze cellulari della pianta.'},
+  {id:'lemstrom',ico:'📜',n:'Filo Aereo di Lemstrom (1904)',cat:'Elettromagnetico',fonte:'S. Lemstrom - Electricity in Agriculture and Horticulture (1904)',def:false,
+   desc:'Tendi fili di rame sottili orizzontalmente a 30-50 cm sopra le piante, collegati a puntali nel terreno. Lemstrom verificò +30-50% crescita su fragole e rape. In mini-serra: tendi un filo orizzontale tra le pareti sopra i vasi, collegalo a terra.'},
+  {id:'hull',ico:'⚡',n:'Corona Discharge per Semi (Hull 1898)',cat:'Elettromagnetico',fonte:'Geo. S. Hull - Electro-Horticulture (1898)',def:false,
+   desc:'L\'antenna rame con punta appuntita genera naturalmente micro-scariche corona — lo stesso principio documentato da Hull nel 1898. Aumenta germinazione 2-3x. Assicurarsi che la punta sia ben affilata e superi la cima della pianta.'},
+  {id:'dudgeon',ico:'🏛',n:'Sistema Lodge-Dudgeon (1800s)',cat:'Elettromagnetico',fonte:'E.C. Dudgeon - Growing Crops by Electricity',def:false,
+   desc:'Tendi fili di rame nudo orizzontalmente sopra tutti i vasi, collegati alle antenne verticali già installate. Sir Oliver Lodge brevettò questo sistema di fili aerei con scariche periodiche. In mini-serra: un filo orizzontale collegato alle antenne crea il sistema completo Lodge-Dudgeon.'},
+  {id:'pantacle',ico:'🔗',n:'Pantacle di Rame (Collegamento Galvanico)',cat:'Galvanico',fonte:'Principi elettrochimica',def:false,
+   desc:'Filo rame nudo forma archi morbidi dal terreno di un vaso al terreno del vaso vicino — tutti i 10 vasi in serie. Distribuisce cariche elettriche uniformemente creando un organismo collettivo. Verificare settimanalmente che il filo tocchi il terreno.'},
+  {id:'pila',ico:'🔋',n:'Pila Galvanica Ferro-Rame (Marte-Venere)',cat:'Galvanico',fonte:'Principi elettrochimica di Volta',def:false,
+   desc:'1 chiodo ferro arrugginito + filo rame collegati con filo aggiuntivo. Genera micro-corrente ~0.5-0.7V che ionizza K e Mg verso le radici. Il Fe arrugginito rilascia Fe2+ prevenendo clorosi. Chiodo 5-10 cm dal fusto, orientato verso Nord. NO acciaio inox.'},
+  {id:'magnacult',ico:'📡',n:'Magna Culture RF (1976)',cat:'Galvanico',fonte:'New Age Science Journal 1976',def:false,
+   desc:'Ogni pianta ha un proprio RF factor (frequenza radio). L\'anello Lakhovsky aperto risuona già su queste frequenze. Ottimizzare orientando antenne e anelli esattamente Nord-Sud con bussola. Il Magna Culture Journal (1976) documentò controllo insetti senza pesticidi tramite RF.'},
+  // ── SUOLO VIVENTE ──
+  {id:'escav',ico:'💡',n:'Escavatori di Luce Mylar',cat:'Suolo Vivente',fonte:'Tompkins & Bird - La Vita Segreta delle Piante',def:false,
+   desc:'Dischi cartone ~25 cm rivestiti Mylar con buco centrale per il fusto. Riflette la luce verso la pagina inferiore delle foglie dove si trovano gli stomi. Gli stomi normalmente in ombra ricevono così luce diretta, aumentando la fotosintesi.'},
+  {id:'humus_serbatoio',ico:'🪱',n:'Tè di Humus nel Serbatoio',cat:'Suolo Vivente',fonte:'Elaine Ingham - The Soil Biology Primer',def:true,
+   desc:'5L acqua + 100-150g BioBizz Worm Humus in contenitore separato. Lasciare in infusione qualche ora. Versare nella tanica. Ogni irrigazione introduce batteri, enzimi e acidi umici nel suolo. Rinnovare 1x al mese. MAI immergere sacchetto direttamente nella tanica.'},
+  {id:'melassa',ico:'🍯',n:'Melassa per Microbi (Ingham)',cat:'Suolo Vivente',fonte:'Elaine Ingham - The Soil Biology Primer',def:true,
+   desc:'1 ml/L in bottiglia separata ogni 15 giorni. Gli zuccheri semplici nutrono Lactobacillus, Azotobacter, Bacillus che moltiplicano la popolazione microbica in 24-48h. MAI nel serbatoio principale — proliferazione alghe.'},
+  {id:'ortiche',ico:'🌿',n:'Infuso di Ortiche Fermentato',cat:'Suolo Vivente',fonte:'Albert Howard - An Agricultural Testament',def:false,
+   desc:'100-150g foglie ortica per 1L acqua. Macerare coperto 3-7 giorni mescolando ogni giorno. Filtrare. Diluire 1:10. Somministrare 1-2L per vaso 1x al mese. Ricco di N, Fe, K in forma chelata. Odore forte durante fermentazione — normale.'},
+  {id:'biochar',ico:'⬛',n:'Biochar — Carbone Vegetale Attivato',cat:'Suolo Vivente',fonte:'Ingham + Howard',def:false,
+   desc:'50-100g carbone vegetale attivato per vaso, pre-inoculato con infuso di humus per 24h. Struttura porosa ospita milioni di microbi per grammo. Migliora ritenzione idrica +30-40% e dura centinaia di anni nel suolo. Non usare secco — attivare sempre prima.'},
+  {id:'harina',ico:'🪨',n:'Farina di Roccia Basaltica',cat:'Suolo Vivente',fonte:'Jairo Restrepo Rivera - Agricultura Orgánica',def:false,
+   desc:'50-100g farina di roccia vulcanica per vaso, mescolata nei primi 5 cm. Contiene oltre 60 microelementi rilasciati lentamente dai microbi. Ricca di silicio, ferro, magnesio. Abbinare all\'infuso di ortiche per attivare i minerali. Ripetere ogni 2-3 mesi.'},
+  {id:'bokashi',ico:'🫙',n:'Bokashi — Fermentato Giapponese (Restrepo)',cat:'Suolo Vivente',fonte:'Jairo Restrepo Rivera - Agricultura Orgánica',def:false,
+   desc:'Scarti cucina + crusca di riso + EM (Effective Microorganisms) in contenitore ermetico. Fermentare 2 settimane. Diluire il tè 1:100 per irrigazione. Contiene Lactobacillus, Saccharomyces, Rhodopseudomonas. Complementare alla melassa come attivatore biologico.'},
+  // ── ACQUA ──
+  {id:'vortice',ico:'🌀',n:'Acqua a Vortice (Schauberger)',cat:'Acqua',fonte:'Viktor Schauberger - Living Water',def:false,
+   desc:'Versare l\'acqua in contenitore 5L. Creare vortice rotando vigorosamente 1-2 min in senso orario, poi antiorario. Versare immediatamente nella tanica. L\'acqua vortexata ha struttura molecolare diversa e migliore assorbimento minerali. Abbinare: prima vortice, poi magnetizzazione.'},
+  {id:'piramide',ico:'🔺',n:'Piramide Rame per Semi (Ighina)',cat:'Acqua',fonte:'Pierluigi Ighina - L\'Atomo Magnetico (1954)',def:false,
+   desc:'Piramide rame con base/altezza = π/2 (1.5708), orientata verso i 4 punti cardinali. Semi all\'interno 12-24h prima della semina. Energia concentrata agli spigoli inferiori e a 1/3 dell\'altezza. Ighina documentò trasformazioni della materia tramite campi magnetici concentrati.'},
+  // ── VIBRAZIONE & FREQUENZE ──
+  {id:'musica',ico:'🎵',n:'Musica & Vibrazioni (Ruhlmann)',cat:'Vibrazione',fonte:'Renaud Ruhlmann - La Mélodie Secrète des Végétaux',def:false,
+   desc:'Posizionare cassa a 50-100 cm dalle piante. Suonare musica classica (Bach, Mozart) o frequenze 432-528 Hz per 30-60 min/giorno. Ogni cellula è 99% acqua e risponde alle vibrazioni sonore. Ruhlmann documenta effetti misurabili su crescita e vitalità.'},
+  {id:'stratif_semi',ico:'🔬',n:'Stratificazione Elettrica Semi (URSS 1960s)',cat:'Vibrazione',fonte:'Russian Scientific Literature 1960s',def:false,
+   desc:'Posizionare i semi vicino all\'antenna rame 30 min prima della semina. Studi sovietici anni \'60 documentarono: tasso germinazione raddoppiato, crescita accelerata, innesti con 100% successo. Alternativa: 24h sotto piramide rame orientata correttamente.'},
+  {id:'luce_colorata',ico:'🔴',n:'Filtri Luce Colorata contro Insetti (URSS)',cat:'Vibrazione',fonte:'Russian Scientific Literature 1960s',def:false,
+   desc:'Pellicola rossa/verde sulla superficie Mylar già presente respinge determinati parassiti. Luce violetta come trappola per insetti notturni. Studi sovietici anni \'60 documentarono controllo senza pesticidi tramite frequenze luminose specifiche.'},
+  // ── ALCHIMIA VEGETALE ──
+  {id:'banana_cenere',ico:'🍌',n:'Tè Banana e Cenere (Potassio Alchemico)',cat:'Alchimia',fonte:'Jairo Restrepo Rivera',def:false,
+   desc:'3-4 bucce banana in 1L acqua, bollire 15 min. Raffreddare, filtrare. Aggiungere 1 cucchiaino cenere. Diluire 1:5. Usare ogni 2 settimane dalla fioritura (mesi 5-8). Potassio chelato naturale più biodisponibile dei fertilizzanti chimici. Favorisce fiori densi e aromi intensi.'},
+  {id:'etilene',ico:'🍎',n:'Generatore Etilene (Maturazione)',cat:'Alchimia',fonte:'Tompkins & Bird - La Vita Segreta delle Piante',def:false,
+   desc:'1 mela rossa matura o banana annerita nella serra, vicino alle piante. Solo negli ultimi 2-3 settimane (mesi 7-8). L\'etilene (C2H4) sincronizza la maturazione di tutte le cime e aumenta la densità di resina. Sostituire ogni 3-4 giorni. Scientificamente documentato.'},
+  {id:'miscela_org',ico:'🥚',n:'Miscela Organica Casa (Calcio+Potassio+Azoto)',cat:'Alchimia',fonte:'Manuale Mini Serra',def:true,
+   desc:'Gusci uovo essiccati (Ca) + bucce banana essiccate (K) + fondi caffè (N). Tutto triturato finemente. 1 cucchiaio grande per vaso 1x al mese. Mescolare sempre con Worm Humus prima di spargere — previene muffe e moscerini.'},
+  // ── BIODINAMICA & MAGIA VERDE ──
+  {id:'bio_luna',ico:'🌙',n:'Calendario Biodinamico (Steiner)',cat:'Biodinamica',fonte:'Rudolf Steiner + Calendario biodinamico',def:true,
+   desc:'Pianificare le operazioni in base al giorno biodinamico: Radice (trapianti, fertilizza radici), Foglia (irrigazione abbondante), Fiore (fioritura, aromi), Frutto (raccolta, trattamenti frutto). Luna Crescente per crescita. Luna Calante per radici e composti. L\'app calcola automaticamente il giorno.'},
+  {id:'cristalli',ico:'💎',n:'Cristalli e Pietre nel Suolo (Strega Verde)',cat:'Biodinamica',fonte:'Rachel P. Green - La Strega Verde',def:false,
+   desc:'Inserire piccoli cristalli di quarzo o tormalina nera nel terreno di alcuni vasi. La Strega Verde documenta pratiche antiche di utilizzo di cristalli per proteggere e potenziare le piante. Il quarzo amplifica i campi energetici; la tormalina protegge da energie negative. Tecnica rituale non scientificamente validata.'},
+  {id:'kybalion_intent',ico:'⚗️',n:'Intenzione e Consapevolezza (Kybalion)',cat:'Biodinamica',fonte:'Il Kybalion - I Tre Iniziati + Tompkins & Bird',def:false,
+   desc:'Tompkins & Bird documentarono che le piante rispondono alle emozioni umane tramite galvanometro. Il Kybalion insegna: "La mente è tutto — ciò che pensi diventa". Parlare alle piante, curarle con intenzione positiva, osservarle quotidianamente. Il coltivatore consapevole è parte del sistema vivente.'},
+  {id:'erbe_comp',ico:'🌸',n:'Compagnie di Erbe Aromatiche',cat:'Biodinamica',fonte:'La Strega Verde - Rachel P. Green',def:false,
+   desc:'Posizionare erbe aromatiche vicino ai vasi principali: lavanda e basilico repellono afidi; menta respinge i moscerini; camomilla migliora la salute delle piante vicine rilasciando sostanze allelopatiche benefiche. Tecnica documentata in permacultura e nella tradizione della Strega Verde.'}
 ];
 
 function renderTecniche(){
   var html='';
+  // Raggruppa per categoria
+  var cats={};
+  var CAT_COLORI={'Elettromagnetico':'#c0392b','Galvanico':'#d35400','Suolo Vivente':'#27ae60','Acqua':'#2980b9','Vibrazione':'#8e44ad','Alchimia':'#d4870a','Biodinamica':'#1e6e3a'};
   TECNICHE.forEach(function(t){
-    var ap=DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def;
-    html+='<div class="tec-item"><div class="tec-h" onclick="toggleTec(\''+t.id+'\')">';
-    html+='<div class="tec-left"><span class="tec-ico">'+t.ico+'</span><div>';
-    html+='<div class="tec-name">'+t.n+'</div>';
-    html+='<span class="tec-st '+(ap?'tsi':'tno')+'">'+(ap?'✓ Applicata':'✗ Non ancora')+'</span></div></div>';
-    html+='<button class="tec-btn '+(ap?'si':'no')+'" onclick="event.stopPropagation();toggleApTec(\''+t.id+'\')">'+(ap?'✓':'✗')+'</button>';
-    html+='</div>';
-    html+='<div class="tec-body" id="tb_'+t.id+'"><p>'+t.desc+'</p>';
-    html+='<div style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-top:.6rem;margin-bottom:.2rem;">📝 Note personali</div>';
-    html+='<textarea class="tec-nota" placeholder="Quando applicata, osservazioni..." oninput="saveTecNota(\''+t.id+'\',this.value)">'+(DB.tecNotes&&DB.tecNotes[t.id]||'')+'</textarea>';
-    html+='</div></div>';
+    var c=t.cat||'Altro';
+    if(!cats[c]) cats[c]=[];
+    cats[c].push(t);
   });
-  document.getElementById('tec-list').innerHTML=html;
+  Object.keys(cats).forEach(function(cat){
+    var col=CAT_COLORI[cat]||'var(--muted)';
+    html+='<div style="font-size:.68rem;font-weight:800;color:'+col+';text-transform:uppercase;letter-spacing:.1em;padding:.7rem .9rem .2rem;margin-top:.2rem;">'+cat+'</div>';
+    cats[cat].forEach(function(t){
+      var ap=DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def;
+      html+='<div class="tec-item" style="border-left:3px solid '+(ap?col:'var(--sand)')+';">';
+      html+='<div class="tec-h" onclick="toggleTec(\''+t.id+'\')">';
+      html+='<div class="tec-left"><span class="tec-ico">'+t.ico+'</span><div>';
+      html+='<div class="tec-name" style="color:var(--text);">'+t.n+'</div>';
+      if(t.fonte) html+='<div style="font-size:.62rem;color:var(--muted);margin-top:.05rem;">📚 '+t.fonte+'</div>';
+      html+='<span class="tec-st '+(ap?'tsi':'tno')+'">'+(ap?'✓ Applicata':'○ Non ancora')+'</span></div></div>';
+      html+='<button class="tec-btn '+(ap?'si':'no')+'" onclick="event.stopPropagation();toggleApTec(\''+t.id+'\')">'+( ap?'✓':'○')+'</button>';
+      html+='</div>';
+      html+='<div class="tec-body" id="tb_'+t.id+'"><p style="color:var(--soft);">'+t.desc+'</p>';
+      html+='<div style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-top:.6rem;margin-bottom:.2rem;">📝 Note personali</div>';
+      html+='<textarea class="tec-nota" placeholder="Quando applicata, osservazioni..." oninput="saveTecNota(\''+t.id+'\',this.value)">'+(DB.tecNotes&&DB.tecNotes[t.id]||'')+'</textarea>';
+      html+='</div></div>';
+    });
+  });
+  // Statistiche in cima
+  var totAp=TECNICHE.filter(function(t){return DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def;}).length;
+  var summ='<div style="background:var(--card);border-radius:var(--radius-sm);padding:.7rem .9rem;margin:.5rem .9rem .3rem;display:flex;gap:.8rem;align-items:center;">';
+  summ+='<div style="flex:1;"><div style="font-family:DM Serif Display,serif;font-size:1.1rem;color:var(--text);">⚡ '+TECNICHE.length+' Tecniche</div>';
+  summ+='<div style="font-size:.75rem;color:var(--muted);">'+totAp+' applicate · '+(TECNICHE.length-totAp)+' da provare</div></div>';
+  summ+='<div style="background:var(--moss);color:#fff;border-radius:100px;padding:.25rem .7rem;font-size:.75rem;font-weight:700;">'+totAp+'/'+TECNICHE.length+'</div>';
+  summ+='</div>';
+  document.getElementById('tec-list').innerHTML=summ+html;
 }
 function toggleTec(id){document.getElementById('tb_'+id).classList.toggle('on');}
 function toggleApTec(id){
@@ -4463,6 +4544,7 @@ window.addEventListener('DOMContentLoaded',function(){
     renderInsightHome();
     renderSuggDiario();
     renderSuggLuna();
+    renderRecapSerale();
   }, 800);
 });
 
@@ -4553,7 +4635,7 @@ function renderEsploraTab() {
     if(!catEsps.length) return;
 
     if(libCatAttiva==='tutti') {
-      html += '<div style="font-size:.68rem;font-weight:700;color:'+cat.colore+';text-transform:uppercase;margin:.5rem 0 .3rem;letter-spacing:.05em;">'+cat.ico+' '+cat.nome+'</div>';
+      html += '<div style="font-size:.68rem;font-weight:700;color:'+cat.colore+';text-transform:uppercase;margin:.5rem 0 .3rem;letter-spacing:.05em;filter:brightness(1.3);">'+cat.ico+' '+cat.nome+'</div>';
     }
     catEsps.forEach(function(esp){
       var diff=['','⭐','⭐⭐','⭐⭐⭐'][esp.difficolta]||'';
@@ -4561,7 +4643,7 @@ function renderEsploraTab() {
       var isLab=labAttivi.indexOf(esp.id)!==-1;
       html+='<div class="lib-card" onclick="apriEsp(\''+cat.id+'\',\''+esp.id+'\')" style="border-left-color:'+cat.colore+';">';
       html+='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.2rem;">';
-      html+='<div style="font-weight:700;font-size:.88rem;color:var(--bark);flex:1;">'+cat.ico+' '+esp.nome+'</div>';
+      html+='<div style="font-weight:700;font-size:.88rem;color:var(--text);flex:1;">'+cat.ico+' '+esp.nome+'</div>';
       html+='<div style="display:flex;gap:.3rem;align-items:center;">';
       if(isLab) html+='<span style="font-size:.65rem;background:#1565c0;color:#fff;border-radius:20px;padding:.1rem .35rem;">⚗️ Lab</span>';
       html+='<span style="font-size:.65rem;background:'+statCol+';color:#fff;border-radius:20px;padding:.1rem .35rem;">'+esp.stato+'</span>';
@@ -5164,26 +5246,78 @@ async function inviaAI(domandaPreset) {
 function getDayIndex() {
   var d=oggi(); return Math.floor(d.getTime()/(1000*60*60*24));
 }
+function getHourIndex() {
+  var d=new Date(); return Math.floor(d.getTime()/(1000*60*60));
+}
 
-function getInsightDelGiorno(db) {
-  if(!db||!db.categorie) return null;
+function getAllEsperimentiFlat(db) {
+  if(!db||!db.categorie) return [];
   var tutti=[];
   db.categorie.forEach(function(cat){
     cat.esperimenti.forEach(function(esp){
       tutti.push({esp:esp,cat:cat});
     });
   });
+  return tutti;
+}
+
+function getInsightDelGiorno(db) {
+  var tutti=getAllEsperimentiFlat(db);
   if(!tutti.length) return null;
-  var idx=getDayIndex() % tutti.length;
+  var idx=getHourIndex() % tutti.length;  // cambia ogni ora
   return tutti[idx];
 }
 
 function getConnessioneProgressiva(db) {
   if(!db||!db.connessioni||!db.connessioni.length) return null;
   var conns=db.connessioni;
-  var idx=(getDayIndex()+7) % conns.length;
+  var idx=getHourIndex() % conns.length;
   return conns[idx];
 }
+
+// Recap serale — raccoglie gli insight del giorno
+var _insightOggi=[];
+function registraInsight(r) {
+  if(!r) return;
+  var key=fmtKey(oggi());
+  var id=r.esp.id;
+  if(_insightOggi.indexOf(id)===-1) _insightOggi.push(id);
+  // Salva in DB
+  if(!DB.insightRecap) DB.insightRecap={};
+  if(!DB.insightRecap[key]) DB.insightRecap[key]=[];
+  if(DB.insightRecap[key].indexOf(id)===-1){
+    DB.insightRecap[key].push(id);
+    salvaSilenzioso();
+  }
+}
+
+function renderRecapSerale() {
+  caricaEDB(function(){
+    var key=fmtKey(oggi());
+    var ids=(DB.insightRecap&&DB.insightRecap[key])||[];
+    if(!ids.length||!EDBV2) return;
+    var el=document.getElementById('insight-recap');
+    if(!el) return;
+    var html='<div style="background:var(--card);border-radius:var(--radius-sm);padding:.8rem .9rem;margin:.5rem .85rem;">';
+    html+='<div style="font-size:.7rem;font-weight:700;color:var(--moss);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem;">📚 Insight di oggi ('+ids.length+')</div>';
+    ids.forEach(function(id){
+      var r=getEsp(id); if(!r) return;
+      html+='<div style="font-size:.78rem;color:var(--soft);padding:.2rem 0;border-bottom:1px solid var(--sand);">'+r.cat.ico+' '+r.esp.nome+'</div>';
+    });
+    html+='<div style="font-size:.72rem;color:var(--muted);margin-top:.4rem;">Tocca un insight per aggiungerlo al Lab →</div>';
+    html+='</div>';
+    el.innerHTML=html;
+  });
+}
+
+// Refresh automatico ogni ora
+setInterval(function(){
+  caricaEDB(function(){
+    if(!EDBV2) return;
+    renderInsightHome();
+    renderRecapSerale();
+  });
+}, 60*60*1000);  // ogni ora
 
 function renderInsightHome() {
   caricaEDB(function(){
@@ -5191,6 +5325,7 @@ function renderInsightHome() {
     var r=getInsightDelGiorno(EDBV2);
     var conn=getConnessioneProgressiva(EDBV2);
     if(!r) return;
+    registraInsight(r);
     var esp=r.esp, cat=r.cat;
     var html='';
 
