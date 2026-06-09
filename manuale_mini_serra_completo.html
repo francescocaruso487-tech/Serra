@@ -701,6 +701,15 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
 
 <div id="toast"></div>
 
+<!-- NAV BOTTOM -->
+<nav id="nav">
+  <button class="nav-item active" onclick="goNav('home',this)"><span class="ni">🏠</span><span class="nl">HOME</span></button>
+  <button class="nav-item" onclick="goNav('diario',this)"><span class="ni">📓</span><span class="nl">DIARIO</span></button>
+  <button class="nav-item" onclick="goNav('natura',this)"><span class="ni">🌤</span><span class="nl">METEO &amp; LUNA</span></button>
+  <button class="nav-item" onclick="goNav('piante',this)"><span class="ni">🌿</span><span class="nl">PIANTE</span></button>
+  <button class="nav-item" onclick="goNav('altro',this)"><span class="ni">⋯</span><span class="nl">ALTRO</span></button>
+</nav>
+
 <!-- MAIN -->
 <div id="main">
 
@@ -1095,27 +1104,9 @@ function showSt(id){
 // NAV
 // ================================================================
 var altroAperto=false;
-function goNav(id,btn){
-  if(id==='altro'){
-    altroAperto=!altroAperto;
-    document.getElementById('menu-altro').style.display=altroAperto?'block':'none';
-    return;
-  }
-  chiudiAltro();
-  document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('on');});
-  document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active');});
-  var el=document.getElementById(id);
-  if(el) el.classList.add('on');
-  if(btn) btn.classList.add('active');
-  else{
-    var navItems=document.querySelectorAll('.nav-item');
-    navItems.forEach(function(b){
-      if(b.getAttribute('onclick')&&b.getAttribute('onclick').indexOf("'"+id+"'")>=0) b.classList.add('active');
-    });
-  }
-  document.getElementById('main').scrollTop=0;
-  if(id==='diario') setTimeout(vaiOggi, 50);
-}
+// goNav è definita più avanti con la versione completa
+function _goNavStub(id,btn){ if(typeof goNavFull==='function') goNavFull(id,btn); }
+
 function chiudiAltro(){
   altroAperto=false;
   document.getElementById('menu-altro').style.display='none';
@@ -3436,7 +3427,7 @@ var navHistory = [];   // storico sezioni visitate
 var exitTimer = null;
 var exitBannerVisible = false;
 
-function goNav(id, btn) {
+function goNavFull(id, btn) {
   if(id === 'altro') {
     altroAperto = !altroAperto;
     document.getElementById('menu-altro').style.display = altroAperto ? 'block' : 'none';
@@ -3472,15 +3463,16 @@ function goNav(id, btn) {
   }
   if(id === 'archivio') renderArchivio();
   if(id === 'diario') { setTimeout(vaiOggi, 50); setTimeout(renderSuggDiario, 400); }
-  if(id === 'libreria') goNav('laboratorio');
+  if(id === 'libreria') goNavFull('laboratorio');
   if(id === 'laboratorio') {
     var lf=document.getElementById('lib-filtri'); if(lf) lf.innerHTML='';
     setTimeout(function(){ if(typeof initCervello==='function'&&!CERVELLO.inizializzato) initCervello(); renderCervelloPanel(); mostraCervelloHome(); }, 200);
   }
   if(id === 'natura') setTimeout(renderSuggLuna, 500);
   if(id === 'home') setTimeout(function(){ if(typeof mostraCervelloHome==='function') mostraCervelloHome(); }, 400);
-  if(id === 'tecniche') goNav('laboratorio');
+  if(id === 'tecniche') goNavFull('laboratorio');
 }
+var goNav = goNavFull;
 
 function chiudiExitBanner() {
   exitBannerVisible = false;
