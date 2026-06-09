@@ -927,6 +927,7 @@ function goNav(id,btn){
     });
   }
   document.getElementById('main').scrollTop=0;
+  if(id==='diario') vaiOggi();
 }
 function chiudiAltro(){
   altroAperto=false;
@@ -3145,6 +3146,7 @@ function goNav(id, btn) {
     renderCalLuna();
   }
   if(id === 'archivio') renderArchivio();
+  if(id === 'diario') vaiOggi();
 }
 
 function chiudiExitBanner() {
