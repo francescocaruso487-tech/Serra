@@ -85,6 +85,22 @@ body.dark #pop-title{color:var(--mint);}
 body.dark .pop-tip{background:var(--cream);}
 body.dark .sov-box{background:#1a1f10;color:var(--text);}
 body.dark .exit-banner-box,body.dark #exit-banner{background:#111810;}
+/* ── REGOLE CONTRASTO UNIVERSALI ── */
+/* Card con sfondo chiaro hardcoded → testo scuro */
+[style*="background:#f0f6ff"],[style*="background:#e8f5e9"],[style*="background:#fff8e1"],
+[style*="background:#fce4ec"],[style*="background:#fff3e0"],[style*="background:#f3e5ff"],
+[style*="background:#ffe5c2"],[style*="background:#ceebd0"],[style*="background:#cce8fc"]{color:#1a1208!important;}
+[style*="background:#e8f5e9"] *{color:#1a4a28!important;}
+[style*="background:#fff8e1"] *{color:#7a4a00!important;}
+/* In dark mode forza card chiare a diventare scure */
+body.dark [style*="background:#f0f6ff"]{background:#1a2412!important;color:#d8e8c0!important;}
+body.dark [style*="background:#e8f5e9"]{background:#0d2a18!important;color:#a0d888!important;}
+body.dark [style*="background:#fff8e1"]{background:#2a1a00!important;color:#d4a840!important;}
+body.dark [style*="background:#fce4ec"]{background:#2a0a12!important;color:#d48888!important;}
+/* Input date in dark mode */
+body.dark #d-date{background:#1e2a18;color:#d8e8c0;border-color:#2a3a20;}
+body.dark .ddb-btn{background:#2a3820;color:#d8e8c0;}
+body.dark .diario-date-bar{background:#1a2412;}
 
 /* Indicatore tema */
 #tema-toggle{position:fixed;top:.5rem;right:.6rem;z-index:200;background:rgba(255,255,255,0.9);border:1.5px solid rgba(0,0,0,0.08);border-radius:100px;padding:.25rem .55rem;font-size:.8rem;cursor:pointer;color:var(--bark);box-shadow:0 2px 8px rgba(0,0,0,.1);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
@@ -243,7 +259,7 @@ body.dark .nav-item.active{background:rgba(90,170,110,0.15);}
 .diario-date-bar{background:var(--card);border-bottom:1px solid var(--sand);padding:.7rem .9rem;display:flex;align-items:center;gap:.5rem;position:sticky;top:0;z-index:10;}
 .ddb-btn{background:var(--sand);border:none;border-radius:8px;width:32px;height:32px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 .ddb-btn.today{background:var(--moss);color:#fff;font-size:.7rem;font-weight:800;width:auto;padding:0 .7rem;}
-#d-date{border:1.5px solid var(--sand);border-radius:8px;padding:.28rem .5rem;font-family:'DM Mono',monospace;font-size:.82rem;color:var(--bark);flex:1;}
+#d-date{border:1.5px solid var(--sand);border-radius:8px;padding:.28rem .5rem;font-family:'DM Mono',monospace;font-size:.82rem;color:var(--text);background:var(--cream);flex:1;min-width:0;}
 #d-label{font-family:'DM Serif Display',serif;font-size:.95rem;color:var(--bark);margin-left:.3rem;}
 
 .timer-bar{background:linear-gradient(90deg,var(--soil),var(--bark));color:#fff;padding:.55rem .9rem;display:flex;align-items:center;justify-content:space-between;}
@@ -858,9 +874,9 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
     <div style="font-size:.82rem;color:var(--muted);padding:.5rem;">Caricamento...</div>
   </div>
 
-  <div class="card nc" style="margin:.2rem .9rem .9rem;background:#f0f6ff;border-left:4px solid var(--sky);">
+  <div class="card nc" style="margin:.2rem .9rem .9rem;background:var(--card);border-left:4px solid var(--sky);">
     <div class="card-label">🌱 Come leggere il calendario</div>
-    <p style="font-size:.82rem;color:var(--soft);line-height:1.65;">Il colore di sfondo di ogni giorno indica il tipo biodinamico: 🌸 <b>Fiore</b> (Aria) · 🍎 <b>Frutto</b> (Fuoco) · 🌱 <b>Radice</b> (Terra) · 🍃 <b>Foglia</b> (Acqua). L'icona indica la fase lunare. Tocca qualsiasi giorno per vedere tutti i consigli.</p>
+    <p style="font-size:.82rem;color:var(--text);line-height:1.65;">Il colore di sfondo di ogni giorno indica il tipo biodinamico: 🌸 <b>Fiore</b> (Aria) · 🍎 <b>Frutto</b> (Fuoco) · 🌱 <b>Radice</b> (Terra) · 🍃 <b>Foglia</b> (Acqua). L'icona indica la fase lunare. Tocca qualsiasi giorno per vedere tutti i consigli.</p>
   </div>
 </div>
 
@@ -929,72 +945,70 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
 
 <!-- ===== LABORATORIO ===== -->
 <div id="laboratorio" class="sec">
-  <!-- Header sticky -->
-  <div id="lab-header" style="position:sticky;top:0;z-index:20;background:var(--main-bg);border-bottom:1px solid var(--sand);">
-    <div style="padding:.6rem .9rem .3rem;display:flex;align-items:center;justify-content:space-between;">
-      <div style="font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--text);">⚗️ Laboratorio</div>
-      <div id="lab-cervello-status" style="font-size:.65rem;font-family:monospace;color:var(--moss);"></div>
-    </div>
-    <!-- Tab bar -->
-    <div style="display:flex;gap:.25rem;padding:.1rem .7rem .4rem;overflow-x:auto;scrollbar-width:none;">
-      <button class="lab-tab att" data-panel="lab-cervello" onclick="labSwitchTab(this)">🧠 Cervello</button>
-      <button class="lab-tab" data-panel="lab-tecniche" onclick="labSwitchTab(this)">⚡ Tecniche</button>
-      <button class="lab-tab" data-panel="lab-esplora" onclick="labSwitchTab(this)">🧬 Esplora</button>
-      <button class="lab-tab" data-panel="lab-mappa" onclick="labSwitchTab(this)">🕸 Mappa</button>
-      <button class="lab-tab" data-panel="lab-oggi" onclick="labSwitchTab(this)">✨ Oggi</button>
-      <button class="lab-tab" data-panel="lab-ai" onclick="labSwitchTab(this)">🤖 AI</button>
-    </div>
+  <!-- Header semplice -->
+  <div style="padding:.8rem .9rem .5rem;display:flex;align-items:center;justify-content:space-between;">
+    <div style="font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--text);">⚗️ Laboratorio</div>
+    <div id="lab-cervello-status" style="font-size:.65rem;font-family:monospace;color:var(--moss);"></div>
   </div>
 
-  <!-- ── TAB: CERVELLO ── -->
-  <div id="lab-cervello" class="lab-panel" style="padding:.6rem .85rem 5rem;">
-    <!-- Insight ora corrente -->
+  <!-- Tab bar compatta -->
+  <div style="display:flex;gap:.3rem;padding:.1rem .7rem .5rem;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--sand);">
+    <button class="lab-tab att" data-panel="lab-cervello" onclick="labSwitchTab(this)">🧠 Insight</button>
+    <button class="lab-tab" data-panel="lab-tecniche" onclick="labSwitchTab(this)">⚡ Tecniche</button>
+    <button class="lab-tab" data-panel="lab-connessioni" onclick="labSwitchTab(this)">🔗 Connessioni</button>
+    <button class="lab-tab" data-panel="lab-esplora" onclick="labSwitchTab(this)">🔍 Esplora</button>
+    <button class="lab-tab" data-panel="lab-oggi" onclick="labSwitchTab(this)">✨ Oggi</button>
+    <button class="lab-tab" data-panel="lab-ai" onclick="labSwitchTab(this)">🤖 AI</button>
+  </div>
+
+  <!-- ── INSIGHT (ex Cervello) ── -->
+  <div id="lab-cervello" class="lab-panel" style="padding:.7rem .9rem 5rem;">
+    <!-- Card insight ora -->
     <div id="cervello-insight-ora" style="margin-bottom:.6rem;"></div>
-    <!-- Connessione scoperta ora -->
+    <!-- Connessione ora -->
     <div id="cervello-conn-ora" style="margin-bottom:.6rem;"></div>
-    <!-- Log 24 insight del giorno -->
+    <!-- Log giornata -->
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;">
-      <div style="font-size:.68rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">📅 Insight di oggi</div>
+      <div style="font-size:.68rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">📅 Log insight di oggi</div>
       <div id="cervello-count" style="font-size:.7rem;font-family:monospace;color:var(--moss);font-weight:700;"></div>
     </div>
     <div id="cervello-log" style="display:flex;flex-direction:column;gap:.35rem;"></div>
   </div>
 
-  <!-- ── TAB: TECNICHE ── -->
+  <!-- ── TECNICHE ── -->
   <div id="lab-tecniche" class="lab-panel" style="display:none;padding:0 0 5rem;">
     <div id="tec-list-lab"></div>
   </div>
 
-  <!-- ── TAB: ESPLORA ── -->
+  <!-- ── CONNESSIONI (ex Mappa) ── -->
+  <div id="lab-connessioni" class="lab-panel" style="display:none;padding:.7rem .9rem 5rem;">
+    <div style="font-size:.78rem;color:var(--soft);margin-bottom:.6rem;line-height:1.5;">🔗 Connessioni scoperte tra i 58 manuali. Tocca per approfondire.</div>
+    <div id="lab-connessioni-list"></div>
+  </div>
+
+  <!-- ── ESPLORA ── -->
   <div id="lab-esplora" class="lab-panel" style="display:none;padding:.6rem .9rem 5rem;">
-    <input id="lib-search" type="text" placeholder="🔍 Cerca tecnica, ingrediente, autore..." oninput="renderLabEsplora()" style="width:100%;padding:.5rem .7rem;border-radius:10px;border:1px solid var(--sand);background:var(--cream);font-size:.85rem;box-sizing:border-box;color:var(--text);margin-bottom:.6rem;">
+    <input id="lib-search" type="text" placeholder="🔍 Cerca tecnica, autore, ingrediente..." oninput="renderLabEsplora()" style="width:100%;padding:.5rem .7rem;border-radius:10px;border:1px solid var(--sand);background:var(--cream);font-size:.85rem;box-sizing:border-box;color:var(--text);margin-bottom:.6rem;">
     <div id="lib-filtri" style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.7rem;"></div>
     <div id="lib-lista"></div>
   </div>
 
-  <!-- ── TAB: MAPPA (CONNESSIONI) ── -->
-  <div id="lab-mappa" class="lab-panel" style="display:none;padding:.6rem .9rem 5rem;">
-    <div style="font-size:.78rem;color:var(--soft);margin-bottom:.6rem;line-height:1.5;">🔗 Tutte le connessioni scoperte tra i 58 manuali. Tocca una per approfondire.</div>
-    <div id="lab-connessioni-list"></div>
-  </div>
-
-  <!-- ── TAB: OGGI ── -->
+  <!-- ── OGGI ── -->
   <div id="lab-oggi" class="lab-panel" style="display:none;padding:.6rem .9rem 5rem;">
     <div id="lib-oggi-content"></div>
   </div>
 
-  <!-- ── TAB: AI ── -->
+  <!-- ── AI ── -->
   <div id="lab-ai" class="lab-panel" style="display:none;padding:.6rem .9rem 5rem;">
     <div style="background:linear-gradient(135deg,#0d2818,#1e4a2a);border-radius:16px;padding:.9rem 1rem;margin-bottom:.7rem;color:#fff;">
-      <div style="font-size:.65rem;font-family:monospace;letter-spacing:.08em;opacity:.6;margin-bottom:.25rem;">🤖 ASSISTENTE IA</div>
-      <div style="font-family:'DM Serif Display',serif;font-size:1rem;margin-bottom:.2rem;">Analisi dai Manuali</div>
-      <div style="font-size:.75rem;opacity:.75;line-height:1.5;">Chiedi combinazioni, confronti e piani sperimentali basati sui tuoi 40+ PDF.</div>
+      <div style="font-size:.65rem;font-family:monospace;letter-spacing:.08em;opacity:.6;margin-bottom:.25rem;">🤖 AI DAI TUOI 40+ MANUALI</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1rem;margin-bottom:.2rem;">Chiedi, combina, sperimenta</div>
     </div>
     <div style="display:flex;flex-direction:column;gap:.3rem;margin-bottom:.7rem;">
-      <button onclick="inviaAI('Cosa fare oggi con luna e biodinamica? Suggerisci le migliori tecniche')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--soft);text-align:left;cursor:pointer;">🌙 Cosa fare oggi?</button>
-      <button onclick="inviaAI('Confronta Lakhovsky, Christofleau, Ighina e Lemstrom: differenze e come combinarli')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--soft);text-align:left;cursor:pointer;">🔬 Confronta i grandi autori</button>
-      <button onclick="inviaAI('Crea un piano sperimentale settimanale ottimale per la mia mini-serra')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--soft);text-align:left;cursor:pointer;">📋 Piano settimanale</button>
-      <button onclick="inviaAI('Quali connessioni nascoste esistono tra i testi di magia (Kybalion, Tavole Smeraldine) e l\'elettrocoltura?')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--soft);text-align:left;cursor:pointer;">⚗️ Magia + Elettrocoltura: connessioni</button>
+      <button onclick="inviaAI('Cosa fare oggi con luna e biodinamica? Suggerisci le migliori tecniche')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--text);text-align:left;cursor:pointer;">🌙 Cosa fare oggi?</button>
+      <button onclick="inviaAI('Confronta Lakhovsky, Christofleau, Ighina e Lemstrom: differenze e come combinarli')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--text);text-align:left;cursor:pointer;">🔬 Confronta i grandi autori</button>
+      <button onclick="inviaAI('Crea un piano sperimentale settimanale ottimale per la mia mini-serra')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--text);text-align:left;cursor:pointer;">📋 Piano settimanale</button>
+      <button onclick="inviaAI('Quali connessioni nascoste tra magia e elettrocoltura posso applicare subito?')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--text);text-align:left;cursor:pointer;">⚗️ Magia + Elettrocoltura</button>
     </div>
     <div id="ai-chat" style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:.7rem;min-height:60px;"></div>
     <div style="position:sticky;bottom:5.5rem;background:var(--main-bg);padding:.3rem 0;">
@@ -1012,10 +1026,9 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <div style="font-size:.65rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;">Sezioni</div>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-bottom:.5rem;">
     <div class="qa" onclick="goNav('calendario');chiudiAltro()"><div class="qa-ico">📅</div><div class="qa-lbl">Calendario</div></div>
-    <div class="qa" onclick="goNav('laboratorio');chiudiAltro()"><div class="qa-ico">⚡</div><div class="qa-lbl">Tecniche</div></div>
+    <div class="qa" onclick="goNav('laboratorio');chiudiAltro()"><div class="qa-ico">⚗️</div><div class="qa-lbl">Lab & Tecniche</div></div>
     <div class="qa" onclick="goNav('guida');chiudiAltro()"><div class="qa-ico">📖</div><div class="qa-lbl">Guida</div></div>
     <div class="qa" onclick="goNav('archivio');chiudiAltro()"><div class="qa-ico">🗄</div><div class="qa-lbl">Archivio</div></div>
-    <div class="qa" onclick="goNav('laboratorio');chiudiAltro()"><div class="qa-ico">⚗️</div><div class="qa-lbl">Laboratorio</div></div>
     <div class="qa" onclick="attivaNotifiche();chiudiAltro()"><div class="qa-ico" id="notif-ico">🔔</div><div class="qa-lbl">Notifiche</div></div>
   </div>
 </div>
@@ -3467,11 +3480,17 @@ function goNavFull(id, btn) {
     renderCalLuna();
   }
   if(id === 'archivio') renderArchivio();
-  if(id === 'diario') { setTimeout(vaiOggi, 50); setTimeout(renderSuggDiario, 400); }
+  if(id === 'diario') { setTimeout(function(){ vaiOggi(); }, 80); setTimeout(renderSuggDiario, 400); }
   if(id === 'libreria') goNavFull('laboratorio');
   if(id === 'laboratorio') {
     var lf=document.getElementById('lib-filtri'); if(lf) lf.innerHTML='';
-    setTimeout(function(){ if(typeof initCervello==='function'&&!CERVELLO.inizializzato) initCervello(); renderCervelloPanel(); mostraCervelloHome(); }, 200);
+    // Sempre su Insight tab di default
+    var defBtn = document.querySelector('[data-panel="lab-cervello"]');
+    if(defBtn) labSwitchTab(defBtn);
+    setTimeout(function(){ 
+      if(typeof initCervello==='function'&&!CERVELLO.inizializzato) initCervello(); 
+      renderCervelloPanel(); 
+    }, 200);
   }
   if(id === 'natura') setTimeout(renderSuggLuna, 500);
   if(id === 'home') setTimeout(function(){ if(typeof mostraCervelloHome==='function') mostraCervelloHome(); }, 400);
@@ -3490,6 +3509,7 @@ function confermaChi() {
   // Su Android PWA: tenta di chiudere
   if(navigator.app && navigator.app.exitApp) {
     navigator.app.exitApp();
+    return;
   } else if(window.matchMedia('(display-mode: standalone)').matches) {
     // PWA standalone: usa history
     history.go(-(history.length-1));
@@ -5809,8 +5829,9 @@ function labSwitchTab(btn) {
   var panel = document.getElementById(panelId);
   if(panel) panel.style.display='';
   if(panelId==='lab-tecniche') aggiornaLabTecniche();
-  if(panelId==='lab-esplora') { renderLabEsplora(); }
+  if(panelId==='lab-esplora') renderLabEsplora();
   if(panelId==='lab-mappa') renderMappa();
+  if(panelId==='lab-connessioni') renderMappa();
   if(panelId==='lab-oggi') renderOggiLib();
   if(panelId==='lab-cervello') renderCervelloPanel();
   if(panelId==='lab-ai') initAI();
