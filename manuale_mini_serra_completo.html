@@ -86,8 +86,18 @@ body.dark .diario-date-bar,body.dark .timer-bar{background:#1a2010;}
 #pop-body .pop-row{border-bottom-color:var(--sand);}
 body.dark .lib-card{background:#1e2a18;color:#d8e8c0;border-color:#2a3a20;}
 body.dark .lib-cat{background:#1a2410;color:#90d4a0;border-color:#2a3a20;}
-body.dark .sugg-card{background:rgba(30,110,58,0.15);border-color:rgba(90,170,110,0.3);}
-body.dark .insight-widget{background:linear-gradient(135deg,#0a1a0a,#1a3020);}
+body.dark body.dark .sugg-card{background:rgba(0,135,90,0.12);border-color:rgba(52,199,123,0.3);}
+body.dark .insight-widget{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--one-shadow-sm);
+  padding:1rem 1.1rem;
+  margin-bottom:.5rem;
+  cursor:pointer;
+  border-left:4px solid var(--moss);
+  transition:opacity .14s;
+}
+.insight-widget:active{opacity:.8;}
 /* ── DARK MODE One UI 8.5 — superfici grigie ── */
 body.dark .lav-nome{color:var(--text)!important;}
 body.dark .lav-item{background:var(--card)!important;}
@@ -102,7 +112,11 @@ body.dark .grafico-title{color:var(--text)!important;}
 body.dark .cal-mese{background:var(--card)!important;}
 body.dark .ps-card{background:var(--card)!important;}
 body.dark .ps-card *{color:var(--text)!important;}
-body.dark #pop-body{color:var(--text);}
+body.dark #pop-body{
+  background:var(--main-bg);
+  color:var(--text);
+  min-height:100vh;
+}
 body.dark .tec-item{background:var(--card);}
 body.dark .tsi{background:#0d2a18;color:#57E89A;}
 body.dark .tno{background:var(--cream);color:var(--muted);}
@@ -200,8 +214,8 @@ body.dark .nav-item.active{color:var(--moss);}
 
 /* ===== MAIN SCROLL ===== */
 #main{flex:1;overflow-y:auto;padding-bottom:5rem;}
-.sec{display:none;padding:0;}
-.sec.on{display:block;}
+.sec{display:none;padding:0;background:var(--main-bg);}
+.sec.on{display:block;background:var(--main-bg);}
 
 /* ===== SEZIONE HEADER ===== */
 .sec-header{background:linear-gradient(135deg,var(--soil),var(--bark) 50%,var(--moss));padding:1.4rem 1.2rem 1.8rem;color:#fff;}
@@ -225,7 +239,11 @@ body.dark .nav-item.active{color:var(--moss);}
 
 /* ===== HOME ===== */
 /* Banner stato oggi */
-.home-banner{background:linear-gradient(145deg,#003D2B 0%,#006644 50%,#00875A 100%);color:#fff;padding:1.5rem 1.1rem 1.3rem;margin-bottom:.6rem;border-radius:0 0 28px 28px;}
+.home-banner{
+  background:linear-gradient(145deg,#00442E 0%,#006644 60%,#00875A 100%);
+  color:#fff;padding:1.4rem 1.1rem 1.2rem;
+  margin-bottom:.6rem;border-radius:0 0 24px 24px;
+}
 .hb-data{font-family:'DM Mono',monospace;font-size:.63rem;opacity:.6;margin-bottom:.4rem;letter-spacing:.08em;text-transform:uppercase;}
 .hb-row{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-bottom:.5rem;}
 .hb-meteo{display:flex;align-items:center;gap:.5rem;}
