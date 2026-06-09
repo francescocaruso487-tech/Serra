@@ -1450,6 +1450,110 @@
           ]
         }
       ]
+    },
+    {
+      "id": "classici",
+      "nome": "Fonti Classiche 1700-1800",
+      "ico": "📖",
+      "colore": "#5d4037",
+      "descrizione": "I testi originali del 18° secolo che hanno fondato l'elettrocoltura moderna",
+      "esperimenti": [
+        {
+          "id": "bertholon_vegetometro",
+          "nome": "Elettro-Vegetometro di Bertholon (1783)",
+          "stato": "teoria",
+          "difficolta": 2,
+          "fase_ideale": [
+            "veg",
+            "fior"
+          ],
+          "luna_ideale": [
+            "crescente",
+            "piena"
+          ],
+          "bio_ideale": [
+            "radice",
+            "foglia"
+          ],
+          "sinergie": [
+            "antenna_spirale",
+            "lemstrom_filo_aereo"
+          ],
+          "controindicazioni": [],
+          "fonti": [
+            "Abbé Bertholon - De l'Électricité des Végétaux (1783)"
+          ],
+          "principio": "Nel 1783 l'Abbé Bertholon, professore di fisica dell'Académie Royale, fu il primo scienziato a documentare sistematicamente l'effetto dell'elettricità atmosferica sulle piante. Inventò l'elettro-vegetometro per misurare la carica elettrica delle piante stesse. Documentò che le piante esposte a maggiore elettricità atmosferica crescevano più rapidamente. È il nonno scientifico di tutta l'elettrocoltura moderna.",
+          "materiali": [
+            "Qualsiasi antenna di rame (già presente) replica il principio di Bertholon"
+          ],
+          "procedura": [
+            "Le antenne a spirale già installate replicano esattamente il principio di Bertholon",
+            "Bertholon tese fili di rame sopra i suoi giardini — il Lemstrom fece lo stesso nel 1904",
+            "La linea diretta: Bertholon (1783) → Lemstrom (1904) → Christofleau (1920) → il tuo sistema"
+          ],
+          "note": "Bertholon precedette di 137 anni Christofleau. La sua scoperta fu ignorata per un secolo — riconfermata poi da Lemstrom, Hull, Dudgeon e infine Christofleau.",
+          "risultati_attesi": "Base teorica documentata dal 1783 — conferma storica che il sistema funziona",
+          "scientificita": "documentato storicamente (1783 - Académie Royale)",
+          "compatibile_diario": false,
+          "tags": [
+            "bertholon",
+            "1783",
+            "storico",
+            "académie-royale",
+            "vegetometro",
+            "atmosfera"
+          ]
+        },
+        {
+          "id": "rabdomanzia_geobiologia",
+          "nome": "Rabdomanzia & Geobiologia (Guerzoni)",
+          "stato": "opzionale",
+          "difficolta": 2,
+          "fase_ideale": [
+            "pre-semina",
+            "veg"
+          ],
+          "luna_ideale": [
+            "calante",
+            "nuova"
+          ],
+          "bio_ideale": [
+            "radice"
+          ],
+          "sinergie": [
+            "pila_ferro_rame",
+            "acqua_magnetizzata"
+          ],
+          "controindicazioni": [],
+          "fonti": [
+            "Tiziano Guerzoni - Antenna Uomo: Rabdomanzia, Radioestesia, Geobiologia (2009)"
+          ],
+          "principio": "Guerzoni documenta che il corpo umano contiene cristalli di magnetite (Robin Backer, 1983) che percepiscono variazioni del campo magnetico terrestre. La rabdomanzia è la sensibilità a questi campi. Le piante hanno anch'esse magnetite nelle cellule. Posizionare i vasi seguendo le linee geobiologiche (Hartmann/Curry) ottimizza la loro risposta ai campi magnetici.",
+          "materiali": [
+            "Bussola (per trovare l'orientamento Nord-Sud)",
+            "Eventualmente bacchette da rabdomanzia per esperimento"
+          ],
+          "procedura": [
+            "Trovare l'orientamento Nord-Sud esatto con bussola",
+            "Orientare tutte le antenne e gli anelli Lakhovsky Nord-Sud",
+            "Osservare se le piante mostrano preferenze di crescita direzionali",
+            "Facoltativo: usare una bacchetta da rabdomanzia per percepire i campi del suolo"
+          ],
+          "note": "La magnetite nel corpo umano è documentata scientificamente. La percezione rabdomantica dei campi del suolo è controversa ma non refutata. Usare come esperimento di osservazione.",
+          "risultati_attesi": "Ottimizzazione dell'orientamento del sistema — possibile miglioramento risposta magnetica delle piante",
+          "scientificita": "sperimentale (magnetite documentata, rabdomanzia controversa)",
+          "compatibile_diario": true,
+          "tags": [
+            "rabdomanzia",
+            "geobiologia",
+            "magnetite",
+            "hartmann",
+            "curry",
+            "orientamento"
+          ]
+        }
+      ]
     }
   ],
   "connessioni": [
@@ -1590,6 +1694,313 @@
       "a": "melassa_microbi",
       "tipo": "sinergia",
       "nota": "Bokashi + melassa = combo microbi potentissima per il suolo"
+    },
+    {
+      "a": "Abbé Bertholon - De l'Électricité des Végétaux (1783)",
+      "b": "Antenna Rame a Spirale (Christofleau)",
+      "nota": "Bertholon fu il primo scienziato a documentare l'effetto dell'elettricità atmosferica sulle piante nel 1783 — 137 anni prima di Christofleau. Inventò l'elettro-vegetometro per misurare la carica elettrica delle piante. Christofleau perfezionò e semplificò il suo lavoro con la spirale di rame.",
+      "tags": [
+        "bertholon",
+        "1783",
+        "storico",
+        "atmosfera",
+        "vegetometro"
+      ]
+    },
+    {
+      "a": "Abbé Bertholon - De l'Électricité des Météores (1787)",
+      "b": "Acqua Magnetizzata + Vortice Schauberger",
+      "nota": "Bertholon studiò la relazione tra elettricità atmosferica e fenomeni meteorologici nel 1787. L'acqua che cade durante i temporali è ricca di cariche elettriche e ioni — è naturalmente più vitalizzante dell'acqua del rubinetto. Schauberger e i magneti cercano di replicare queste proprietà.",
+      "tags": [
+        "bertholon",
+        "meteore",
+        "acqua",
+        "temporale",
+        "ioni"
+      ]
+    },
+    {
+      "a": "Antenna Uomo - Tiziano Guerzoni (Rabdomanzia)",
+      "b": "Intenzione e Consapevolezza + Osservazione Quotidiana",
+      "nota": "Guerzoni spiega che l'uomo è un'antenna tra terra e cielo — esattamente come le antenne di rame. La rabdomanzia è la capacità di percepire i campi elettromagnetici del suolo. Il coltivatore consapevole usa inconsciamente questa capacità quando osserva le piante ogni giorno.",
+      "tags": [
+        "guerzoni",
+        "rabdomanzia",
+        "antenna",
+        "uomo",
+        "percezione"
+      ]
+    },
+    {
+      "a": "Guerzoni — Magnetite nel corpo umano (Robin Backer 1983)",
+      "b": "Pila Galvanica Ferro-Rame + Acqua Magnetizzata",
+      "nota": "Nel 1983 Robin Backer localizzò cristalli di magnetite nel corpo umano — lo stesso minerale presente nella bussola. Le piante contengono anch'esse magnetite. La pila galvanica e l'acqua magnetizzata interagiscono con questi cristalli naturali nelle cellule vegetali.",
+      "tags": [
+        "magnetite",
+        "corpo",
+        "piante",
+        "cristalli",
+        "backer"
+      ]
+    },
+    {
+      "a": "Ricerca Agro-alimentare 2019 — Campo Elettromagnetico Informazionale",
+      "b": "Anello di Lakhovsky + Magna Culture RF",
+      "nota": "La ricerca italiana del 2019 brevettò un dispositivo che usa campi elettromagnetici debolissimi (20x meno di un rasoio) per stimolare la micorrizzazione e la fermentazione. L'anello di Lakhovsky e le antenne RF operano esattamente in questo range di intensità — confermando che bassi campi EM sono più efficaci degli alti.",
+      "tags": [
+        "2019",
+        "brevetto",
+        "micorrize",
+        "campi-deboli",
+        "informazionale"
+      ]
+    },
+    {
+      "a": "Tesla — Risonanza della Terra (Frequenza Schumann 7.83 Hz)",
+      "b": "Circuito Lakhovsky + Acqua Vortice",
+      "nota": "Tesla scoprì che la Terra risuona naturalmente a 7.83 Hz (frequenza Schumann). Lakhovsky scoprì che ogni cellula ha la sua frequenza di risonanza. Il vortice di Schauberger nell'acqua crea armoniche di queste frequenze fondamentali. Sono tre approcci allo stesso principio: la risonanza come forza vitale.",
+      "tags": [
+        "tesla",
+        "schumann",
+        "7hz",
+        "risonanza",
+        "lakhovsky",
+        "schauberger"
+      ]
+    },
+    {
+      "a": "Le Mie Invenzioni (Tesla) — Trasferimento energia senza fili",
+      "b": "Pantacle di Rame + Antenna Parafulmine",
+      "nota": "Tesla sognava di trasferire energia elettrica senza fili a tutta la Terra. Il Pantacle di rame tra i vasi è una versione in miniatura di questo sogno: trasferisce cariche elettriche senza fili tra le piante. Il sistema antenna+pantacle ricrea la rete energetica terrestre che Tesla aveva in mente.",
+      "tags": [
+        "tesla",
+        "wireless",
+        "energia",
+        "pantacle",
+        "rete"
+      ]
+    },
+    {
+      "a": "Agrippa - Filosofia Occulta (1486) — Magia Naturale come scienza",
+      "b": "Sistema Living Soil Water-Only",
+      "nota": "Agrippa definiva la Magia Naturale come 'la scienza più sublime che abbraccia la profonda contemplazione delle cose più segrete'. Il Living Soil è magia naturale applicata: un sistema dove forze invisibili (microbi, funghi, enzimi) compiono lavoro senza intervento umano diretto — esattamente come Agrippa descriveva la Natura.",
+      "tags": [
+        "agrippa",
+        "magia-naturale",
+        "invisibile",
+        "microbi",
+        "living-soil"
+      ]
+    },
+    {
+      "a": "Agrippa - Virtù delle Piante secondo i Pianeti",
+      "b": "Calendario Biodinamico Steiner",
+      "nota": "Agrippa nel 1486 catalogò le piante secondo i loro pianeti reggenti e i loro momenti ottimali di raccolta/piantumazione. Steiner nel 1924 fece lo stesso con il calendario biodinamico. Sono la stessa conoscenza con 438 anni di distanza — la luna e i pianeti influenzano le piante.",
+      "tags": [
+        "agrippa",
+        "pianeti",
+        "piante",
+        "steiner",
+        "biodinamica",
+        "luna"
+      ]
+    },
+    {
+      "a": "Clavicola di Salomone — Ore Planetarie e Luna",
+      "b": "Calendario Biodinamico + Chiave di Salomone",
+      "nota": "La Clavicola di Salomone insegna che ogni ora del giorno è governata da un pianeta e che la Luna crescente è favorevole per costruire mentre quella calante per distruggere. Il calendario biodinamico usa esattamente gli stessi principi per pianificare le operazioni agricole.",
+      "tags": [
+        "salomone",
+        "ore-planetarie",
+        "luna",
+        "biodinamica",
+        "tempo"
+      ]
+    },
+    {
+      "a": "Aradia - Vangelo delle Streghe (Leland 1897) — Diana e la Luna",
+      "b": "Giornata Biodinamica Foglia (Luna in Pesci/Acqua)",
+      "nota": "Il Vangelo delle Streghe venera Diana come Regina della Luna. La Luna in segno acquatico (Pesci, Cancro, Scorpione) crea i giorni Foglia nel calendario biodinamico — ottimali per l'irrigazione. La tradizione della stregoneria italiana e la biodinamica di Steiner convergono sullo stesso principio lunare.",
+      "tags": [
+        "aradia",
+        "diana",
+        "luna",
+        "acqua",
+        "foglia",
+        "biodinamica"
+      ]
+    },
+    {
+      "a": "La Cabala Mistica (Dion Fortune) — I Pilastri dell'Albero della Vita",
+      "b": "Pila Galvanica Ferro (Pilastro della Severità) / Rame (Pilastro della Misericordia)",
+      "nota": "Dion Fortune descrive l'Albero della Vita con due pilastri opposti: Severità (nero, Marte, contrazione) e Misericordia (bianco, Venere, espansione). Il ferro (Marte) e il rame (Venere) nella pila galvanica rispecchiano esattamente questa polarità cabalistica — Marte-Ferro è il polo negativo, Venere-Rame il polo positivo.",
+      "tags": [
+        "cabala",
+        "albero-vita",
+        "pilastri",
+        "ferro",
+        "rame",
+        "marte",
+        "venere"
+      ]
+    },
+    {
+      "a": "Grande Grimorio — Magia degli Elementi e dei Materiali",
+      "b": "Farina di Roccia + Biochar + Bokashi",
+      "nota": "Il Grande Grimorio insegna che Terra, Acqua, Fuoco e Aria hanno virtù magiche proprie. La farina di roccia basaltica (Terra), l'acqua vortexata (Acqua), il biochar da fuoco (Fuoco) e l'aerazione del substrato (Aria) — il sistema Living Soil integra letteralmente i quattro elementi magici.",
+      "tags": [
+        "grimorio",
+        "quattro-elementi",
+        "terra",
+        "acqua",
+        "fuoco",
+        "aria",
+        "living-soil"
+      ]
+    },
+    {
+      "a": "Wicca — Cicli Stagionali e Sabbat",
+      "b": "Ciclo 8 mesi Serra + Generatore Etilene",
+      "nota": "La Wicca celebra 8 sabbat distribuiti nell'anno che segnano i cambi stagionali. Il ciclo della serra è esattamente di 8 mesi con transizioni precise (mese 4: separazione piante brevi/lunghe; mese 7-8: maturazione). Il generatore di etilene avvia la 'morte stagionale' come il sabbat di Samhain.",
+      "tags": [
+        "wicca",
+        "sabbat",
+        "ciclo",
+        "8-mesi",
+        "etilene",
+        "samhain"
+      ]
+    },
+    {
+      "a": "Esoterismo — Rune: Fehu (prosperità), Berkano (crescita), Inguz (fertilità)",
+      "b": "Miscela Organica + Tè Banana + Infuso Ortiche",
+      "nota": "Le rune Fehu, Berkano e Inguz governano prosperità, crescita vegetale e fertilità. I preparati organici casalinghi (uova, banana, caffè, ortiche) sono le 'offerte votive' materiali a questi principi runici — nutrimento concreto che attiva le stesse forze simbolicamente invocate dalle rune.",
+      "tags": [
+        "rune",
+        "fehu",
+        "berkano",
+        "inguz",
+        "fertilità",
+        "organico"
+      ]
+    },
+    {
+      "a": "Registri Akashici (Melissa Gomes) — Aumentare le vibrazioni",
+      "b": "Musica 528Hz + Intenzione Consapevole",
+      "nota": "I Registri Akashici insegnano che alzare le proprie vibrazioni migliora la qualità della vita. Le piante rispondono alle vibrazioni sonore (Ruhlmann) e all'intenzione del coltivatore (Tompkins). Un coltivatore con vibrazioni elevate = musica 528Hz = effetto amplificato su tutte le piante.",
+      "tags": [
+        "akashici",
+        "vibrazioni",
+        "528Hz",
+        "intenzione",
+        "piante",
+        "amplificazione"
+      ]
+    },
+    {
+      "a": "Manuale di Magia Nera (Alchimia della Trasformazione)",
+      "b": "Bokashi + Compostaggio (Putrefazione → Vita)",
+      "nota": "La Magia Nera studia la via delle 'acque corrosive' — la trasformazione attraverso la putrefazione. Il Bokashi usa esattamente questo principio: materia organica che si decompone (magia nera) si trasforma in nutrimento vitale (magia bianca). La decomposizione è sacra: è la via della trasmutazione alchemica.",
+      "tags": [
+        "magia-nera",
+        "alchimia",
+        "putrefazione",
+        "bokashi",
+        "trasmutazione"
+      ]
+    },
+    {
+      "a": "Libri Tesla sulla Vibrazione e Frequenza",
+      "b": "Filtri Luce Colorata (frequenze luminose)",
+      "nota": "Tesla: 'Se vuoi scoprire i segreti dell'universo, pensa in termini di energia, frequenza e vibrazione'. La luce colorata (rosso, verde, viola, blu) sono frequenze elettromagnetiche visibili. I filtri colorati sulle piante applicano il principio di Tesla alla coltivazione — ogni colore è una frequenza che interagisce con le cellule vegetali.",
+      "tags": [
+        "tesla",
+        "frequenza",
+        "luce",
+        "colori",
+        "vibrazione",
+        "fotosintesi"
+      ]
+    },
+    {
+      "a": "Guerzoni — Geobiologia e campi energetici della Terra",
+      "b": "Orientamento Nord-Sud di Antenne e Anelli",
+      "nota": "La geobiologia studia come le linee di forza del campo magnetico terrestre (linee Hartmann e Curry) influenzano gli esseri viventi. Guerzoni mostra che piante e animali si allineano naturalmente con queste linee. L'orientamento Nord-Sud di antenne e anelli Lakhovsky segue le stesse linee geobiologiche.",
+      "tags": [
+        "geobiologia",
+        "hartmann",
+        "curry",
+        "orientamento",
+        "nord-sud",
+        "magnetismo"
+      ]
+    },
+    {
+      "a": "Corpus Hermeticum — Logos come principio ordinante",
+      "b": "Sistema Completo Serra (tutto connesso)",
+      "nota": "Il Corpus Hermeticum insegna che il Logos (Verbo/Ordine) permea tutto il creato connettendo ogni parte al tutto. Il sistema serra completo — antenne, anelli, pila, pantacle, musica, biodinamica, living soil — è un Logos applicato: ogni elemento connesso a tutti gli altri in un sistema ordinato e intelligente.",
+      "tags": [
+        "corpus",
+        "logos",
+        "ordine",
+        "sistema",
+        "connessione",
+        "tutto"
+      ]
+    },
+    {
+      "a": "Pimandro - Ermete Trismegisto — La luce come Logos",
+      "b": "Escavatore di Luce Mylar + Filtri Colorati",
+      "nota": "Nel Pimandro, Ermete vede il Logos come una luce abbagliante che permea ogni cosa. Il Mylar riflette il 95% della luce — è il massimo avvicinamento a questa luce cosmica per le piante. Ogni fotone riflesso verso gli stomi è un frammento del Logos che nutre la vita.",
+      "tags": [
+        "pimandro",
+        "ermete",
+        "logos",
+        "luce",
+        "mylar",
+        "fotoni",
+        "stomi"
+      ]
+    },
+    {
+      "a": "Chiave di Salomone — Pentacoli come amplificatori di forza",
+      "b": "Pantacle di Rame (etimologia: Pentacolo)",
+      "nota": "La parola 'Pantacle' deriva da 'Pentacolo' — il simbolo di potere nella Chiave di Salomone. Il Pantacle di rame che collega tutti i vasi in serie è letteralmente un pentacolo fisico che amplifica e distribuisce la forza vitale tra tutte le piante, esattamente come i pentacoli di Salomone amplificano l'intenzione magica.",
+      "tags": [
+        "salomone",
+        "pentacolo",
+        "pantacle",
+        "rame",
+        "amplificazione",
+        "potere"
+      ]
+    },
+    {
+      "a": "Dawson Church — Cervello Quantico (EEG e piante)",
+      "b": "Intenzione + Antenna Uomo Guerzoni + Tompkins",
+      "nota": "Church documenta che il cervello umano emette campi elettromagnetici misurabili che influenzano la materia. Guerzoni mostra che l'uomo è un'antenna. Tompkins misurò con galvanometro che le piante rispondono ai campi cerebrali umani. Il coltivatore presente e consapevole è l'esperimento più potente della serra.",
+      "tags": [
+        "church",
+        "EEG",
+        "cervello",
+        "campo",
+        "antenna",
+        "tompkins",
+        "galvanometro"
+      ]
+    },
+    {
+      "a": "Attivating The Inner Eye (Joseph) — Visione interiore come strumento scientifico",
+      "b": "Osservazione Quotidiana + Pattern Recognition",
+      "nota": "Joseph insegna a sviluppare l'occhio interiore per percepire pattern invisibili. Il coltivatore che osserva le sue piante ogni giorno con attenzione totale sviluppa questa capacità: inizia a percepire segnali sottili (colore delle foglie, postura del fusto, velocità di crescita) che strumenti scientifici non misurano.",
+      "tags": [
+        "joseph",
+        "occhio",
+        "pattern",
+        "osservazione",
+        "percezione",
+        "sottile"
+      ]
     }
   ]
 }
