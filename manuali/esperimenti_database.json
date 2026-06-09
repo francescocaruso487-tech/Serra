@@ -1,0 +1,415 @@
+{
+  "versione": "1.0",
+  "aggiornato": "2026-06-09",
+  "categorie": [
+    {
+      "id": "antenne",
+      "nome": "Antenne & Captatori",
+      "ico": "📡",
+      "colore": "#c0392b",
+      "esperimenti": [
+        {
+          "id": "antenna_rame_spirale",
+          "nome": "Antenna Rame a Spirale",
+          "stato": "attivo",
+          "difficolta": 1,
+          "fonti": ["Andrea Donnoli - Elettrocoltura Starter Kit", "Justin Christofleau - Electroculture", "Errol Ramos - Electroculture for Beginners"],
+          "principio": "Cattura l'elettricità statica atmosferica e la convoglia nel terreno tramite filo di rame avvolto a spirale attorno a un bastoncino. Il campo energetico generato stimola la crescita radicale e la resistenza ai parassiti.",
+          "materiali": ["Bastoncino legno/bambù ~40 cm", "Filo di rame non isolato ~50 cm", "Punta in rame"],
+          "procedura": [
+            "Avvolgere il filo di rame a spirale attorno al bastoncino",
+            "Posizionare la punta in rame sopra",
+            "Inserire nel terreno vicino alla pianta con la punta che supera la cima della pianta",
+            "Orientare preferibilmente verso Nord"
+          ],
+          "note": "Evitare vicinanza a linee elettriche. Non installare sotto alberi o edifici alti. Confrontare con piante senza antenna.",
+          "risultati_attesi": "+30-50% crescita, maggiore resistenza a parassiti e siccità",
+          "scientificita": "sperimentale"
+        },
+        {
+          "id": "antenna_parafulmine",
+          "nome": "Antenna Parafulmine in Rame",
+          "stato": "avanzato",
+          "difficolta": 2,
+          "fonti": ["Andrea Donnoli - Elettrocoltura Starter Kit", "Justin Christofleau - Electroculture"],
+          "principio": "Antenna alta in rame che cattura energia atmosferica su larga scala e la distribuisce all'area coltivata tramite rete o fili di collegamento.",
+          "materiali": ["Tubo rame ⌀7-9 mm, lunghezza 2.5 m", "Spazzola spazzacamino o grucce metalliche", "Rete ferro zincata", "Filo elettrico per collegamento"],
+          "procedura": [
+            "Fissare la spazzola/gruccia metallica in cima al tubo di rame",
+            "Piantare il tubo verticalmente in zona aperta senza ostacoli alti vicini",
+            "Collegare la base del tubo con filo elettrico ai cilindri/vasi coltivati",
+            "Orientare secondo i punti cardinali"
+          ],
+          "note": "Ideale per giardini/orti esterni. Meno adatta a balconi o serre chiuse.",
+          "risultati_attesi": "Incremento produzione fino al 100-200% secondo Donnoli",
+          "scientificita": "sperimentale"
+        },
+        {
+          "id": "antenna_magnetica",
+          "nome": "Antenna Magnetica",
+          "stato": "avanzato",
+          "difficolta": 3,
+          "fonti": ["Andrea Donnoli - Elettrocoltura Starter Kit"],
+          "principio": "Combina captazione atmosferica con campo magnetico per amplificare l'effetto sull'acqua di irrigazione e sul terreno.",
+          "materiali": ["Tubo rame", "Magneti neodimio", "Filo collegamento"],
+          "procedura": [
+            "Costruire un'antenna in rame come quella parafulmine",
+            "Applicare magneti lungo il tubo principale",
+            "Collegare all'impianto irrigazione"
+          ],
+          "note": "Versione avanzata dell'antenna parafulmine con effetto magnetizzazione acqua integrato.",
+          "risultati_attesi": "Effetto combinato antenna + acqua magnetizzata",
+          "scientificita": "sperimentale"
+        }
+      ]
+    },
+    {
+      "id": "lakhovsky",
+      "nome": "Circuiti di Lakhovsky",
+      "ico": "🔁",
+      "colore": "#8e44ad",
+      "esperimenti": [
+        {
+          "id": "anello_lakhovsky_base",
+          "nome": "Anello di Lakhovsky (base)",
+          "stato": "attivo",
+          "difficolta": 1,
+          "fonti": ["Georges Lakhovsky - ricerche 1925", "Andrea Donnoli - Elettrocoltura Starter Kit", "Electroculture Biohacker Guide - César Arce"],
+          "principio": "Nel 1925 Lakhovsky circondò una pianta malata con un anello di rame aperto da 30 cm: la pianta guarì mentre tutte le altre morirono. L'anello aperto funziona come antenna che risuona con le frequenze cellulari della pianta, stimolando crescita e sistema immunitario vegetale.",
+          "materiali": ["Filo rame non isolato ~50 cm (o zinco/ferro da grucce)", "Tubicino plastica o nastro isolante"],
+          "procedura": [
+            "Piegare il filo a cerchio attorno alla base della pianta senza toccarla",
+            "Le due estremità NON devono toccarsi: sovrapporle per 2-3 cm con 1 cm di spazio tra loro",
+            "Fissare le estremità con tubicino di plastica o nastro isolante",
+            "Aprire il cerchio verso Nord",
+            "Posizionare a livello della base, appoggiato sul terreno"
+          ],
+          "note": "CRITICO: il cerchio deve essere APERTO. Un cerchio chiuso non funziona - l'apertura è essenziale per la risonanza. Con un solo anello aprire verso Nord, con due anelli alternare Nord/Sud.",
+          "risultati_attesi": "Stimolazione crescita, resistenza malattie, recupero piante deboli",
+          "scientificita": "sperimentale"
+        },
+        {
+          "id": "anello_lakhovsky_doppio",
+          "nome": "Doppio Anello di Lakhovsky",
+          "stato": "attivo",
+          "difficolta": 2,
+          "fonti": ["Andrea Donnoli - Elettrocoltura Starter Kit"],
+          "principio": "Due anelli di diametro diverso alternano l'apertura Nord/Sud per creare un campo di risonanza più ampio attorno alla pianta.",
+          "materiali": ["Filo rame non isolato, 2 lunghezze diverse", "Tubicino plastica o nastro isolante", "Supporti"],
+          "procedura": [
+            "Creare due cerchi di diametro leggermente diverso",
+            "Posizionare il primo con apertura verso Nord",
+            "Posizionare il secondo (più grande) con apertura verso Sud",
+            "Entrambi attorno alla base della pianta a 1 cm di distanza dal fusto"
+          ],
+          "note": "Versione potenziata del singolo anello. Mese 4: raddoppiare i Geomag e gli anelli sulle 5 piante rimaste.",
+          "risultati_attesi": "Effetto amplificato rispetto al singolo anello",
+          "scientificita": "sperimentale"
+        },
+        {
+          "id": "piramide_rame",
+          "nome": "Piramide in Rame per Sementi",
+          "stato": "opzionale",
+          "difficolta": 2,
+          "fonti": ["Andrea Donnoli - Elettrocoltura Starter Kit", "Electroculture Biohacker Guide - César Arce"],
+          "principio": "La piramide con proporzioni della Grande Piramide di Cheope (rapporto base/altezza = 1.5708 = π/2) concentra energia in punti specifici: agli spigoli inferiori e a 1/3 dell'altezza al centro. Questa energia accelera germinazione e migliora resistenza dei semi.",
+          "materiali": ["Tubi o verghe di rame", "Orientamento preciso verso i 4 punti cardinali"],
+          "procedura": [
+            "Costruire piramide con rapporto base/altezza = 1.5708 (metà pi greco)",
+            "Orientare ogni faccia verso un punto cardinale esatto",
+            "Posizionare i semi all'interno per 12-24 ore prima della semina",
+            "Per legumi: prima 24h in acqua, poi 24h sotto la piramide in busta plastica"
+          ],
+          "note": "Le aree di maggiore energia sono gli spigoli inferiori (interno ed esterno) e a circa 1/3 dell'altezza al centro. Fare esperimenti con posizionamento diverso dei semi.",
+          "risultati_attesi": "Germinazione più rapida, piante più vigorose e resistenti",
+          "scientificita": "sperimentale"
+        }
+      ]
+    },
+    {
+      "id": "magnetismo",
+      "nome": "Magnetismo & Acqua Strutturata",
+      "ico": "🧲",
+      "colore": "#2980b9",
+      "esperimenti": [
+        {
+          "id": "acqua_magnetizzata_tubo",
+          "nome": "Acqua Magnetizzata sul Tubo",
+          "stato": "attivo",
+          "difficolta": 1,
+          "fonti": ["US Patents for Electroculture - USP #4,020,590", "Manuale Mini Serra"],
+          "principio": "Un magnete avvolto attorno al tubo dell'acqua modifica temporaneamente la struttura molecolare dell'acqua (clustering), rendendola più facilmente assorbibile dalle radici. La polarità Nord (negativo) favorisce crescita vegetativa e resistenza.",
+          "materiali": ["Magnete neodimio o ferrite", "Nastro plastica per fissaggio"],
+          "procedura": [
+            "Fissare il magnete principale attorno al tubo principale vicino all'inizio della linea",
+            "Assicurarsi che l'acqua scorra attraverso il polo Nord (negativo)",
+            "Aggiungere 1 Geomag (~5 cm) per ogni gocciolatoio, fissato direttamente sul gocciolatoio"
+          ],
+          "note": "Sistema a due componenti: magnete principale sul tubo + Geomag su ogni gocciolatoio. Il doppio stadio garantisce magnetizzazione sia all'ingresso che all'uscita.",
+          "risultati_attesi": "Miglior assorbimento acqua, risparmio irrigazione, crescita vegetativa potenziata",
+          "scientificita": "sperimentale"
+        },
+        {
+          "id": "trattamento_magnetico_semi",
+          "nome": "Trattamento Magnetico dei Semi",
+          "stato": "opzionale",
+          "difficolta": 1,
+          "fonti": ["US Patents for Electroculture - USP #4,020,590, #4,188,751, #4,240,365"],
+          "principio": "I semi passati attraverso un campo magnetico unipolare mostrano alterazioni favorevoli nelle caratteristiche delle piante cresciute. Il campo magnetico agisce sui processi biochimici del seme modificando la velocità di germinazione.",
+          "materiali": ["Magnete permanente forte", "Contenitore cilindrico"],
+          "procedura": [
+            "Posizionare il magnete in modo che i semi debbano passare attraverso il campo magnetico",
+            "Far rotolare i semi attraverso il campo per garantire esposizione uniforme",
+            "Trattare per 15-30 minuti prima della semina"
+          ],
+          "note": "Documentato da brevetti USA. Combinare con trattamento sotto piramide per effetto massimo.",
+          "risultati_attesi": "Germinazione accelerata, piante più resistenti a malattie e clima avverso",
+          "scientificita": "documentato (brevetti USA)"
+        }
+      ]
+    },
+    {
+      "id": "galvanica",
+      "nome": "Pila Galvanica & Elettrochimica",
+      "ico": "⚡",
+      "colore": "#d35400",
+      "esperimenti": [
+        {
+          "id": "pila_ferro_rame",
+          "nome": "Pila Galvanica Ferro-Rame",
+          "stato": "attivo",
+          "difficolta": 2,
+          "fonti": ["Manuale Mini Serra - Tecnica Marte-Venere", "Principi elettrochimica"],
+          "principio": "Due metalli diversi (ferro e rame) immersi nel terreno umido generano una micro-corrente galvanica (~0.5-0.7V) che ionizza i nutrienti nel suolo rendendoli immediatamente assorbibili dalle radici. Il ferro rilascia ioni Fe2+ (ruggine) che prevengono clorosi. La corrente sposta K e Mg verso le radici.",
+          "materiali": ["Chiodo ferro vecchio arrugginito (no acciaio inox)", "Filo rame non isolato già presente", "Filo collegamento ~15 cm"],
+          "procedura": [
+            "Inserire il chiodo di ferro 5-10 cm dal fusto, in profondità dove il terreno è umido",
+            "Orientare il chiodo verso Nord, il rame verso Sud",
+            "Collegare la testa del chiodo al filo di rame con filo aggiuntivo (chiudere il circuito)",
+            "Mensile: versare acqua con melassa sopra il chiodo per aumentare conducibilità"
+          ],
+          "note": "CRITICO: il circuito DEVE essere chiuso (ferro collegato al rame) altrimenti non succede nulla. Il terreno umido è indispensabile - i gocciolatori garantiscono questo. La ruggine conduce meglio dell'acciaio nuovo.",
+          "risultati_attesi": "Foglie verde scuro, prevenzione ingiallimenti, assorbimento nutrienti potenziato",
+          "scientificita": "sperimentale (principio galvanico documentato)"
+        },
+        {
+          "id": "pantacle_rame",
+          "nome": "Pantacle di Rame (Collegamento Galvanico tra Vasi)",
+          "stato": "attivo",
+          "difficolta": 1,
+          "fonti": ["Manuale Mini Serra - Tecnica Pantacle"],
+          "principio": "Archi di filo di rame nudo collegano il terreno di vasi adiacenti creando un circuito galvanico comune. Le cariche elettriche si distribuiscono uniformemente tra tutti i vasi, creando un 'organismo collettivo' dove le piante condividono energia e segnali elettrochimici.",
+          "materiali": ["Filo rame nudo ~30 cm tra vasi"],
+          "procedura": [
+            "Inserire un capo del filo nel terreno di un vaso",
+            "Fare un arco morbido",
+            "Inserire l'altro capo nel terreno del vaso adiacente",
+            "Collegare tutti i vasi in serie"
+          ],
+          "note": "Da installare al Giorno 0. Verificare settimanalmente che il filo sia ancora a contatto con il terreno.",
+          "risultati_attesi": "Distribuzione uniforme delle cariche, crescita omogenea tra tutte le piante",
+          "scientificita": "sperimentale"
+        }
+      ]
+    },
+    {
+      "id": "luce",
+      "nome": "Luce & Riflessione",
+      "ico": "💡",
+      "colore": "#f39c12",
+      "esperimenti": [
+        {
+          "id": "escavatore_luce",
+          "nome": "Escavatore di Luce (Dischi Mylar)",
+          "stato": "attivo",
+          "difficolta": 1,
+          "fonti": ["Manuale Mini Serra", "La Vita Segreta delle Piante - Tompkins & Bird"],
+          "principio": "Gli stomi si trovano principalmente nella pagina inferiore delle foglie. Riflettere la luce dal basso verso l'alto massimizza la fotosintesi nelle zone normalmente in ombra. Il Mylar riflette fino al 95% della luce incidente.",
+          "materiali": ["Cartone ~25 cm diametro", "Pellicola Mylar riflettente", "Forbici"],
+          "procedura": [
+            "Ritagliare dischi di cartone del diametro del vaso (~25 cm)",
+            "Rivestire la superficie superiore con pellicola Mylar",
+            "Fare un buco centrale per il fusto della pianta",
+            "Infilare alla base del fusto coprendo tutta la superficie del vaso"
+          ],
+          "note": "Da installare dal Giorno 0 su tutti i vasi. Nessun costo aggiuntivo se si ha già il Mylar. Non occupano spazio a terra.",
+          "risultati_attesi": "Fotosintesi aumentata nelle foglie inferiori, piante più vigorose",
+          "scientificita": "documentato (fotobiologia)"
+        }
+      ]
+    },
+    {
+      "id": "biologici",
+      "nome": "Biologici & Alchimia Vegetale",
+      "ico": "🌿",
+      "colore": "#27ae60",
+      "esperimenti": [
+        {
+          "id": "infuso_ortiche",
+          "nome": "Infuso di Ortiche Fermentato",
+          "stato": "attivo",
+          "difficolta": 1,
+          "fonti": ["Manuale Mini Serra", "An Agricultural Testament - Albert Howard", "Agricultura Orgánica - Jairo Restrepo Rivera"],
+          "principio": "La fermentazione anaerobica delle ortiche libera azoto (N), ferro (Fe), potassio (K) e decine di oligoelementi in forma chelata biologicamente disponibile. Gli acidi umici prodotti dalla fermentazione attivano i microrganismi del suolo.",
+          "materiali": ["Foglie ortica fresca 100-150 g per 1L acqua", "Contenitore con coperchio", "Panno/colino per filtrare", "Guanti"],
+          "procedura": [
+            "Raccogliere ortiche con guanti",
+            "Coprire con acqua (100-150g per 1L)",
+            "Lasciare macerare coperto 3-7 giorni mescolando ogni giorno",
+            "Filtrare con panno o colino",
+            "Diluire 1:10 con acqua prima dell'uso",
+            "Somministrare 1-2 L per vaso"
+          ],
+          "note": "Odore forte durante fermentazione - normale. Una volta diluito 1:10 l'odore si riduce molto. Conservare max 1-2 settimane in contenitore chiuso lontano dal caldo.",
+          "risultati_attesi": "Fertilizzazione azotata naturale, attivazione microbi suolo, piante più verdi",
+          "scientificita": "documentato (agronomia biologica)"
+        },
+        {
+          "id": "te_banana_cenere",
+          "nome": "Tè di Banana e Cenere (Potassio Alchemico)",
+          "stato": "attivo",
+          "difficolta": 1,
+          "fonti": ["Manuale Mini Serra", "Agricultura Orgánica - Jairo Restrepo Rivera"],
+          "principio": "La cottura delle bucce di banana concentra il potassio in forma chelata naturale più biodisponibile dei fertilizzanti chimici. La cenere di legna aggiunge K, Ca e Mg in forma immediatamente solubile. Ideale per la fase di fioritura dove il potassio è cruciale per aromi e densità.",
+          "materiali": ["Bucce 3-4 banane", "1 cucchiaino cenere legna (camino/barbecue)", "1 L acqua"],
+          "procedura": [
+            "Far bollire le bucce di banana in 1 L d'acqua per 15 minuti",
+            "Lasciare raffreddare e filtrare",
+            "Aggiungere 1 cucchiaino di cenere",
+            "Diluire 1:5 con acqua normale prima dell'uso",
+            "Usare per irrigazione normale al posto dell'acqua del serbatoio"
+          ],
+          "note": "Usare ogni 2 settimane dalla fase di fioritura (mesi 5-8). Alternativo/integrativo alla miscela organica di banana già in uso.",
+          "risultati_attesi": "Fiori più pesanti, aromi più intensi, fruttificazione migliorata",
+          "scientificita": "documentato (fitochimica)"
+        },
+        {
+          "id": "melassa_microbi",
+          "nome": "Melassa per Microbi del Suolo",
+          "stato": "attivo",
+          "difficolta": 1,
+          "fonti": ["Manuale Mini Serra", "The Soil Biology Primer - Elaine Ingham"],
+          "principio": "La melassa è il nutrimento preferito dei batteri benefici del suolo (Lactobacillus, Azotobacter, Bacillus). Gli zuccheri semplici della melassa moltiplicano la popolazione microbica nel giro di 24-48h, amplificando la mineralizzazione dei nutrienti e la resistenza alle malattie radicali.",
+          "materiali": ["Melassa Dogma Organics Morganix", "Bottiglia separata 15-25 L"],
+          "procedura": [
+            "Preparare in bottiglia separata (NON nel serbatoio principale)",
+            "Sciogliere 1 ml di melassa per ogni litro d'acqua",
+            "Mescolare bene",
+            "Irrigare tutte le piante"
+          ],
+          "note": "Ogni 15 giorni. NON usare mai nel serbatoio principale - proliferazione alghe.",
+          "risultati_attesi": "Microbioma del suolo attivo, migliore assorbimento nutrienti, prevenzione malattie radicali",
+          "scientificita": "documentato (microbiologia del suolo)"
+        },
+        {
+          "id": "generatore_etilene",
+          "nome": "Generatore di Etilene (Maturazione)",
+          "stato": "attivo",
+          "difficolta": 1,
+          "fonti": ["Manuale Mini Serra", "La Vita Segreta delle Piante - Tompkins & Bird"],
+          "principio": "L'etilene (C2H4) è un ormone vegetale gassoso che segnala alle piante di completare il ciclo riproduttivo. La frutta matura lo emette naturalmente. Nelle ultime settimane del ciclo, l'esposizione all'etilene sincronizza la maturazione di tutte le cime e aumenta la densità della resina protettiva.",
+          "materiali": ["1 mela rossa molto matura O 1 banana annerita"],
+          "procedura": [
+            "Usare solo nelle ultime 2-3 settimane del ciclo (mesi 7-8)",
+            "Posizionare la frutta matura all'interno della mini-serra vicino alle piante",
+            "Sostituire la frutta ogni 3-4 giorni quando inizia a marcire eccessivamente"
+          ],
+          "note": "Scientificamente documentato - usato nell'agricoltura commerciale. Sincronizza la maturazione.",
+          "risultati_attesi": "Maturazione sincronizzata di tutte le cime, maggiore densità resina",
+          "scientificita": "scientificamente documentato"
+        },
+        {
+          "id": "miscela_organica_casa",
+          "nome": "Miscela Organica Fatta in Casa",
+          "stato": "attivo",
+          "difficolta": 1,
+          "fonti": ["Manuale Mini Serra", "An Agricultural Testament - Albert Howard"],
+          "principio": "Gusci d'uovo (Ca), bucce di banana (K) e fondi di caffè (N) essiccati e polverizzati rilasciano lentamente macro e micronutrienti. La polvere fine aumenta la superficie di contatto con i microbi del suolo accelerando la mineralizzazione.",
+          "materiali": ["Gusci d'uovo essiccati e polverizzati", "Bucce banana essiccate e polverizzate", "Fondi caffè essiccati", "BioBizz Worm Humus (per mescolare)"],
+          "procedura": [
+            "Essiccare completamente tutti gli ingredienti",
+            "Tritare finemente",
+            "Mescolare con un po' di Worm Humus (previene muffe)",
+            "Spargere 1 cucchiaio grande per vaso sulla superficie del terreno",
+            "Irrigare subito dopo"
+          ],
+          "note": "Mescolare sempre con humus per prevenire muffe superficiali che attirerebbero moscerini. Cadenza mensile.",
+          "risultati_attesi": "Apporto Ca + K + N, fertilizzazione lenta e naturale",
+          "scientificita": "documentato (agronomia biologica)"
+        }
+      ]
+    },
+    {
+      "id": "suolo",
+      "nome": "Suolo & Microbioma",
+      "ico": "🌍",
+      "colore": "#795548",
+      "esperimenti": [
+        {
+          "id": "living_soil_water_only",
+          "nome": "Living Soil Water-Only",
+          "stato": "attivo",
+          "difficolta": 2,
+          "fonti": ["Manuale Mini Serra", "The Soil Biology Primer - Elaine Ingham", "An Agricultural Testament - Albert Howard"],
+          "principio": "Il Super Soil pre-ammendato contiene tutti i nutrienti in forma organica lenta. I microrganismi (batteri, funghi, protozoi) mineralizzano i nutrienti su richiesta delle radici attraverso segnali chimici. Le micorrize estendono l'apparato radicale di 100x aumentando l'assorbimento. Nessun fertilizzante liquido necessario per 8 mesi.",
+          "materiali": ["BioBizz Light-Mix 100L", "Fibra cocco 10L", "Super Soil dose 100L", "BioBizz Worm Humus 3kg", "Micorrize 0.5-1g per pianta"],
+          "procedura": [
+            "Mescolare Light-Mix + fibra cocco + Super Soil",
+            "Aggiungere 250-300g Worm Humus per vaso nei primi 5-7 cm",
+            "Al trapianto: 0.5-1g micorrize nel buco prima di inserire la pianta",
+            "Irrigare regolarmente - i microbi fanno il resto"
+          ],
+          "note": "Sistema comprovato con 93% di confidenza. La variabile critica è sempre l'irrigazione e il drenaggio.",
+          "risultati_attesi": "Coltivazione autonoma 8 mesi senza fertilizzanti liquidi",
+          "scientificita": "scientificamente documentato"
+        },
+        {
+          "id": "infuso_humus_serbatoio",
+          "nome": "Infuso di Humus nel Serbatoio",
+          "stato": "attivo",
+          "difficolta": 1,
+          "fonti": ["Manuale Mini Serra", "The Soil Biology Primer - Elaine Ingham"],
+          "principio": "L'acqua infusa con Worm Humus diventa un tè microbico ricco di batteri benefici, enzimi e acidi umici. Ogni irrigazione introduce questi microrganismi nel suolo rafforzando continuamente il microbioma radicale.",
+          "materiali": ["Contenitore 5-6 L", "BioBizz Worm Humus 100-150 g", "Panno per filtrare"],
+          "procedura": [
+            "Preparare 5 L acqua + 100-150 g BioBizz Worm Humus in contenitore separato",
+            "Lasciare in infusione per qualche ora",
+            "Versare l'acqua infusa nella tanica",
+            "Rinnovare mensilmente svuotando e ripreparando"
+          ],
+          "note": "NON immergere sacchetto direttamente nella tanica - preparare sempre separatamente. Rinnovare 1x al mese insieme a ortiche e miscela organica.",
+          "risultati_attesi": "Microbioma continuo nell'acqua di irrigazione, piante più resistenti",
+          "scientificita": "documentato (microbiologia applicata)"
+        }
+      ]
+    },
+    {
+      "id": "filosofia",
+      "nome": "Fondamenti Filosofici",
+      "ico": "📚",
+      "colore": "#546e7a",
+      "esperimenti": [
+        {
+          "id": "kybalion_principi",
+          "nome": "I 7 Principi del Kybalion applicati alla Coltivazione",
+          "stato": "teoria",
+          "difficolta": 0,
+          "fonti": ["Il Kybalion - I Tre Iniziati", "Corpo Ermetico e Asclepio - Ermete Trismegisto", "LE Tavole Smeraldine di Thoth"],
+          "principio": "Il Kybalion (1908) sintetizza l'ermetismo in 7 principi. Applicati alla coltivazione: (1) Mentalismo - la pianta risponde all'intenzione del coltivatore; (2) Corrispondenza - 'ciò che è in alto è come ciò che è in basso' = macro/microcosmo nel suolo; (3) Vibrazione - ogni pianta ha la sua frequenza (base dell'anello Lakhovsky); (4) Polarità - le pile galvaniche ferro/rame; (5) Ritmo - cicli lunari biodinamici; (6) Causa-Effetto - ogni azione sul suolo produce effetti misurabili; (7) Genere - bilanciare energie Yin/Yang nel giardino.",
+          "note": "Testo filosofico di riferimento per comprendere la base teorica di molti esperimenti non convenzionali. Non applicazione pratica diretta ma framework concettuale.",
+          "scientificita": "filosofico"
+        },
+        {
+          "id": "vita_segreta_piante",
+          "nome": "La Vita Segreta delle Piante - Principi Chiave",
+          "stato": "teoria",
+          "difficolta": 0,
+          "fonti": ["La Vita Segreta delle Piante - Peter Tompkins & Christopher Bird"],
+          "principio": "Le piante hanno sistemi di percezione e comunicazione complessi: (1) Rispondono alle emozioni umane (esperimento Backster con galvanometro); (2) Comunicano tra loro via segnali chimici e elettrici; (3) Sono sensibili alla musica e alle vibrazioni; (4) Hanno memoria delle esperienze; (5) Rispondono ai campi elettromagnetici e alle fasi lunari. Base scientifica per pratiche di coltivazione consapevole e biodinamica.",
+          "note": "Libro fondamentale per capire il perché di molte tecniche non convenzionali. Contiene riferimenti a Lakhovsky, all'elettromagnetismo vegetale e alla biodinamica.",
+          "scientificita": "divulgativo-scientifico"
+        }
+      ]
+    }
+  ]
+}
