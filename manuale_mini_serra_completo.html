@@ -50,8 +50,8 @@ body.dark .sov-box{background:#1a1f10;color:var(--text);}
 body.dark .exit-banner-box,body.dark #exit-banner{background:#111810;}
 
 /* Indicatore tema */
-#tema-toggle{position:fixed;top:.6rem;right:.7rem;z-index:200;background:rgba(0,0,0,.25);border:none;border-radius:100px;padding:.28rem .65rem;font-size:.8rem;cursor:pointer;color:#fff;backdrop-filter:blur(4px);}
-body.dark #tema-toggle{background:rgba(255,255,255,.12);}
+#tema-toggle{position:fixed;bottom:calc(env(safe-area-inset-bottom)+4.2rem);right:.7rem;z-index:150;background:rgba(255,255,255,0.85);border:1px solid rgba(0,0,0,0.1);border-radius:100px;padding:.3rem .6rem;font-size:.82rem;cursor:pointer;color:var(--bark);box-shadow:0 2px 8px rgba(0,0,0,.12);backdrop-filter:blur(8px);}
+body.dark #tema-toggle{background:rgba(30,35,20,0.85);color:var(--mint);border-color:rgba(255,255,255,.1);}
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;overscroll-behavior:none;}
@@ -857,10 +857,11 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <div style="position:sticky;top:0;z-index:10;background:var(--bg);padding:.6rem .9rem .4rem;border-bottom:1px solid var(--sand);">
     <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--bark);margin-bottom:.5rem;">🔬 Lab Sperimentale</div>
     <div style="display:flex;gap:.3rem;">
-      <button class="lib-tab att" onclick="libTab(this,'lib-esplora')" style="flex:1;padding:.4rem;font-size:.72rem;font-weight:700;border-radius:8px;border:none;background:var(--bark);color:#fff;cursor:pointer;">🧬 Esplora</button>
-      <button class="lib-tab" onclick="libTab(this,'lib-mappa')" style="flex:1;padding:.4rem;font-size:.72rem;font-weight:700;border-radius:8px;border:none;background:var(--sand);color:var(--bark);cursor:pointer;">🕸 Mappa</button>
-      <button class="lib-tab" onclick="libTab(this,'lib-lab')" style="flex:1;padding:.4rem;font-size:.72rem;font-weight:700;border-radius:8px;border:none;background:var(--sand);color:var(--bark);cursor:pointer;">⚗️ Il mio Lab</button>
-      <button class="lib-tab" onclick="libTab(this,'lib-oggi')" style="flex:1;padding:.4rem;font-size:.72rem;font-weight:700;border-radius:8px;border:none;background:var(--sand);color:var(--bark);cursor:pointer;">✨ Oggi</button>
+      <button class="lib-tab att" onclick="libTab(this,'lib-esplora')" style="flex:1;padding:.35rem .1rem;font-size:.68rem;font-weight:700;border-radius:8px;border:none;background:var(--bark);color:#fff;cursor:pointer;">🧬 Esplora</button>
+      <button class="lib-tab" onclick="libTab(this,'lib-mappa')" style="flex:1;padding:.35rem .1rem;font-size:.68rem;font-weight:700;border-radius:8px;border:none;background:var(--sand);color:var(--bark);cursor:pointer;">🕸 Mappa</button>
+      <button class="lib-tab" onclick="libTab(this,'lib-lab')" style="flex:1;padding:.35rem .1rem;font-size:.68rem;font-weight:700;border-radius:8px;border:none;background:var(--sand);color:var(--bark);cursor:pointer;">⚗️ Lab</button>
+      <button class="lib-tab" onclick="libTab(this,'lib-oggi')" style="flex:1;padding:.35rem .1rem;font-size:.68rem;font-weight:700;border-radius:8px;border:none;background:var(--sand);color:var(--bark);cursor:pointer;">✨ Oggi</button>
+      <button class="lib-tab" onclick="libTab(this,'lib-ai')" style="flex:1;padding:.35rem .1rem;font-size:.68rem;font-weight:700;border-radius:8px;border:none;background:var(--sand);color:var(--bark);cursor:pointer;">🤖 AI</button>
     </div>
   </div>
 
@@ -887,6 +888,36 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <!-- OGGI: raccomandazioni contestuali -->
   <div id="lib-oggi" style="display:none;padding:.6rem .9rem 5rem;">
     <div id="lib-oggi-content"></div>
+  </div>
+
+  <!-- AI ASSISTANT -->
+  <div id="lib-ai" style="display:none;padding:.6rem .9rem 5rem;">
+    <div style="background:linear-gradient(135deg,#0d2818,#1e4a2a);border-radius:16px;padding:.9rem 1rem;margin-bottom:.7rem;color:#fff;">
+      <div style="font-size:.65rem;font-family:monospace;letter-spacing:.08em;opacity:.6;margin-bottom:.3rem;">🤖 ASSISTENTE IA — POWERED BY CLAUDE</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1rem;margin-bottom:.2rem;">Analisi & Combinazioni dai Manuali</div>
+      <div style="font-size:.75rem;opacity:.75;line-height:1.5;">Fai domande sui tuoi 40+ manuali. Chiedi combinazioni, confronti, esperimenti incrociati.</div>
+    </div>
+
+    <!-- Suggerimenti rapidi -->
+    <div style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem;">💡 Domande rapide</div>
+    <div style="display:flex;flex-direction:column;gap:.3rem;margin-bottom:.7rem;" id="ai-quick-btns">
+      <button onclick="inviaAI('Quali esperimenti posso combinare oggi in base al giorno biodinamico e alla fase lunare?')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--soft);text-align:left;cursor:pointer;">🌙 Cosa fare oggi con luna e biodinamica?</button>
+      <button onclick="inviaAI('Confronta le tecniche di Lakhovsky, Christofleau e Ighina: quali sono le differenze e come si possono combinare nella mia mini-serra?')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--soft);text-align:left;cursor:pointer;">🔬 Confronta Lakhovsky, Christofleau e Ighina</button>
+      <button onclick="inviaAI('Crea un piano sperimentale settimanale che combina elettrocoltura, acqua magnetizzata e alchimia vegetale per massimizzare la crescita delle mie piante')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--soft);text-align:left;cursor:pointer;">📋 Piano sperimentale settimanale</button>
+      <button onclick="inviaAI('Quali sono le connessioni tra le teorie di Nikola Tesla, Lakhovsky e Ighina applicate alla coltivazione? Come posso usarle insieme?')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--soft);text-align:left;cursor:pointer;">⚡ Tesla + Lakhovsky + Ighina: connessioni</button>
+    </div>
+
+    <!-- Chat -->
+    <div id="ai-chat" style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:.7rem;min-height:60px;"></div>
+
+    <!-- Input -->
+    <div style="position:sticky;bottom:5.5rem;background:var(--main-bg);padding:.3rem 0;">
+      <div style="display:flex;gap:.4rem;align-items:flex-end;">
+        <textarea id="ai-input" placeholder="Chiedi qualcosa sui manuali... es. Come combinare l'anello di Lakhovsky con la pila galvanica?" style="flex:1;padding:.55rem .75rem;border-radius:14px;border:1.5px solid var(--sand);background:var(--card);font-family:'Nunito',sans-serif;font-size:.82rem;color:var(--text);resize:none;min-height:2.8rem;max-height:6rem;line-height:1.4;outline:none;" rows="2" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();inviaAI();}"></textarea>
+        <button onclick="inviaAI()" style="padding:.55rem .8rem;background:var(--moss);color:#fff;border:none;border-radius:14px;font-size:1rem;cursor:pointer;flex-shrink:0;height:2.8rem;">→</button>
+      </div>
+      <div style="font-size:.65rem;color:var(--muted);margin-top:.3rem;text-align:center;">Shift+Invio per andare a capo · Invio per inviare</div>
+    </div>
   </div>
 </div>
 </div><!-- /main -->
@@ -2108,6 +2139,8 @@ async function caricaStorico() {
 function renderGraficiStorici(daily) {
   var el = document.getElementById('grafico-storico');
   if(!el || !daily) return;
+  window._STORICO = daily;
+
   var dates = daily.time;
   var tMax = daily.temperature_2m_max;
   var tMin = daily.temperature_2m_min;
@@ -2115,136 +2148,173 @@ function renderGraficiStorici(daily) {
   var pioggia = daily.precipitation_sum;
   var n = dates.length;
 
-  // Calcola medie settimanali
-  function mediaSett(arr) {
-    var res = [], labels = [];
-    for(var i=0; i<arr.length; i+=7) {
-      var slice = arr.slice(i, Math.min(i+7, arr.length));
-      var med = slice.reduce(function(a,b){return a+b;},0)/slice.length;
-      res.push(parseFloat(med.toFixed(1)));
-      // Label: prima data della settimana
-      labels.push(dates[i] ? dates[i].substring(5) : '');
-    }
-    return {vals:res, labels:labels};
-  }
-
-  var settTMax = mediaSett(tMax);
-  var settTMin = mediaSett(tMin);
-  var settUmid = mediaSett(umid);
-
-  // Statistiche
+  var tMedia = tMax.map(function(v,i){return parseFloat(((v+tMin[i])/2).toFixed(1));});
   var tMaxMed = (tMax.reduce(function(a,b){return a+b;},0)/n).toFixed(1);
   var tMinMed = (tMin.reduce(function(a,b){return a+b;},0)/n).toFixed(1);
-  var tMedia = tMax.map(function(v,i){return (v+tMin[i])/2;});
   var tMediaMed = (tMedia.reduce(function(a,b){return a+b;},0)/n).toFixed(1);
   var totPioggia = pioggia.reduce(function(a,b){return a+b;},0).toFixed(0);
   var umidMed = (umid.reduce(function(a,b){return a+b;},0)/n).toFixed(0);
-  var settN = settTMax.vals.length;
 
   var html = '';
 
   // Statistiche riassuntive
   html += '<div class="grafico-wrap">';
-  html += '<div class="grafico-title"><span>📊 '+n+' giorni · '+settN+' settimane</span><span style="font-family:monospace;font-size:.7rem;">'+dates[0]+' → '+dates[n-1]+'</span></div>';
+  html += '<div class="grafico-title"><span>📊 '+n+' giorni</span><span style="font-family:monospace;font-size:.68rem;opacity:.7;">'+dates[0]+' → '+dates[n-1]+'</span></div>';
   html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.35rem;">';
   [{l:'T° media',v:tMediaMed+'°'},{l:'T° max media',v:tMaxMed+'°'},{l:'T° min media',v:tMinMed+'°'},
-   {l:'Pioggia tot.',v:totPioggia+'mm'},{l:'Umidità media',v:umidMed+'%'},{l:'Settimane',v:settN}
+   {l:'Pioggia tot.',v:totPioggia+'mm'},{l:'Umidità media',v:umidMed+'%'},{l:'Giorni',v:n}
   ].forEach(function(s){
     html+='<div class="arch-stat"><div class="arch-stat-v">'+s.v+'</div><div class="arch-stat-l">'+s.l+'</div></div>';
   });
   html += '</div></div>';
 
-  // Grafico temperatura SETTIMANALE
-  html += '<div class="grafico-wrap">';
-  html += '<div class="grafico-title"><span>🌡 Temperatura settimanale (°C)</span></div>';
-  html += '<canvas class="grafico-canvas" id="cnv-temp" height="130"></canvas>';
-  html += '<div class="grafico-leggenda">';
-  html += '<div class="grafico-leg-item"><div class="grafico-leg-dot" style="background:#e57373;"></div>Max settim.</div>';
-  html += '<div class="grafico-leg-item"><div class="grafico-leg-dot" style="background:#42a5f5;"></div>Min settim.</div>';
-  html += '<div class="grafico-leg-item"><div class="grafico-leg-dot" style="background:#ff9800;"></div>Media</div>';
+  // CURSORE TEMPORALE — controlla tutti e 3 i grafici
+  html += '<div class="grafico-wrap" style="padding:.7rem .9rem .5rem;">';
+  html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem;">';
+  html += '<span style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">📅 Periodo visualizzato</span>';
+  html += '<span id="sto-periodo-label" style="font-size:.72rem;font-family:monospace;color:var(--moss);font-weight:700;"></span>';
+  html += '</div>';
+  html += '<input type="range" id="sto-slider-fine" min="6" max="'+(n-1)+'" value="'+(n-1)+'" style="width:100%;accent-color:var(--moss);margin-bottom:.2rem;" oninput="aggiornaPeriodoStorico()">';
+  html += '<div style="display:flex;justify-content:space-between;font-size:.65rem;font-family:monospace;color:var(--muted);">';
+  html += '<span>'+dates[0].substring(5)+'</span><span>'+dates[n-1].substring(5)+'</span>';
+  html += '</div>';
+  // Bottoni periodo rapido
+  html += '<div style="display:flex;gap:.35rem;margin-top:.5rem;flex-wrap:wrap;">';
+  [{l:'7g',v:7},{l:'14g',v:14},{l:'30g',v:30},{l:'Tutto',v:n-1}].forEach(function(b){
+    html += '<button onclick="setStoFine('+b.v+')" style="padding:.25rem .65rem;border-radius:100px;border:1px solid var(--sand);background:var(--cream);color:var(--soft);font-size:.72rem;font-weight:700;cursor:pointer;">'+b.l+'</button>';
+  });
   html += '</div></div>';
 
-  // Grafico umidità settimanale
+  // GRAFICO TEMPERATURA
   html += '<div class="grafico-wrap">';
-  html += '<div class="grafico-title"><span>💧 Umidità media settimanale (%)</span></div>';
-  html += '<canvas class="grafico-canvas" id="cnv-umid" height="100"></canvas>';
+  html += '<div class="grafico-title"><span>🌡 Temperatura (°C)</span>';
+  html += '<div style="display:flex;gap:.6rem;">';
+  html += '<span style="font-size:.7rem;display:flex;align-items:center;gap:.25rem;"><span style="width:10px;height:2px;background:#ff6b6b;display:inline-block;border-radius:2px;"></span>Max</span>';
+  html += '<span style="font-size:.7rem;display:flex;align-items:center;gap:.25rem;"><span style="width:10px;height:2px;background:#74c0fc;display:inline-block;border-radius:2px;"></span>Min</span>';
+  html += '<span style="font-size:.7rem;display:flex;align-items:center;gap:.25rem;"><span style="width:10px;height:2px;background:#ffa94d;display:inline-block;border-radius:2px;"></span>Media</span>';
+  html += '</div></div>';
+  html += '<canvas id="cnv-temp" style="width:100%;height:130px;display:block;"></canvas>';
+  html += '<div id="sto-temp-tooltip" style="font-size:.72rem;color:var(--soft);text-align:center;min-height:1.2rem;margin-top:.2rem;font-family:monospace;"></div>';
   html += '</div>';
 
-  // Grafico pioggia giornaliera
+  // GRAFICO UMIDITÀ
   html += '<div class="grafico-wrap">';
-  html += '<div class="grafico-title"><span>🌧 Precipitazioni giornaliere (mm)</span></div>';
-  html += '<canvas class="grafico-canvas" id="cnv-rain" height="80"></canvas>';
+  html += '<div class="grafico-title"><span>💧 Umidità (%)</span></div>';
+  html += '<canvas id="cnv-umid" style="width:100%;height:100px;display:block;"></canvas>';
+  html += '<div id="sto-umid-tooltip" style="font-size:.72rem;color:var(--soft);text-align:center;min-height:1.2rem;margin-top:.2rem;font-family:monospace;"></div>';
+  html += '</div>';
+
+  // GRAFICO PIOGGIA
+  html += '<div class="grafico-wrap">';
+  html += '<div class="grafico-title"><span>🌧 Precipitazioni (mm)</span></div>';
+  html += '<canvas id="cnv-rain" style="width:100%;height:90px;display:block;"></canvas>';
+  html += '<div id="sto-rain-tooltip" style="font-size:.72rem;color:var(--soft);text-align:center;min-height:1.2rem;margin-top:.2rem;font-family:monospace;"></div>';
   html += '</div>';
 
   el.innerHTML = html;
 
-  // Media settimanale temperatura (media tra max e min)
-  var settMedia = settTMax.vals.map(function(v,i){return parseFloat(((v+settTMin.vals[i])/2).toFixed(1));});
-
-  setTimeout(function(){
-    disegnaGrafico('cnv-temp', settTMax.labels, [
-      {data:settTMax.vals, col:'#e57373', fill:'rgba(229,115,115,.12)'},
-      {data:settTMin.vals, col:'#42a5f5', fill:'rgba(66,165,245,.12)'},
-      {data:settMedia,     col:'#ff9800', fill:null}
-    ], null, null, true);
-    disegnaGrafico('cnv-umid', settUmid.labels, [
-      {data:settUmid.vals, col:'#26c6da', fill:'rgba(38,198,218,.2)'}
-    ], 0, 100, true);
-    disegnaGraficoBarre('cnv-rain', dates, pioggia, '#42a5f5');
-  }, 150);
+  setTimeout(function(){ aggiornaPeriodoStorico(); }, 100);
 }
 
+function setStoFine(gg) {
+  var d = window._STORICO; if(!d) return;
+  var n = d.time.length;
+  var val = Math.min(n-1, gg-1);
+  var sl = document.getElementById('sto-slider-fine');
+  if(sl) { sl.value = val; aggiornaPeriodoStorico(); }
+}
 
-function disegnaGrafico(id, labels, series, yMin, yMax, mostraLabels) {
+function aggiornaPeriodoStorico() {
+  var d = window._STORICO; if(!d) return;
+  var sl = document.getElementById('sto-slider-fine'); if(!sl) return;
+  var fine = parseInt(sl.value);
+  var inizio = Math.max(0, fine - Math.min(fine, fine));
+  // Mostra gli ultimi N giorni fino a 'fine'
+  var N = fine + 1;
+  var inizio = 0;
+
+  var dates = d.time.slice(inizio, fine+1);
+  var tMax = d.temperature_2m_max.slice(inizio, fine+1);
+  var tMin = d.temperature_2m_min.slice(inizio, fine+1);
+  var umid = d.relative_humidity_2m_max.slice(inizio, fine+1);
+  var pioggia = d.precipitation_sum.slice(inizio, fine+1);
+  var tMedia = tMax.map(function(v,i){return parseFloat(((v+tMin[i])/2).toFixed(1));});
+
+  var lbl = document.getElementById('sto-periodo-label');
+  if(lbl) lbl.textContent = dates[0].substring(5) + ' → ' + dates[dates.length-1].substring(5) + ' ('+dates.length+'gg)';
+
+  // Disegna i 3 grafici con i dati slicati
+  disegnaGraficoNew('cnv-temp', dates, [
+    {data:tMax, col:'#ff6b6b', fill:'rgba(255,107,107,0.12)', nome:'Max'},
+    {data:tMin, col:'#74c0fc', fill:'rgba(116,192,252,0.10)', nome:'Min'},
+    {data:tMedia, col:'#ffa94d', fill:null, nome:'Media'}
+  ], null, null, 'sto-temp-tooltip');
+
+  disegnaGraficoNew('cnv-umid', dates, [
+    {data:umid, col:'#38d9a9', fill:'rgba(56,217,169,0.15)', nome:'Umidità'}
+  ], 0, 100, 'sto-umid-tooltip');
+
+  disegnaGraficoBarre('cnv-rain', dates, pioggia, '#74c0fc', 'sto-rain-tooltip');
+}
+
+function disegnaGraficoNew(id, dates, series, yMin, yMax, tooltipId) {
   var canvas = document.getElementById(id);
   if(!canvas) return;
   var ctx = canvas.getContext('2d');
   var W = canvas.offsetWidth || 300;
-  var H = canvas.height || 120;
-  canvas.width = W * window.devicePixelRatio;
-  canvas.height = H * window.devicePixelRatio;
-  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  var H = 130;
+  canvas.width = W * (window.devicePixelRatio||1);
+  canvas.height = H * (window.devicePixelRatio||1);
+  ctx.scale(window.devicePixelRatio||1, window.devicePixelRatio||1);
 
-  var pad = {t:8, r:8, b:mostraLabels?22:8, l:28};
+  var isDark = document.body.classList.contains('dark');
+  var gridCol = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)';
+  var labelCol = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)';
+  var pad = {t:8, r:12, b:26, l:32};
   var w = W - pad.l - pad.r;
   var h = H - pad.t - pad.b;
-  var n = labels.length;
+  var n = dates.length;
 
-  // Range Y
-  var allVals = series.reduce(function(acc,s){return acc.concat(s.data);}, []);
-  var minV = yMin !== null ? yMin : Math.min.apply(null,allVals) - 2;
-  var maxV = yMax !== null ? yMax : Math.max.apply(null,allVals) + 2;
+  var allVals = series.reduce(function(a,s){return a.concat(s.data);}, []);
+  var minV = yMin !== null && yMin !== undefined ? yMin : Math.floor(Math.min.apply(null,allVals)) - 1;
+  var maxV = yMax !== null && yMax !== undefined ? yMax : Math.ceil(Math.max.apply(null,allVals)) + 1;
   var rangeV = maxV - minV || 1;
 
-  // Griglia
-  ctx.strokeStyle = 'rgba(0,0,0,.08)';
+  // Sfondo
+  ctx.clearRect(0, 0, W, H);
+
+  // Griglia orizzontale
+  ctx.font = '9px monospace';
+  ctx.fillStyle = labelCol;
+  ctx.strokeStyle = gridCol;
   ctx.lineWidth = 1;
   for(var gi=0; gi<=4; gi++) {
     var gy = pad.t + h - (gi/4)*h;
     ctx.beginPath(); ctx.moveTo(pad.l, gy); ctx.lineTo(pad.l+w, gy); ctx.stroke();
-    ctx.fillStyle = 'rgba(0,0,0,.4)';
-    ctx.font = '9px monospace';
-    ctx.fillText(Math.round(minV + (gi/4)*rangeV), 0, gy+3);
+    ctx.fillText(Math.round(minV + (gi/4)*rangeV), 2, gy+3);
   }
 
-  // Label asse X (ogni ~10 giorni)
-  if(mostraLabels) {
-    ctx.fillStyle = 'rgba(0,0,0,.4)';
-    ctx.font = '8px monospace';
-    var step = Math.max(1, Math.round(n/6));
-    for(var xi=0; xi<n; xi+=step) {
-      var xp = pad.l + (xi/(n-1))*w;
-      var d = labels[xi] ? labels[xi].substring(5) : '';
-      ctx.fillText(d, xp-8, H-4);
-    }
+  // Asse X — date sull'asse
+  ctx.fillStyle = labelCol;
+  ctx.font = '8px monospace';
+  var step = Math.max(1, Math.round(n/5));
+  for(var xi=0; xi<n; xi+=step) {
+    var xp = pad.l + (n>1?(xi/(n-1)):0)*w;
+    var lbl = dates[xi] ? dates[xi].substring(5) : '';
+    ctx.fillText(lbl, xp - 8, H - 4);
+  }
+  // Ultima data
+  if(n>1) {
+    var xlast = pad.l + w;
+    ctx.fillText(dates[n-1].substring(5), xlast - 20, H - 4);
   }
 
   // Serie
   series.forEach(function(s) {
     if(!s.data || !s.data.length) return;
     ctx.beginPath();
-    s.data.forEach(function(v,i){
-      var x = pad.l + (i/(n-1))*w;
+    s.data.forEach(function(v, i) {
+      var x = pad.l + (n>1?(i/(n-1)):0)*w;
       var y = pad.t + h - ((v-minV)/rangeV)*h;
       i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
     });
@@ -2254,38 +2324,94 @@ function disegnaGrafico(id, labels, series, yMin, yMax, mostraLabels) {
     ctx.stroke();
 
     if(s.fill) {
-      ctx.lineTo(pad.l+w, pad.t+h);
-      ctx.lineTo(pad.l, pad.t+h);
+      var lx = pad.l + w, ly = pad.t + h;
+      ctx.lineTo(lx, ly); ctx.lineTo(pad.l, ly);
       ctx.closePath();
       ctx.fillStyle = s.fill;
       ctx.fill();
     }
+
+    // Punto last value
+    var lv = s.data[n-1];
+    var lx2 = pad.l + w;
+    var ly2 = pad.t + h - ((lv-minV)/rangeV)*h;
+    ctx.beginPath();
+    ctx.arc(lx2, ly2, 3, 0, Math.PI*2);
+    ctx.fillStyle = s.col;
+    ctx.fill();
   });
+
+  // Touch/click per tooltip
+  canvas._dates = dates;
+  canvas._series = series;
+  canvas._pad = pad;
+  canvas._dims = {w:w,h:h,W:W,H:H};
+  canvas._range = {min:minV, max:maxV, range:rangeV};
+  canvas._tooltipId = tooltipId;
+  canvas.onclick = function(e) {
+    var rect = canvas.getBoundingClientRect();
+    var mx = (e.clientX - rect.left) * (canvas.width/rect.width) / (window.devicePixelRatio||1);
+    var idx = Math.round((mx - pad.l) / w * (n-1));
+    idx = Math.max(0, Math.min(n-1, idx));
+    var tip = document.getElementById(tooltipId);
+    if(tip) {
+      var vals = series.map(function(s){return s.nome+': '+s.data[idx];}).join(' · ');
+      tip.textContent = '📅 '+dates[idx].substring(5)+' — '+vals;
+    }
+  };
 }
 
-function disegnaGraficoBarre(id, labels, data, col) {
+function disegnaGraficoBarre(id, dates, data, col, tooltipId) {
   var canvas = document.getElementById(id);
   if(!canvas) return;
   var ctx = canvas.getContext('2d');
   var W = canvas.offsetWidth || 300;
-  var H = canvas.height || 80;
-  canvas.width = W * window.devicePixelRatio;
-  canvas.height = H * window.devicePixelRatio;
-  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-  var pad = {t:5,r:5,b:5,l:25};
-  var w = W-pad.l-pad.r, h = H-pad.t-pad.b;
+  var H = 90;
+  canvas.width = W * (window.devicePixelRatio||1);
+  canvas.height = H * (window.devicePixelRatio||1);
+  ctx.scale(window.devicePixelRatio||1, window.devicePixelRatio||1);
+
+  var isDark = document.body.classList.contains('dark');
+  var labelCol = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)';
+  var pad = {t:5, r:8, b:22, l:32};
+  var w = W - pad.l - pad.r;
+  var h = H - pad.t - pad.b;
   var n = data.length;
-  var maxV = Math.max.apply(null,data) || 1;
-  var bw = Math.max(2, w/n - 1);
-  ctx.fillStyle = 'rgba(0,0,0,.35)';
+  var maxV = Math.max.apply(null, data) || 1;
+  var bw = Math.max(2, (w/n) - 1);
+
+  ctx.clearRect(0,0,W,H);
+
+  // Y label
+  ctx.fillStyle = labelCol;
   ctx.font = '9px monospace';
-  ctx.fillText(maxV.toFixed(0)+'mm', 0, pad.t+8);
-  data.forEach(function(v,i){
+  ctx.fillText(maxV.toFixed(1), 0, pad.t+9);
+  ctx.fillText('0', 2, pad.t+h);
+
+  // X labels
+  var step = Math.max(1, Math.round(n/5));
+  for(var xi=0; xi<n; xi+=step) {
+    var xp = pad.l + (xi/n)*w;
+    ctx.fillText(dates[xi]?dates[xi].substring(5):'', xp-6, H-4);
+  }
+
+  // Barre
+  data.forEach(function(v, i) {
     var x = pad.l + (i/n)*w;
     var bh = (v/maxV)*h;
-    ctx.fillStyle = v>5?'#ef5350':col;
+    ctx.fillStyle = v > 5 ? '#ff6b6b' : col;
     ctx.fillRect(x, pad.t+h-bh, bw, bh);
   });
+
+  // Click tooltip
+  canvas.onclick = function(e) {
+    var rect = canvas.getBoundingClientRect();
+    var mx = (e.clientX - rect.left) * (canvas.width/rect.width) / (window.devicePixelRatio||1);
+    var idx = Math.floor((mx - pad.l) / w * n);
+    idx = Math.max(0, Math.min(n-1, idx));
+    var tip = document.getElementById(tooltipId);
+    if(tip) tip.textContent = '📅 '+dates[idx].substring(5)+' — '+data[idx].toFixed(1)+' mm';
+  };
 }
 
 // ================================================================
@@ -4349,7 +4475,7 @@ function libTab(btn, panelId) {
     b.style.background='var(--sand)'; b.style.color='var(--bark)';
   });
   btn.style.background='var(--bark)'; btn.style.color='#fff';
-  ['lib-esplora','lib-mappa','lib-lab','lib-oggi'].forEach(function(id){
+  ['lib-esplora','lib-mappa','lib-lab','lib-oggi','lib-ai'].forEach(function(id){
     var el=document.getElementById(id);
     if(el) el.style.display = id===panelId ? '' : 'none';
   });
@@ -4358,6 +4484,7 @@ function libTab(btn, panelId) {
   if(panelId==='lib-mappa') renderMappa();
   if(panelId==='lib-lab') renderLab();
   if(panelId==='lib-oggi') renderOggiLib();
+  if(panelId==='lib-ai') initAI();
 }
 
 // Called from goNav
@@ -4811,7 +4938,119 @@ function espT(btn,pid){
 }
 
 // ================================================================
-// SISTEMA INSIGHT PROGRESSIVI — One UI Widget
+// AI ASSISTANT — Claude analizza i manuali
+// ================================================================
+var aiHistory = [];
+var aiTyping = false;
+
+function initAI() {
+  // Se non ci sono messaggi mostra il benvenuto
+  var chat = document.getElementById('ai-chat');
+  if(chat && chat.children.length === 0) {
+    appendAIMsg('assistant', '👋 Ciao! Sono il tuo assistente IA specializzato nei tuoi manuali di elettrocoltura, biodinamica e coltivazione Living Soil.\n\nHo accesso alla knowledge base estratta dai tuoi 40+ PDF. Puoi chiedermi:\n• Combinazioni tra esperimenti\n• Confronti tra autori e teorie\n• Piani sperimentali personalizzati\n• Come applicare una tecnica specifica\n• Connessioni nascoste tra i tuoi manuali\n\nCosa vuoi esplorare?');
+  }
+}
+
+function appendAIMsg(ruolo, testo) {
+  var chat = document.getElementById('ai-chat');
+  if(!chat) return;
+  var div = document.createElement('div');
+  var isUser = ruolo === 'user';
+  div.style.cssText = 'padding:.6rem .8rem;border-radius:'+(isUser?'14px 14px 4px 14px':'14px 14px 14px 4px')+';background:'+(isUser?'var(--moss)':'var(--card)')+';color:'+(isUser?'#fff':'var(--text)')+';font-size:.82rem;line-height:1.55;max-width:92%;align-self:'+(isUser?'flex-end':'flex-start')+';box-shadow:var(--one-shadow-sm);white-space:pre-wrap;';
+  div.textContent = testo;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function appendAITyping() {
+  var chat = document.getElementById('ai-chat');
+  if(!chat) return;
+  var div = document.createElement('div');
+  div.id = 'ai-typing';
+  div.style.cssText = 'padding:.6rem .8rem;border-radius:14px 14px 14px 4px;background:var(--card);color:var(--muted);font-size:.82rem;align-self:flex-start;';
+  div.textContent = '🤔 Sto analizzando i manuali…';
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function removeAITyping() {
+  var t = document.getElementById('ai-typing');
+  if(t) t.remove();
+}
+
+function buildSistemaPrompt() {
+  // Prepara il contesto dai dati dell'app
+  var bio = calcolaBio ? calcolaBio(oggi()) : null;
+  var bioCtx = bio ? 'Oggi è un giorno '+bio.tipo.nome+' ('+bio.tipo.el+') con Luna '+bio.lunaInfo.nome+'.' : '';
+  
+  var espCtx = '';
+  if(EDBV2 && EDBV2.categorie) {
+    var tutti = [];
+    EDBV2.categorie.forEach(function(cat){
+      cat.esperimenti.forEach(function(e){
+        tutti.push(cat.ico+' '+e.nome+' ['+e.stato+', '+e.scientificita+']: '+e.principio.substring(0,150));
+      });
+    });
+    espCtx = tutti.join('\n');
+  }
+
+  var labCtx = labAttivi.length ? 'Esperimenti attivi nel Lab: '+labAttivi.join(', ')+'.' : '';
+
+  return 'Sei un assistente specializzato in elettrocoltura, biodinamica e coltivazione Living Soil. ' +
+    'Hai accesso alla knowledge base estratta da oltre 40 manuali PDF tra cui: Justin Christofleau - Electroculture (1920), ' +
+    'Georges Lakhovsky - ricerche 1925, Pierluigi Ighina - L\'Atomo Magnetico (1954), ' +
+    'Andrea Donnoli - Starter Kit Elettrocoltura, Errol Ramos - Electroculture for Beginners, ' +
+    'The Soil Biology Primer - Elaine Ingham, An Agricultural Testament - Albert Howard, ' +
+    'La Vita Segreta delle Piante - Tompkins & Bird, Agricultura Orgánica - Jairo Restrepo Rivera, ' +
+    'US Patents for Electroculture, La Mélodie Secrète des Végétaux - Ruhlmann, ' +
+    'Il Kybalion - I Tre Iniziati, Scoperte Scientifiche non Autorizzate - Pizzuti, ' +
+    'e molti altri testi di magia, ermetismo, alchimia vegetale e biodinamica.\n\n' +
+    'CONTESTO COLTIVAZIONE: Mini-serra con 10 piante in vasi 10L, sistema Living Soil water-only, ' +
+    'irrigazione solare automatica, ciclo 8 mesi. '+bioCtx+' '+labCtx+'\n\n' +
+    'ESPERIMENTI CATALOGATI:\n'+espCtx+'\n\n' +
+    'ISTRUZIONI: Rispondi in italiano. Sii specifico e pratico. ' +
+    'Cita sempre le fonti quando possibile. Quando proponi combinazioni, spiega perché funzionano insieme. ' +
+    'Evidenzia le scoperte più sorprendenti. Mantieni un tono entusiasta da ricercatore appassionato.';
+}
+
+async function inviaAI(domandaPreset) {
+  if(aiTyping) return;
+  var input = document.getElementById('ai-input');
+  var domanda = domandaPreset || (input ? input.value.trim() : '');
+  if(!domanda) return;
+  
+  if(input) input.value = '';
+  aiTyping = true;
+
+  appendAIMsg('user', domanda);
+  appendAITyping();
+
+  aiHistory.push({role:'user', content:domanda});
+  if(aiHistory.length > 10) aiHistory = aiHistory.slice(-10);
+
+  try {
+    var sysPrompt = buildSistemaPrompt();
+    var resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: sysPrompt,
+        messages: aiHistory
+      })
+    });
+    var data = await resp.json();
+    var risposta = (data.content && data.content[0]) ? data.content[0].text : 'Errore nella risposta.';
+    removeAITyping();
+    appendAIMsg('assistant', risposta);
+    aiHistory.push({role:'assistant', content:risposta});
+  } catch(e) {
+    removeAITyping();
+    appendAIMsg('assistant', '⚠️ Errore di connessione. Riprova tra qualche secondo.\n\n(Assicurati di avere connessione internet attiva)');
+  }
+  aiTyping = false;
+}
 // Ogni giorno mostra un insight diverso incrociando i dati
 // ================================================================
 
