@@ -6167,25 +6167,35 @@ function mostraCervelloHome(){
     if(!EDBV2||!CERVELLO.ultimoItem) return;
     var el=document.getElementById('insight-home'); if(!el) return;
     var it=CERVELLO.ultimoItem, c=CERVELLO.ultimaConn;
-    var html='<div class="insight-widget" onclick="goNav(\'laboratorio\')">'+
-      '<div class="insight-badge">🧬 Insight del giorno · dai manuali · cambia ogni ora</div>'+
+    var iw=document.createElement('div');
+    iw.className='insight-widget';
+    iw.onclick=function(){goNav('laboratorio');};
+    iw.innerHTML='<div class="insight-badge">🧬 Insight del giorno · dai manuali · cambia ogni ora</div>'+
       '<div class="insight-title">'+nomeItem(it)+'</div>'+
       '<div class="insight-body">'+descItem(it)+'</div>'+
-      '<div class="insight-footer"><span class="insight-src">'+fonteItem(it)+'</span><span class="insight-arrow">⚗️ Laboratorio →</span></div></div>';
+      '<div class="insight-footer"><span class="insight-src">'+fonteItem(it)+'</span>'+
+      '<span class="insight-arrow">⚗️ Laboratorio →</span></div>';
+    el.innerHTML='';
+    el.appendChild(iw);
     if(c){
-      html+='<div class="sugg-card" onclick="goNav(\'laboratorio\')">'+
-      html+='<div class="sugg-tag">🔗 Connessione scoperta oggi</div>';
-      html+='<div class="sugg-title">'+nomeConn(c)+'</div>';
-      html+='<div class="sugg-body">'+(c.nota||'').substring(0,90)+'</div></div>';
+      var sc2=document.createElement('div');
+      sc2.className='sugg-card';
+      sc2.onclick=function(){goNav('laboratorio');};
+      sc2.innerHTML='<div class="sugg-tag">🔗 Connessione scoperta oggi</div>'+
+        '<div class="sugg-title">'+nomeConn(c)+'</div>'+
+        '<div class="sugg-body">'+(c.nota||'').substring(0,90)+'</div>';
+      el.appendChild(sc2);
     }
-    el.innerHTML=html;
     var recapEl=document.getElementById('insight-recap');
     if(recapEl&&CERVELLO.logDelGiorno.length>1){
-      var h2='<div style="background:var(--card);border-radius:var(--radius-sm);padding:.7rem .9rem;margin-top:.4rem;">';
-      h2+='<div style="font-size:.68rem;font-weight:800;color:var(--moss);text-transform:uppercase;margin-bottom:.35rem;">📚 Oggi: '+CERVELLO.logDelGiorno.length+' insight</div>';
-      CERVELLO.logDelGiorno.slice(-3).reverse().forEach(function(l){ h2+='<div style="font-size:.76rem;color:var(--soft);padding:.15rem 0;border-bottom:1px solid var(--sand);">'+l.ora+' · '+nomeItem(l.item)+'</div>'; });
-      h2+='<div style="font-size:.7rem;color:var(--muted);margin-top:.3rem;cursor:pointer;" onclick="goNav('laboratorio')">Vedi tutti nel Laboratorio →</div></div>';
-      recapEl.innerHTML=h2;
+      var h2=document.createElement('div');
+      h2.style.cssText='background:var(--card);border-radius:var(--radius-sm);padding:.7rem .9rem;margin-top:.4rem;';
+      var inner='<div style="font-size:.68rem;font-weight:800;color:var(--moss);text-transform:uppercase;margin-bottom:.35rem;">📚 Oggi: '+CERVELLO.logDelGiorno.length+' insight</div>';
+      CERVELLO.logDelGiorno.slice(-3).reverse().forEach(function(l){ inner+='<div style="font-size:.76rem;color:var(--soft);padding:.15rem 0;border-bottom:1px solid var(--sand);">'+l.ora+' · '+nomeItem(l.item)+'</div>'; });
+      inner+='<div style="font-size:.7rem;color:var(--muted);margin-top:.3rem;cursor:pointer;" onclick="goNav('laboratorio')">Vedi tutti nel Laboratorio →</div>';
+      h2.innerHTML=inner;
+      recapEl.innerHTML='';
+      recapEl.appendChild(h2);
     }
   });
 }
