@@ -6192,7 +6192,7 @@ function mostraCervelloHome(){
       h2.style.cssText='background:var(--card);border-radius:var(--radius-sm);padding:.7rem .9rem;margin-top:.4rem;';
       var inner='<div style="font-size:.68rem;font-weight:800;color:var(--moss);text-transform:uppercase;margin-bottom:.35rem;">📚 Oggi: '+CERVELLO.logDelGiorno.length+' insight</div>';
       CERVELLO.logDelGiorno.slice(-3).reverse().forEach(function(l){ inner+='<div style="font-size:.76rem;color:var(--soft);padding:.15rem 0;border-bottom:1px solid var(--sand);">'+l.ora+' · '+nomeItem(l.item)+'</div>'; });
-      inner+='<div style="font-size:.7rem;color:var(--muted);margin-top:.3rem;cursor:pointer;" onclick="goNav('laboratorio')" class="vedi-lab">Vedi tutti nel Laboratorio →</div>';
+      inner+='<div style="font-size:.7rem;color:var(--muted);margin-top:.3rem;cursor:pointer;" class="vedi-lab">Vedi tutti nel Laboratorio →</div>';
       h2.innerHTML=inner;
       h2.querySelector('[data-goto]')&&(h2.querySelector('[data-goto]').onclick=function(){goNav('laboratorio');});
       var vd=h2.querySelector('.vedi-lab'); if(vd) vd.onclick=function(){goNav('laboratorio');};
