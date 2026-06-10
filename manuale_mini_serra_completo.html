@@ -6037,29 +6037,34 @@ function labRenderTecnichePanel(){
   var cats={}; (TECNICHE||[]).forEach(function(t){ var c=t.cat||'Altro'; if(!cats[c]) cats[c]=[]; cats[c].push(t); });
   var totAp=(TECNICHE||[]).filter(function(t){ return DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def; }).length;
   var html='<div style="margin:.4rem 1rem .6rem;background:var(--card);border-radius:14px;padding:.7rem .9rem;display:flex;justify-content:space-between;align-items:center;">';
-  html+='<div><div style="font-family:'DM Serif Display',serif;font-size:1rem;color:var(--text);">'+(TECNICHE||[]).length+' Tecniche</div>';
+  html+='<div><div style="font-size:1rem;font-weight:700;color:var(--text);">'+(TECNICHE||[]).length+' Tecniche dai Manuali</div>';
   html+='<div style="font-size:.72rem;color:var(--muted);">'+totAp+' applicate</div></div>';
   html+='<div style="background:var(--moss);color:#fff;border-radius:100px;padding:.25rem .65rem;font-size:.75rem;font-weight:700;">'+totAp+'/'+(TECNICHE||[]).length+'</div></div>';
   Object.keys(cats).forEach(function(cat){
-    var col=CAT_COL[cat]||'var(--muted)';
+    var col=CAT_COL[cat]||'#888';
     html+='<div style="font-size:.62rem;font-weight:800;color:'+col+';text-transform:uppercase;letter-spacing:.1em;padding:.6rem 1rem .2rem;">'+cat+'</div>';
     cats[cat].forEach(function(t){
       var ap=DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def;
+      var tid=t.id;
       html+='<div style="margin:.2rem 1rem;background:var(--card);border-radius:14px;border-left:3px solid '+(ap?col:'var(--sand)')+';">';
-      html+='<div class="tec-h" onclick="toggleTec(''+t.id+'')">';
-      html+='<div class="tec-left"><span class="tec-ico">'+t.ico+'</span><div style="flex:1;min-width:0;">';
-      html+='<div class="tec-name">'+t.n+'</div>';
+      html+='<div style="display:flex;align-items:center;gap:.7rem;padding:.7rem .9rem;cursor:pointer;" onclick="toggleTec(this)">';
+      html+='<span style="font-size:1.2rem;flex-shrink:0;">'+t.ico+'</span>';
+      html+='<div style="flex:1;min-width:0;">';
+      html+='<div style="font-weight:700;font-size:.87rem;color:var(--text);">'+t.n+'</div>';
       if(t.fonte) html+='<div style="font-size:.6rem;color:var(--muted);">📚 '+t.fonte+'</div>';
-      html+='<span class="tec-st '+(ap?'tsi':'tno')+'">'+(ap?'✓ Applicata':'○ Non ancora')+'</span>';
-      html+='</div></div>';
-      html+='<button class="tec-btn '+(ap?'si':'no')+'" onclick="event.stopPropagation();toggleApTec(''+t.id+'')">'+(ap?'✓':'○')+'</button>';
+      html+='<span style="font-size:.63rem;padding:.1rem .4rem;border-radius:100px;font-weight:700;'+(ap?'background:#d4edda;color:#155724;':'background:var(--cream);color:var(--muted);')+'">'+(ap?'✓ Applicata':'○ Non ancora')+'</span>';
       html+='</div>';
-      html+='<div class="tec-body" id="tb_'+t.id+'"><p>'+t.desc+'</p>';
-      html+='<textarea class="tec-nota" placeholder="Note…" oninput="saveTecNota(''+t.id+'',this.value)">'+(DB.tecNotes&&DB.tecNotes[t.id]||'')+'</textarea></div></div>';
+      html+='<button style="border:1.5px solid var(--sand);border-radius:10px;width:34px;height:34px;cursor:pointer;font-size:.9rem;'+(ap?'background:var(--moss);color:#fff;':'background:var(--cream);color:var(--muted);')+'" onclick="event.stopPropagation();toggleApTecById('+JSON.stringify(tid)+')">'+(ap?'✓':'○')+'</button>';
+      html+='</div>';
+      html+='<div class="tec-body" id="tb_'+tid+'"><p style="font-size:.82rem;color:var(--soft);line-height:1.6;margin:.4rem 0 .5rem;">'+t.desc+'</p>';
+      html+='<textarea class="tec-nota" placeholder="Note personali…" oninput="saveTecNotaById('+JSON.stringify(tid)+',this.value)">'+(DB.tecNotes&&DB.tecNotes[tid]||'')+'</textarea></div></div>';
     });
   });
   el.innerHTML=html;
 }
+
+function toggleApTecById(id){ toggleApTec(id); setTimeout(labRenderTecnichePanel,100); }
+function saveTecNotaById(id,v){ saveTecNota(id,v); }
 
 // ── Connessioni Panel ──
 function labRenderConnessioniPanel(){
@@ -6135,7 +6140,7 @@ function labRenderOggiPanel(){
     if(bio){
       html+='<div style="background:var(--card);border-radius:16px;padding:.9rem 1rem;margin-bottom:.6rem;">';
       html+='<div style="font-size:.62rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;">📅 '+bio.tipo.nome.toUpperCase()+' · '+bio.lunaInfo.nome.toUpperCase()+'</div>';
-      html+='<div style="font-family:'DM Serif Display',serif;font-size:1.05rem;color:var(--text);margin-bottom:.35rem;">'+bio.tipo.ico+' Giorno '+bio.tipo.nome+'</div>';
+      html+='<div style="font-family:serif;font-size:1.05rem;color:var(--text);margin-bottom:.35rem;">'+bio.tipo.ico+' Giorno '+bio.tipo.nome+'</div>';
       html+='<div style="font-size:.8rem;color:var(--soft);line-height:1.5;">'+(bio.tipo.consiglio||'Segui il ritmo della natura')+'</div></div>';
     }
     var tecOggi=(TECNICHE||[]).filter(function(t){ return t.bio_ideale&&bio&&t.bio_ideale.indexOf(bio.tipoId)!==-1; }).slice(0,4);
