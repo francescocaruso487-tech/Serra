@@ -1151,6 +1151,16 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
       <div style="font-size:.82rem;font-weight:700;color:var(--text);">Oggi</div>
       <div style="font-size:.65rem;color:var(--muted);">Consigli biodinamici</div>
     </button>
+    <button onclick="labApriAI()" style="
+      background:linear-gradient(135deg,#003D2B,#005C3F);border:none;border-radius:14px;
+      padding:.7rem .9rem;text-align:left;cursor:pointer;
+      box-shadow:0 4px 16px rgba(0,68,46,.3);transition:opacity .14s;
+      grid-column:span 2;
+    ">
+      <div style="font-size:1.3rem;margin-bottom:.25rem;">🤖</div>
+      <div style="font-size:.85rem;font-weight:700;color:#fff;">AI · LLaMA 3.3 70B</div>
+      <div style="font-size:.65rem;color:rgba(255,255,255,.65);">Chiedi ai 58 manuali — gratis</div>
+    </button>
   </div>
 </div>
 
@@ -1215,6 +1225,57 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
     ">
   </div>
   <div id="lab-esplora-body" style="padding:.5rem 1rem 0;"></div>
+</div>
+
+<!-- ═══ PANEL OVERLAY: AI ═══ -->
+<div id="lab-panel-ai" style="
+  display:none;position:fixed;inset:0;z-index:300;
+  background:var(--main-bg);overflow-y:auto;padding-bottom:4rem;
+">
+  <div style="position:sticky;top:0;z-index:5;background:linear-gradient(135deg,#003D2B,#005C3F);padding:.85rem 1rem .7rem;display:flex;align-items:center;gap:.7rem;">
+    <button onclick="labChiudiPanel('lab-panel-ai')" style="background:rgba(255,255,255,.15);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:#fff;flex-shrink:0;">←</button>
+    <div style="flex:1;">
+      <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55);">LABORATORIO · GROQ</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff;">🤖 AI dai tuoi 58 Manuali</div>
+    </div>
+    <div id="ai-status-badge" style="font-size:.62rem;background:rgba(255,255,255,.15);color:#fff;border-radius:100px;padding:.2rem .6rem;">LLaMA 3.3</div>
+  </div>
+  <div style="padding:.8rem 1rem .4rem;">
+    <!-- Config chiave -->
+    <div id="groq-key-section" style="background:var(--cream);border-radius:14px;padding:.7rem .9rem;margin-bottom:.6rem;display:none;">
+      <div style="font-size:.67rem;color:var(--muted);margin-bottom:.35rem;">🔑 Chiave Groq — <a href="https://console.groq.com" target="_blank" style="color:var(--moss);">console.groq.com</a> (gratis)</div>
+      <div style="display:flex;gap:.4rem;">
+        <input id="groq-key-input" type="password" placeholder="gsk_..." style="flex:1;padding:.4rem .6rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--card);font-size:.78rem;color:var(--text);outline:none;">
+        <button onclick="salvaGroqKey()" style="background:var(--moss);color:#fff;border:none;border-radius:10px;padding:.4rem .9rem;font-size:.78rem;font-weight:700;cursor:pointer;">Salva</button>
+      </div>
+    </div>
+    <!-- Domande rapide -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.35rem;margin-bottom:.65rem;">
+      <button onclick="inviaAI('Oggi è un buon giorno per lavorare nella serra? Analizza luna e biodinamica')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">🌙 Cosa fare oggi?</button>
+      <button onclick="inviaAI('Confronta Lakhovsky 1925, Christofleau 1920 e Lemstrom 1904: differenze pratiche')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">🔬 Confronta autori</button>
+      <button onclick="inviaAI('Crea un piano sperimentale per questa settimana con le tecniche disponibili')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">📋 Piano settimana</button>
+      <button onclick="inviaAI('Connessioni tra Kybalion, Tavole Smeraldine e elettrocoltura da applicare subito?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">⚗️ Magia+Elettroc.</button>
+      <button onclick="inviaAI('Analizza il meteo di oggi e dimmi cosa fare nella serra')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">🌤 Meteo+Serra</button>
+      <button onclick="inviaAI('Tecnica ottimale dai 58 manuali per la fase di fioritura?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">🌸 Fioritura</button>
+    </div>
+    <!-- Chat -->
+    <div id="ai-chat" style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:.5rem;min-height:80px;"></div>
+  </div>
+  <!-- Input sticky -->
+  <div style="position:sticky;bottom:0;background:var(--main-bg);padding:.6rem 1rem .8rem;border-top:1px solid var(--sand);">
+    <div style="display:flex;gap:.35rem;align-items:flex-end;">
+      <button id="btn-mic" onclick="iniziaAscolto()" style="padding:.55rem .65rem;background:var(--cream);color:var(--text);border:1.5px solid var(--sand);border-radius:14px;font-size:.95rem;cursor:pointer;height:2.8rem;flex-shrink:0;">🎤</button>
+      <textarea id="ai-input" placeholder="Chiedi ai tuoi 58 manuali..." style="flex:1;padding:.55rem .75rem;border-radius:14px;border:1.5px solid var(--sand);background:var(--card);font-family:'Nunito',sans-serif;font-size:.82rem;color:var(--text);resize:none;min-height:2.8rem;max-height:5rem;outline:none;" rows="2" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();inviaAI();}"></textarea>
+      <button onclick="inviaAI()" style="padding:.55rem .85rem;background:var(--moss);color:#fff;border:none;border-radius:14px;font-size:1.1rem;cursor:pointer;height:2.8rem;">→</button>
+    </div>
+    <div style="display:flex;justify-content:center;gap:1rem;margin-top:.3rem;">
+      <span onclick="document.getElementById('groq-key-section').style.display=document.getElementById('groq-key-section').style.display==='none'?'block':'none'" style="font-size:.62rem;color:var(--muted);cursor:pointer;">⚙️ Chiave API</span>
+      <span style="color:var(--sand)">·</span>
+      <span onclick="azzeraChat()" style="font-size:.62rem;color:var(--muted);cursor:pointer;">🗑 Pulisci</span>
+      <span style="color:var(--sand)">·</span>
+      <span onclick="parla(document.getElementById('ai-chat')&&document.getElementById('ai-chat').lastChild?document.getElementById('ai-chat').lastChild.textContent:'')" style="font-size:.62rem;color:var(--muted);cursor:pointer;">🔊 Ascolta</span>
+    </div>
+  </div>
 </div>
 
 <!-- ═══ PANEL OVERLAY: OGGI ═══ -->
@@ -5727,4 +5788,22 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 </body>
-</html>
+</html>function labApriAI() {
+  labApriPanel('lab-panel-ai');
+  var key = localStorage.getItem('groq_api_key');
+  var badge = document.getElementById('ai-status-badge');
+  if(badge) badge.textContent = key ? '✅ Connesso' : '⚙️ Configura chiave';
+}
+
+function salvaGroqKey() {
+  var inp = document.getElementById('groq-key-input');
+  if(!inp || !inp.value.trim()) return;
+  localStorage.setItem('groq_api_key', inp.value.trim());
+  mostraToast('✅ Chiave Groq salvata!');
+  var ks = document.getElementById('groq-key-section');
+  if(ks) ks.style.display='none';
+  var badge = document.getElementById('ai-status-badge');
+  if(badge) badge.textContent = '✅ Connesso';
+}
+
+
