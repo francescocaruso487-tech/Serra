@@ -6112,6 +6112,10 @@ function mostraDettaglioConnessione(idx){
 }
 
 // ── Esplora Panel ──
+function labEsploraClick(el){
+  var cid=el.getAttribute('data-cid'), eid=el.getAttribute('data-eid');
+  if(cid&&eid) apriEsp(cid,eid);
+}
 function labRenderEsplora(){
   var el=document.getElementById('lab-esplora-body'); if(!el) return;
   caricaEDB(function(){
@@ -6121,7 +6125,8 @@ function labRenderEsplora(){
     var filtered=q?tutti.filter(function(r){ return (r.esp.nome+r.esp.principio+(r.esp.fonti||[]).join('')).toLowerCase().indexOf(q)!==-1; }):tutti;
     var html='<div style="font-size:.7rem;color:var(--muted);margin-bottom:.5rem;">'+filtered.length+' risultati</div>';
     filtered.forEach(function(r){
-      html+='<div onclick="apriEsp(''+r.cat.id+'',''+r.esp.id+'')" style="background:var(--card);border-radius:14px;padding:.7rem .9rem;margin-bottom:.4rem;cursor:pointer;display:flex;align-items:center;gap:.7rem;box-shadow:var(--one-shadow-sm);">';
+      var cid=r.cat.id, eid=r.esp.id;
+      html+='<div data-cid="'+cid+'" data-eid="'+eid+'" onclick="labEsploraClick(this)" style="background:var(--card);border-radius:14px;padding:.7rem .9rem;margin-bottom:.4rem;cursor:pointer;display:flex;align-items:center;gap:.7rem;box-shadow:var(--one-shadow-sm);">';
       html+='<div style="font-size:1.4rem;flex-shrink:0;">'+r.cat.ico+'</div>';
       html+='<div style="flex:1;min-width:0;"><div style="font-size:.84rem;font-weight:700;color:var(--text);">'+r.esp.nome+'</div>';
       html+='<div style="font-size:.7rem;color:var(--muted);">'+(r.esp.fonti&&r.esp.fonti[0]||'').split(' - ')[0]+'</div></div><div style="color:var(--muted);">›</div></div>';
