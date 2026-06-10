@@ -6167,13 +6167,13 @@ function mostraCervelloHome(){
     if(!EDBV2||!CERVELLO.ultimoItem) return;
     var el=document.getElementById('insight-home'); if(!el) return;
     var it=CERVELLO.ultimoItem, c=CERVELLO.ultimaConn;
-    var html='<div class="insight-widget" onclick="goNav('laboratorio')">';
-    html+='<div class="insight-badge">🧬 Insight del giorno · dai manuali · cambia ogni ora</div>';
-    html+='<div class="insight-title">'+nomeItem(it)+'</div>';
-    html+='<div class="insight-body">'+descItem(it)+'</div>';
-    html+='<div class="insight-footer"><span class="insight-src">'+fonteItem(it)+'</span><span class="insight-arrow">⚗️ Laboratorio →</span></div></div>';
+    var html='<div class="insight-widget" onclick="goNav(\'laboratorio\')">'+
+      '<div class="insight-badge">🧬 Insight del giorno · dai manuali · cambia ogni ora</div>'+
+      '<div class="insight-title">'+nomeItem(it)+'</div>'+
+      '<div class="insight-body">'+descItem(it)+'</div>'+
+      '<div class="insight-footer"><span class="insight-src">'+fonteItem(it)+'</span><span class="insight-arrow">⚗️ Laboratorio →</span></div></div>';
     if(c){
-      html+='<div class="sugg-card" onclick="goNav('laboratorio')">';
+      html+='<div class="sugg-card" onclick="goNav(\'laboratorio\')">'+
       html+='<div class="sugg-tag">🔗 Connessione scoperta oggi</div>';
       html+='<div class="sugg-title">'+nomeConn(c)+'</div>';
       html+='<div class="sugg-body">'+(c.nota||'').substring(0,90)+'</div></div>';
