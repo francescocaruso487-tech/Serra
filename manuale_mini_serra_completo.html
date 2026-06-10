@@ -214,6 +214,7 @@ body.dark .nav-item.active{color:var(--moss);}
 /* ===== MAIN SCROLL ===== */
 #main{flex:1;overflow-y:auto;padding-bottom:5rem;}
 .sec{display:none;padding:0;background:var(--main-bg);}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:.9}}
 .sec.on{display:block;background:var(--main-bg);}
 
 /* ===== SEZIONE HEADER ===== */
@@ -884,7 +885,7 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <!-- Grafici storici -->
   <div class="sec-lbl"><h3>📈 Storico meteo — dal 21 apr</h3><a onclick="caricaStorico()">↺ Aggiorna</a></div>
   <div id="grafico-storico" style="padding:0 .9rem .9rem;">
-    <div style="font-size:.82rem;color:var(--muted);padding:.5rem 0;">Caricamento dati storici...</div>
+    <div style="font-size:.82rem;color:var(--muted);padding:.5rem 0;"><div style="display:flex;align-items:center;gap:.4rem;padding:.3rem 0;"><div style="width:8px;height:8px;border-radius:50%;background:var(--moss);opacity:.4;animation:pulse 1.5s infinite;"></div></div></div>
   </div>
 </div>
 
@@ -941,7 +942,7 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
 <div id="natura" class="sec">
   <div style="padding:.7rem .9rem .1rem;font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--bark);">🌤 Meteo — Caserta</div>
   <div class="meteo-card" id="meteo-card" onclick="apriPopupMeteoOggi()">
-    <div style="opacity:.7;font-family:'DM Mono',monospace;font-size:.8rem;">⏳ Caricamento...</div>
+    <div style="opacity:.7;font-family:'DM Mono',monospace;font-size:.8rem;"></div>
   </div>
 
   <div class="sec-lbl"><h3>📅 Prossimi 7 giorni</h3></div>
@@ -978,7 +979,7 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <!-- Previsioni 15 giorni -->
   <div class="sec-lbl"><h3>📅 Previsioni 15 giorni — tocca un giorno</h3></div>
   <div class="prev15-scroll" id="prev15-scroll">
-    <div style="font-size:.82rem;color:var(--muted);padding:.5rem;">Caricamento...</div>
+    <div style="font-size:.82rem;color:var(--muted);padding:.5rem;"></div>
   </div>
 
   <div class="card nc" style="margin:.2rem .9rem .9rem;background:var(--card);border-left:4px solid var(--sky);">
