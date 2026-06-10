@@ -5787,8 +5787,423 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// LABORATORIO + CERVELLO — Motore completo
+// ═══════════════════════════════════════════════════════
+
+// ── Connessioni cross-dominio magia↔elettrocoltura ──
+var CONNESSIONI_CROSS=[
+  {a:'Kybalion — Principio di Vibrazione',b:'Anello di Lakhovsky',nota:'Lakhovsky applicò il principio ermetico di vibrazione: ogni cellula risuona su frequenze proprie, come insegna il Kybalion.',tags:['vibrazione','frequenza','ermetismo']},
+  {a:'Tavole Smeraldine — Ciò che è in alto è come ciò che è in basso',b:'Antenna Rame a Spirale',nota:"L'antenna cattura l'energia cosmica (alto) e la porta nel terreno (basso) — la spirale è il medium tra i due piani.",tags:['ermete','spirale','cosmo']},
+  {a:'Agrippa — Virtù dei Metalli secondo i Pianeti',b:'Pila Galvanica Ferro-Rame',nota:'Agrippa catalogò ferro come metallo di Marte e rame come metallo di Venere. La pila galvanica usa esattamente questa coppia planetaria.',tags:['agrippa','marte','venere','ferro','rame']},
+  {a:'Chiave di Salomone — Pentacoli come amplificatori',b:'Pantacle di Rame',nota:'Pantacle deriva da Pentacolo — il Pantacle di rame distribuisce cariche elettriche come i pentacoli di Salomone distribuiscono forza magica.',tags:['salomone','pentacolo','pantacle','rame']},
+  {a:'Lemstrom 1904 — Fili di rame sopra i campi',b:'Esoterismo Wicca — Il cielo come fonte di potere',nota:'La Wicca pratica rituali sotto il cielo aperto per captare energia cosmica. Lemstrom faceva lo stesso con fili di rame — stessa energia, due tradizioni.',tags:['lemstrom','wicca','cielo','energia-cosmica']},
+  {a:'Corpus Hermeticum — Logos come principio ordinante',b:'Living Soil Water-Only + Albert Howard',nota:'Il Logos ermetico è l'ordine invisibile che governa la materia. Howard dimostrò che il suolo vivente si autoregola tramite una rete invisibile di microbi — un logos biologico.',tags:['logos','hermete','living-soil','howard']},
+  {a:'Registri Akashici — Memoria universale',b:'Worm Humus + Biochar — Memoria biologica del suolo',nota:'I Registri Akashici conservano ogni memoria. Il Humus e il Biochar sono la memoria biologica del suolo — milioni di anni di vita microbica.',tags:['akashici','memoria','humus','biochar']},
+  {a:'Wicca — 8 Sabbat come cicli della vita',b:'Ciclo 8 mesi Serra',nota:'La Wicca celebra 8 momenti chiave dell'anno. Il ciclo della serra di 8 mesi segue lo stesso ritmo: germoglio, crescita, fioritura, raccolta.',tags:['wicca','sabbat','ciclo','8-mesi']},
+  {a:'Tesla — Risonanza come forza universale',b:'Anello di Lakhovsky + Musica per le Piante',nota:'Tesla scoprì che la risonanza è il principio più potente della fisica. Lakhovsky e Ruhlmann applicarono lo stesso principio alle piante.',tags:['tesla','risonanza','suono']},
+  {a:'Cabala Mistica — Pilastri Severità/Misericordia',b:'Pila Galvanica Ferro/Rame',nota:'I due pilastri dell'Albero della Vita: Severità (Marte-Ferro) e Misericordia (Venere-Rame). La pila galvanica replica fisicamente questa polarità cabalistica.',tags:['cabala','marte','venere','polarita']},
+  {a:'Bertholon 1783 — Elettricità atmosferica sulle piante',b:'Kybalion — Principio di Causa ed Effetto',nota:'Bertholon dimostrò che ogni variazione nell'elettricità atmosferica causa una variazione nella crescita vegetale. Il Kybalion insegna che ogni causa produce un effetto.',tags:['bertholon','kybalion','causa-effetto']},
+  {a:'Guerzoni — Magnetite nel corpo umano',b:'Acqua Magnetizzata + Pila Galvanica',nota:'Guerzoni dimostra che cristalli di magnetite nel corpo umano percepiscono i campi magnetici. Anche le piante contengono magnetite nelle radici.',tags:['guerzoni','magnetite','acqua-magnetizzata']},
+  {a:'Grande Grimorio — 4 Elementi',b:'Living Soil + Acqua Vortice + Biochar + Aerazione',nota:'Il Living Soil integra i 4 elementi magici: substrato (Terra), acqua vortexata (Acqua), biochar da combustione (Fuoco), substrato aerato (Aria).',tags:['grimorio','quattro-elementi','living-soil']},
+  {a:'Dawson Church — Cervello Quantico',b:'Musica 528Hz + Intenzione Coltivatore',nota:'Church documenta che il cervello emette campi EM che influenzano la materia. Tompkins misurò che le piante rispondono ai pensieri del coltivatore.',tags:['church','intenzione','528Hz','tompkins']}
+];
+
+// ── Stato Cervello ──
+var CERVELLO={turnoAttuale:0,logDelGiorno:[],ultimaNotifica:0,inizializzato:false,ultimoItem:null,ultimaConn:null};
+
+function getAllEsperimentiFlat(db){
+  if(!db||!db.categorie) return [];
+  var t=[];
+  db.categorie.forEach(function(c){ c.esperimenti.forEach(function(e){ t.push({esp:e,cat:c}); }); });
+  return t;
+}
+
+function nomeItem(item){
+  if(!item) return '';
+  if(item.tipo==='esp') return item.data.cat.ico+' '+item.data.esp.nome;
+  if(item.tipo==='tec') return item.data.ico+' '+item.data.n;
+  if(item.tipo==='cross') return '🔗 '+item.data.a.split(' — ')[0].substring(0,35);
+  return '';
+}
+function descItem(item){
+  if(!item) return '';
+  if(item.tipo==='esp') return (item.data.esp.principio||'').substring(0,120)+'…';
+  if(item.tipo==='tec') return item.data.desc.substring(0,120)+'…';
+  if(item.tipo==='cross') return item.data.nota.substring(0,120)+'…';
+  return '';
+}
+function fonteItem(item){
+  if(!item) return '';
+  if(item.tipo==='esp') return (item.data.esp.fonti&&item.data.esp.fonti[0]||'').split(' - ')[0].substring(0,40);
+  if(item.tipo==='tec') return (item.data.fonte||'').substring(0,40);
+  if(item.tipo==='cross') return item.data.a.split(' — ')[0].substring(0,40);
+  return '';
+}
+function nomeConn(c){
+  if(!c) return '';
+  if(c.da){ var ra=getEsp(c.da),rb=getEsp(c.a); return (ra?ra.cat.ico+' '+ra.esp.nome:c.da)+' + '+(rb?rb.cat.ico+' '+rb.esp.nome:c.a); }
+  return (c.a||'').split(' — ')[0].substring(0,30)+' + '+(c.b||'').split(' ')[0].substring(0,30);
+}
+
+function initCervello(){
+  if(CERVELLO.inizializzato) return;
+  var saved=localStorage.getItem('cervello_stato');
+  if(saved){ try{ var s=JSON.parse(saved); var k=fmtKey(oggi()); if(s.data===k){ CERVELLO.logDelGiorno=s.log||[]; } }catch(e){} }
+  CERVELLO.inizializzato=true;
+  CERVELLO.turnoAttuale=new Date().getHours();
+  eseguiTurno();
+  var msNext=(60-new Date().getMinutes())*60000;
+  setTimeout(function(){ eseguiTurnoPeriodico(); setInterval(eseguiTurnoPeriodico,3600000); },msNext);
+}
+
+function eseguiTurnoPeriodico(){
+  CERVELLO.turnoAttuale=new Date().getHours();
+  eseguiTurno();
+  if(document.getElementById('laboratorio')&&document.getElementById('laboratorio').classList.contains('on')) labRenderMain();
+  if(typeof mostraCervelloHome==='function') mostraCervelloHome();
+}
+
+function eseguiTurno(){
+  caricaEDB(function(){
+    if(!EDBV2) return;
+    var tutti=getAllEsperimentiFlat(EDBV2);
+    var pool=[];
+    tutti.forEach(function(r){ pool.push({tipo:'esp',data:r}); });
+    (TECNICHE||[]).forEach(function(t){ pool.push({tipo:'tec',data:t}); });
+    CONNESSIONI_CROSS.forEach(function(c){ pool.push({tipo:'cross',data:c}); });
+    var ora=new Date().getHours();
+    var idx=ora%pool.length;
+    CERVELLO.ultimoItem=pool[idx];
+    var allConns=(EDBV2.connessioni||[]).concat(CONNESSIONI_CROSS).filter(function(c){
+      var a=(c.da||c.a||'').split(' ')[0], b=(c.da?c.a:c.b||'').split(' ')[0];
+      return a!==b&&a&&b;
+    });
+    var ci=(ora+5)%allConns.length;
+    CERVELLO.ultimaConn=allConns[ci];
+    // Log
+    var oraStr=(ora<10?'0':'')+ora+':00';
+    var haOra=CERVELLO.logDelGiorno.some(function(l){ return l.ora===oraStr; });
+    if(!haOra){ CERVELLO.logDelGiorno.push({ora:oraStr,item:CERVELLO.ultimoItem,conn:CERVELLO.ultimaConn,timestamp:Date.now()}); if(CERVELLO.logDelGiorno.length>24) CERVELLO.logDelGiorno.shift(); }
+    localStorage.setItem('cervello_stato',JSON.stringify({data:fmtKey(oggi()),log:CERVELLO.logDelGiorno}));
+  });
+}
+
+// ── Laboratorio render ──
+function renderLabNuovo(){
+  labRenderMain();
+  if(!CERVELLO.inizializzato) initCervello();
+}
+
+function labRenderMain(){
+  labAggiornaBadge();
+  caricaEDB(function(){
+    if(!EDBV2||!CERVELLO.ultimoItem) { initCervello(); return; }
+    labRenderInsightCard(CERVELLO.ultimoItem);
+    labRenderConnCard(CERVELLO.ultimaConn);
+    var allConns=(EDBV2.connessioni||[]).concat(CONNESSIONI_CROSS).filter(function(c){ var a=(c.da||c.a||'').split(' ')[0],b=(c.da?c.a:c.b||'').split(' ')[0]; return a!==b&&a&&b; });
+    var ce=document.getElementById('lab-conn-count'); if(ce) ce.textContent=allConns.length+' cross-manuale';
+    var te=document.getElementById('lab-tec-count'); if(te) te.textContent=(TECNICHE||[]).length+' dai manuali';
+    labRenderLog();
+  });
+}
+
+function labAggiornaBadge(){
+  var d=new Date(), h=(d.getHours()<10?'0':'')+d.getHours(), m=(d.getMinutes()<10?'0':'')+d.getMinutes();
+  var el=document.getElementById('lab-ora-badge'); if(el) el.textContent=h+':'+m;
+}
+
+function labRenderInsightCard(item){
+  if(!item) return;
+  var el1=document.getElementById('lab-insight-ico'), el2=document.getElementById('lab-insight-titolo'),
+      el3=document.getElementById('lab-insight-desc'), el4=document.getElementById('lab-insight-fonte');
+  var ico='', titolo='', desc='', fonte='';
+  if(item.tipo==='esp'){ ico=item.data.cat.ico; titolo=item.data.esp.nome; desc=(item.data.esp.principio||'').substring(0,130)+'…'; fonte=(item.data.esp.fonti&&item.data.esp.fonti[0]||'').split(' - ')[0]; }
+  else if(item.tipo==='tec'){ ico=item.data.ico; titolo=item.data.n; desc=item.data.desc.substring(0,130)+'…'; fonte=item.data.fonte||''; }
+  else if(item.tipo==='cross'){ ico='🔗'; titolo=item.data.a.split(' — ')[0]; desc=item.data.nota.substring(0,130)+'…'; fonte=item.data.b.split(' ')[0]; }
+  if(el1) el1.textContent=ico;
+  if(el2) el2.textContent=titolo;
+  if(el3) el3.textContent=desc;
+  if(el4) el4.textContent=fonte;
+  window._labCurrentItem=item;
+}
+
+function labRenderConnCard(c){
+  if(!c) return;
+  var nA='', nB='', nota='';
+  if(c.da){ var ra=getEsp(c.da),rb=getEsp(c.a); nA=ra?ra.cat.ico+' '+ra.esp.nome:c.da; nB=rb?rb.cat.ico+' '+rb.esp.nome:c.a; }
+  else{ nA=(c.a||'').split(' — ')[0]; nB=c.b||''; }
+  nota=c.nota||'';
+  var el1=document.getElementById('lab-conn-testo'), el2=document.getElementById('lab-conn-nota');
+  if(el1) el1.textContent=nA+' ↔ '+nB;
+  if(el2) el2.textContent=nota.substring(0,120)+'…';
+  window._labCurrentConn=c;
+}
+
+function labRenderLog(){
+  var logEl=document.getElementById('lab-log-list'), countEl=document.getElementById('lab-log-count');
+  var log=CERVELLO.logDelGiorno||[];
+  if(countEl) countEl.textContent=log.length+'/24 oggi';
+  if(!logEl) return;
+  if(!log.length){ logEl.innerHTML='<div style="text-align:center;padding:1rem;color:var(--muted);font-size:.8rem;">Il cervello genera un insight ogni ora…</div>'; return; }
+  var html='';
+  log.slice().reverse().forEach(function(l,i){
+    var realIdx=log.length-1-i;
+    html+='<div onclick="labApriLogItem('+realIdx+')" style="background:var(--card);border-radius:12px;padding:.6rem .8rem;display:flex;align-items:center;gap:.7rem;cursor:pointer;box-shadow:var(--one-shadow-sm);transition:opacity .14s;" onpointerdown="this.style.opacity=.7" onpointerup="this.style.opacity=1">';
+    html+='<div style="font-family:monospace;font-size:.62rem;color:var(--muted);min-width:36px;">'+l.ora+'</div>';
+    html+='<div style="flex:1;min-width:0;"><div style="font-size:.82rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+nomeItem(l.item)+'</div>';
+    if(l.conn) html+='<div style="font-size:.7rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔗 '+nomeConn(l.conn)+'</div>';
+    html+='</div><div style="color:var(--muted);">›</div></div>';
+  });
+  logEl.innerHTML=html;
+}
+
+function labApriLogItem(idx){
+  var log=CERVELLO.logDelGiorno||[]; var l=log[idx]; if(!l) return;
+  var html='<div style="padding:.3rem 0;"><div style="font-size:.65rem;font-family:monospace;color:var(--muted);margin-bottom:.5rem;">'+l.ora+'</div>';
+  html+='<div style="background:rgba(0,135,90,0.08);border-radius:14px;padding:.8rem;margin-bottom:.5rem;border-left:3px solid var(--moss);">';
+  html+='<div style="font-size:.63rem;font-weight:800;color:var(--moss);text-transform:uppercase;margin-bottom:.3rem;">🧬 Insight</div>';
+  html+='<div style="font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.3rem;">'+nomeItem(l.item)+'</div>';
+  html+='<div style="font-size:.8rem;color:var(--soft);line-height:1.5;">'+descItem(l.item)+'</div></div>';
+  if(l.conn){ html+='<div style="background:rgba(94,92,230,0.08);border-radius:14px;padding:.8rem;border-left:3px solid var(--exp);">';
+    html+='<div style="font-size:.63rem;font-weight:800;color:var(--exp);text-transform:uppercase;margin-bottom:.3rem;">🔗 Connessione</div>';
+    html+='<div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:.3rem;">'+nomeConn(l.conn)+'</div>';
+    html+='<div style="font-size:.8rem;color:var(--soft);line-height:1.5;">'+(l.conn.nota||'')+'</div></div>'; }
+  html+='</div>';
+  apriPopup('📋 Insight '+l.ora,'',html);
+}
+
+function labInsightClick(){
+  var item=window._labCurrentItem; if(!item) return;
+  var titolo=item.tipo==='esp'?item.data.esp.nome:item.tipo==='tec'?item.data.n:item.data.a.split(' — ')[0];
+  var html='<div style="padding:.2rem 0;">';
+  if(item.tipo==='esp'){ html+='<div style="font-size:.82rem;color:var(--soft);line-height:1.6;">'+item.data.esp.principio+'</div>';
+    if(item.data.esp.risultati_attesi) html+='<div style="background:#e8f5e9;border-radius:10px;padding:.6rem .8rem;margin-top:.6rem;color:#155724;"><div style="font-size:.65rem;font-weight:800;margin-bottom:.2rem;">✅ Risultati attesi</div><div style="font-size:.78rem;">'+item.data.esp.risultati_attesi+'</div></div>';
+  } else if(item.tipo==='tec'){ html+='<div style="font-size:.82rem;color:var(--soft);line-height:1.6;">'+item.data.desc+'</div>';
+    if(item.data.fonte) html+='<div style="margin-top:.6rem;font-size:.7rem;color:var(--muted);">📚 '+item.data.fonte+'</div>';
+  } else { html+='<div style="background:rgba(0,135,90,0.08);border-radius:12px;padding:.7rem;margin-bottom:.5rem;border-left:3px solid var(--moss);">';
+    html+='<div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:.2rem;">'+item.data.a+'</div>';
+    html+='<div style="font-size:.75rem;color:var(--muted);">↕</div><div style="font-size:.85rem;font-weight:700;color:var(--text);">'+item.data.b+'</div></div>';
+    html+='<div style="font-size:.82rem;color:var(--soft);line-height:1.6;">'+item.data.nota+'</div>'; }
+  html+='</div>';
+  apriPopup(titolo,'',html);
+}
+
+function labConnClick(){
+  var c=window._labCurrentConn; if(!c) return;
+  var nA=c.da?(function(){var r=getEsp(c.da);return r?r.cat.ico+' '+r.esp.nome:c.da;})():(c.a||'').split(' — ')[0];
+  var nB=c.da?(function(){var r=getEsp(c.a);return r?r.cat.ico+' '+r.esp.nome:c.a;})():(c.b||'');
+  var html='<div style="padding:.2rem 0;"><div style="background:rgba(0,135,90,0.08);border-radius:12px;padding:.8rem;margin-bottom:.6rem;">';
+  html+='<div style="font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.3rem;">'+nA+'</div>';
+  html+='<div style="font-size:.75rem;color:var(--muted);text-align:center;margin:.2rem 0;">🔗 collegato a</div>';
+  html+='<div style="font-size:.88rem;font-weight:700;color:var(--text);">'+nB+'</div></div>';
+  html+='<div style="font-size:.83rem;color:var(--soft);line-height:1.6;">'+(c.nota||'')+'</div>';
+  if(c.tags&&c.tags.length){ html+='<div style="margin-top:.6rem;display:flex;flex-wrap:wrap;gap:.3rem;">';
+    c.tags.forEach(function(t){ html+='<span style="font-size:.65rem;background:var(--cream);color:var(--soft);border-radius:20px;padding:.15rem .5rem;">#'+t+'</span>'; });
+    html+='</div>'; }
+  html+='</div>';
+  apriPopup('🔗 Connessione',nA+' + '+nB,html);
+}
+
+// ── Pannelli overlay ──
+function labApriPanel(id){ var el=document.getElementById(id); if(el){ el.style.display='block'; el.scrollTop=0; } }
+function labChiudiPanel(id){ var el=document.getElementById(id); if(el) el.style.display='none'; }
+function labApriTecniche(){ labApriPanel('lab-panel-tecniche'); labRenderTecnichePanel(); }
+function labApriConnessioni(){ labApriPanel('lab-panel-connessioni'); labRenderConnessioniPanel(); }
+function labApriEsplora(){ labApriPanel('lab-panel-esplora'); labRenderEsplora(); }
+function labApriOggi(){ labApriPanel('lab-panel-oggi'); labRenderOggiPanel(); }
+function labApriAI(){
+  labApriPanel('lab-panel-ai');
+  var key=localStorage.getItem('groq_api_key');
+  var badge=document.getElementById('ai-status-badge');
+  if(badge) badge.textContent=key?'✅ Connesso':'⚙️ Configura chiave';
+}
+function salvaGroqKey(){
+  var inp=document.getElementById('groq-key-input');
+  if(!inp||!inp.value.trim()) return;
+  localStorage.setItem('groq_api_key',inp.value.trim());
+  mostraToast('✅ Chiave Groq salvata!');
+  var ks=document.getElementById('groq-key-section'); if(ks) ks.style.display='none';
+  var badge=document.getElementById('ai-status-badge'); if(badge) badge.textContent='✅ Connesso';
+}
+function azzeraChat(){ aiHistory=[]; var chat=document.getElementById('ai-chat'); if(chat) chat.innerHTML=''; mostraToast('Chat pulita'); }
+
+// ── Tecniche Panel ──
+function labRenderTecnichePanel(){
+  var el=document.getElementById('lab-tec-body'); if(!el) return;
+  var CAT_COL={'Elettromagnetico':'#c0392b','Galvanico':'#d35400','Suolo Vivente':'#27ae60','Acqua':'#2980b9','Vibrazione':'#8e44ad','Alchimia':'#d4870a','Biodinamica':'#1e6e3a'};
+  var cats={}; (TECNICHE||[]).forEach(function(t){ var c=t.cat||'Altro'; if(!cats[c]) cats[c]=[]; cats[c].push(t); });
+  var totAp=(TECNICHE||[]).filter(function(t){ return DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def; }).length;
+  var html='<div style="margin:.4rem 1rem .6rem;background:var(--card);border-radius:14px;padding:.7rem .9rem;display:flex;justify-content:space-between;align-items:center;">';
+  html+='<div><div style="font-family:'DM Serif Display',serif;font-size:1rem;color:var(--text);">'+(TECNICHE||[]).length+' Tecniche</div>';
+  html+='<div style="font-size:.72rem;color:var(--muted);">'+totAp+' applicate</div></div>';
+  html+='<div style="background:var(--moss);color:#fff;border-radius:100px;padding:.25rem .65rem;font-size:.75rem;font-weight:700;">'+totAp+'/'+(TECNICHE||[]).length+'</div></div>';
+  Object.keys(cats).forEach(function(cat){
+    var col=CAT_COL[cat]||'var(--muted)';
+    html+='<div style="font-size:.62rem;font-weight:800;color:'+col+';text-transform:uppercase;letter-spacing:.1em;padding:.6rem 1rem .2rem;">'+cat+'</div>';
+    cats[cat].forEach(function(t){
+      var ap=DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def;
+      html+='<div style="margin:.2rem 1rem;background:var(--card);border-radius:14px;border-left:3px solid '+(ap?col:'var(--sand)')+';">';
+      html+='<div class="tec-h" onclick="toggleTec(''+t.id+'')">';
+      html+='<div class="tec-left"><span class="tec-ico">'+t.ico+'</span><div style="flex:1;min-width:0;">';
+      html+='<div class="tec-name">'+t.n+'</div>';
+      if(t.fonte) html+='<div style="font-size:.6rem;color:var(--muted);">📚 '+t.fonte+'</div>';
+      html+='<span class="tec-st '+(ap?'tsi':'tno')+'">'+(ap?'✓ Applicata':'○ Non ancora')+'</span>';
+      html+='</div></div>';
+      html+='<button class="tec-btn '+(ap?'si':'no')+'" onclick="event.stopPropagation();toggleApTec(''+t.id+'')">'+(ap?'✓':'○')+'</button>';
+      html+='</div>';
+      html+='<div class="tec-body" id="tb_'+t.id+'"><p>'+t.desc+'</p>';
+      html+='<textarea class="tec-nota" placeholder="Note…" oninput="saveTecNota(''+t.id+'',this.value)">'+(DB.tecNotes&&DB.tecNotes[t.id]||'')+'</textarea></div></div>';
+    });
+  });
+  el.innerHTML=html;
+}
+
+// ── Connessioni Panel ──
+function labRenderConnessioniPanel(){
+  var el=document.getElementById('lab-conn-body'); if(!el) return;
+  caricaEDB(function(){
+    if(!EDBV2) return;
+    var allConns=(EDBV2.connessioni||[]).concat(CONNESSIONI_CROSS).filter(function(c){
+      var a=(c.da||c.a||'').split(' ')[0], b=(c.da?c.a:c.b||'').split(' ')[0]; return a!==b&&a&&b;
+    });
+    var countEl=document.getElementById('lab-conn-panel-count'); if(countEl) countEl.textContent=allConns.length+' totali';
+    var html='';
+    allConns.forEach(function(c,i){
+      var nA=c.da?(function(){var r=getEsp(c.da);return r?r.cat.ico+' '+r.esp.nome:c.da;})():(c.a||'').split(' — ')[0];
+      var nB=c.da?(function(){var r=getEsp(c.a);return r?r.cat.ico+' '+r.esp.nome:c.a;})():(c.b||'');
+      var tipo=c.tipo||'sinergia', col=tipo==='sinergia'?'var(--moss)':'var(--exp)';
+      html+='<div onclick="mostraDettaglioConnessione('+i+')" style="background:var(--card);border-radius:14px;padding:.7rem .9rem;margin-bottom:.4rem;border-left:3px solid '+col+';cursor:pointer;transition:opacity .14s;" onpointerdown="this.style.opacity=.7" onpointerup="this.style.opacity=1">';
+      html+='<div style="font-size:.62rem;background:'+col+';color:#fff;border-radius:20px;padding:.05rem .4rem;display:inline-block;margin-bottom:.25rem;">'+tipo+'</div>';
+      html+='<div style="font-size:.83rem;font-weight:700;color:var(--text);">'+nA+'</div>';
+      html+='<div style="font-size:.7rem;color:var(--muted);margin:.1rem 0;">↕</div>';
+      html+='<div style="font-size:.83rem;font-weight:700;color:var(--text);">'+nB+'</div>';
+      if(c.nota) html+='<div style="font-size:.73rem;color:var(--soft);margin-top:.3rem;line-height:1.4;">'+c.nota.substring(0,90)+'…</div>';
+      html+='</div>';
+    });
+    el.innerHTML=html;
+    window._allConnsCache=allConns;
+  });
+}
+
+function mostraDettaglioConnessione(idx){
+  caricaEDB(function(){
+    var allConns=window._allConnsCache||[];
+    var c=allConns[idx]; if(!c) return;
+    var nA=c.da?(function(){var r=getEsp(c.da);return r?r.cat.ico+' '+r.esp.nome:c.da;})():(c.a||'').split(' — ')[0];
+    var nB=c.da?(function(){var r=getEsp(c.a);return r?r.cat.ico+' '+r.esp.nome:c.a;})():(c.b||'');
+    var html='<div style="padding:.2rem 0;"><div style="background:rgba(0,135,90,0.08);border-radius:12px;padding:.8rem;margin-bottom:.6rem;">';
+    html+='<div style="font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.3rem;">'+nA+'</div>';
+    html+='<div style="font-size:.75rem;color:var(--muted);text-align:center;margin:.2rem 0;">🔗 collegato a</div>';
+    html+='<div style="font-size:.88rem;font-weight:700;color:var(--text);">'+nB+'</div></div>';
+    html+='<div style="font-size:.83rem;color:var(--soft);line-height:1.6;">'+(c.nota||'')+'</div>';
+    if(c.tags&&c.tags.length){ html+='<div style="margin-top:.6rem;display:flex;flex-wrap:wrap;gap:.3rem;">';
+      c.tags.forEach(function(t){ html+='<span style="font-size:.65rem;background:var(--cream);color:var(--soft);border-radius:20px;padding:.15rem .5rem;">#'+t+'</span>'; }); html+='</div>'; }
+    html+='</div>';
+    apriPopup('🔗 Connessione',nA+' + '+nB,html);
+  });
+}
+
+// ── Esplora Panel ──
+function labRenderEsplora(){
+  var el=document.getElementById('lab-esplora-body'); if(!el) return;
+  caricaEDB(function(){
+    if(!EDBV2) return;
+    var q=(document.getElementById('lab-search-input')||{}).value||''; q=q.toLowerCase().trim();
+    var tutti=getAllEsperimentiFlat(EDBV2);
+    var filtered=q?tutti.filter(function(r){ return (r.esp.nome+r.esp.principio+(r.esp.fonti||[]).join('')).toLowerCase().indexOf(q)!==-1; }):tutti;
+    var html='<div style="font-size:.7rem;color:var(--muted);margin-bottom:.5rem;">'+filtered.length+' risultati</div>';
+    filtered.forEach(function(r){
+      html+='<div onclick="apriEsp(''+r.cat.id+'',''+r.esp.id+'')" style="background:var(--card);border-radius:14px;padding:.7rem .9rem;margin-bottom:.4rem;cursor:pointer;display:flex;align-items:center;gap:.7rem;box-shadow:var(--one-shadow-sm);">';
+      html+='<div style="font-size:1.4rem;flex-shrink:0;">'+r.cat.ico+'</div>';
+      html+='<div style="flex:1;min-width:0;"><div style="font-size:.84rem;font-weight:700;color:var(--text);">'+r.esp.nome+'</div>';
+      html+='<div style="font-size:.7rem;color:var(--muted);">'+(r.esp.fonti&&r.esp.fonti[0]||'').split(' - ')[0]+'</div></div><div style="color:var(--muted);">›</div></div>';
+    });
+    el.innerHTML=html;
+  });
+}
+
+// ── Oggi Panel ──
+function labRenderOggiPanel(){
+  var el=document.getElementById('lab-oggi-body'); if(!el) return;
+  caricaEDB(function(){
+    if(!EDBV2) return;
+    var bio=typeof calcolaBio==='function'?calcolaBio(new Date()):null;
+    var html='';
+    if(bio){
+      html+='<div style="background:var(--card);border-radius:16px;padding:.9rem 1rem;margin-bottom:.6rem;">';
+      html+='<div style="font-size:.62rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;">📅 '+bio.tipo.nome.toUpperCase()+' · '+bio.lunaInfo.nome.toUpperCase()+'</div>';
+      html+='<div style="font-family:'DM Serif Display',serif;font-size:1.05rem;color:var(--text);margin-bottom:.35rem;">'+bio.tipo.ico+' Giorno '+bio.tipo.nome+'</div>';
+      html+='<div style="font-size:.8rem;color:var(--soft);line-height:1.5;">'+(bio.tipo.consiglio||'Segui il ritmo della natura')+'</div></div>';
+    }
+    var tecOggi=(TECNICHE||[]).filter(function(t){ return t.bio_ideale&&bio&&t.bio_ideale.indexOf(bio.tipoId)!==-1; }).slice(0,4);
+    if(tecOggi.length){
+      html+='<div style="font-size:.62rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;">⚡ TECNICHE CONSIGLIATE</div>';
+      tecOggi.forEach(function(t){
+        html+='<div style="background:var(--card);border-radius:12px;padding:.65rem .85rem;margin-bottom:.35rem;border-left:3px solid var(--moss);">';
+        html+='<div style="font-size:.84rem;font-weight:700;color:var(--text);">'+t.ico+' '+t.n+'</div>';
+        html+='<div style="font-size:.73rem;color:var(--soft);margin-top:.15rem;">'+t.desc.substring(0,80)+'…</div></div>';
+      });
+    }
+    el.innerHTML=html||'<div style="text-align:center;padding:2rem;color:var(--muted);">Caricamento…</div>';
+  });
+}
+
+// ── Home insight ──
+function mostraCervelloHome(){
+  caricaEDB(function(){
+    if(!EDBV2||!CERVELLO.ultimoItem) return;
+    var el=document.getElementById('insight-home'); if(!el) return;
+    var it=CERVELLO.ultimoItem, c=CERVELLO.ultimaConn;
+    var html='<div class="insight-widget" onclick="goNav('laboratorio')">';
+    html+='<div class="insight-badge">🧬 Insight del giorno · dai manuali · cambia ogni ora</div>';
+    html+='<div class="insight-title">'+nomeItem(it)+'</div>';
+    html+='<div class="insight-body">'+descItem(it)+'</div>';
+    html+='<div class="insight-footer"><span class="insight-src">'+fonteItem(it)+'</span><span class="insight-arrow">⚗️ Laboratorio →</span></div></div>';
+    if(c){
+      html+='<div class="sugg-card" onclick="goNav('laboratorio')">';
+      html+='<div class="sugg-tag">🔗 Connessione scoperta oggi</div>';
+      html+='<div class="sugg-title">'+nomeConn(c)+'</div>';
+      html+='<div class="sugg-body">'+(c.nota||'').substring(0,90)+'</div></div>';
+    }
+    el.innerHTML=html;
+    var recapEl=document.getElementById('insight-recap');
+    if(recapEl&&CERVELLO.logDelGiorno.length>1){
+      var h2='<div style="background:var(--card);border-radius:var(--radius-sm);padding:.7rem .9rem;margin-top:.4rem;">';
+      h2+='<div style="font-size:.68rem;font-weight:800;color:var(--moss);text-transform:uppercase;margin-bottom:.35rem;">📚 Oggi: '+CERVELLO.logDelGiorno.length+' insight</div>';
+      CERVELLO.logDelGiorno.slice(-3).reverse().forEach(function(l){ h2+='<div style="font-size:.76rem;color:var(--soft);padding:.15rem 0;border-bottom:1px solid var(--sand);">'+l.ora+' · '+nomeItem(l.item)+'</div>'; });
+      h2+='<div style="font-size:.7rem;color:var(--muted);margin-top:.3rem;cursor:pointer;" onclick="goNav('laboratorio')">Vedi tutti nel Laboratorio →</div></div>';
+      recapEl.innerHTML=h2;
+    }
+  });
+}
+
+// ── Init al caricamento ──
+document.addEventListener('DOMContentLoaded',function(){
+  setTimeout(function(){
+    var homeEl=document.getElementById('home');
+    if(homeEl&&!homeEl.classList.contains('on')){
+      document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('on');});
+      homeEl.classList.add('on');
+      document.querySelectorAll('.nav-item').forEach(function(b,i){b.classList.toggle('active',i===0);});
+    }
+    initCervello();
+    if(typeof mostraCervelloHome==='function') mostraCervelloHome();
+    if(typeof aggiornaMeteoOpenMeteo==='function') aggiornaMeteoOpenMeteo();
+  },1200);
+});
+
+setInterval(function(){
+  labAggiornaBadge();
+  if(document.getElementById('laboratorio')&&document.getElementById('laboratorio').classList.contains('on')){
+    eseguiTurno(); labRenderMain();
+  }
+},3600000);
+</script>
 </body>
-</html>function labApriAI() {
+</html>ion labApriAI() {
   labApriPanel('lab-panel-ai');
   var key = localStorage.getItem('groq_api_key');
   var badge = document.getElementById('ai-status-badge');
