@@ -1052,82 +1052,188 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
 </div>
 
 <!-- ===== LABORATORIO ===== -->
-<div id="laboratorio" class="sec">
-  <!-- Header semplice -->
-  <div style="padding:.8rem .9rem .5rem;display:flex;align-items:center;justify-content:space-between;">
-    <div style="font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--text);">⚗️ Laboratorio</div>
-    <div id="lab-cervello-status" style="font-size:.65rem;font-family:monospace;color:var(--moss);"></div>
-  </div>
+<div id="laboratorio" class="sec" style="padding-bottom:5rem;">
 
-  <!-- Tab bar compatta -->
-  <div style="display:flex;gap:.3rem;padding:.1rem .7rem .5rem;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--sand);">
-    <button class="lab-tab att" data-panel="lab-cervello" onclick="labSwitchTab(this)">🧠 Insight</button>
-    <button class="lab-tab" data-panel="lab-tecniche" onclick="labSwitchTab(this)">⚡ Tecniche</button>
-    <button class="lab-tab" data-panel="lab-connessioni" onclick="labSwitchTab(this)">🔗 Connessioni</button>
-    <button class="lab-tab" data-panel="lab-esplora" onclick="labSwitchTab(this)">🔍 Esplora</button>
-    <button class="lab-tab" data-panel="lab-oggi" onclick="labSwitchTab(this)">✨ Oggi</button>
-    <button class="lab-tab" data-panel="lab-ai" onclick="labSwitchTab(this)">🤖 AI</button>
+<!-- ═══ HEADER LABORATORIO ═══ -->
+<div id="lab-topbar" style="
+  position:sticky;top:0;z-index:20;
+  background:var(--main-bg);
+  padding:.75rem 1rem .6rem;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--sand);
+">
+  <div>
+    <div style="font-size:.6rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--moss);margin-bottom:.1rem;">⚗️ LABORATORIO</div>
+    <div style="font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--text);line-height:1.1;">58 Manuali · <span id="lab-conncount" style="color:var(--moss);">34</span> Connessioni</div>
   </div>
+  <div id="lab-ora-badge" style="
+    background:var(--moss);color:#fff;
+    border-radius:100px;padding:.3rem .75rem;
+    font-size:.65rem;font-family:monospace;font-weight:700;
+  ">00:00</div>
+</div>
 
-  <!-- ── INSIGHT (ex Cervello) ── -->
-  <div id="lab-cervello" class="lab-panel" style="padding:.7rem .9rem 5rem;">
-    <!-- Card insight ora -->
-    <div id="cervello-insight-ora" style="margin-bottom:.6rem;"></div>
-    <!-- Connessione ora -->
-    <div id="cervello-conn-ora" style="margin-bottom:.6rem;"></div>
-    <!-- Log giornata -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;">
-      <div style="font-size:.68rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">📅 Log insight di oggi</div>
-      <div id="cervello-count" style="font-size:.7rem;font-family:monospace;color:var(--moss);font-weight:700;"></div>
-    </div>
-    <div id="cervello-log" style="display:flex;flex-direction:column;gap:.35rem;"></div>
-  </div>
-
-  <!-- ── TECNICHE ── -->
-  <div id="lab-tecniche" class="lab-panel" style="display:none;padding:0 0 5rem;">
-    <div id="tec-list-lab"></div>
-  </div>
-
-  <!-- ── CONNESSIONI (ex Mappa) ── -->
-  <div id="lab-connessioni" class="lab-panel" style="display:none;padding:.7rem .9rem 5rem;">
-    <div style="font-size:.78rem;color:var(--soft);margin-bottom:.6rem;line-height:1.5;">🔗 Connessioni scoperte tra i 58 manuali. Tocca per approfondire.</div>
-    <div id="lab-connessioni-list"></div>
-  </div>
-
-  <!-- ── ESPLORA ── -->
-  <div id="lab-esplora" class="lab-panel" style="display:none;padding:.6rem .9rem 5rem;">
-    <input id="lib-search" type="text" placeholder="🔍 Cerca tecnica, autore, ingrediente..." oninput="renderLabEsplora()" style="width:100%;padding:.5rem .7rem;border-radius:10px;border:1px solid var(--sand);background:var(--cream);font-size:.85rem;box-sizing:border-box;color:var(--text);margin-bottom:.6rem;">
-    <div id="lib-filtri" style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.7rem;"></div>
-    <div id="lib-lista"></div>
-  </div>
-
-  <!-- ── OGGI ── -->
-  <div id="lab-oggi" class="lab-panel" style="display:none;padding:.6rem .9rem 5rem;">
-    <div id="lib-oggi-content"></div>
-  </div>
-
-  <!-- ── AI ── -->
-  <div id="lab-ai" class="lab-panel" style="display:none;padding:.6rem .9rem 5rem;">
-    <div style="background:linear-gradient(135deg,#0d2818,#1e4a2a);border-radius:16px;padding:.9rem 1rem;margin-bottom:.7rem;color:#fff;">
-      <div style="font-size:.65rem;font-family:monospace;letter-spacing:.08em;opacity:.6;margin-bottom:.25rem;">🤖 AI DAI TUOI 40+ MANUALI</div>
-      <div style="font-family:'DM Serif Display',serif;font-size:1rem;margin-bottom:.2rem;">Chiedi, combina, sperimenta</div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:.3rem;margin-bottom:.7rem;">
-      <button onclick="inviaAI('Cosa fare oggi con luna e biodinamica? Suggerisci le migliori tecniche')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--text);text-align:left;cursor:pointer;">🌙 Cosa fare oggi?</button>
-      <button onclick="inviaAI('Confronta Lakhovsky, Christofleau, Ighina e Lemstrom: differenze e come combinarli')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--text);text-align:left;cursor:pointer;">🔬 Confronta i grandi autori</button>
-      <button onclick="inviaAI('Crea un piano sperimentale settimanale ottimale per la mia mini-serra')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--text);text-align:left;cursor:pointer;">📋 Piano settimanale</button>
-      <button onclick="inviaAI('Quali connessioni nascoste tra magia e elettrocoltura posso applicare subito?')" style="background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:.5rem .7rem;font-size:.78rem;color:var(--text);text-align:left;cursor:pointer;">⚗️ Magia + Elettrocoltura</button>
-    </div>
-    <div id="ai-chat" style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:.7rem;min-height:60px;"></div>
-    <div style="position:sticky;bottom:5.5rem;background:var(--main-bg);padding:.3rem 0;">
-      <div style="display:flex;gap:.4rem;align-items:flex-end;">
-        <textarea id="ai-input" placeholder="Chiedi qualcosa..." style="flex:1;padding:.55rem .75rem;border-radius:14px;border:1.5px solid var(--sand);background:var(--card);font-family:'Nunito',sans-serif;font-size:.82rem;color:var(--text);resize:none;min-height:2.8rem;max-height:6rem;outline:none;" rows="2" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();inviaAI();}"></textarea>
-        <button onclick="inviaAI()" style="padding:.55rem .8rem;background:var(--moss);color:#fff;border:none;border-radius:14px;font-size:1rem;cursor:pointer;height:2.8rem;">→</button>
-      </div>
+<!-- ═══ SEZIONE 1: INSIGHT ORA ═══ -->
+<div style="padding:.8rem 1rem .4rem;">
+  <div style="font-size:.58rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;">INSIGHT DELL'ORA · DAI MANUALI</div>
+  <div id="lab-insight-card" onclick="labInsightClick()" style="
+    background:linear-gradient(145deg,#00442E,#006040);
+    border-radius:20px;padding:1.1rem 1.2rem;
+    color:#fff;cursor:pointer;
+    box-shadow:0 6px 24px rgba(0,68,46,.35);
+    transition:transform .15s, box-shadow .15s;
+    position:relative;overflow:hidden;
+    min-height:110px;
+  ">
+    <div style="position:absolute;top:-20px;right:-20px;width:120px;height:120px;background:rgba(255,255,255,.04);border-radius:50%;"></div>
+    <div style="position:absolute;bottom:-30px;left:-10px;width:90px;height:90px;background:rgba(255,255,255,.03);border-radius:50%;"></div>
+    <div id="lab-insight-ico" style="font-size:1.8rem;margin-bottom:.4rem;"></div>
+    <div id="lab-insight-titolo" style="font-family:'DM Serif Display',serif;font-size:1.05rem;line-height:1.3;margin-bottom:.35rem;"></div>
+    <div id="lab-insight-desc" style="font-size:.76rem;opacity:.82;line-height:1.5;"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.6rem;">
+      <div id="lab-insight-fonte" style="font-size:.6rem;opacity:.45;font-family:monospace;"></div>
+      <div style="font-size:.72rem;opacity:.7;">Tocca →</div>
     </div>
   </div>
 </div>
 
+<!-- ═══ SEZIONE 2: CONNESSIONE SCOPERTA ═══ -->
+<div style="padding:.2rem 1rem .5rem;">
+  <div id="lab-conn-card" onclick="labConnClick()" style="
+    background:var(--card);
+    border-radius:16px;padding:.75rem .9rem;
+    border-left:4px solid var(--sage);
+    cursor:pointer;transition:opacity .14s;
+    box-shadow:var(--one-shadow-sm);
+  ">
+    <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:.3rem;">🔗 CONNESSIONE SCOPERTA</div>
+    <div id="lab-conn-testo" style="font-size:.83rem;color:var(--text);font-weight:600;line-height:1.4;margin-bottom:.2rem;"></div>
+    <div id="lab-conn-nota" style="font-size:.74rem;color:var(--soft);line-height:1.45;"></div>
+  </div>
+</div>
+
+<!-- ═══ SEZIONE 3: AZIONI VELOCI ═══ -->
+<div style="padding:.5rem 1rem .4rem;">
+  <div style="font-size:.58rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;">AZIONI</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem;">
+    <button onclick="labApriTecniche()" style="
+      background:var(--card);border:none;border-radius:14px;
+      padding:.7rem .9rem;text-align:left;cursor:pointer;
+      box-shadow:var(--one-shadow-sm);transition:opacity .14s;
+    ">
+      <div style="font-size:1.3rem;margin-bottom:.25rem;">⚡</div>
+      <div style="font-size:.82rem;font-weight:700;color:var(--text);">Tecniche</div>
+      <div style="font-size:.65rem;color:var(--muted);" id="lab-tec-count">27 dai manuali</div>
+    </button>
+    <button onclick="labApriConnessioni()" style="
+      background:var(--card);border:none;border-radius:14px;
+      padding:.7rem .9rem;text-align:left;cursor:pointer;
+      box-shadow:var(--one-shadow-sm);transition:opacity .14s;
+    ">
+      <div style="font-size:1.3rem;margin-bottom:.25rem;">🔗</div>
+      <div style="font-size:.82rem;font-weight:700;color:var(--text);">Connessioni</div>
+      <div style="font-size:.65rem;color:var(--muted);" id="lab-conn-count">34 cross-manuale</div>
+    </button>
+    <button onclick="labApriEsplora()" style="
+      background:var(--card);border:none;border-radius:14px;
+      padding:.7rem .9rem;text-align:left;cursor:pointer;
+      box-shadow:var(--one-shadow-sm);transition:opacity .14s;
+    ">
+      <div style="font-size:1.3rem;margin-bottom:.25rem;">🔍</div>
+      <div style="font-size:.82rem;font-weight:700;color:var(--text);">Esplora</div>
+      <div style="font-size:.65rem;color:var(--muted);">Tutti gli esperimenti</div>
+    </button>
+    <button onclick="labApriOggi()" style="
+      background:var(--card);border:none;border-radius:14px;
+      padding:.7rem .9rem;text-align:left;cursor:pointer;
+      box-shadow:var(--one-shadow-sm);transition:opacity .14s;
+    ">
+      <div style="font-size:1.3rem;margin-bottom:.25rem;">✨</div>
+      <div style="font-size:.82rem;font-weight:700;color:var(--text);">Oggi</div>
+      <div style="font-size:.65rem;color:var(--muted);">Consigli biodinamici</div>
+    </button>
+  </div>
+</div>
+
+<!-- ═══ SEZIONE 4: LOG INSIGHT GIORNATA ═══ -->
+<div style="padding:.5rem 1rem .4rem;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;">
+    <div style="font-size:.58rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);">LOG OGGI</div>
+    <div id="lab-log-count" style="font-size:.65rem;font-family:monospace;color:var(--moss);font-weight:700;"></div>
+  </div>
+  <div id="lab-log-list" style="display:flex;flex-direction:column;gap:.3rem;"></div>
+</div>
+
+<!-- ═══ PANEL OVERLAY: TECNICHE ═══ -->
+<div id="lab-panel-tecniche" style="
+  display:none;position:fixed;inset:0;z-index:300;
+  background:var(--main-bg);overflow-y:auto;padding-bottom:4rem;
+">
+  <div style="position:sticky;top:0;z-index:5;background:var(--main-bg);padding:.75rem 1rem .5rem;border-bottom:1px solid var(--sand);display:flex;align-items:center;gap:.7rem;">
+    <button onclick="labChiudiPanel('lab-panel-tecniche')" style="background:var(--cream);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:var(--text);">←</button>
+    <div>
+      <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);">LABORATORIO</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--text);">⚡ Tecniche dai Manuali</div>
+    </div>
+  </div>
+  <div id="lab-tec-body" style="padding:.5rem 0 0;"></div>
+</div>
+
+<!-- ═══ PANEL OVERLAY: CONNESSIONI ═══ -->
+<div id="lab-panel-connessioni" style="
+  display:none;position:fixed;inset:0;z-index:300;
+  background:var(--main-bg);overflow-y:auto;padding-bottom:4rem;
+">
+  <div style="position:sticky;top:0;z-index:5;background:var(--main-bg);padding:.75rem 1rem .5rem;border-bottom:1px solid var(--sand);display:flex;align-items:center;gap:.7rem;">
+    <button onclick="labChiudiPanel('lab-panel-connessioni')" style="background:var(--cream);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:var(--text);">←</button>
+    <div>
+      <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);">LABORATORIO</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--text);">🔗 Connessioni Cross-Manuale</div>
+    </div>
+    <div id="lab-conn-panel-count" style="margin-left:auto;font-size:.7rem;font-family:monospace;color:var(--muted);"></div>
+  </div>
+  <div id="lab-conn-body" style="padding:.6rem 1rem 0;"></div>
+</div>
+
+<!-- ═══ PANEL OVERLAY: ESPLORA ═══ -->
+<div id="lab-panel-esplora" style="
+  display:none;position:fixed;inset:0;z-index:300;
+  background:var(--main-bg);overflow-y:auto;padding-bottom:4rem;
+">
+  <div style="position:sticky;top:0;z-index:5;background:var(--main-bg);padding:.75rem 1rem .5rem;border-bottom:1px solid var(--sand);display:flex;align-items:center;gap:.7rem;">
+    <button onclick="labChiudiPanel('lab-panel-esplora')" style="background:var(--cream);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:var(--text);">←</button>
+    <div>
+      <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);">LABORATORIO</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--text);">🔍 Esplora Esperimenti</div>
+    </div>
+  </div>
+  <div style="padding:.7rem 1rem 0;">
+    <input id="lab-search-input" type="text" placeholder="Cerca per nome, autore, tecnica..." oninput="labRenderEsplora()" style="
+      width:100%;padding:.6rem .8rem;border-radius:12px;
+      border:1.5px solid var(--sand);background:var(--card);
+      font-size:.85rem;color:var(--text);box-sizing:border-box;
+      outline:none;
+    ">
+  </div>
+  <div id="lab-esplora-body" style="padding:.5rem 1rem 0;"></div>
+</div>
+
+<!-- ═══ PANEL OVERLAY: OGGI ═══ -->
+<div id="lab-panel-oggi" style="
+  display:none;position:fixed;inset:0;z-index:300;
+  background:var(--main-bg);overflow-y:auto;padding-bottom:4rem;
+">
+  <div style="position:sticky;top:0;z-index:5;background:var(--main-bg);padding:.75rem 1rem .5rem;border-bottom:1px solid var(--sand);display:flex;align-items:center;gap:.7rem;">
+    <button onclick="labChiudiPanel('lab-panel-oggi')" style="background:var(--cream);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:var(--text);">←</button>
+    <div>
+      <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);">LABORATORIO</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--text);">✨ Consigli per Oggi</div>
+    </div>
+  </div>
+  <div id="lab-oggi-body" style="padding:.7rem 1rem 0;"></div>
+</div>
+
+</div>
 <!-- MENU ALTRO -->
 <div id="menu-altro" style="position:fixed;bottom:4.2rem;left:0;right:0;background:var(--card);border-top:2px solid var(--sand);padding:.8rem .85rem .9rem;display:none;z-index:200;box-shadow:0 -8px 32px rgba(0,0,0,.25);border-radius:20px 20px 0 0;">
   <div style="width:36px;height:4px;background:var(--sand);border-radius:2px;margin:0 auto .7rem;"></div>
@@ -3591,14 +3697,9 @@ function goNavFull(id, btn) {
   if(id === 'diario') { setTimeout(function(){ vaiOggi(); }, 80); setTimeout(renderSuggDiario, 400); }
   if(id === 'libreria') goNavFull('laboratorio');
   if(id === 'laboratorio') {
-    var lf=document.getElementById('lib-filtri'); if(lf) lf.innerHTML='';
-    // Sempre su Insight tab di default
-    var defBtn = document.querySelector('[data-panel="lab-cervello"]');
-    if(defBtn) labSwitchTab(defBtn);
     setTimeout(function(){ 
-      if(typeof initCervello==='function'&&!CERVELLO.inizializzato) initCervello(); 
-      renderCervelloPanel(); 
-    }, 200);
+      if(typeof renderLabNuovo==='function') renderLabNuovo();
+    }, 150);
   }
   if(id === 'natura') setTimeout(renderSuggLuna, 500);
   if(id === 'home') setTimeout(function(){ if(typeof mostraCervelloHome==='function') mostraCervelloHome(); }, 400);
@@ -4709,8 +4810,7 @@ window.addEventListener('DOMContentLoaded',function(){
 });
 
 </script>
-</body>
-</html>
+
 <script>
 // ================================================================
 // LIBRERIA ESPERIMENTI v2 — Lab Futuristico
@@ -5605,8 +5705,7 @@ function renderSuggLuna() {
   var origGoNav = typeof goNav === 'function' ? goNav : null;
 })();
 </script>
-</body>
-</html>
+
 <script>
 // ================================================================
 // ⚗️ CERVELLO — Motore unificato Laboratorio
@@ -6085,6 +6184,391 @@ document.addEventListener('DOMContentLoaded', function(){
     if(typeof mostraCervelloHome==='function') mostraCervelloHome();
   }, 1500);
 });
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// LABORATORIO v2 — Sistema unificato completamente nuovo
+// ═══════════════════════════════════════════════════════
+
+// ── Aggiorna ora nel badge ──
+function labAggiornaBadge() {
+  var d = new Date();
+  var h = (d.getHours()<10?'0':'')+d.getHours();
+  var m = (d.getMinutes()<10?'0':'')+d.getMinutes();
+  var el = document.getElementById('lab-ora-badge');
+  if(el) el.textContent = h+':'+m;
+}
+setInterval(labAggiornaBadge, 30000);
+
+// ── Render principale Laboratorio ──
+function labRenderMain() {
+  labAggiornaBadge();
+  caricaEDB(function(){
+    if(!EDBV2) return;
+
+    // Pool unificato: esperimenti + tecniche + cross
+    var tutti = getAllEsperimentiFlat(EDBV2);
+    var pool = [];
+    tutti.forEach(function(r){ pool.push({tipo:'esp', data:r}); });
+    (TECNICHE||[]).forEach(function(t){ pool.push({tipo:'tec', data:t}); });
+    (CONNESSIONI_CROSS||[]).forEach(function(c){ pool.push({tipo:'cross', data:c}); });
+
+    // Insight dell'ora (cambia ogni ora)
+    var ora = new Date().getHours();
+    var idx = ora % pool.length;
+    var item = pool[idx];
+    labRenderInsightCard(item);
+
+    // Connessione dell'ora
+    var allConns = (EDBV2.connessioni||[]).concat(CONNESSIONI_CROSS||[]);
+    // Filtra auto-connessioni
+    allConns = allConns.filter(function(c){
+      var a = (c.da||c.a||'').split(' ')[0];
+      var b = (c.a && c.da ? c.a : c.b||'').split(' ')[0];
+      return a !== b;
+    });
+    var connIdx = (ora + 5) % allConns.length;
+    labRenderConnCard(allConns[connIdx]);
+
+    // Contatori
+    var connEl = document.getElementById('lab-conn-count');
+    if(connEl) connEl.textContent = allConns.length+' cross-manuale';
+    var tecEl = document.getElementById('lab-tec-count');
+    if(tecEl) tecEl.textContent = (TECNICHE||[]).length+' dai manuali';
+
+    // Log
+    labRenderLog();
+
+    // Salva per click
+    window._labCurrentItem = item;
+    window._labCurrentConn = allConns[connIdx];
+  });
+}
+
+// ── Card insight ──
+function labRenderInsightCard(item) {
+  if(!item) return;
+  var ico = '', titolo = '', desc = '', fonte = '';
+  if(item.tipo==='esp') {
+    ico = item.data.cat.ico;
+    titolo = item.data.esp.nome;
+    desc = (item.data.esp.principio||'').substring(0,120)+'…';
+    fonte = (item.data.esp.fonti||[''])[0].split(' - ')[0];
+  } else if(item.tipo==='tec') {
+    ico = item.data.ico;
+    titolo = item.data.n;
+    desc = item.data.desc.substring(0,120)+'…';
+    fonte = item.data.fonte||'';
+  } else if(item.tipo==='cross') {
+    ico = '🔗';
+    titolo = item.data.a.split(' — ')[0];
+    desc = item.data.nota.substring(0,120)+'…';
+    fonte = item.data.b.split(' ')[0];
+  }
+  var el = document.getElementById('lab-insight-ico'); if(el) el.textContent = ico;
+  var el2 = document.getElementById('lab-insight-titolo'); if(el2) el2.textContent = titolo;
+  var el3 = document.getElementById('lab-insight-desc'); if(el3) el3.textContent = desc;
+  var el4 = document.getElementById('lab-insight-fonte'); if(el4) el4.textContent = fonte;
+}
+
+// ── Card connessione ──
+function labRenderConnCard(c) {
+  if(!c) return;
+  var nomeA = '', nomeB = '', nota = '';
+  if(c.da) {
+    var ra = getEsp(c.da), rb = getEsp(c.a);
+    nomeA = ra ? ra.cat.ico+' '+ra.esp.nome : c.da;
+    nomeB = rb ? rb.cat.ico+' '+rb.esp.nome : c.a;
+  } else {
+    nomeA = (c.a||'').split(' — ')[0];
+    nomeB = c.b||'';
+  }
+  nota = c.nota||'';
+  var el = document.getElementById('lab-conn-testo');
+  if(el) el.textContent = nomeA + ' ↔ ' + nomeB;
+  var el2 = document.getElementById('lab-conn-nota');
+  if(el2) el2.textContent = nota.substring(0,110)+'…';
+}
+
+// ── Log insights ──
+function labRenderLog() {
+  var logEl = document.getElementById('lab-log-list');
+  var countEl = document.getElementById('lab-log-count');
+  var log = (CERVELLO && CERVELLO.logDelGiorno) || [];
+  if(countEl) countEl.textContent = log.length+'/24 oggi';
+  if(!logEl) return;
+  if(!log.length) {
+    logEl.innerHTML = '<div style="text-align:center;padding:1rem;color:var(--muted);font-size:.8rem;">Il sistema genera un insight ogni ora…</div>';
+    return;
+  }
+  var html = '';
+  log.slice().reverse().forEach(function(l, i) {
+    var realIdx = log.length - 1 - i;
+    html += '<div onclick="labApriLogItem('+realIdx+')" style="'+
+      'background:var(--card);border-radius:12px;padding:.6rem .8rem;'+
+      'display:flex;align-items:center;gap:.7rem;cursor:pointer;'+
+      'box-shadow:var(--one-shadow-sm);transition:opacity .14s;'+
+      '" onpointerdown="this.style.opacity=.7" onpointerup="this.style.opacity=1">';
+    html += '<div style="font-family:monospace;font-size:.62rem;color:var(--muted);min-width:36px;">'+l.ora+'</div>';
+    html += '<div style="flex:1;min-width:0;">';
+    html += '<div style="font-size:.82rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+nomeItem(l.item)+'</div>';
+    if(l.conn) html += '<div style="font-size:.7rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🔗 '+nomeConn(l.conn)+'</div>';
+    html += '</div>';
+    html += '<div style="color:var(--muted);font-size:.9rem;">›</div>';
+    html += '</div>';
+  });
+  logEl.innerHTML = html;
+}
+
+// ── Click su log item ──
+function labApriLogItem(idx) {
+  var log = (CERVELLO && CERVELLO.logDelGiorno) || [];
+  var l = log[idx]; if(!l) return;
+  var html = '<div style="padding:.2rem 0;">';
+  html += '<div style="font-size:.65rem;font-family:monospace;color:var(--muted);margin-bottom:.5rem;">'+l.ora+'</div>';
+  html += '<div style="background:rgba(0,135,90,0.08);border-radius:14px;padding:.8rem;margin-bottom:.5rem;border-left:3px solid var(--moss);">';
+  html += '<div style="font-size:.63rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;">🧬 Insight</div>';
+  html += '<div style="font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.3rem;">'+nomeItem(l.item)+'</div>';
+  html += '<div style="font-size:.8rem;color:var(--soft);line-height:1.5;">'+descItem(l.item)+'</div>';
+  html += '</div>';
+  if(l.conn) {
+    html += '<div style="background:rgba(94,92,230,0.08);border-radius:14px;padding:.8rem;border-left:3px solid var(--exp);">';
+    html += '<div style="font-size:.63rem;font-weight:800;color:var(--exp);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;">🔗 Connessione</div>';
+    html += '<div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:.3rem;">'+nomeConn(l.conn)+'</div>';
+    html += '<div style="font-size:.8rem;color:var(--soft);line-height:1.5;">'+(l.conn.nota||'')+'</div>';
+    html += '</div>';
+  }
+  html += '</div>';
+  apriPopup('📋 Insight '+l.ora, '', html);
+}
+
+// ── Click su insight card ──
+function labInsightClick() {
+  var item = window._labCurrentItem;
+  if(!item) return;
+  var html = '<div style="padding:.2rem 0;">';
+  if(item.tipo==='esp') {
+    html += '<div style="font-size:.8rem;color:var(--soft);line-height:1.6;">'+item.data.esp.principio+'</div>';
+    if(item.data.esp.risultati_attesi) {
+      html += '<div style="background:#e8f5e9;border-radius:10px;padding:.6rem .8rem;margin-top:.6rem;color:#155724;">';
+      html += '<div style="font-size:.65rem;font-weight:800;margin-bottom:.2rem;">✅ Risultati attesi</div>';
+      html += '<div style="font-size:.78rem;">'+item.data.esp.risultati_attesi+'</div></div>';
+    }
+    if((item.data.esp.fonti||[]).length) {
+      html += '<div style="margin-top:.6rem;font-size:.7rem;color:var(--muted);">📚 '+item.data.esp.fonti.join(' · ')+'</div>';
+    }
+  } else if(item.tipo==='tec') {
+    html += '<div style="font-size:.8rem;color:var(--soft);line-height:1.6;">'+item.data.desc+'</div>';
+    if(item.data.fonte) html += '<div style="margin-top:.6rem;font-size:.7rem;color:var(--muted);">📚 '+item.data.fonte+'</div>';
+  } else if(item.tipo==='cross') {
+    html += '<div style="background:rgba(0,135,90,0.08);border-radius:12px;padding:.7rem;margin-bottom:.5rem;border-left:3px solid var(--moss);">';
+    html += '<div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:.2rem;">'+item.data.a.split(' — ')[0]+'</div>';
+    html += '<div style="font-size:.75rem;color:var(--muted);">↕</div>';
+    html += '<div style="font-size:.85rem;font-weight:700;color:var(--text);">'+item.data.b+'</div></div>';
+    html += '<div style="font-size:.82rem;color:var(--soft);line-height:1.6;">'+item.data.nota+'</div>';
+  }
+  html += '</div>';
+  var titolo = item.tipo==='esp' ? item.data.esp.nome : item.tipo==='tec' ? item.data.n : item.data.a.split(' — ')[0];
+  apriPopup(titolo, '', html);
+}
+
+// ── Click su connessione card ──
+function labConnClick() {
+  var c = window._labCurrentConn; if(!c) return;
+  var nomeA = c.da ? (function(){ var r=getEsp(c.da); return r?r.cat.ico+' '+r.esp.nome:c.da; })() : (c.a||'').split(' — ')[0];
+  var nomeB = c.da ? (function(){ var r=getEsp(c.a); return r?r.cat.ico+' '+r.esp.nome:c.a; })() : (c.b||'');
+  var html = '<div style="padding:.2rem 0;">';
+  html += '<div style="background:rgba(0,135,90,0.08);border-radius:12px;padding:.8rem;margin-bottom:.6rem;">';
+  html += '<div style="font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.3rem;">'+nomeA+'</div>';
+  html += '<div style="font-size:.75rem;color:var(--muted);text-align:center;margin:.2rem 0;">🔗 collegato a</div>';
+  html += '<div style="font-size:.88rem;font-weight:700;color:var(--text);">'+nomeB+'</div>';
+  html += '</div>';
+  html += '<div style="font-size:.83rem;color:var(--soft);line-height:1.6;">'+(c.nota||'')+'</div>';
+  if(c.tags&&c.tags.length) {
+    html += '<div style="margin-top:.6rem;display:flex;flex-wrap:wrap;gap:.3rem;">';
+    c.tags.forEach(function(t){ html += '<span style="font-size:.65rem;background:var(--cream);color:var(--soft);border-radius:20px;padding:.15rem .5rem;">#'+t+'</span>'; });
+    html += '</div>';
+  }
+  html += '</div>';
+  apriPopup('🔗 Connessione', nomeA+' + '+nomeB, html);
+}
+
+// ── Apri pannelli overlay ──
+function labApriPanel(id) {
+  var el = document.getElementById(id);
+  if(el) { el.style.display='block'; el.scrollTop=0; }
+}
+function labChiudiPanel(id) {
+  var el = document.getElementById(id);
+  if(el) el.style.display='none';
+}
+
+function labApriTecniche() {
+  labApriPanel('lab-panel-tecniche');
+  labRenderTecnichePanel();
+}
+function labApriConnessioni() {
+  labApriPanel('lab-panel-connessioni');
+  labRenderConnessioniPanel();
+}
+function labApriEsplora() {
+  labApriPanel('lab-panel-esplora');
+  labRenderEsplora();
+}
+function labApriOggi() {
+  labApriPanel('lab-panel-oggi');
+  labRenderOggiPanel();
+}
+
+// ── Render Tecniche panel ──
+function labRenderTecnichePanel() {
+  var el = document.getElementById('lab-tec-body'); if(!el) return;
+  var CAT_COL = {'Elettromagnetico':'#c0392b','Galvanico':'#d35400','Suolo Vivente':'#27ae60','Acqua':'#2980b9','Vibrazione':'#8e44ad','Alchimia':'#d4870a','Biodinamica':'#1e6e3a'};
+  var cats = {};
+  (TECNICHE||[]).forEach(function(t){ var c=t.cat||'Altro'; if(!cats[c]) cats[c]=[]; cats[c].push(t); });
+  var totAp = (TECNICHE||[]).filter(function(t){ return DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def; }).length;
+  var html = '<div style="margin:.4rem 1rem .6rem;background:var(--card);border-radius:14px;padding:.7rem .9rem;display:flex;justify-content:space-between;align-items:center;">';
+  html += '<div><div style="font-family:\'DM Serif Display\',serif;font-size:1rem;color:var(--text);">'+(TECNICHE||[]).length+' Tecniche</div>';
+  html += '<div style="font-size:.72rem;color:var(--muted);">'+totAp+' applicate</div></div>';
+  html += '<div style="background:var(--moss);color:#fff;border-radius:100px;padding:.25rem .65rem;font-size:.75rem;font-weight:700;">'+totAp+'/'+(TECNICHE||[]).length+'</div></div>';
+  Object.keys(cats).forEach(function(cat){
+    var col = CAT_COL[cat]||'var(--muted)';
+    html += '<div style="font-size:.62rem;font-weight:800;color:'+col+';text-transform:uppercase;letter-spacing:.1em;padding:.6rem 1rem .2rem;">'+cat+'</div>';
+    cats[cat].forEach(function(t){
+      var ap = DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def;
+      html += '<div style="margin:.2rem 1rem;background:var(--card);border-radius:14px;border-left:3px solid '+(ap?col:'var(--sand)')+';">';
+      html += '<div class="tec-h" onclick="toggleTec(\''+t.id+'\')">';
+      html += '<div class="tec-left"><span class="tec-ico">'+t.ico+'</span><div style="flex:1;min-width:0;">';
+      html += '<div class="tec-name">'+t.n+'</div>';
+      if(t.fonte) html += '<div style="font-size:.6rem;color:var(--muted);margin-top:.05rem;">📚 '+t.fonte+'</div>';
+      html += '<span class="tec-st '+(ap?'tsi':'tno')+'">'+(ap?'✓ Applicata':'○ Non ancora')+'</span>';
+      html += '</div></div>';
+      html += '<button class="tec-btn '+(ap?'si':'no')+'" onclick="event.stopPropagation();toggleApTec(\''+t.id+'\')">'+(ap?'✓':'○')+'</button>';
+      html += '</div>';
+      html += '<div class="tec-body" id="tb_'+t.id+'"><p>'+t.desc+'</p>';
+      html += '<textarea class="tec-nota" placeholder="Note personali…" oninput="saveTecNota(\''+t.id+'\',this.value)">'+(DB.tecNotes&&DB.tecNotes[t.id]||'')+'</textarea>';
+      html += '</div></div>';
+    });
+  });
+  el.innerHTML = html;
+}
+
+// ── Render Connessioni panel ──
+function labRenderConnessioniPanel() {
+  var el = document.getElementById('lab-conn-body'); if(!el) return;
+  caricaEDB(function(){
+    if(!EDBV2) return;
+    var allConns = (EDBV2.connessioni||[]).concat(CONNESSIONI_CROSS||[]);
+    allConns = allConns.filter(function(c){
+      var a=(c.da||c.a||'').split(' ')[0], b=(c.da?c.a:c.b||'').split(' ')[0];
+      return a!==b && a&&b;
+    });
+    var countEl = document.getElementById('lab-conn-panel-count');
+    if(countEl) countEl.textContent = allConns.length+' totali';
+    var html = '';
+    allConns.forEach(function(c,i){
+      var nA = c.da?(function(){var r=getEsp(c.da);return r?r.cat.ico+' '+r.esp.nome:c.da;})():(c.a||'').split(' — ')[0];
+      var nB = c.da?(function(){var r=getEsp(c.a);return r?r.cat.ico+' '+r.esp.nome:c.a;})():(c.b||'');
+      var tipo = c.tipo||'sinergia';
+      var col = tipo==='sinergia'?'var(--moss)':'var(--exp)';
+      html += '<div onclick="mostraDettaglioConnessione('+i+')" style="'+
+        'background:var(--card);border-radius:14px;padding:.7rem .9rem;margin-bottom:.4rem;'+
+        'border-left:3px solid '+col+';cursor:pointer;transition:opacity .14s;'+
+        '" onpointerdown="this.style.opacity=.7" onpointerup="this.style.opacity=1">';
+      html += '<div style="font-size:.62rem;background:'+col+';color:#fff;border-radius:20px;padding:.05rem .4rem;display:inline-block;margin-bottom:.25rem;">'+tipo+'</div>';
+      html += '<div style="font-size:.83rem;font-weight:700;color:var(--text);">'+nA+'</div>';
+      html += '<div style="font-size:.7rem;color:var(--muted);margin:.1rem 0;">↕</div>';
+      html += '<div style="font-size:.83rem;font-weight:700;color:var(--text);">'+nB+'</div>';
+      if(c.nota) html += '<div style="font-size:.73rem;color:var(--soft);margin-top:.3rem;line-height:1.4;">'+c.nota.substring(0,90)+'…</div>';
+      html += '</div>';
+    });
+    el.innerHTML = html;
+    window._allConnsCache = allConns;
+  });
+}
+
+// ── Render Esplora panel ──
+function labRenderEsplora() {
+  var el = document.getElementById('lab-esplora-body'); if(!el) return;
+  caricaEDB(function(){
+    if(!EDBV2) return;
+    var query = (document.getElementById('lab-search-input')||{}).value||'';
+    query = query.toLowerCase().trim();
+    var tutti = getAllEsperimentiFlat(EDBV2);
+    var filtered = query ? tutti.filter(function(r){
+      return (r.esp.nome+r.esp.principio+(r.esp.fonti||[]).join('')).toLowerCase().indexOf(query)!==-1;
+    }) : tutti;
+    var html = '<div style="font-size:.7rem;color:var(--muted);margin-bottom:.5rem;">'+filtered.length+' risultati</div>';
+    filtered.forEach(function(r){
+      html += '<div onclick="apriEsp(\''+r.cat.id+'\',\''+r.esp.id+'\')" style="'+
+        'background:var(--card);border-radius:14px;padding:.7rem .9rem;margin-bottom:.4rem;cursor:pointer;'+
+        'display:flex;align-items:center;gap:.7rem;box-shadow:var(--one-shadow-sm);">';
+      html += '<div style="font-size:1.4rem;flex-shrink:0;">'+r.cat.ico+'</div>';
+      html += '<div style="flex:1;min-width:0;">';
+      html += '<div style="font-size:.84rem;font-weight:700;color:var(--text);">'+r.esp.nome+'</div>';
+      html += '<div style="font-size:.7rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+(r.esp.fonti||[''])[0].split(' - ')[0]+'</div>';
+      html += '</div><div style="color:var(--muted);">›</div></div>';
+    });
+    el.innerHTML = html;
+  });
+}
+
+// ── Render Oggi panel ──
+function labRenderOggiPanel() {
+  var el = document.getElementById('lab-oggi-body'); if(!el) return;
+  caricaEDB(function(){
+    if(!EDBV2) return;
+    var bio = typeof calcolaBio==='function' ? calcolaBio(new Date()) : null;
+    var html = '';
+    if(bio) {
+      html += '<div style="background:var(--card);border-radius:16px;padding:.9rem 1rem;margin-bottom:.6rem;">';
+      html += '<div style="font-size:.62rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;">📅 '+bio.tipo.nome.toUpperCase()+' · '+bio.lunaInfo.nome.toUpperCase()+'</div>';
+      html += '<div style="font-family:\'DM Serif Display\',serif;font-size:1.05rem;color:var(--text);margin-bottom:.35rem;">'+bio.tipo.ico+' Giorno '+bio.tipo.nome+'</div>';
+      html += '<div style="font-size:.8rem;color:var(--soft);line-height:1.5;">'+(bio.tipo.consiglio||'Segui il ritmo della natura')+'</div>';
+      html += '</div>';
+    }
+    // Tecniche consigliate per oggi
+    var tecOggi = (TECNICHE||[]).filter(function(t){
+      return t.bio_ideale && bio && t.bio_ideale.indexOf(bio.tipoId)!==-1;
+    }).slice(0,4);
+    if(tecOggi.length) {
+      html += '<div style="font-size:.62rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;">⚡ TECNICHE CONSIGLIATE OGGI</div>';
+      tecOggi.forEach(function(t){
+        html += '<div style="background:var(--card);border-radius:12px;padding:.65rem .85rem;margin-bottom:.35rem;border-left:3px solid var(--moss);">';
+        html += '<div style="font-size:.84rem;font-weight:700;color:var(--text);">'+t.ico+' '+t.n+'</div>';
+        html += '<div style="font-size:.73rem;color:var(--soft);margin-top:.15rem;">'+t.desc.substring(0,80)+'…</div>';
+        html += '</div>';
+      });
+    }
+    el.innerHTML = html || '<div style="text-align:center;padding:2rem;color:var(--muted);font-size:.85rem;">Caricamento dati biodinamici…</div>';
+  });
+}
+
+// ── goNav laboratorio override ──
+// Sostituisce il vecchio sistema tab con il nuovo
+function renderLabNuovo() {
+  labRenderMain();
+  if(typeof CERVELLO!=='undefined'&&!CERVELLO.inizializzato) initCervello();
+}
+
+// Compatibilità con vecchie funzioni
+function labSwitchTab(btn) {
+  // Non usato nel nuovo design — manteniamo per compatibilità
+  var id = btn ? btn.getAttribute('data-panel') : '';
+  if(id==='lab-tecniche') labApriTecniche();
+  else if(id==='lab-connessioni') labApriConnessioni();
+  else if(id==='lab-esplora') labApriEsplora();
+  else if(id==='lab-oggi') labApriOggi();
+}
+
+// Aggiorna ogni ora
+setInterval(function(){
+  if(document.getElementById('laboratorio')&&
+     document.getElementById('laboratorio').classList.contains('on')) {
+    labRenderMain();
+  }
+}, 3600000);
 </script>
 </body>
 </html>
