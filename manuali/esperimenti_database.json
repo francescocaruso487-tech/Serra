@@ -1,5 +1,5 @@
 {
-  "versione": "2.1",
+  "versione": "2.2",
   "aggiornato": "2026-06-09",
   "categorie": [
     {
@@ -2214,9 +2214,82 @@
       "generata": "2026-06-11",
       "tipo": "sinergia",
       "fonte": "Drive"
+    },
+    {
+      "a": "Viktor Schauberger",
+      "b": "Vangelo Esseno della Pace",
+      "nota": "La connessione tra Viktor e Vangelo rivela come acqua permei tutto: dalla coltivazione alla spiritualità, dalla fisica alla mistica.",
+      "tags": [
+        "acqua",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Viktor Schauberger",
+      "b": "Tao Te Ching",
+      "nota": "Tao insegna che natura è alla base di ogni trasformazione. Viktor lo dimostra empiricamente: le piante rispondono a questa forza in modo misurabile.",
+      "tags": [
+        "acqua",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Pierre Bertholon",
+      "b": "Vangelo Esseno della Pace",
+      "nota": "La connessione tra Pierre e Vangelo rivela come natura permei tutto: dalla coltivazione alla spiritualità, dalla fisica alla mistica.",
+      "tags": [
+        "luce",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Pierre Bertholon",
+      "b": "Bhagavad Gita",
+      "nota": "Pierre e Bhagavad convergono su un principio fondamentale: energia. Dove elettrocoltura usa strumenti fisici, spirituale usa pratiche spirituali — ma entrambi descrivono la stessa forza.",
+      "tags": [
+        "vibrazione",
+        "energia"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Pierre Bertholon",
+      "b": "Ermete Trismegisto",
+      "nota": "Ermete insegna che luce è alla base di ogni trasformazione. Pierre lo dimostra empiricamente: le piante rispondono a questa forza in modo misurabile.",
+      "tags": [
+        "vibrazione",
+        "luce"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Georges Lakhovsky",
+      "b": "Dion Fortune",
+      "nota": "elettrocoltura e magia hanno sviluppato indipendentemente la stessa comprensione di armonia. La scienza e la tradizione si incontrano nel giardino.",
+      "tags": [
+        "vibrazione",
+        "coscienza",
+        "armonia"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
     }
   ],
-  "ultimo_aggiornamento": "2026-06-11",
+  "ultimo_aggiornamento": "2026-06-11 13:05",
   "drive_folders": {
     "elettrocoltura": {
       "id": "1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ",
