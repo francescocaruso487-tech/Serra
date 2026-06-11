@@ -5616,7 +5616,7 @@ async function inviaAI(domandaPreset) {
       card.textContent = promptCompleto;
       card.onclick = function(){
         navigator.clipboard.writeText(promptCompleto).then(function(){
-          mostraToast('Copiato! Incolla in Claude.ai');
+          toast('Copiato! Incolla in Claude.ai');
         });
       };
       chat.appendChild(card);
@@ -6043,47 +6043,78 @@ function salvaGroqKey(){
   var inp=document.getElementById('groq-key-input');
   if(!inp||!inp.value.trim()) return;
   localStorage.setItem('groq_api_key',inp.value.trim());
-  mostraToast('✅ Chiave Groq salvata!');
+  toast('✅ Chiave Groq salvata!');
   var ks=document.getElementById('groq-key-section'); if(ks) ks.style.display='none';
   var badge=document.getElementById('ai-status-badge'); if(badge) badge.textContent='✅ Connesso';
 }
-function azzeraChat(){ aiHistory=[]; var chat=document.getElementById('ai-chat'); if(chat) chat.innerHTML=''; mostraToast('Chat pulita'); }
+function azzeraChat(){ aiHistory=[]; var chat=document.getElementById('ai-chat'); if(chat) chat.innerHTML=''; toast('Chat pulita'); }
 
 // ── Tecniche Panel ──
 function labRenderTecnichePanel(){
   var el=document.getElementById('lab-tec-body'); if(!el) return;
-  var CAT_COL={'Elettromagnetico':'#c0392b','Galvanico':'#d35400','Suolo Vivente':'#27ae60','Acqua':'#2980b9','Vibrazione':'#8e44ad','Alchimia':'#d4870a','Biodinamica':'#1e6e3a'};
+  var CAT_COL={'Elettromagnetico':'#c0392b','Galvanico':'#d35400','Suolo Vivente':'#27ae60','Acqua':'#2980b9','Vibrazione':'#8e44ad','Alchimia':'#d4870a','Biodinamica':'#1e6e3a','Altro':'#888'};
   var cats={}; (TECNICHE||[]).forEach(function(t){ var c=t.cat||'Altro'; if(!cats[c]) cats[c]=[]; cats[c].push(t); });
   var totAp=(TECNICHE||[]).filter(function(t){ return DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def; }).length;
-  var html='<div style="margin:.4rem 1rem .6rem;background:var(--card);border-radius:14px;padding:.7rem .9rem;display:flex;justify-content:space-between;align-items:center;">';
-  html+='<div><div style="font-size:1rem;font-weight:700;color:var(--text);">'+(TECNICHE||[]).length+' Tecniche dai Manuali</div>';
-  html+='<div style="font-size:.72rem;color:var(--muted);">'+totAp+' applicate</div></div>';
-  html+='<div style="background:var(--moss);color:#fff;border-radius:100px;padding:.25rem .65rem;font-size:.75rem;font-weight:700;">'+totAp+'/'+(TECNICHE||[]).length+'</div></div>';
+  var html='<div style="margin:.4rem 0 .6rem;background:var(--card);border-radius:14px;padding:.7rem .9rem;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--one-shadow-sm);">';
+  html+='<div><div style="font-size:.88rem;font-weight:700;color:var(--text);">'+(TECNICHE||[]).length+' Tecniche dai Manuali</div>';
+  html+='<div style="font-size:.72rem;color:var(--muted);">'+totAp+' applicate · tocca ✓/○ per cambiare</div></div>';
+  html+='<div style="background:var(--moss);color:#fff;border-radius:100px;padding:.25rem .7rem;font-size:.8rem;font-weight:800;">'+totAp+'/'+(TECNICHE||[]).length+'</div></div>';
+
   Object.keys(cats).forEach(function(cat){
     var col=CAT_COL[cat]||'#888';
-    html+='<div style="font-size:.62rem;font-weight:800;color:'+col+';text-transform:uppercase;letter-spacing:.1em;padding:.6rem 1rem .2rem;">'+cat+'</div>';
+    html+='<div style="font-size:.6rem;font-weight:800;color:'+col+';text-transform:uppercase;letter-spacing:.12em;padding:.65rem 0 .25rem;">'+cat+'</div>';
     cats[cat].forEach(function(t){
       var ap=DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def;
       var tid=t.id;
-      html+='<div style="margin:.2rem 1rem;background:var(--card);border-radius:14px;border-left:3px solid '+(ap?col:'var(--sand)')+';">';
-      html+='<div style="display:flex;align-items:center;gap:.7rem;padding:.7rem .9rem;cursor:pointer;" onclick="toggleTec(this)">';
-      html+='<span style="font-size:1.2rem;flex-shrink:0;">'+t.ico+'</span>';
+      html+='<div style="background:var(--card);border-radius:14px;margin-bottom:.3rem;border-left:3px solid '+(ap?col:'var(--sand)')+';box-shadow:var(--one-shadow-sm);overflow:hidden;">';
+      // Riga principale toccabile per espandere
+      html+='<div style="display:flex;align-items:center;gap:.7rem;padding:.7rem .9rem;cursor:pointer;" onclick="labToggleTecBody(this)">';
+      html+='<span style="font-size:1.25rem;flex-shrink:0;">'+t.ico+'</span>';
       html+='<div style="flex:1;min-width:0;">';
-      html+='<div style="font-weight:700;font-size:.87rem;color:var(--text);">'+t.n+'</div>';
-      if(t.fonte) html+='<div style="font-size:.6rem;color:var(--muted);">📚 '+t.fonte+'</div>';
-      html+='<span style="font-size:.63rem;padding:.1rem .4rem;border-radius:100px;font-weight:700;'+(ap?'background:#d4edda;color:#155724;':'background:var(--cream);color:var(--muted);')+'">'+(ap?'✓ Applicata':'○ Non ancora')+'</span>';
+      html+='<div style="font-weight:700;font-size:.87rem;color:var(--text);margin-bottom:.15rem;">'+t.n+'</div>';
+      if(t.fonte) html+='<div style="font-size:.6rem;color:var(--muted);margin-bottom:.15rem;">📚 '+t.fonte+'</div>';
+      html+='<span style="font-size:.62rem;padding:.1rem .45rem;border-radius:100px;font-weight:700;'+(ap?'background:#d4edda;color:#155724;':'background:var(--cream);color:var(--muted);')+'">'+(ap?'✓ Applicata':'○ Non ancora')+'</span>';
       html+='</div>';
-      html+='<button style="border:1.5px solid var(--sand);border-radius:10px;width:34px;height:34px;cursor:pointer;font-size:.9rem;'+(ap?'background:var(--moss);color:#fff;':'background:var(--cream);color:var(--muted);')+'" onclick="event.stopPropagation();toggleApTecById('+JSON.stringify(tid)+')">'+(ap?'✓':'○')+'</button>';
+      // Bottone toggle — chiamata diretta con ID stringa
+      html+='<button style="border:1.5px solid '+(ap?'var(--moss)':'var(--sand)')+';border-radius:12px;width:40px;height:40px;cursor:pointer;font-size:1rem;font-weight:700;transition:all .18s;flex-shrink:0;';
+      html+=(ap?'background:var(--moss);color:#fff;':'background:var(--cream);color:var(--muted);');
+      html+='" onclick="event.stopPropagation();labToggleAp(''+tid+'')">'+(ap?'✓':'○')+'</button>';
       html+='</div>';
-      html+='<div class="tec-body" id="tb_'+tid+'"><p style="font-size:.82rem;color:var(--soft);line-height:1.6;margin:.4rem 0 .5rem;">'+t.desc+'</p>';
-      html+='<textarea class="tec-nota" placeholder="Note personali…" oninput="saveTecNotaById('+JSON.stringify(tid)+',this.value)">'+(DB.tecNotes&&DB.tecNotes[tid]||'')+'</textarea></div></div>';
+      // Corpo espandibile
+      html+='<div class="tec-body" id="ltb_'+tid+'" style="display:none;padding:0 .9rem .7rem;">';
+      html+='<div style="height:1px;background:var(--sand);margin-bottom:.55rem;"></div>';
+      html+='<p style="font-size:.82rem;color:var(--soft);line-height:1.6;margin:0 0 .5rem;">'+t.desc+'</p>';
+      if(t.fonte) html+='<div style="font-size:.68rem;color:var(--muted);margin-bottom:.4rem;">📚 '+t.fonte+'</div>';
+      html+='<textarea placeholder="Note personali..." style="width:100%;box-sizing:border-box;padding:.4rem .6rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-family:inherit;font-size:.78rem;color:var(--text);resize:none;min-height:60px;outline:none;" oninput="saveTecNota(''+tid+'',this.value)">'+(DB.tecNotes&&DB.tecNotes[tid]||'')+'</textarea>';
+      html+='</div>';
+      html+='</div>';
     });
   });
   el.innerHTML=html;
 }
 
-function toggleApTecById(id){ toggleApTec(id); setTimeout(labRenderTecnichePanel,100); }
-function saveTecNotaById(id,v){ saveTecNota(id,v); }
+function labToggleTecBody(headerEl) {
+  // Trova il div corpo (tec-body) fratello dell'header cliccato
+  var body = headerEl.parentElement.querySelector('[id^="ltb_"]');
+  if(!body) return;
+  var isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  // Animazione semplice
+  if(!isOpen) { body.style.opacity='0'; setTimeout(function(){ body.style.transition='opacity .15s'; body.style.opacity='1'; }, 10); }
+}
+
+function labToggleAp(id) {
+  if(!DB.tecStatus) DB.tecStatus={};
+  var t = TECNICHE.find(function(x){ return x.id===id; });
+  if(!t) return;
+  var current = DB.tecStatus.hasOwnProperty(id) ? DB.tecStatus[id] : t.def;
+  DB.tecStatus[id] = !current;
+  salvaSilenzioso();
+  labRenderTecnichePanel(); // Re-render
+  toast(DB.tecStatus[id] ? '✅ Tecnica applicata!' : '○ Rimossa dalle attive', 1600);
+}
+
+
 
 // ── Connessioni Panel ──
 function labRenderConnessioniPanel(){
