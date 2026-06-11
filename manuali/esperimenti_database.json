@@ -1,5 +1,5 @@
 {
-  "versione": "2.7",
+  "versione": "2.8",
   "aggiornato": "2026-06-09",
   "categorie": [
     {
@@ -2603,9 +2603,103 @@
         "1M5X7sqYGOGw0iFEV5QhuJuPRHsIjF1Jz",
         "1n6pBwHjQmJCuFHI805TdjpuS0QDlVJ36"
       ]
+    },
+    {
+      "a": "Rene Guenon — Guenon — Simboli della Scienza Sacra",
+      "b": "Jairo Restrepo Rivera — Restrepo — La Luna en la Agricultura",
+      "nota": "Rene Guenon e Jairo Restrepo Rivera convergono sulla natura: elettrocoltura la misura con strumenti fisici, coltivazione la descrive con simboli antichi. Due linguaggi, una sola forza. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "crescita",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "1u_jVM7qqRb6nfu8lvIkpEBGc6xTy1X6D",
+        "1q_vKREIfA7ST5CqSVEkLpNsRtaN36vIu"
+      ]
+    },
+    {
+      "a": "Rene Guenon — Guenon — Simboli della Scienza Sacra",
+      "b": "Albert Howard — Howard — An Agricultural Testament",
+      "nota": "La natura unisce Rene Guenon (elettrocoltura) e Albert Howard (coltivazione): cio che la scienza chiama frequenza, la tradizione chiama armonia. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "crescita",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "1u_jVM7qqRb6nfu8lvIkpEBGc6xTy1X6D",
+        "1HlreWsMdJTKToA_gK1LvT-wkVZnPodV_"
+      ]
+    },
+    {
+      "a": "Dawson Church — Church — Cervello Quantico",
+      "b": "Jairo Restrepo Rivera — Restrepo — La Luna en la Agricultura",
+      "nota": "La natura unisce Dawson Church (elettrocoltura) e Jairo Restrepo Rivera (coltivazione): cio che la scienza chiama frequenza, la tradizione chiama armonia. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "1N2-XfvhaWtZKcBVjFCsXWEAeA7B1pyyD",
+        "1q_vKREIfA7ST5CqSVEkLpNsRtaN36vIu"
+      ]
+    },
+    {
+      "a": "Dawson Church — Church — Cervello Quantico",
+      "b": "Albert Howard — Howard — An Agricultural Testament",
+      "nota": "La natura unisce Dawson Church (elettrocoltura) e Albert Howard (coltivazione): cio che la scienza chiama frequenza, la tradizione chiama armonia. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "1N2-XfvhaWtZKcBVjFCsXWEAeA7B1pyyD",
+        "1HlreWsMdJTKToA_gK1LvT-wkVZnPodV_"
+      ]
+    },
+    {
+      "a": "S. Laemstrom — Laemstrom — Electricity in Agriculture",
+      "b": "Jairo Restrepo Rivera — Restrepo — La Luna en la Agricultura",
+      "nota": "S. Laemstrom e Jairo Restrepo Rivera convergono sulla natura: elettrocoltura la misura con strumenti fisici, coltivazione la descrive con simboli antichi. Due linguaggi, una sola forza. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "crescita",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "1EG4LZp95GXkQk_d_xUh82iuQ-2XI8I7f",
+        "1q_vKREIfA7ST5CqSVEkLpNsRtaN36vIu"
+      ]
+    },
+    {
+      "a": "S. Laemstrom — Laemstrom — Electricity in Agriculture",
+      "b": "Albert Howard — Howard — An Agricultural Testament",
+      "nota": "La natura unisce S. Laemstrom (elettrocoltura) e Albert Howard (coltivazione): cio che la scienza chiama frequenza, la tradizione chiama armonia. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "crescita",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "1EG4LZp95GXkQk_d_xUh82iuQ-2XI8I7f",
+        "1HlreWsMdJTKToA_gK1LvT-wkVZnPodV_"
+      ]
     }
   ],
-  "ultimo_aggiornamento": "2026-06-11 22:01",
+  "ultimo_aggiornamento": "2026-06-11 23:00",
   "drive_folders": {
     "elettrocoltura": {
       "id": "1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ",
@@ -2891,7 +2985,7 @@
       "Il Quinto Accordo - Don Miguel e Don Jose Ruiz"
     ]
   },
-  "pdf_letti_134": 20,
+  "pdf_letti_134": 30,
   "pdf_totali_134": 94,
-  "pdf_percentuale": 21
+  "pdf_percentuale": 32
 }

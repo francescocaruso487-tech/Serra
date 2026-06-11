@@ -114,5 +114,26 @@
     "pdf_totali": 94,
     "pct": 21,
     "modo": "offline"
+  },
+  {
+    "data": "2026-06-11 23:00",
+    "batch": [
+      "Restrepo — La Luna en la Agric",
+      "Guenon — Simboli della Scienza",
+      "Howard — An Agricultural Testa",
+      "Church — Cervello Quantico",
+      "Laemstrom — Electricity in Agr",
+      "Arce — Electroculture Biohacke",
+      "Ouspensky — Tertium Organum",
+      "Ighina — Profeta Sconosciuto",
+      "Pizzuti — Scoperte Scientifich",
+      "UFIE Fisica Nollet"
+    ],
+    "nuove_connessioni": 6,
+    "totale_connessioni": 86,
+    "pdf_letti": 30,
+    "pdf_totali": 94,
+    "pct": 32,
+    "modo": "offline"
   }
 ]
