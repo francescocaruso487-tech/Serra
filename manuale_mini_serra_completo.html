@@ -6078,7 +6078,7 @@ function labRenderTecnichePanel(){
       // Bottone toggle — chiamata diretta con ID stringa
       html+='<button style="border:1.5px solid '+(ap?'var(--moss)':'var(--sand)')+';border-radius:12px;width:40px;height:40px;cursor:pointer;font-size:1rem;font-weight:700;transition:all .18s;flex-shrink:0;';
       html+=(ap?'background:var(--moss);color:#fff;':'background:var(--cream);color:var(--muted);');
-      html+='" onclick="event.stopPropagation();labToggleAp(''+tid+'')">'+(ap?'✓':'○')+'</button>';
+      html+='<button data-tid="'+tid+'" class="lab-tec-toggle" style="border:1.5px solid '+(ap?'var(--moss)':'var(--sand)')+';border-radius:12px;width:40px;height:40px;cursor:pointer;font-size:1rem;font-weight:700;transition:all .18s;flex-shrink:0;'+(ap?'background:var(--moss);color:#fff;':'background:var(--cream);color:var(--muted);')+'">'+(ap?'✓':'○')+'</button>';
       html+='</div>';
       // Corpo espandibile
       html+='<div class="tec-body" id="ltb_'+tid+'" style="display:none;padding:0 .9rem .7rem;">';
@@ -6254,6 +6254,17 @@ function mostraCervelloHome(){
 
 // ── Init al caricamento ──
 document.addEventListener('DOMContentLoaded',function(){
+  // Delegazione eventi per bottoni tecniche nel pannello Lab
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.lab-tec-toggle');
+    if(btn) {
+      e.stopPropagation();
+      var tid = btn.getAttribute('data-tid');
+      if(tid) labToggleAp(tid);
+    }
+    var hdr = e.target.closest('[onclick="labToggleTecBody(this)"]');
+    // già gestito da onclick
+  });
   setTimeout(function(){
     var homeEl=document.getElementById('home');
     if(homeEl&&!homeEl.classList.contains('on')){
