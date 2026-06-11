@@ -1,5 +1,5 @@
 {
-  "versione": "2.6",
+  "versione": "2.7",
   "aggiornato": "2026-06-09",
   "categorie": [
     {
@@ -2507,9 +2507,105 @@
       "generata": "2026-06-11",
       "tipo": "sinergia",
       "fonte": "Drive"
+    },
+    {
+      "a": "Vari — TOTALE 2 compilato",
+      "b": "Miguel Ruiz — Ruiz — Il Quinto Accordo",
+      "nota": "Vari e Miguel Ruiz convergono sulla natura: elettrocoltura la misura con strumenti fisici, coltivazione la descrive con simboli antichi. Due linguaggi, una sola forza. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "natura",
+        "crescita"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "1QXaLuIwBNceCoTAK6tBCOh19RO669QwH",
+        "1n6pBwHjQmJCuFHI805TdjpuS0QDlVJ36"
+      ]
+    },
+    {
+      "a": "Nikola Tesla — Tesla — Lampo di Genio",
+      "b": "Miguel Ruiz — Ruiz — Il Quinto Accordo",
+      "nota": "Miguel Ruiz (coltivazione) insegna che la natura e alla base di ogni trasformazione. Nikola Tesla lo dimostra empiricamente nel campo della elettrocoltura. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "natura",
+        "crescita"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "1S9kONL6RretByiVpwNcF5K4BmOuBX1tR",
+        "1n6pBwHjQmJCuFHI805TdjpuS0QDlVJ36"
+      ]
+    },
+    {
+      "a": "Pier Luigi Ighina — Ighina — La Scoperta dell Atomo Magnetico",
+      "b": "Miguel Ruiz — Ruiz — Il Quinto Accordo",
+      "nota": "Connessione reale: Pier Luigi Ighina e Miguel Ruiz condividono la comprensione della natura come forza ordinatrice del vivente. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "acqua",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "1D16cSiNvVUcYBZvtCpjAndQimWjAjONt",
+        "1n6pBwHjQmJCuFHI805TdjpuS0QDlVJ36"
+      ]
+    },
+    {
+      "a": "Justin Christofleau — Christofleau — Electroculture",
+      "b": "Miguel Ruiz — Ruiz — Il Quinto Accordo",
+      "nota": "Dal testo reale di Justin Christofleau emerge la natura. Miguel Ruiz tratta lo stesso tema nella tradizione coltivazione. La mini-serra diventa il punto di incontro. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "natura",
+        "crescita"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "1oYPClfiyHQWahc7vYR5ZpDnEno4QdL00",
+        "1n6pBwHjQmJCuFHI805TdjpuS0QDlVJ36"
+      ]
+    },
+    {
+      "a": "Fawwaz Ulaby — Ulaby — Campi Elettromagnetici",
+      "b": "Miguel Ruiz — Ruiz — Il Quinto Accordo",
+      "nota": "Dal testo reale di Fawwaz Ulaby emerge la natura. Miguel Ruiz tratta lo stesso tema nella tradizione coltivazione. La mini-serra diventa il punto di incontro. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "natura",
+        "crescita"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "10tojlySkd_2gr3KPUpAmc2pM-Q7R49pL",
+        "1n6pBwHjQmJCuFHI805TdjpuS0QDlVJ36"
+      ]
+    },
+    {
+      "a": "N/D — Elcult3",
+      "b": "Miguel Ruiz — Ruiz — Il Quinto Accordo",
+      "nota": "N/D e Miguel Ruiz convergono sulla natura: elettrocoltura la misura con strumenti fisici, coltivazione la descrive con simboli antichi. Due linguaggi, una sola forza. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "natura",
+        "crescita"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "1M5X7sqYGOGw0iFEV5QhuJuPRHsIjF1Jz",
+        "1n6pBwHjQmJCuFHI805TdjpuS0QDlVJ36"
+      ]
     }
   ],
-  "ultimo_aggiornamento": "2026-06-11 21:25",
+  "ultimo_aggiornamento": "2026-06-11 22:01",
   "drive_folders": {
     "elettrocoltura": {
       "id": "1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ",
@@ -2795,6 +2891,7 @@
       "Il Quinto Accordo - Don Miguel e Don Jose Ruiz"
     ]
   },
-  "pdf_letti_134": 10,
-  "pdf_totali_134": 94
+  "pdf_letti_134": 20,
+  "pdf_totali_134": 94,
+  "pdf_percentuale": 21
 }

@@ -93,5 +93,26 @@
     "pdf_letti_totale": 10,
     "pdf_totali": 94,
     "modo": "offline"
+  },
+  {
+    "data": "2026-06-11 22:01",
+    "batch": [
+      "TOTALE 2 compilato",
+      "Tesla — Lampo di Genio",
+      "Ighina — La Scoperta dell Atom",
+      "Christofleau — Electroculture",
+      "Tesla — Le Mie Invenzioni",
+      "Ruiz — Il Quinto Accordo",
+      "Ulaby — Campi Elettromagnetici",
+      "Elcult3",
+      "US Patents for Electroculture",
+      "Ortolani Venturi — Elettrotecn"
+    ],
+    "nuove_connessioni": 6,
+    "totale_connessioni": 80,
+    "pdf_letti": 20,
+    "pdf_totali": 94,
+    "pct": 21,
+    "modo": "offline"
   }
 ]
