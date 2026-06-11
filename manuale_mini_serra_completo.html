@@ -6300,7 +6300,7 @@ function apriLibreriaDrive() {
   PDF_DRIVE.forEach(function(p){ if(!gruppi[p.cat]) gruppi[p.cat]=[]; gruppi[p.cat].push(p); });
   
   var html = '<div style="position:sticky;top:0;z-index:5;background:linear-gradient(135deg,#1a1a2e,#16213e);padding:.85rem 1rem .7rem;display:flex;align-items:center;gap:.7rem;">';
-  html += '<button onclick="document.getElementById('lab-panel-libreria').style.display='none'" style="background:rgba(255,255,255,.12);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:#fff;">←</button>';
+  html += '<button onclick="chiudiLibreriaDrive()" style="background:rgba(255,255,255,.12);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:#fff;">←</button>';
   html += '<div style="flex:1;"><div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);">GOOGLE DRIVE · ARCHIVIO</div>';
   html += '<div style="font-size:1.05rem;font-weight:700;color:#fff;">📚 '+PDF_DRIVE.length+' PDF · Catalogo Completo</div></div></div>';
   
@@ -6327,6 +6327,10 @@ function apriLibreriaDrive() {
   panel.scrollTop = 0;
 }
 
+function chiudiLibreriaDrive() {
+  var p = document.getElementById('lab-panel-libreria');
+  if(p) p.style.display = 'none';
+}
 function filtraLibreria(q) {
   q = q.toLowerCase().trim();
   var items = document.querySelectorAll('#lib-body [data-titolo]');
