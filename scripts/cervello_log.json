@@ -73,5 +73,25 @@
       "libri_sacri",
       "coltivazione"
     ]
+  },
+  {
+    "data": "2026-06-11 21:25",
+    "batch_letto": [
+      "TOTALE 1 (compilato)",
+      "Electroculture 2 Books in 1",
+      "Halliday Resnick Walker — Fisica EM",
+      "Nollet — De l'Electricité des Météores",
+      "Tompkins & Bird — La Vita Segreta delle ",
+      "Il Codice Tesla",
+      "Dudgrich — Electroculture",
+      "Ruhlmann — La Mélodie Secrète des Végéta",
+      "Tesla — Un Genio Volutamente Dimenticato",
+      "Starter Kit Elettrocoltura 2021"
+    ],
+    "connessioni_trovate": 0,
+    "totale_connessioni": 74,
+    "pdf_letti_totale": 10,
+    "pdf_totali": 94,
+    "modo": "offline"
   }
 ]

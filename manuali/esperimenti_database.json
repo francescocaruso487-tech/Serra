@@ -1,5 +1,5 @@
 {
-  "versione": "2.5",
+  "versione": "2.6",
   "aggiornato": "2026-06-09",
   "categorie": [
     {
@@ -2509,7 +2509,7 @@
       "fonte": "Drive"
     }
   ],
-  "ultimo_aggiornamento": "2026-06-11 20:39",
+  "ultimo_aggiornamento": "2026-06-11 21:25",
   "drive_folders": {
     "elettrocoltura": {
       "id": "1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ",
@@ -2794,5 +2794,7 @@
       "Antenna Uomo - Tiziano Guerzoni",
       "Il Quinto Accordo - Don Miguel e Don Jose Ruiz"
     ]
-  }
+  },
+  "pdf_letti_134": 10,
+  "pdf_totali_134": 94
 }
