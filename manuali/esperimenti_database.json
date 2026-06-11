@@ -1,5 +1,5 @@
 {
-  "versione": "2.2",
+  "versione": "2.3",
   "aggiornato": "2026-06-09",
   "categorie": [
     {
@@ -2287,9 +2287,84 @@
       "generata": "2026-06-11",
       "tipo": "sinergia",
       "fonte": "Drive"
+    },
+    {
+      "a": "Pier Luigi Ighina",
+      "b": "Aleister Crowley",
+      "nota": "La energia unisce Pier e Aleister: elettrocoltura la misura con strumenti scientifici, magia la invoca con rituali millenari. Due linguaggi, una sola realtà.",
+      "tags": [
+        "trasformazione",
+        "energia"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Viktor Schauberger",
+      "b": "Tao Te Ching",
+      "nota": "La connessione tra Viktor e Tao rivela come natura permei tutto: dalla coltivazione alla spiritualità, dalla fisica alla mistica.",
+      "tags": [
+        "acqua",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Viktor Schauberger",
+      "b": "Vangelo Esseno della Pace",
+      "nota": "Vangelo insegna che acqua è alla base di ogni trasformazione. Viktor lo dimostra empiricamente: le piante rispondono a questa forza in modo misurabile.",
+      "tags": [
+        "acqua",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Dawson Church",
+      "b": "Bhagavad Gita",
+      "nota": "elettrocoltura e spirituale hanno sviluppato indipendentemente la stessa comprensione di vibrazione. La scienza e la tradizione si incontrano nel giardino.",
+      "tags": [
+        "vibrazione",
+        "intenzione",
+        "energia",
+        "coscienza"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Dawson Church",
+      "b": "Dion Fortune",
+      "nota": "La connessione tra Dawson e Dion rivela come coscienza permei tutto: dalla coltivazione alla spiritualità, dalla fisica alla mistica.",
+      "tags": [
+        "vibrazione",
+        "coscienza",
+        "intenzione"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Dawson Church",
+      "b": "Aleister Crowley",
+      "nota": "Dawson e Aleister convergono su un principio fondamentale: intenzione. Dove elettrocoltura usa strumenti fisici, magia usa pratiche spirituali — ma entrambi descrivono la stessa forza.",
+      "tags": [
+        "energia",
+        "intenzione"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
     }
   ],
-  "ultimo_aggiornamento": "2026-06-11 13:05",
+  "ultimo_aggiornamento": "2026-06-11 16:01",
   "drive_folders": {
     "elettrocoltura": {
       "id": "1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ",
