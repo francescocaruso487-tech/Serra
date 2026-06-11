@@ -1080,8 +1080,8 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   border-bottom:1px solid var(--sand);
 ">
   <div>
-    <div style="font-size:.6rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--moss);margin-bottom:.1rem;">⚗️ LABORATORIO</div>
-    <div style="font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--text);line-height:1.1;">58 Manuali · <span id="lab-conncount" style="color:var(--moss);">34</span> Connessioni</div>
+    <div style="font-size:.6rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--moss);margin-bottom:.1rem;">🧬 LABORATORIO · 134 PDF DRIVE</div>
+    <div style="font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--text);line-height:1.1;"><span id="lab-pdf-count">134</span> Manuali · <span id="lab-conncount" style="color:var(--moss);" id="lab-conn-total">--</span> Connessioni</div>
   </div>
   <div id="lab-ora-badge" style="
     background:var(--moss);color:#fff;
@@ -1178,15 +1178,7 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
       <div style="font-size:.85rem;font-weight:700;color:#fff;">AI · LLaMA 3.3 70B</div>
       <div style="font-size:.65rem;color:rgba(255,255,255,.65);">Chiedi ai 134 PDF Drive</div>
     </button>
-    <button onclick="labApriDrive()" style="
-      background:linear-gradient(135deg,#1a1a2e,#2d2d6e);border:none;border-radius:14px;
-      padding:.7rem .9rem;text-align:left;cursor:pointer;
-      box-shadow:0 4px 16px rgba(26,26,46,.3);transition:opacity .14s;
-    ">
-      <div style="font-size:1.3rem;margin-bottom:.25rem;">📚</div>
-      <div style="font-size:.85rem;font-weight:700;color:#fff;">Drive · 134 PDF · 5 Categorie</div>
-      <div style="font-size:.65rem;color:rgba(255,255,255,.65);">Elettroc. · Magia · Sacri · Spirit. · Colti.</div>
-    </button>
+    
   </div>
 </div>
 
@@ -6239,6 +6231,16 @@ document.addEventListener('DOMContentLoaded',function(){
       document.querySelectorAll('.nav-item').forEach(function(b,i){b.classList.toggle('active',i===0);});
     }
     initCervello();
+    // Aggiorna contatore connessioni dall'header lab
+    caricaEDB(function(){
+      if(EDBV2){
+        var tot=(EDBV2.connessioni||[]).concat(CONNESSIONI_CROSS||[]).length;
+        var el=document.getElementById('lab-conncount');
+        if(el) el.textContent=tot;
+        var el2=document.getElementById('lab-conn-total');
+        if(el2) el2.textContent=tot;
+      }
+    });
     if(typeof mostraCervelloHome==='function') mostraCervelloHome();
     if(typeof aggiornaMeteoOpenMeteo==='function') aggiornaMeteoOpenMeteo();
   },1200);
@@ -6358,31 +6360,7 @@ function filtraLibreria(q) {
 }
 
 // ── Aggiungi bottone Libreria Drive al Laboratorio ──
-function aggiungiBottoneDrive() {
-  var grid = document.querySelector('#laboratorio .lab-grid, #lab-azioni-grid');
-  if(!grid) {
-    // Cerca il contenitore delle azioni
-    var azioni = document.querySelector('[id*="lab"][id*="azioni"], .lab-azioni');
-    if(azioni) grid = azioni;
-  }
-  // Controlla se già esiste
-  if(document.getElementById('btn-libreria-drive')) return;
-  
-  var btn = document.createElement('button');
-  btn.id = 'btn-libreria-drive';
-  btn.onclick = apriLibreriaDrive;
-  btn.style.cssText = 'background:linear-gradient(135deg,#1a1a2e,#2d2d6e);border:none;border-radius:14px;padding:.7rem .9rem;text-align:left;cursor:pointer;box-shadow:0 4px 16px rgba(26,26,46,.4);transition:opacity .14s;width:100%;margin:.3rem 0;';
-  btn.innerHTML = '<div style="font-size:1.3rem;margin-bottom:.25rem;">📚</div><div style="font-size:.85rem;font-weight:700;color:#fff;">Drive · '+PDF_DRIVE.length+' PDF</div><div style="font-size:.65rem;color:rgba(255,255,255,.6);">Catalogo completo manuali</div>';
-  
-  // Inserisci dopo il bottone AI nel laboratorio
-  var aiBtn = document.getElementById('btn-lab-ai') || document.querySelector('[onclick*="labApriAI"]');
-  if(aiBtn && aiBtn.parentNode) {
-    aiBtn.parentNode.insertBefore(btn, aiBtn.nextSibling);
-  }
-}
 
-// ── Aggiorna buildSistemaPrompt con tutti i 36 PDF reali ──
-var _origBuildPrompt = typeof buildSistemaPrompt === 'function' ? buildSistemaPrompt : null;
 function buildSistemaPrompt() {
   var bio = typeof calcolaBio==='function' ? calcolaBio(new Date()) : null;
   var bioCtx = bio ? 'Oggi: '+bio.tipo.nome+', Luna '+bio.lunaInfo.nome+'.' : '';
