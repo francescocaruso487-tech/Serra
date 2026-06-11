@@ -2711,5 +2711,16 @@
       "Te Banana + Cenere (Luglio-Dicembre)"
     ],
     "ultimo_sync": "2026-06-11"
+  },
+  "pdf_reali": {
+    "totale_verificato": 36,
+    "nota": "36 PDF verificati direttamente su Google Drive. Il conteggio 134 include stime di sottocartelle non ancora accessibili.",
+    "vari_elettrocoltura_verificati": [
+      "La Forza del Cervello Quantico - Dawson Church",
+      "THE GATEWAY SECRET - Omega Click",
+      "I Misteri dell Antico Egitto - Roberto Tresoldi",
+      "Antenna Uomo - Tiziano Guerzoni",
+      "Il Quinto Accordo - Don Miguel e Don Jose Ruiz"
+    ]
   }
 }

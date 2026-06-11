@@ -1255,7 +1255,7 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
     <button onclick="labChiudiPanel('lab-panel-ai')" style="background:rgba(255,255,255,.15);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:#fff;flex-shrink:0;">←</button>
     <div style="flex:1;">
       <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55);">LABORATORIO · GROQ</div>
-      <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff;">🤖 AI dai tuoi 58 Manuali</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff;">🤖 AI — PDF Reali da Drive</div>
     </div>
     <div id="ai-status-badge" style="font-size:.62rem;background:rgba(255,255,255,.15);color:#fff;border-radius:100px;padding:.2rem .6rem;">LLaMA 3.3</div>
   </div>
@@ -1284,7 +1284,7 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <div style="position:sticky;bottom:0;background:var(--main-bg);padding:.6rem 1rem .8rem;border-top:1px solid var(--sand);">
     <div style="display:flex;gap:.35rem;align-items:flex-end;">
       <button id="btn-mic" onclick="iniziaAscolto()" style="padding:.55rem .65rem;background:var(--cream);color:var(--text);border:1.5px solid var(--sand);border-radius:14px;font-size:.95rem;cursor:pointer;height:2.8rem;flex-shrink:0;">🎤</button>
-      <textarea id="ai-input" placeholder="Chiedi ai 134 PDF di Drive..." style="flex:1;padding:.55rem .75rem;border-radius:14px;border:1.5px solid var(--sand);background:var(--card);font-family:'Nunito',sans-serif;font-size:.82rem;color:var(--text);resize:none;min-height:2.8rem;max-height:5rem;outline:none;" rows="2" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();inviaAI();}"></textarea>
+      <textarea id="ai-input" placeholder="Chiedi ai PDF verificati di Drive..." style="flex:1;padding:.55rem .75rem;border-radius:14px;border:1.5px solid var(--sand);background:var(--card);font-family:'Nunito',sans-serif;font-size:.82rem;color:var(--text);resize:none;min-height:2.8rem;max-height:5rem;outline:none;" rows="2" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();inviaAI();}"></textarea>
       <button onclick="inviaAI()" style="padding:.55rem .85rem;background:var(--moss);color:#fff;border:none;border-radius:14px;font-size:1.1rem;cursor:pointer;height:2.8rem;">→</button>
     </div>
     <div style="display:flex;justify-content:center;gap:1rem;margin-top:.3rem;">
@@ -6738,17 +6738,28 @@ document.addEventListener('DOMContentLoaded', function(){
 var _origBuildSistema = buildSistemaPrompt;
 buildSistemaPrompt = function() {
   var base = _origBuildSistema ? _origBuildSistema() : '';
-  var driveCtx = 'LIBRERIA DRIVE: 134 PDF in 5 categorie. ' +
-    'Elettrocoltura (73 PDF): Christofleau 1920, Tesla, Ighina, Bertholon 1783, Nollet, Restrepo, Joseph, Rol, ' +
-    'Gateway Secret, Dawson Church Cervello Quantico, Halliday-Resnick-Walker Fisica, Soil Biology Primer Ingham, ' +
-    'Agricultural Testament Howard, Energy Grid Cathie, Melodie Secretes Ruhlmann, Arce Biohacker Guide, ' +
-    'Ouspensky Tertium Organum, Guerzoni Antenna Uomo, Garnier Malet, Pizzuti, Guenon. ' +
-    'Magia (16 PDF): Aleister Crowley (Magick, Liber 333, Libro della Legge, Thelema), Agrippa, Chiave di Salomone, Grimori. ' +
-    'Libri Sacri (25 PDF): Buddhismo Tripitaka completo, Wicca, Islam Corano, Induismo Bhagavad Gita, ' +
-    'Ebraismo Torah, Cristianesimo Vangeli, Confucianesimo, Bahai, Shintoismo. ' +
-    'Spirituali (8 PDF): Vangelo Esseno della Pace. ' +
-    'Coltivazione (12 PDF): Steiner biodinamica, Fukuoka, Howard, Mollison permacultura. ';
-  return driveCtx + (base || '');
+  var driveCtx = 
+    'LIBRERIA DRIVE VERIFICATA — 36 PDF confermati + altre cartelle in espansione.' +
+    ' TESTI REALI CON ESTRATTI:' +
+    ' [1] Dawson Church - Cervello Quantico: scienza di come la mente crea la materia,' +
+    ' campi elettromagnetici dei pensieri, epigenetica, connessione mente-corpo-DNA.' +
+    ' [2] THE GATEWAY SECRET (Omega Click): documenti CIA declassificati sul Progetto Stargate,' +
+    ' visione remota, coscienza oltre il corpo, programmi militari sulla mente.' +
+    ' [3] I Misteri Antico Egitto (Tresoldi): magia egizia, iniziazione, Ermete Trismegisto,' +
+    ' Tavola di Smeraldo, piramidi di Giza, emissioni energetiche, geroglifici vibrazionali.' +
+    ' [4] Antenna Uomo (Guerzoni): luomo come antenna elettromagnetica tra terra e cielo,' +
+    ' rabdomanzia, radioestesia, geobiologia, equilibrio emisferico, meditazione SO HAM.' +
+    ' [5] Il Quinto Accordo (Ruiz): saggezza tolteca, potere dei simboli, padronanza di se,' +
+    ' accordi limitanti, scetticismo consapevole, sogno della terza attenzione.' +
+    ' CARTELLE NON ANCORA LEGGIBILI (in espansione): Elettrocoltura (Christofleau 1920,' +
+    ' Tesla, Ighina, Bertholon 1783, Lakhovsky, Lemstrom 1904, Schauberger, Howard, Ingham),' +
+    ' Magia (Crowley, Agrippa, Chiave di Salomone, Kybalion, Tavole Smeraldine),' +
+    ' Libri Sacri (Buddhismo Tripitaka, Wicca, Islam, Induismo Bhagavad Gita, Taoismo Tao Te Ching),' +
+    ' Coltivazione (Steiner biodinamica, Fukuoka, Mollison permacultura).' +
+    ' IMPORTANTE: rispondi SEMPRE basandoti sui testi reali elencati sopra,' +
+    ' sii preciso sui contenuti effettivi e indica quando stai usando conoscenza generale vs testi specifici.';
+
+return driveCtx + (base || '');
 };
 </script>
 

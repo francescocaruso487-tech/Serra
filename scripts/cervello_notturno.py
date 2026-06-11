@@ -170,11 +170,16 @@ def main():
     # Autori per dominio — estratti dall'analisi Drive
     autori_per_dominio = {
         "elettrocoltura": [
+            # PDF VERIFICATI SU DRIVE
+            "Dawson Church — Cervello Quantico",
+            "Tiziano Guerzoni — Antenna Uomo",
+            "Omega Click — Gateway Secret CIA",
+            "Roberto Tresoldi — Misteri Antico Egitto",
+            # IN ESPANSIONE (cartelle non ancora lette)
             "Justin Christofleau", "Nikola Tesla", "Pier Luigi Ighina",
             "Pierre Bertholon", "Jean Antoine Nollet", "Jairo Restrepo Rivera",
-            "Harry B. Joseph", "Gustavo Adolfo Rol", "Georges Lakhovsky",
-            "S. Lemstrom", "E.C. Dudgeon", "Albert Howard", "Elaine Ingham",
-            "Viktor Schauberger", "Dawson Church", "Tiziano Guerzoni",
+            "Georges Lakhovsky", "S. Lemstrom", "E.C. Dudgeon",
+            "Albert Howard", "Elaine Ingham", "Viktor Schauberger",
         ],
         "magia": [
             "Aleister Crowley", "Ermete Trismegisto", "Heinrich Cornelius Agrippa",
@@ -202,7 +207,7 @@ def main():
         "Georges Lakhovsky": {"vibrazione", "armonia", "energia", "coscienza"},
         "S. Lemstrom": {"energia", "vibrazione", "rame"},
         "Viktor Schauberger": {"acqua", "spirale", "natura", "vortice"},
-        "Dawson Church": {"coscienza", "intenzione", "energia", "vibrazione"},
+        "Dawson Church — Cervello Quantico": {"coscienza", "intenzione", "energia", "vibrazione", "magnetismo", "luce"},
         "Albert Howard": {"terra", "natura", "unita"},
         "Elaine Ingham": {"terra", "natura", "trasformazione"},
         "Aleister Crowley": {"intenzione", "trasformazione", "energia", "ritmo"},
