@@ -6976,7 +6976,7 @@ function ripristinaBackup() {
     if(!confirm('Sovrascrivere i dati attuali con il backup? Questa azione non è reversibile.')) return;
     localStorage.setItem('serra5', inp.value.trim());
     salvaIDB(inp.value.trim());
-    toast('✅ Dati ripristinati! Ricarico l'app...', 2000);
+    toast('✅ Dati ripristinati! Ricarico...', 2000);
     setTimeout(function() { location.reload(); }, 1800);
   } catch(e) {
     toast('❌ JSON non valido: ' + e.message, 3000);
@@ -6998,7 +6998,7 @@ function caricaFileBackup(input) {
       if(!confirm('Ripristinare i dati da "' + file.name + '"? I dati attuali verranno sostituiti.')) return;
       localStorage.setItem('serra5', content);
       salvaIDB(content);
-      toast('✅ Dati ripristinati da file! Ricarico...', 2000);
+      toast('✅ File ripristinato! Ricarico...', 2000);
       setTimeout(function() { location.reload(); }, 1800);
     } catch(err) {
       toast('❌ File non valido: ' + err.message, 3000);
