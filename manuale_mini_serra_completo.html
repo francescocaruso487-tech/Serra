@@ -861,11 +861,12 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <!-- Widget N8n Automazioni -->
   <div style="margin:.2rem .85rem .1rem;">
     <div style="background:var(--card);border-radius:14px;padding:.65rem .9rem;box-shadow:var(--one-shadow-sm);border-left:3px solid #f97316;">
-      <div style="font-size:.58rem;font-weight:800;color:#f97316;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.25rem;">⚙️ N8N AUTOMAZIONI ATTIVE</div>
+      <div style="font-size:.58rem;font-weight:800;color:#f97316;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.25rem;">⚙️ N8N · 4 AUTOMAZIONI ATTIVE</div>
       <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
         <span style="font-size:.68rem;background:rgba(249,115,22,.1);color:#f97316;border-radius:20px;padding:.15rem .5rem;">🧠 Cervello /6h</span>
         <span style="font-size:.68rem;background:rgba(249,115,22,.1);color:#f97316;border-radius:20px;padding:.15rem .5rem;">🌤️ Meteo /mattina</span>
         <span style="font-size:.68rem;background:rgba(249,115,22,.1);color:#f97316;border-radius:20px;padding:.15rem .5rem;">📋 Digest /lunedì</span>
+        <span style="font-size:.68rem;background:rgba(249,115,22,.1);color:#f97316;border-radius:20px;padding:.15rem .5rem;">🤖 AI GPT /notte</span>
       </div>
       <div style="font-size:.63rem;color:var(--muted);margin-top:.3rem;cursor:pointer;" onclick="apriN8nPanel()">Gestisci workflow → n8n.cloud</div>
     </div>
@@ -6630,7 +6631,7 @@ buildSistemaPrompt = function() {
     <button onclick="document.getElementById('n8n-panel').style.display='none'" style="background:rgba(255,255,255,.15);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:#fff;flex-shrink:0;">←</button>
     <div style="flex:1;">
       <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55);">N8N CLOUD · AUTOMAZIONI</div>
-      <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff;">⚙️ 3 Workflow Attivi</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff;">⚙️ 4 Workflow Attivi</div>
     </div>
     <a href="https://francesco467.app.n8n.cloud" target="_blank" style="font-size:.72rem;background:rgba(255,255,255,.2);color:#fff;border-radius:100px;padding:.25rem .65rem;text-decoration:none;font-weight:700;">Apri N8n →</a>
   </div>
@@ -6668,14 +6669,29 @@ buildSistemaPrompt = function() {
       <a href="https://francesco467.app.n8n.cloud/workflow/l3bOgsOLG2FOk4Pe" target="_blank" style="font-size:.65rem;color:#8b5cf6;text-decoration:none;font-weight:700;">Apri in N8n →</a>
     </div>
 
+    <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.8rem;border-left:3px solid #f59e0b;box-shadow:var(--one-shadow-sm);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.3rem;">
+        <div style="font-weight:700;font-size:.88rem;color:var(--text);">🤖 Cervello AI GPT-4o-mini</div>
+        <span style="font-size:.65rem;background:#fef3c7;color:#92400e;border-radius:20px;padding:.1rem .45rem;font-weight:700;">DA ATTIVARE</span>
+      </div>
+      <div style="font-size:.72rem;color:var(--muted);margin-bottom:.2rem;">Ogni notte alle 01:00 usa GPT-4o-mini (gratis N8n) → genera 3 connessioni AI reali → triggera GitHub</div>
+      <div style="font-size:.65rem;color:#f59e0b;">⏰ Ore 01:00 ogni notte · ID: S46It7KEHtGuUWru</div>
+      <a href="https://francesco467.app.n8n.cloud/workflow/S46It7KEHtGuUWru" target="_blank" style="font-size:.65rem;color:#f59e0b;text-decoration:none;font-weight:700;">Apri in N8n →</a>
+    </div>
+
     <!-- Setup note -->
     <div style="background:rgba(249,115,22,.08);border-radius:14px;padding:.8rem 1rem;border:1.5px solid rgba(249,115,22,.2);">
-      <div style="font-size:.72rem;font-weight:700;color:#f97316;margin-bottom:.35rem;">⚙️ Setup rapido in N8n</div>
-      <div style="font-size:.7rem;color:var(--soft);line-height:1.6;">
-        1. Apri N8n Cloud → ogni workflow<br>
-        2. Node "Trigger GitHub Cervello" → aggiungi Header Auth con il tuo GitHub Token<br>
-        3. Attiva i workflow con il toggle in alto a destra<br>
-        4. Il Cervello Notturno partirà automaticamente ogni 6 ore
+      <div style="font-size:.72rem;font-weight:700;color:#f97316;margin-bottom:.4rem;">⚙️ Setup in 3 passi</div>
+      <div style="font-size:.7rem;color:var(--soft);line-height:1.8;">
+        <strong>1. GitHub Token</strong> (per tutti i workflow con GitHub)<br>
+        → In ogni workflow apri il node "Trigger GitHub Cervello"<br>
+        → Credentials → HTTP Header Auth → Name: Authorization<br>
+        → Value: <code style="background:var(--cream);padding:.1rem .3rem;border-radius:4px;">token IL_TUO_GITHUB_TOKEN</code><br><br>
+        <strong>2. OpenAI</strong> (workflow Cervello AI)<br>
+        → Node "Chiama OpenAI" → usa credenziale "n8n free OpenAI API credits" già disponibile<br><br>
+        <strong>3. Attiva</strong><br>
+        → Apri ogni workflow → toggle in alto a destra → ON<br>
+        → I 4 workflow girano automaticamente 🎉
       </div>
     </div>
   </div>
