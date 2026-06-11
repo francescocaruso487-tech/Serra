@@ -6367,42 +6367,21 @@ function aggiungiBottoneDrive() {
 var _origBuildPrompt = typeof buildSistemaPrompt === 'function' ? buildSistemaPrompt : null;
 function buildSistemaPrompt() {
   var bio = typeof calcolaBio==='function' ? calcolaBio(new Date()) : null;
-  var bioCtx = bio ? 'Oggi: '+bio.tipo.nome+' ('+bio.tipo.consiglio+'), Luna '+bio.lunaInfo.nome+'.' : '';
+  var bioCtx = bio ? 'Oggi: '+bio.tipo.nome+', Luna '+bio.lunaInfo.nome+'.' : '';
   var meteoCtx = (typeof METEO_CACHE!=='undefined'&&METEO_CACHE&&METEO_CACHE.temp) ?
     'Meteo: '+METEO_CACHE.temp+'C, '+METEO_CACHE.condizione+'.' : '';
-  
-  return bioCtx+' '+meteoCtx+'
-
-'+
-    'Sei il cervello della Mini-Serra Living Soil di Francesco, un sistema di coltivazione avanzato '+
-    'che integra elettrocoltura, magia pratica, spiritualita e scienza.
-
-'+
-    'HAI ACCESSO COMPLETO A '+PDF_DRIVE.length+' PDF SU GOOGLE DRIVE:
-'+
-    'ELETTROCOLTURA: Christofleau (1920), Lemstrom (1904), Tesla, Ighina, Bertholon, Nollet, '+
-    'Guerzoni (Antenna Uomo), Bruce Cathie (Energy Grid), Ruhlmann (Melodie Piante), '+
-    'Cesar Arce (Biohacker Guide), Tompkins & Bird (Vita Segreta Piante), '+
-    'Hull, Magnacult, Starter Kit, US Patents Electroculture, Ricerca 2019.
-'+
-    'MAGIA: Crowley (Magick, Libro della Legge, Aforismi, Figlia della Luna, Liber333), '+
-    'Dion Fortune, La Strega Verde.
-'+
-    'SPIRITUALE: Gateway Secret (CIA), Dawson Church (Cervello Quantico), '+
-    'Garnier Malet (Ouvertures Temporelles), Ouspensky (Tertium Organum), '+
-    'Guenon (Simboli Scienza Sacra), Tresoldi (Egitto), Ruiz (5 Accordi).
-'+
-    'SCIENTIFICO: Halliday (Fisica EM), Ulaby (Campi EM), Ortolani (Elettrotecnica), '+
-    'Howard (Agricultural Testament), Ingham (Soil Biology Primer).
-
-'+
-    'TECNICHE ATTIVE IN SERRA: Antenna Rame Spirale, Anello Lakhovsky, '+
-    'Acqua Magnetizzata, Pila Galvanica Ferro-Rame, Pantacle di Rame, '+
-    'Living Soil Water-Only, Biochar, Bokashi, Musica 528Hz.
-
-'+
-    'Rispondi sempre in italiano. Sii preciso, pratico e connetti '+
-    'sempre la scienza con la dimensione esoterica. Non separare mai le due visioni.';
+  var nPDF = PDF_DRIVE ? PDF_DRIVE.length : 36;
+  var sys = bioCtx+' '+meteoCtx;
+  sys += ' Sei il cervello della Mini-Serra Living Soil di Francesco.';
+  sys += ' Integri elettrocoltura, magia pratica, spiritualita e scienza.';
+  sys += ' Hai accesso a '+nPDF+' PDF su Google Drive:';
+  sys += ' ELETTROCOLTURA: Christofleau 1920, Lemstrom 1904, Tesla, Ighina, Bertholon, Nollet, Guerzoni, Cathie, Ruhlmann, Arce, Tompkins, Hull, Magnacult, Lemstrom, US Patents.';
+  sys += ' MAGIA: Crowley (Magick, Libro della Legge, Aforismi, Figlia della Luna, Liber333), Dion Fortune, La Strega Verde.';
+  sys += ' SPIRITUALE: Gateway Secret, Dawson Church, Garnier Malet, Ouspensky, Guenon, Tresoldi, Ruiz.';
+  sys += ' SCIENTIFICO: Halliday, Ulaby, Ortolani, Howard, Ingham Soil Biology.';
+  sys += ' TECNICHE ATTIVE: Antenna Rame, Anello Lakhovsky, Acqua Magnetizzata, Pila Galvanica, Pantacle, Living Soil, Biochar, Bokashi, 528Hz.';
+  sys += ' Rispondi in italiano. Connetti sempre scienza ed esoterismo.';
+  return sys;
 }
 
 // ── Aggiorna contatore header lab ──
