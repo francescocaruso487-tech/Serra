@@ -1156,11 +1156,19 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
       background:linear-gradient(135deg,#003D2B,#005C3F);border:none;border-radius:14px;
       padding:.7rem .9rem;text-align:left;cursor:pointer;
       box-shadow:0 4px 16px rgba(0,68,46,.3);transition:opacity .14s;
-      grid-column:span 2;
     ">
       <div style="font-size:1.3rem;margin-bottom:.25rem;">🤖</div>
       <div style="font-size:.85rem;font-weight:700;color:#fff;">AI · LLaMA 3.3 70B</div>
-      <div style="font-size:.65rem;color:rgba(255,255,255,.65);">Chiedi ai 58 manuali — gratis</div>
+      <div style="font-size:.65rem;color:rgba(255,255,255,.65);">Chiedi ai manuali</div>
+    </button>
+    <button onclick="apriLibreriaDrive()" style="
+      background:linear-gradient(135deg,#1a1a2e,#2d2d6e);border:none;border-radius:14px;
+      padding:.7rem .9rem;text-align:left;cursor:pointer;
+      box-shadow:0 4px 16px rgba(26,26,46,.3);transition:opacity .14s;
+    ">
+      <div style="font-size:1.3rem;margin-bottom:.25rem;">📚</div>
+      <div style="font-size:.85rem;font-weight:700;color:#fff;">Drive · 36 PDF</div>
+      <div style="font-size:.65rem;color:rgba(255,255,255,.65);">Catalogo completo</div>
     </button>
   </div>
 </div>
@@ -6224,6 +6232,194 @@ setInterval(function(){
     eseguiTurno(); labRenderMain();
   }
 },3600000);
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// 🚀 SISTEMA INTEGRATO v2 — Drive + Calendar + AI Potenziato
+// ═══════════════════════════════════════════════════════════════
+
+// ── Catalogo PDF Drive (36 reali) ──
+var PDF_DRIVE = [
+  {t:"Christofleau — Electroculture (1920)", id:"1oYPClfiyHQWahc7vYR5ZpDnEno4QdL00", cat:"elettrocoltura"},
+  {t:"Crowley — Libro della Legge", id:"1lfnZRuwJsdcNAqsEvSNc-rVoc1-bj-VA", cat:"magia"},
+  {t:"Crowley — Magick", id:"1wS-oWkv1KZtjdTSm6T1geo16J3Oz1avd", cat:"magia"},
+  {t:"Crowley — Aforismi Esoterici", id:"1kk6X_zft8c6icmx4nbs-98Mx0DgDa5L9", cat:"magia"},
+  {t:"Crowley — La Figlia della Luna", id:"1LT_JLH4mKETjamYvIc97JT1VUF7E1baf", cat:"magia"},
+  {t:"Crowley & Dion Fortune", id:"1wGsVe3m8lr5Tfv86g2ChVGHbM46hxXvM", cat:"magia"},
+  {t:"Gateway Secret — Potenzialita Cervello", id:"13OgT70YQllQ6bnhO4ew34GNP8UX_7pay", cat:"spirituale"},
+  {t:"Dawson Church — Cervello Quantico", id:"1N2-XfvhaWtZKcBVjFCsXWEAeA7B1pyyD", cat:"spirituale"},
+  {t:"Misteri Antico Egitto — Tresoldi", id:"1Y7AvFUZh90HnDx4a21-gkeNZUsf6ywMP", cat:"spirituale"},
+  {t:"Ouspensky — Tertium Organum", id:"1TSwc8YgEXvZydw6iB-Lk26CLSD4oxCZI", cat:"spirituale"},
+  {t:"Guerzoni — Antenna Uomo", id:"1knti3K8C4omjDa2awj9mdmA20AhA8bMg", cat:"elettrocoltura"},
+  {t:"Garnier Malet — Ouvertures Temporelles", id:"1o1vOQTubgt4726YzIv4cgD1Nbn4qxjsI", cat:"spirituale"},
+  {t:"Elaine Ingham — Soil Biology Primer", id:"1-P95imu3_c3b7MsE5UZ4gJb-SHvIkuwV", cat:"coltivazione"},
+  {t:"Albert Howard — Agricultural Testament", id:"1HlreWsMdJTKToA_gK1LvT-wkVZnPodV_", cat:"coltivazione"},
+  {t:"Bruce Cathie — The Energy Grid", id:"16CzuDx9YxGpMOGRHRUcN35Sf6aq89nIA", cat:"elettrocoltura"},
+  {t:"Ruhlmann — Melodie Secrete Vegetaux", id:"1AAr0kRVqASQZjV_Q1Qz_awJqAqIVNvt-", cat:"elettrocoltura"},
+  {t:"Cesar Arce — Electroculture Biohacker", id:"1oCGYPJCizCpBBNk9QX937TuRjxWSbfYv", cat:"elettrocoltura"},
+  {t:"Tompkins & Bird — Vita Segreta Piante", id:"1FgRXITI63cY9gom5u8oBipHFdhJ0e8xp", cat:"elettrocoltura"},
+  {t:"La Strega Verde — Magia delle Piante", id:"1UOU7wYiEGi3QEr6XgM8EQJKVYFZ9a-oc", cat:"magia"},
+  {t:"Guenon — Simboli Scienza Sacra", id:"1u_jVM7qqRb6nfu8lvIkpEBGc6xTy1X6D", cat:"spirituale"},
+  {t:"Ruiz — Il Quinto Accordo", id:"1n6pBwHjQmJCuFHI805TdjpuS0QDlVJ36", cat:"spirituale"},
+  {t:"Lemstrom — Electricity in Agriculture", id:"1EG4LZp95GXkQk_d_xUh82iuQ-2XI8I7f", cat:"elettrocoltura"},
+  {t:"Hull — Electroculture", id:"15VZoTA5sfjnqwWkyMS6nW1E0y_wuAACO", cat:"elettrocoltura"},
+  {t:"Pizzuti — Scoperte Scientifiche", id:"1u1dv0ZuPpgfpTGeTSbDHMuiaUnPmxH7B", cat:"spirituale"},
+  {t:"Magnacult", id:"1Qg3Tmtp6deZrDhqrTHzTFs9VrUWY1qlD", cat:"elettrocoltura"},
+  {t:"US Patents Electroculture", id:"1bFn9cnepyf8AHaKfdBGcWXT7iGXiBf1y", cat:"elettrocoltura"},
+  {t:"Ricerca Agro-Alimentare 2019", id:"1TOCzU1a-aLXDK2ahAF7WrwbplWh_ifnl", cat:"coltivazione"},
+  {t:"Electroculture For Beginners", id:"1K1BzfSXEYP54AmZ13L_68psq8PaeGNWz", cat:"elettrocoltura"},
+  {t:"Starter Kit Elettrocoltura 2021", id:"1H88XIAdlI_oOiHit4ow4vRxTTPhiuHdJ", cat:"elettrocoltura"},
+  {t:"Electroculture 2 Books in 1", id:"164phDM7vt4EM76O5RbYeb4g7C4TsD2Eu", cat:"elettrocoltura"},
+  {t:"Halliday — Fondamenti Fisica EM", id:"1ZwW0vDsjHpi3Sg94z6B_e5nCl8vPOBww", cat:"scientifico"},
+  {t:"Ulaby — Campi Elettromagnetici", id:"10tojlySkd_2gr3KPUpAmc2pM-Q7R49pL", cat:"scientifico"},
+  {t:"Manuale Elettrotecnica — Ortolani", id:"1Hr4-I_G2prpOsoZiad_j8k25hHfygFzG", cat:"scientifico"},
+  {t:"Crowley — Il Cuore del Maestro", id:"1zRoFkpbG0KaH2oqsAwRvFQgKEv3qJKVe", cat:"magia"},
+  {t:"Crowley — Liber333", id:"1_XoMODN60boQ3AItL2q8CK-TWr3q-kRV", cat:"magia"},
+  {t:"Crowley — L'Artigiano del Male", id:"1wI8OCWAn69FViToCCKh6I5-YIxOgTaZA", cat:"magia"}
+];
+
+// ── Apri PDF su Drive ──
+function apriPDFDrive(id) {
+  window.open('https://drive.google.com/file/d/'+id+'/view', '_blank');
+}
+
+// ── Pannello LIBRERIA DRIVE ──
+function apriLibreriaDrive() {
+  var panel = document.getElementById('lab-panel-libreria');
+  if(!panel) {
+    panel = document.createElement('div');
+    panel.id = 'lab-panel-libreria';
+    panel.style.cssText = 'display:none;position:fixed;inset:0;z-index:300;background:var(--main-bg);overflow-y:auto;padding-bottom:5rem;';
+    document.body.appendChild(panel);
+  }
+  
+  var cats = {elettrocoltura:'⚡',magia:'🔮',spirituale:'✨',coltivazione:'🌱',scientifico:'🔬'};
+  var colori = {elettrocoltura:'#c0392b',magia:'#8e44ad',spirituale:'#2980b9',coltivazione:'#27ae60',scientifico:'#d35400'};
+  var gruppi = {};
+  PDF_DRIVE.forEach(function(p){ if(!gruppi[p.cat]) gruppi[p.cat]=[]; gruppi[p.cat].push(p); });
+  
+  var html = '<div style="position:sticky;top:0;z-index:5;background:linear-gradient(135deg,#1a1a2e,#16213e);padding:.85rem 1rem .7rem;display:flex;align-items:center;gap:.7rem;">';
+  html += '<button onclick="document.getElementById('lab-panel-libreria').style.display='none'" style="background:rgba(255,255,255,.12);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:#fff;">←</button>';
+  html += '<div style="flex:1;"><div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);">GOOGLE DRIVE · ARCHIVIO</div>';
+  html += '<div style="font-size:1.05rem;font-weight:700;color:#fff;">📚 '+PDF_DRIVE.length+' PDF · Catalogo Completo</div></div></div>';
+  
+  // Barra ricerca
+  html += '<div style="padding:.6rem 1rem .3rem;"><input id="lib-search" oninput="filtraLibreria(this.value)" placeholder="🔍 Cerca tra i manuali..." style="width:100%;padding:.55rem .8rem;border-radius:14px;border:1.5px solid var(--sand);background:var(--card);font-size:.85rem;color:var(--text);outline:none;box-sizing:border-box;"></div>';
+  
+  html += '<div id="lib-body">';
+  Object.keys(gruppi).forEach(function(cat) {
+    var col = colori[cat]||'#888';
+    var ico = cats[cat]||'📄';
+    html += '<div style="font-size:.62rem;font-weight:800;color:'+col+';text-transform:uppercase;letter-spacing:.1em;padding:.7rem 1rem .2rem;">'+ico+' '+cat.toUpperCase()+' ('+gruppi[cat].length+')</div>';
+    gruppi[cat].forEach(function(p) {
+      html += '<div onclick="apriPDFDrive(''+p.id+'')" style="margin:.2rem 1rem;background:var(--card);border-radius:14px;border-left:3px solid '+col+';padding:.65rem .9rem;cursor:pointer;display:flex;align-items:center;gap:.7rem;box-shadow:var(--one-shadow-sm);" data-titolo="'+p.t.toLowerCase()+'">';
+      html += '<span style="font-size:1.2rem;flex-shrink:0;">'+ico+'</span>';
+      html += '<div style="flex:1;min-width:0;"><div style="font-size:.82rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+p.t+'</div>';
+      html += '<div style="font-size:.63rem;color:var(--muted);margin-top:.1rem;">Tocca per aprire su Google Drive</div></div>';
+      html += '<span style="color:var(--muted);font-size:.9rem;">↗</span></div>';
+    });
+  });
+  html += '</div>';
+  
+  panel.innerHTML = html;
+  panel.style.display = 'block';
+  panel.scrollTop = 0;
+}
+
+function filtraLibreria(q) {
+  q = q.toLowerCase().trim();
+  var items = document.querySelectorAll('#lib-body [data-titolo]');
+  items.forEach(function(el) {
+    el.style.display = (!q || el.dataset.titolo.indexOf(q) !== -1) ? '' : 'none';
+  });
+}
+
+// ── Aggiungi bottone Libreria Drive al Laboratorio ──
+function aggiungiBottoneDrive() {
+  var grid = document.querySelector('#laboratorio .lab-grid, #lab-azioni-grid');
+  if(!grid) {
+    // Cerca il contenitore delle azioni
+    var azioni = document.querySelector('[id*="lab"][id*="azioni"], .lab-azioni');
+    if(azioni) grid = azioni;
+  }
+  // Controlla se già esiste
+  if(document.getElementById('btn-libreria-drive')) return;
+  
+  var btn = document.createElement('button');
+  btn.id = 'btn-libreria-drive';
+  btn.onclick = apriLibreriaDrive;
+  btn.style.cssText = 'background:linear-gradient(135deg,#1a1a2e,#2d2d6e);border:none;border-radius:14px;padding:.7rem .9rem;text-align:left;cursor:pointer;box-shadow:0 4px 16px rgba(26,26,46,.4);transition:opacity .14s;width:100%;margin:.3rem 0;';
+  btn.innerHTML = '<div style="font-size:1.3rem;margin-bottom:.25rem;">📚</div><div style="font-size:.85rem;font-weight:700;color:#fff;">Drive · '+PDF_DRIVE.length+' PDF</div><div style="font-size:.65rem;color:rgba(255,255,255,.6);">Catalogo completo manuali</div>';
+  
+  // Inserisci dopo il bottone AI nel laboratorio
+  var aiBtn = document.getElementById('btn-lab-ai') || document.querySelector('[onclick*="labApriAI"]');
+  if(aiBtn && aiBtn.parentNode) {
+    aiBtn.parentNode.insertBefore(btn, aiBtn.nextSibling);
+  }
+}
+
+// ── Aggiorna buildSistemaPrompt con tutti i 36 PDF reali ──
+var _origBuildPrompt = typeof buildSistemaPrompt === 'function' ? buildSistemaPrompt : null;
+function buildSistemaPrompt() {
+  var bio = typeof calcolaBio==='function' ? calcolaBio(new Date()) : null;
+  var bioCtx = bio ? 'Oggi: '+bio.tipo.nome+' ('+bio.tipo.consiglio+'), Luna '+bio.lunaInfo.nome+'.' : '';
+  var meteoCtx = (typeof METEO_CACHE!=='undefined'&&METEO_CACHE&&METEO_CACHE.temp) ?
+    'Meteo: '+METEO_CACHE.temp+'C, '+METEO_CACHE.condizione+'.' : '';
+  
+  return bioCtx+' '+meteoCtx+'
+
+'+
+    'Sei il cervello della Mini-Serra Living Soil di Francesco, un sistema di coltivazione avanzato '+
+    'che integra elettrocoltura, magia pratica, spiritualita e scienza.
+
+'+
+    'HAI ACCESSO COMPLETO A '+PDF_DRIVE.length+' PDF SU GOOGLE DRIVE:
+'+
+    'ELETTROCOLTURA: Christofleau (1920), Lemstrom (1904), Tesla, Ighina, Bertholon, Nollet, '+
+    'Guerzoni (Antenna Uomo), Bruce Cathie (Energy Grid), Ruhlmann (Melodie Piante), '+
+    'Cesar Arce (Biohacker Guide), Tompkins & Bird (Vita Segreta Piante), '+
+    'Hull, Magnacult, Starter Kit, US Patents Electroculture, Ricerca 2019.
+'+
+    'MAGIA: Crowley (Magick, Libro della Legge, Aforismi, Figlia della Luna, Liber333), '+
+    'Dion Fortune, La Strega Verde.
+'+
+    'SPIRITUALE: Gateway Secret (CIA), Dawson Church (Cervello Quantico), '+
+    'Garnier Malet (Ouvertures Temporelles), Ouspensky (Tertium Organum), '+
+    'Guenon (Simboli Scienza Sacra), Tresoldi (Egitto), Ruiz (5 Accordi).
+'+
+    'SCIENTIFICO: Halliday (Fisica EM), Ulaby (Campi EM), Ortolani (Elettrotecnica), '+
+    'Howard (Agricultural Testament), Ingham (Soil Biology Primer).
+
+'+
+    'TECNICHE ATTIVE IN SERRA: Antenna Rame Spirale, Anello Lakhovsky, '+
+    'Acqua Magnetizzata, Pila Galvanica Ferro-Rame, Pantacle di Rame, '+
+    'Living Soil Water-Only, Biochar, Bokashi, Musica 528Hz.
+
+'+
+    'Rispondi sempre in italiano. Sii preciso, pratico e connetti '+
+    'sempre la scienza con la dimensione esoterica. Non separare mai le due visioni.';
+}
+
+// ── Aggiorna contatore header lab ──
+function aggiornaHeaderLab() {
+  var el = document.querySelector('#laboratorio .lab-header-conn, #lab-conn-num');
+  if(el) el.textContent = '50+';
+  var el2 = document.querySelector('#laboratorio .lab-header-pdf');
+  if(el2) el2.textContent = PDF_DRIVE.length;
+}
+
+// ── Init al caricamento ──
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(function() {
+    aggiornaHeaderLab();
+    // Aggiungi bottone Drive dopo 1.5s (quando il laboratorio e renderizzato)
+    setTimeout(aggiungiBottoneDrive, 1500);
+  }, 800);
+});
+
+// Quando si apre il laboratorio, aggiorna
+var _origGoNav = typeof goNavFull==='function' ? goNavFull : null;
 </script>
 </body>
 </html>ion labApriAI() {
