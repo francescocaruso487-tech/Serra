@@ -861,7 +861,7 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <!-- Widget N8n Automazioni -->
   <div style="margin:.2rem .85rem .1rem;">
     <div style="background:var(--card);border-radius:14px;padding:.65rem .9rem;box-shadow:var(--one-shadow-sm);border-left:3px solid #f97316;">
-      <div style="font-size:.58rem;font-weight:800;color:#f97316;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.25rem;">⚙️ N8N · 5 AUTOMAZIONI · NOTION SYNC</div>
+      <div style="font-size:.58rem;font-weight:800;color:#f97316;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.25rem;">⚙️ N8N · 6 AUTOMAZIONI · LIVE</div>
       <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
         <span style="font-size:.68rem;background:rgba(249,115,22,.1);color:#f97316;border-radius:20px;padding:.15rem .5rem;">🧠 Cervello /6h</span>
         <span style="font-size:.68rem;background:rgba(249,115,22,.1);color:#f97316;border-radius:20px;padding:.15rem .5rem;">🌤️ Meteo /mattina</span>
@@ -6758,7 +6758,7 @@ buildSistemaPrompt = function() {
     <button onclick="document.getElementById('n8n-panel').style.display='none'" style="background:rgba(255,255,255,.15);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:#fff;flex-shrink:0;">←</button>
     <div style="flex:1;">
       <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55);">N8N CLOUD · AUTOMAZIONI</div>
-      <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff;">⚙️ 5 Workflow Attivi</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff;">⚙️ 6 Workflow Attivi</div>
     </div>
     <a href="https://francesco467.app.n8n.cloud" target="_blank" style="font-size:.72rem;background:rgba(255,255,255,.2);color:#fff;border-radius:100px;padding:.25rem .65rem;text-decoration:none;font-weight:700;">Apri N8n →</a>
   </div>
@@ -6823,14 +6823,15 @@ buildSistemaPrompt = function() {
 
     <!-- Stato configurazione -->
     <div style="background:rgba(0,135,90,.08);border-radius:14px;padding:.8rem 1rem;border:1.5px solid rgba(0,135,90,.2);">
-      <div style="font-size:.72rem;font-weight:700;color:var(--moss);margin-bottom:.35rem;">✅ 5 Workflow attivi · Tutto automatico</div>
+      <div style="font-size:.72rem;font-weight:700;color:var(--moss);margin-bottom:.35rem;">✅ 6 Workflow · Tutto automatico · Live sync</div>
       <div style="font-size:.7rem;color:var(--soft);line-height:1.8;">
         🧠 Cervello Notturno → ogni 6 ore, analizza 134 PDF<br>
         🌤️ Meteo Alert → ogni mattina ore 8:00<br>
         📋 Digest Settimanale → lunedì 7:30<br>
         🤖 Cervello AI GPT-4o-mini → ogni notte ore 1:00<br>
         📋 Sync Notion → ogni notte ore 2:00<br>
-        <span style="color:var(--moss);font-weight:700;">Zero azioni manuali 🎉</span>
+        🔗 Webhook Receiver → in tempo reale<br>
+        <span style="color:var(--moss);font-weight:700;">Zero azioni manuali — tutto automatico 🎉</span>
       </div>
       <div style="margin-top:.5rem;padding-top:.4rem;border-top:1px solid rgba(0,135,90,.15);">
         <div style="font-size:.65rem;color:var(--muted);margin-bottom:.25rem;">📓 DATABASE NOTION</div>
@@ -6908,6 +6909,29 @@ function apriN8nPanel() {
       <div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:.25rem;">☁️ Ripristina da GitHub Gist</div>
       <div style="font-size:.72rem;color:var(--muted);margin-bottom:.5rem;">Recupera automaticamente l'ultimo backup salvato su GitHub.</div>
       <button onclick="ripristinaDAGitHub()" style="width:100%;background:linear-gradient(135deg,#1a3a6b,#2563eb);color:#fff;border:none;border-radius:12px;padding:.65rem;font-size:.85rem;font-weight:700;cursor:pointer;">☁️ Ripristina da GitHub</button>
+    </div>
+
+    <!-- Configurazione Zapier Webhook -->
+    <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.4rem;box-shadow:var(--one-shadow-sm);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.25rem;">
+        <div style="font-size:.82rem;font-weight:700;color:var(--text);">⚡ Zapier — Sync Universale</div>
+        <span id="zapier-status-badge" style="font-size:.62rem;border-radius:20px;padding:.1rem .4rem;font-weight:700;background:var(--cream);color:var(--muted);">Non configurato</span>
+      </div>
+      <div style="font-size:.72rem;color:var(--muted);margin-bottom:.5rem;">Ogni salvataggio → Notion + Calendar + Gmail automaticamente</div>
+      <button onclick="apriConfigZapier()" style="width:100%;background:linear-gradient(135deg,#ff4a00,#ff8c00);color:#fff;border:none;border-radius:12px;padding:.65rem;font-size:.85rem;font-weight:700;cursor:pointer;">⚡ Configura Zapier Webhook</button>
+      <div id="zapier-config-panel" style="display:none;margin-top:.5rem;">
+        <div style="font-size:.68rem;color:var(--muted);margin-bottom:.35rem;">
+          1. Vai su <a href="https://zapier.com/app/zaps" target="_blank" style="color:#ff4a00;">zapier.com</a> → Crea Zap<br>
+          2. Trigger: <strong>Webhooks by Zapier → Catch Hook</strong><br>
+          3. Copia l'URL del webhook qui sotto<br>
+          4. Actions: Notion + Google Calendar + Gmail
+        </div>
+        <div style="display:flex;gap:.4rem;">
+          <input id="zapier-webhook-input" type="url" placeholder="https://hooks.zapier.com/hooks/catch/..." style="flex:1;padding:.4rem .6rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-size:.75rem;color:var(--text);outline:none;">
+          <button onclick="salvaZapierWebhook()" style="background:#ff4a00;color:#fff;border:none;border-radius:10px;padding:.4rem .8rem;font-size:.78rem;font-weight:700;cursor:pointer;">Salva</button>
+        </div>
+        <button onclick="testZapierWebhook()" style="width:100%;margin-top:.4rem;background:var(--cream);color:var(--text);border:1.5px solid var(--sand);border-radius:10px;padding:.4rem;font-size:.75rem;cursor:pointer;">🧪 Invia test</button>
+      </div>
     </div>
 
     <!-- Auto-backup IndexedDB -->
@@ -7217,10 +7241,132 @@ async function ripristinaDAGitHub() {
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(function(){
     initBackupSystem();
+    // Aggiorna badge Zapier
+    var zwh = localStorage.getItem('zapier_webhook_url');
+    var zbadge = document.getElementById('zapier-status-badge');
+    if(zbadge) {
+      if(zwh) { zbadge.textContent='✅ Attivo'; zbadge.style.background='#d1fae5'; zbadge.style.color='#065f46'; }
+      else { zbadge.textContent='⚠️ Da configurare'; zbadge.style.background='#fef3c7'; zbadge.style.color='#92400e'; }
+    }
     // Auto-backup GitHub ogni ora
     autoBackupGitHub();
     setInterval(autoBackupGitHub, 3600000);
   }, 2000);
+});
+</script>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// SISTEMA INTEGRAZIONE UNIVERSALE — Zapier + Notion + Calendar + Gmail
+// ═══════════════════════════════════════════════════════
+
+var ZAPIER_WEBHOOK = localStorage.getItem('zapier_webhook_url') || 'https://francisco467.app.n8n.cloud/webhook/serra-sync';
+var SYNC_QUEUE = [];
+var SYNC_RUNNING = false;
+
+// Intercetta il salvataggio del diario e propaga a tutti i servizi
+function initSyncUniversale() {
+  var origSalva = window.salva;
+  if(origSalva && !window._syncPatched) {
+    window._syncPatched = true;
+    window.salva = function() {
+      origSalva.apply(this, arguments);
+      // Propaga async — non blocca l'UI
+      setTimeout(function(){
+        var d = localStorage.getItem('serra5');
+        if(d) {
+          salvaIDB(d); // IndexedDB locale
+          propagaZapier(d); // → Notion + Calendar + Gmail via Zapier
+          autoBackupGitHub(); // → GitHub Gist
+        }
+      }, 500);
+    };
+  }
+}
+
+// Invia i dati a Zapier che li distribuisce ovunque
+async function propagaZapier(rawData) {
+  var webhookUrl = localStorage.getItem('zapier_webhook_url');
+  if(!webhookUrl) return; // Webhook non configurato
+
+  try {
+    var db = JSON.parse(rawData);
+    var oggi_k = fmtKey(oggi());
+    var dayData = db.days && db.days[oggi_k];
+    if(!dayData) return;
+
+    // Conta operazioni fatte oggi
+    var opFatte = Object.keys(dayData.ops||{}).filter(function(k){
+      return dayData.ops[k] && dayData.ops[k].done;
+    });
+
+    var payload = {
+      data: new Date().toISOString().slice(0,10),
+      ora: new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'}),
+      operazioni_oggi: opFatte.length,
+      operazioni_lista: opFatte.join(', '),
+      note: dayData.notes || '',
+      connessioni_totali: (db.connessioni||[]).length,
+      pdf_drive: db.totale_pdf_drive || 134,
+      versione_db: db.versione || '?',
+      app_url: 'https://francescocaruso487-tech.github.io/Serra/manuale_mini_serra_completo.html'
+    };
+
+    await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload),
+      mode: 'no-cors' // Zapier accetta no-cors
+    });
+
+    console.log('✅ Zapier sync inviato:', payload.operazioni_oggi, 'operazioni');
+  } catch(e) {
+    console.log('Zapier sync error:', e.message);
+  }
+}
+
+// Configurazione webhook nel pannello backup
+function apriConfigZapier() {
+  var panel = document.getElementById('zapier-config-panel');
+  if(panel) panel.style.display = panel.style.display==='none'?'block':'none';
+}
+
+function salvaZapierWebhook() {
+  var inp = document.getElementById('zapier-webhook-input');
+  if(!inp || !inp.value.trim()) return;
+  var url = inp.value.trim();
+  if(!url.startsWith('https://')) { toast('URL non valido — deve iniziare con https://', 2000); return; }
+  localStorage.setItem('zapier_webhook_url', url);
+  toast('✅ Zapier webhook configurato!', 2000);
+  document.getElementById('zapier-config-panel').style.display = 'none';
+  // Test immediato
+  testZapierWebhook();
+}
+
+async function testZapierWebhook() {
+  var url = localStorage.getItem('zapier_webhook_url');
+  if(!url) { toast('Prima configura il webhook Zapier', 2000); return; }
+  try {
+    await fetch(url, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        test: true,
+        messaggio: 'Test dalla Serra App — tutto funziona!',
+        data: new Date().toISOString(),
+        app_url: 'https://francescocaruso487-tech.github.io/Serra/manuale_mini_serra_completo.html'
+      }),
+      mode: 'no-cors'
+    });
+    toast('✅ Test inviato a Zapier! Controlla il tuo Zap.', 2500);
+  } catch(e) {
+    toast('Errore invio test: ' + e.message, 2000);
+  }
+}
+
+// Avvia integrazione al caricamento
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(initSyncUniversale, 1500);
 });
 </script>
 </body>
