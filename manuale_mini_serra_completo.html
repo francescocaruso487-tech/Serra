@@ -855,6 +855,9 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
     <div id="insight-recap"></div>
   </div>
 
+  <!-- Prossimo evento serra da Calendar -->
+  <div id="home-calendar-widget" style="margin:.3rem .85rem .1rem;"></div>
+
   <!-- Quick actions -->
   <div style="padding:.3rem .85rem .1rem;">
     <div style="font-family:'DM Serif Display',serif;font-size:.95rem;color:var(--bark);margin-bottom:.4rem;">⚡ Azioni rapide</div>
@@ -1159,16 +1162,16 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
     ">
       <div style="font-size:1.3rem;margin-bottom:.25rem;">🤖</div>
       <div style="font-size:.85rem;font-weight:700;color:#fff;">AI · LLaMA 3.3 70B</div>
-      <div style="font-size:.65rem;color:rgba(255,255,255,.65);">Chiedi ai manuali</div>
+      <div style="font-size:.65rem;color:rgba(255,255,255,.65);">Chiedi ai 134 PDF Drive</div>
     </button>
-    <button onclick="apriLibreriaDrive()" style="
+    <button onclick="labApriDrive()" style="
       background:linear-gradient(135deg,#1a1a2e,#2d2d6e);border:none;border-radius:14px;
       padding:.7rem .9rem;text-align:left;cursor:pointer;
       box-shadow:0 4px 16px rgba(26,26,46,.3);transition:opacity .14s;
     ">
       <div style="font-size:1.3rem;margin-bottom:.25rem;">📚</div>
-      <div style="font-size:.85rem;font-weight:700;color:#fff;">Drive · 36 PDF</div>
-      <div style="font-size:.65rem;color:rgba(255,255,255,.65);">Catalogo completo</div>
+      <div style="font-size:.85rem;font-weight:700;color:#fff;">Drive · 134 PDF · 5 Categorie</div>
+      <div style="font-size:.65rem;color:rgba(255,255,255,.65);">Elettroc. · Magia · Sacri · Spirit. · Colti.</div>
     </button>
   </div>
 </div>
@@ -1265,7 +1268,7 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
       <button onclick="inviaAI('Crea un piano sperimentale per questa settimana con le tecniche disponibili')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">📋 Piano settimana</button>
       <button onclick="inviaAI('Connessioni tra Kybalion, Tavole Smeraldine e elettrocoltura da applicare subito?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">⚗️ Magia+Elettroc.</button>
       <button onclick="inviaAI('Analizza il meteo di oggi e dimmi cosa fare nella serra')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">🌤 Meteo+Serra</button>
-      <button onclick="inviaAI('Tecnica ottimale dai 58 manuali per la fase di fioritura?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">🌸 Fioritura</button>
+      <button onclick="inviaAI('Tecnica ottimale dai 134 manuali per la fase di fioritura?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">🌸 Fioritura</button>
     </div>
     <!-- Chat -->
     <div id="ai-chat" style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:.5rem;min-height:80px;"></div>
@@ -1274,7 +1277,7 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <div style="position:sticky;bottom:0;background:var(--main-bg);padding:.6rem 1rem .8rem;border-top:1px solid var(--sand);">
     <div style="display:flex;gap:.35rem;align-items:flex-end;">
       <button id="btn-mic" onclick="iniziaAscolto()" style="padding:.55rem .65rem;background:var(--cream);color:var(--text);border:1.5px solid var(--sand);border-radius:14px;font-size:.95rem;cursor:pointer;height:2.8rem;flex-shrink:0;">🎤</button>
-      <textarea id="ai-input" placeholder="Chiedi ai tuoi 58 manuali..." style="flex:1;padding:.55rem .75rem;border-radius:14px;border:1.5px solid var(--sand);background:var(--card);font-family:'Nunito',sans-serif;font-size:.82rem;color:var(--text);resize:none;min-height:2.8rem;max-height:5rem;outline:none;" rows="2" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();inviaAI();}"></textarea>
+      <textarea id="ai-input" placeholder="Chiedi ai 134 PDF di Drive..." style="flex:1;padding:.55rem .75rem;border-radius:14px;border:1.5px solid var(--sand);background:var(--card);font-family:'Nunito',sans-serif;font-size:.82rem;color:var(--text);resize:none;min-height:2.8rem;max-height:5rem;outline:none;" rows="2" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();inviaAI();}"></textarea>
       <button onclick="inviaAI()" style="padding:.55rem .85rem;background:var(--moss);color:#fff;border:none;border-radius:14px;font-size:1.1rem;cursor:pointer;height:2.8rem;">→</button>
     </div>
     <div style="display:flex;justify-content:center;gap:1rem;margin-top:.3rem;">
@@ -6403,6 +6406,208 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Quando si apre il laboratorio, aggiorna
 var _origGoNav = typeof goNavFull==='function' ? goNavFull : null;
+</script>
+
+<!-- ═══ PANEL: GOOGLE DRIVE ═══ -->
+<div id="lab-panel-drive" style="display:none;position:fixed;inset:0;z-index:300;background:var(--main-bg);overflow-y:auto;padding-bottom:4rem;">
+  <div style="position:sticky;top:0;z-index:5;background:linear-gradient(135deg,#1a3a6b,#1d4ed8);padding:.85rem 1rem .7rem;display:flex;align-items:center;gap:.7rem;">
+    <button onclick="document.getElementById('lab-panel-drive').style.display='none'" style="background:rgba(255,255,255,.15);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:#fff;flex-shrink:0;">←</button>
+    <div style="flex:1;">
+      <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55);">GOOGLE DRIVE · MANUALI</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff;">📂 134 PDF · 5 Categorie</div>
+    </div>
+  </div>
+  <div style="padding:.8rem 1rem;">
+    <!-- Stats row -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-bottom:.8rem;">
+      <div style="background:var(--card);border-radius:12px;padding:.6rem;text-align:center;box-shadow:var(--one-shadow-sm);">
+        <div style="font-size:1.3rem;font-weight:800;color:var(--moss);">134</div>
+        <div style="font-size:.6rem;color:var(--muted);">PDF Totali</div>
+      </div>
+      <div style="background:var(--card);border-radius:12px;padding:.6rem;text-align:center;box-shadow:var(--one-shadow-sm);">
+        <div style="font-size:1.3rem;font-weight:800;color:#2563eb;">5</div>
+        <div style="font-size:.6rem;color:var(--muted);">Categorie</div>
+      </div>
+      <div style="background:var(--card);border-radius:12px;padding:.6rem;text-align:center;box-shadow:var(--one-shadow-sm);">
+        <div style="font-size:1.3rem;font-weight:800;color:var(--moss);" id="drive-conn-count">50</div>
+        <div style="font-size:.6rem;color:var(--muted);">Connessioni</div>
+      </div>
+    </div>
+    <!-- Categorie -->
+    <div style="font-size:.62rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;">📚 CATEGORIE DRIVE</div>
+    <div id="drive-categorie-list">
+      <div class="drive-cat-card" onclick="apriFolderDrive('elettrocoltura')" style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.4rem;cursor:pointer;border-left:3px solid #c0392b;display:flex;align-items:center;gap:.8rem;box-shadow:var(--one-shadow-sm);">
+        <div style="font-size:1.6rem;">⚡</div>
+        <div style="flex:1;">
+          <div style="font-weight:700;font-size:.88rem;color:var(--text);">Elettrocoltura</div>
+          <div style="font-size:.7rem;color:var(--muted);">44 PDF · Christofleau, Tesla, Ighina, Bertholon, Nollet...</div>
+          <div style="font-size:.65rem;color:#c0392b;margin-top:.1rem;">+ 29 Vari (Ingham, Howard, Church, Guerzoni...)</div>
+        </div>
+        <div style="background:#c0392b;color:#fff;border-radius:20px;padding:.15rem .5rem;font-size:.68rem;font-weight:700;">73</div>
+      </div>
+      <div class="drive-cat-card" onclick="apriFolderDrive('magia')" style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.4rem;cursor:pointer;border-left:3px solid #8e44ad;display:flex;align-items:center;gap:.8rem;box-shadow:var(--one-shadow-sm);">
+        <div style="font-size:1.6rem;">🔮</div>
+        <div style="flex:1;">
+          <div style="font-weight:700;font-size:.88rem;color:var(--text);">Magia & Esoterismo</div>
+          <div style="font-size:.7rem;color:var(--muted);">16 PDF · Aleister Crowley, Agrippa, Chiave di Salomone...</div>
+        </div>
+        <div style="background:#8e44ad;color:#fff;border-radius:20px;padding:.15rem .5rem;font-size:.68rem;font-weight:700;">16</div>
+      </div>
+      <div class="drive-cat-card" onclick="apriFolderDrive('spirituali')" style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.4rem;cursor:pointer;border-left:3px solid #d4870a;display:flex;align-items:center;gap:.8rem;box-shadow:var(--one-shadow-sm);">
+        <div style="font-size:1.6rem;">🕊️</div>
+        <div style="flex:1;">
+          <div style="font-weight:700;font-size:.88rem;color:var(--text);">Spirituali</div>
+          <div style="font-size:.7rem;color:var(--muted);">8 PDF · Vangelo Esseno della Pace...</div>
+        </div>
+        <div style="background:#d4870a;color:#fff;border-radius:20px;padding:.15rem .5rem;font-size:.68rem;font-weight:700;">8</div>
+      </div>
+      <div class="drive-cat-card" onclick="apriFolderDrive('libri_sacri')" style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.4rem;cursor:pointer;border-left:3px solid #27ae60;display:flex;align-items:center;gap:.8rem;box-shadow:var(--one-shadow-sm);">
+        <div style="font-size:1.6rem;">📖</div>
+        <div style="flex:1;">
+          <div style="font-weight:700;font-size:.88rem;color:var(--text);">Libri Sacri</div>
+          <div style="font-size:.7rem;color:var(--muted);">25 PDF · Buddhismo, Wicca, Islam, Induismo, Ebraismo...</div>
+          <div style="font-size:.65rem;color:#27ae60;margin-top:.1rem;">Shintoismo · Confucianesimo · Baha'i · Cristianesimo</div>
+        </div>
+        <div style="background:#27ae60;color:#fff;border-radius:20px;padding:.15rem .5rem;font-size:.68rem;font-weight:700;">25</div>
+      </div>
+      <div class="drive-cat-card" onclick="apriFolderDrive('coltivazione')" style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.4rem;cursor:pointer;border-left:3px solid var(--moss);display:flex;align-items:center;gap:.8rem;box-shadow:var(--one-shadow-sm);">
+        <div style="font-size:1.6rem;">🌱</div>
+        <div style="flex:1;">
+          <div style="font-weight:700;font-size:.88rem;color:var(--text);">Coltivazione</div>
+          <div style="font-size:.7rem;color:var(--muted);">12 PDF · Howard, Ingham, Steiner, Fukuoka...</div>
+        </div>
+        <div style="background:var(--moss);color:#fff;border-radius:20px;padding:.15rem .5rem;font-size:.68rem;font-weight:700;">12</div>
+      </div>
+    </div>
+    <!-- Libri notevoli -->
+    <div style="font-size:.62rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:.8rem 0 .4rem;">⭐ LIBRI NOTEVOLI</div>
+    <div style="display:flex;flex-direction:column;gap:.3rem;">
+      <div style="background:var(--card);border-radius:12px;padding:.6rem .8rem;border-left:3px solid #c0392b;">
+        <div style="font-size:.82rem;font-weight:700;color:var(--text);">Gateway Secret — Cervello Umano</div>
+        <div style="font-size:.68rem;color:var(--muted);">Le potenzialita nascoste · 30MB · Vari Elettrocoltura</div>
+      </div>
+      <div style="background:var(--card);border-radius:12px;padding:.6rem .8rem;border-left:3px solid #8e44ad;">
+        <div style="font-size:.82rem;font-weight:700;color:var(--text);">Dawson Church — Cervello Quantico</div>
+        <div style="font-size:.68rem;color:var(--muted);">Epigenetica e coscienza · 13MB · Vari Elettrocoltura</div>
+      </div>
+      <div style="background:var(--card);border-radius:12px;padding:.6rem .8rem;border-left:3px solid #d4870a;">
+        <div style="font-size:.82rem;font-weight:700;color:var(--text);">Fondamenti Fisica — Halliday Resnick Walker</div>
+        <div style="font-size:.68rem;color:var(--muted);">Elettrologia Magnetismo Ottica · 117MB · Riferimento scientifico</div>
+      </div>
+      <div style="background:var(--card);border-radius:12px;padding:.6rem .8rem;border-left:3px solid #27ae60;">
+        <div style="font-size:.82rem;font-weight:700;color:var(--text);">Soil Biology Primer — Elaine Ingham</div>
+        <div style="font-size:.68rem;color:var(--muted);">Biologia del suolo · Base del Living Soil</div>
+      </div>
+      <div style="background:var(--card);border-radius:12px;padding:.6rem .8rem;border-left:3px solid #2563eb;">
+        <div style="font-size:.82rem;font-weight:700;color:var(--text);">Electroculture Biohacker Guide — Arce</div>
+        <div style="font-size:.68rem;color:var(--muted);">Guida pratica moderna · 19MB</div>
+      </div>
+    </div>
+    <!-- Link a Drive -->
+    <div style="margin-top:.8rem;background:linear-gradient(135deg,#1a3a6b,#1d4ed8);border-radius:14px;padding:.8rem 1rem;text-align:center;">
+      <div style="font-size:.75rem;color:rgba(255,255,255,.8);margin-bottom:.4rem;">Apri su Google Drive</div>
+      <a href="https://drive.google.com/drive/folders/0AMLbvEKt0nnsUk9PVA" target="_blank" style="color:#fff;font-size:.85rem;font-weight:700;text-decoration:none;">📂 Apri cartella Drive →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Drive Panel ──
+function labApriDrive() {
+  var el = document.getElementById('lab-panel-drive');
+  if(el) el.style.display='block';
+  // Aggiorna contatore connessioni
+  caricaEDB(function(){
+    if(EDBV2) {
+      var tot = (EDBV2.connessioni||[]).length;
+      var el2 = document.getElementById('drive-conn-count');
+      if(el2) el2.textContent = tot;
+    }
+  });
+}
+
+function apriFolderDrive(cat) {
+  var urls = {
+    'elettrocoltura': 'https://drive.google.com/drive/folders/1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ',
+    'magia': 'https://drive.google.com/drive/folders/1JvlnGZZkeExD-0UFo5TbwOwvbpk1bzIt',
+    'spirituali': 'https://drive.google.com/drive/folders/11WAKNC8UeAPuiCjictXWbB-xmT9B3P95',
+    'libri_sacri': 'https://drive.google.com/drive/folders/1AxklxW4x3r4sVPBktOd_4ECgDhcnZgQW',
+    'coltivazione': 'https://drive.google.com/drive/folders/1TEAFBagHAphb9fXAtBZQTbaLrJwxt7c2'
+  };
+  var url = urls[cat];
+  if(url) window.open(url, '_blank');
+}
+
+// ── Widget Calendario in Home ──
+async function aggiornaCalendarioHome() {
+  var el = document.getElementById('home-calendar-widget');
+  if(!el) return;
+  
+  // Prossimi eventi serra da Calendar (dati statici basati sugli eventi creati)
+  var oggi = new Date();
+  var prossimiEventi = [
+    {
+      titolo: '🌿 Giornata Biologica',
+      data: new Date(oggi.getFullYear(), oggi.getMonth(), 14),
+      colore: '#27ae60',
+      desc: 'Ortiche + Humus + Miscela organica'
+    },
+    {
+      titolo: '🍯 Melassa',
+      data: new Date(oggi.getFullYear(), oggi.getMonth(), 21),
+      colore: '#d4870a',
+      desc: '1ml/L in bottiglia separata'
+    }
+  ];
+  
+  // Ordina e prendi solo quelli futuri
+  var futuri = prossimiEventi
+    .filter(function(e){ return e.data >= oggi; })
+    .sort(function(a,b){ return a.data-b.data; });
+  
+  if(!futuri.length) {
+    el.innerHTML = '';
+    return;
+  }
+  
+  var prossimo = futuri[0];
+  var diff = Math.ceil((prossimo.data - oggi) / 86400000);
+  var diffStr = diff === 0 ? 'OGGI' : diff === 1 ? 'DOMANI' : 'tra ' + diff + ' giorni';
+  
+  el.innerHTML = '<div style="background:var(--card);border-radius:14px;padding:.65rem .9rem;display:flex;align-items:center;gap:.7rem;box-shadow:var(--one-shadow-sm);cursor:pointer;border-left:3px solid '+prossimo.colore+';" onclick="goNav('diario')">' +
+    '<div style="text-align:center;min-width:40px;">' +
+    '<div style="font-size:.58rem;font-weight:800;color:'+prossimo.colore+';text-transform:uppercase;">📅 CALENDAR</div>' +
+    '<div style="font-size:.65rem;font-weight:800;color:var(--text);">'+diffStr+'</div>' +
+    '</div>' +
+    '<div style="flex:1;min-width:0;">' +
+    '<div style="font-size:.84rem;font-weight:700;color:var(--text);">'+prossimo.titolo+'</div>' +
+    '<div style="font-size:.7rem;color:var(--muted);">'+prossimo.desc+'</div>' +
+    '</div>' +
+    '<div style="font-size:.7rem;color:var(--muted);">›</div>' +
+    '</div>';
+}
+
+// Avvia widget calendario dopo caricamento
+document.addEventListener('DOMContentLoaded', function(){
+  setTimeout(aggiornaCalendarioHome, 1500);
+});
+
+// ── Aggiorna buildSistemaPrompt con contesto Drive reale ──
+var _origBuildSistema = buildSistemaPrompt;
+buildSistemaPrompt = function() {
+  var base = _origBuildSistema ? _origBuildSistema() : '';
+  var driveCtx = 'LIBRERIA DRIVE: 134 PDF in 5 categorie. ' +
+    'Elettrocoltura (73 PDF): Christofleau 1920, Tesla, Ighina, Bertholon 1783, Nollet, Restrepo, Joseph, Rol, ' +
+    'Gateway Secret, Dawson Church Cervello Quantico, Halliday-Resnick-Walker Fisica, Soil Biology Primer Ingham, ' +
+    'Agricultural Testament Howard, Energy Grid Cathie, Melodie Secretes Ruhlmann, Arce Biohacker Guide, ' +
+    'Ouspensky Tertium Organum, Guerzoni Antenna Uomo, Garnier Malet, Pizzuti, Guenon. ' +
+    'Magia (16 PDF): Aleister Crowley (Magick, Liber 333, Libro della Legge, Thelema), Agrippa, Chiave di Salomone, Grimori. ' +
+    'Libri Sacri (25 PDF): Buddhismo Tripitaka completo, Wicca, Islam Corano, Induismo Bhagavad Gita, ' +
+    'Ebraismo Torah, Cristianesimo Vangeli, Confucianesimo, Baha'i, Shintoismo. ' +
+    'Spirituali (8 PDF): Vangelo Esseno della Pace. ' +
+    'Coltivazione (12 PDF): Steiner biodinamica, Fukuoka, Howard, Mollison permacultura. ';
+  return driveCtx + (base || '');
+};
 </script>
 </body>
 </html>ion labApriAI() {

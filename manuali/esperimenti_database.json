@@ -2218,13 +2218,89 @@
   ],
   "ultimo_aggiornamento": "2026-06-11",
   "drive_folders": {
-    "elettrocoltura": "1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ",
-    "magia": "1JvlnGZZkeExD-0UFo5TbwOwvbpk1bzIt",
-    "spirituali": "11WAKNC8UeAPuiCjictXWbB-xmT9B3P95",
-    "libri_sacri": "1AxklxW4x3r4sVPBktOd_4ECgDhcnZgQW",
-    "coltivazione": "1TEAFBagHAphb9fXAtBZQTbaLrJwxt7c2"
+    "elettrocoltura": {
+      "id": "1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ",
+      "pdf_count": 44,
+      "autori": [
+        "Christofleau",
+        "Tesla",
+        "Ighina",
+        "Bertholon",
+        "Nollet",
+        "Restrepo",
+        "Joseph",
+        "Rol"
+      ]
+    },
+    "magia": {
+      "id": "1JvlnGZZkeExD-0UFo5TbwOwvbpk1bzIt",
+      "pdf_count": 16,
+      "autori": [
+        "Aleister Crowley",
+        "Ermete Trismegisto",
+        "Agrippa",
+        "Chiave di Salomone"
+      ]
+    },
+    "spirituali": {
+      "id": "11WAKNC8UeAPuiCjictXWbB-xmT9B3P95",
+      "pdf_count": 8,
+      "autori": [
+        "Vangelo Esseno"
+      ]
+    },
+    "libri_sacri": {
+      "id": "1AxklxW4x3r4sVPBktOd_4ECgDhcnZgQW",
+      "pdf_count": 25,
+      "autori": [
+        "Buddhismo",
+        "Wicca",
+        "Islam",
+        "Induismo",
+        "Ebraismo",
+        "Cristianesimo",
+        "Confucianesimo",
+        "Baha'i",
+        "Shintoismo"
+      ]
+    },
+    "coltivazione": {
+      "id": "1TEAFBagHAphb9fXAtBZQTbaLrJwxt7c2",
+      "pdf_count": 12,
+      "autori": [
+        "Howard",
+        "Ingham",
+        "Steiner",
+        "Fukuoka"
+      ]
+    },
+    "vari_elettrocoltura": {
+      "id": "1cZtwqRtNnPG5vcubAUnk_QRWm1vXTCWC",
+      "pdf_count": 29,
+      "libri": [
+        "Gateway Secret",
+        "Dawson Church — Cervello Quantico",
+        "Misteri Egitto — Tresoldi",
+        "Il Quinto Accordo — Ruiz",
+        "Tertium Organum — Ouspensky",
+        "Antenna Uomo — Guerzoni",
+        "Garnier Malet — Ouvertures Temporelles",
+        "Elettrotecnica e Automazione — Ortolani",
+        "Fondamenti di Fisica — Halliday Resnick Walker",
+        "Campi Elettromagnetici — Ulaby",
+        "Soil Biology Primer — Ingham",
+        "Agricultural Testament — Howard",
+        "Energy Grid — Bruce Cathie",
+        "Melodie Secrete des Vegetaux — Ruhlmann",
+        "Electroculture Biohacker Guide — Arce",
+        "Electroculture Starter Kit — Andrea",
+        "Electroculture for Beginners — Ramos",
+        "Scoperte Scientifiche — Pizzuti",
+        "Simboli Scienza Sacra — Guenon"
+      ]
+    }
   },
-  "totale_pdf_drive": 36,
+  "totale_pdf_drive": 134,
   "catalogo_drive": [
     {
       "titolo": "Christofleau — Electroculture (1920)",
@@ -2406,5 +2482,13 @@
       "drive_id": "15VZoTA5sfjnqwWkyMS6nW1E0y_wuAACO",
       "url": "https://drive.google.com/file/d/15VZoTA5sfjnqwWkyMS6nW1E0y_wuAACO/view"
     }
-  ]
+  ],
+  "calendar_sync": {
+    "eventi_creati": [
+      "Giornata Biologica mensile (14 ogni mese)",
+      "Melassa ogni 15 giorni",
+      "Te Banana + Cenere (Luglio-Dicembre)"
+    ],
+    "ultimo_sync": "2026-06-11"
+  }
 }
