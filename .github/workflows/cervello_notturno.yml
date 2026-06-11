@@ -1,16 +1,16 @@
-name: 🧠 Cervello Notturno v2
+name: 🧠 Cervello Notturno v3 — 134 PDF Reali
 
 on:
   schedule:
-    - cron: '0 0 * * *'   # Mezzanotte — connessioni nuove
-    - cron: '0 6 * * *'   # 6:00 — analisi mattutina
-    - cron: '0 12 * * *'  # 12:00 — aggiornamento midday
-    - cron: '0 18 * * *'  # 18:00 — serale
+    - cron: '0 0 * * *'   # Mezzanotte
+    - cron: '0 6 * * *'   # 6:00
+    - cron: '0 12 * * *'  # 12:00
+    - cron: '0 18 * * *'  # 18:00
   workflow_dispatch:
     inputs:
-      max_connessioni:
-        description: 'Numero massimo connessioni da generare'
-        default: '6'
+      force_real_pdf:
+        description: 'Forza lettura PDF reali (richiede token Drive)'
+        default: 'true'
 
 jobs:
   cervello:
@@ -22,14 +22,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: 📦 Dipendenze
-        run: pip install pymupdf requests 2>/dev/null || pip install requests
-      - name: 🧠 Esegui Cervello
-        run: python scripts/cervello_notturno.py
-      - name: 💾 Commit
+      - name: 📦 Installa dipendenze
         run: |
-          git config user.name "🧠 Cervello Serra"
+          pip install requests pypdf 2>/dev/null || pip install requests
+          pip install pymupdf 2>/dev/null || true
+      - name: 🧠 Esegui Cervello Notturno v3
+        env:
+          GOOGLE_DRIVE_TOKEN: ${{ secrets.GOOGLE_DRIVE_TOKEN }}
+        run: python scripts/cervello_notturno.py
+      - name: 💾 Commit risultati
+        run: |
+          git config user.name "🧠 Cervello Serra v3"
           git config user.email "cervello@serra.local"
-          git add manuali/esperimenti_database.json scripts/cervello_log.json || true
-          git diff --staged --quiet || git commit -m "🧠 [$(date '+%H:%M')] +connessioni dai manuali Drive"
+          git add manuali/esperimenti_database.json scripts/cervello_log.json scripts/pdf_letture.json || true
+          git diff --staged --quiet || git commit -m "🧠 [$(date '+%H:%M')] v3 — $(python3 -c "import json; d=json.load(open('manuali/esperimenti_database.json')); print(f\"{d.get('pdf_letti_134',0)}/{d.get('pdf_totali_134',134)} PDF · {len(d.get('connessioni',[]))} conn\")" 2>/dev/null || echo "update")"
           git push
