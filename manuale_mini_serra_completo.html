@@ -6798,26 +6798,22 @@ buildSistemaPrompt = function() {
     <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.8rem;border-left:3px solid #f59e0b;box-shadow:var(--one-shadow-sm);">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.3rem;">
         <div style="font-weight:700;font-size:.88rem;color:var(--text);">🤖 Cervello AI GPT-4o-mini</div>
-        <span style="font-size:.65rem;background:#fef3c7;color:#92400e;border-radius:20px;padding:.1rem .45rem;font-weight:700;">DA ATTIVARE</span>
+        <span style="font-size:.65rem;background:#d1fae5;color:#065f46;border-radius:20px;padding:.1rem .45rem;font-weight:700;">ATTIVO</span>
       </div>
       <div style="font-size:.72rem;color:var(--muted);margin-bottom:.2rem;">Ogni notte alle 01:00 usa GPT-4o-mini (gratis N8n) → genera 3 connessioni AI reali → triggera GitHub</div>
       <div style="font-size:.65rem;color:#f59e0b;">⏰ Ore 01:00 ogni notte · ID: S46It7KEHtGuUWru</div>
       <a href="https://francesco467.app.n8n.cloud/workflow/S46It7KEHtGuUWru" target="_blank" style="font-size:.65rem;color:#f59e0b;text-decoration:none;font-weight:700;">Apri in N8n →</a>
     </div>
 
-    <!-- Setup note -->
-    <div style="background:rgba(249,115,22,.08);border-radius:14px;padding:.8rem 1rem;border:1.5px solid rgba(249,115,22,.2);">
-      <div style="font-size:.72rem;font-weight:700;color:#f97316;margin-bottom:.4rem;">⚙️ Setup in 3 passi</div>
+    <!-- Stato configurazione -->
+    <div style="background:rgba(0,135,90,.08);border-radius:14px;padding:.8rem 1rem;border:1.5px solid rgba(0,135,90,.2);">
+      <div style="font-size:.72rem;font-weight:700;color:var(--moss);margin-bottom:.35rem;">✅ Tutto configurato e attivo</div>
       <div style="font-size:.7rem;color:var(--soft);line-height:1.8;">
-        <strong>1. GitHub Token</strong> (per tutti i workflow con GitHub)<br>
-        → In ogni workflow apri il node "Trigger GitHub Cervello"<br>
-        → Credentials → HTTP Header Auth → Name: Authorization<br>
-        → Value: <code style="background:var(--cream);padding:.1rem .3rem;border-radius:4px;">token IL_TUO_GITHUB_TOKEN</code><br><br>
-        <strong>2. OpenAI</strong> (workflow Cervello AI)<br>
-        → Node "Chiama OpenAI" → usa credenziale "n8n free OpenAI API credits" già disponibile<br><br>
-        <strong>3. Attiva</strong><br>
-        → Apri ogni workflow → toggle in alto a destra → ON<br>
-        → I 4 workflow girano automaticamente 🎉
+        🧠 Cervello Notturno → ogni 6 ore analizza i PDF<br>
+        🌤️ Meteo Alert → ogni mattina alle 8:00<br>
+        📋 Digest → ogni lunedì 7:30<br>
+        🤖 Cervello AI GPT-4o-mini → ogni notte ore 1:00<br>
+        <span style="color:var(--moss);font-weight:700;">Tutti i workflow girano automaticamente 🎉</span>
       </div>
     </div>
   </div>

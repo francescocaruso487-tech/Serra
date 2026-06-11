@@ -1,5 +1,5 @@
 // Service Worker — Mini-Serra Living Soil PWA
-const CACHE = 'serra-v46';
+const CACHE = 'serra-v47';
 const ASSETS = ['./manuale_mini_serra_completo.html'];
 
 self.addEventListener('install', e => {
