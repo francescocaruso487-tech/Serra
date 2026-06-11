@@ -6704,22 +6704,4 @@ function apriN8nPanel() {
 }
 </script>
 </body>
-</html>ion labApriAI() {
-  labApriPanel('lab-panel-ai');
-  var key = localStorage.getItem('groq_api_key');
-  var badge = document.getElementById('ai-status-badge');
-  if(badge) badge.textContent = key ? '✅ Connesso' : '⚙️ Configura chiave';
-}
-
-function salvaGroqKey() {
-  var inp = document.getElementById('groq-key-input');
-  if(!inp || !inp.value.trim()) return;
-  localStorage.setItem('groq_api_key', inp.value.trim());
-  mostraToast('✅ Chiave Groq salvata!');
-  var ks = document.getElementById('groq-key-section');
-  if(ks) ks.style.display='none';
-  var badge = document.getElementById('ai-status-badge');
-  if(badge) badge.textContent = '✅ Connesso';
-}
-
-
+</html>
