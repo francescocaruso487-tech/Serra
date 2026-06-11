@@ -6574,7 +6574,7 @@ async function aggiornaCalendarioHome() {
   var diff = Math.ceil((prossimo.data - oggi) / 86400000);
   var diffStr = diff === 0 ? 'OGGI' : diff === 1 ? 'DOMANI' : 'tra ' + diff + ' giorni';
   
-  el.innerHTML = '<div style="background:var(--card);border-radius:14px;padding:.65rem .9rem;display:flex;align-items:center;gap:.7rem;box-shadow:var(--one-shadow-sm);cursor:pointer;border-left:3px solid '+prossimo.colore+';" onclick="goNav('diario')">' +
+  el.innerHTML = '<div style="background:var(--card);border-radius:14px;padding:.65rem .9rem;display:flex;align-items:center;gap:.7rem;box-shadow:var(--one-shadow-sm);cursor:pointer;border-left:3px solid '+prossimo.colore+';" onclick="goNav(\'diario\')">'  +
     '<div style="text-align:center;min-width:40px;">' +
     '<div style="font-size:.58rem;font-weight:800;color:'+prossimo.colore+';text-transform:uppercase;">📅 CALENDAR</div>' +
     '<div style="font-size:.65rem;font-weight:800;color:var(--text);">'+diffStr+'</div>' +
