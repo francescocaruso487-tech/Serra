@@ -1,5 +1,5 @@
 {
-  "versione": "2.3",
+  "versione": "2.4",
   "aggiornato": "2026-06-09",
   "categorie": [
     {
@@ -2362,9 +2362,82 @@
       "generata": "2026-06-11",
       "tipo": "sinergia",
       "fonte": "Drive"
+    },
+    {
+      "a": "Pier Luigi Ighina",
+      "b": "Aleister Crowley",
+      "nota": "La trasformazione unisce Pier e Aleister: elettrocoltura la misura con strumenti scientifici, magia la invoca con rituali millenari. Due linguaggi, una sola realtà.",
+      "tags": [
+        "trasformazione",
+        "energia"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Albert Howard",
+      "b": "Rudolf Steiner",
+      "nota": "Rudolf insegna che terra è alla base di ogni trasformazione. Albert lo dimostra empiricamente: le piante rispondono a questa forza in modo misurabile.",
+      "tags": [
+        "terra",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Albert Howard",
+      "b": "Masanobu Fukuoka",
+      "nota": "La natura unisce Albert e Masanobu: elettrocoltura la misura con strumenti scientifici, coltivazione la invoca con rituali millenari. Due linguaggi, una sola realtà.",
+      "tags": [
+        "terra",
+        "unita",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Albert Howard",
+      "b": "Tao Te Ching",
+      "nota": "Tao insegna che natura è alla base di ogni trasformazione. Albert lo dimostra empiricamente: le piante rispondono a questa forza in modo misurabile.",
+      "tags": [
+        "unita",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Justin Christofleau",
+      "b": "Bhagavad Gita",
+      "nota": "La connessione tra Justin e Bhagavad rivela come vibrazione permei tutto: dalla coltivazione alla spiritualità, dalla fisica alla mistica.",
+      "tags": [
+        "energia",
+        "vibrazione"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Gustavo Adolfo Rol",
+      "b": "Dion Fortune",
+      "nota": "Dion insegna che coscienza è alla base di ogni trasformazione. Gustavo lo dimostra empiricamente: le piante rispondono a questa forza in modo misurabile.",
+      "tags": [
+        "intenzione",
+        "coscienza"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
     }
   ],
-  "ultimo_aggiornamento": "2026-06-11 16:01",
+  "ultimo_aggiornamento": "2026-06-11 17:59",
   "drive_folders": {
     "elettrocoltura": {
       "id": "1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ",
