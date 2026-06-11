@@ -1324,6 +1324,7 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
     <div class="qa" onclick="attivaNotifiche();chiudiAltro()"><div class="qa-ico" id="notif-ico">🔔</div><div class="qa-lbl">Notifiche</div></div>
     <div class="qa" onclick="toggleTema()" id="qa-tema"><div class="qa-ico" id="qa-tema-ico">☀️</div><div class="qa-lbl" id="qa-tema-lbl">Tema Chiaro</div></div>
     <div class="qa" onclick="apriN8nPanel();chiudiAltro()"><div class="qa-ico">⚙️</div><div class="qa-lbl">Automazioni</div></div>
+    <div class="qa" onclick="apriBackupPanel();chiudiAltro()"><div class="qa-ico">💾</div><div class="qa-lbl">Backup Dati</div></div>
   </div>
 </div>
 
@@ -6726,6 +6727,290 @@ function apriN8nPanel() {
   var el = document.getElementById('n8n-panel');
   if(el) el.style.display = 'block';
 }
+</script>
+
+<!-- ═══ PANNELLO BACKUP & RIPRISTINO DATI ═══ -->
+<div id="backup-panel" style="display:none;position:fixed;inset:0;z-index:400;background:var(--main-bg);overflow-y:auto;padding-bottom:4rem;">
+  <div style="position:sticky;top:0;z-index:5;background:linear-gradient(135deg,#1a3a6b,#2563eb);padding:.85rem 1rem .7rem;display:flex;align-items:center;gap:.7rem;">
+    <button onclick="document.getElementById('backup-panel').style.display='none'" style="background:rgba(255,255,255,.15);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:#fff;flex-shrink:0;">←</button>
+    <div style="flex:1;">
+      <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55);">SICUREZZA · DATI PERSONALI</div>
+      <div style="font-size:1.1rem;font-weight:800;color:#fff;">💾 Backup & Ripristino</div>
+    </div>
+  </div>
+  <div style="padding:.9rem 1rem;">
+
+    <!-- Alert importante -->
+    <div style="background:rgba(234,179,8,.1);border:1.5px solid rgba(234,179,8,.4);border-radius:14px;padding:.8rem 1rem;margin-bottom:.8rem;">
+      <div style="font-size:.75rem;font-weight:800;color:#a16207;margin-bottom:.2rem;">⚠️ Perché fare backup?</div>
+      <div style="font-size:.72rem;color:var(--soft);line-height:1.6;">Quando l'app si aggiorna o svuoti la cache del browser, i dati localStorage possono cancellarsi. Il backup ti permette di recuperare tutto in 5 secondi.</div>
+    </div>
+
+    <!-- STATO ATTUALE -->
+    <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.6rem;box-shadow:var(--one-shadow-sm);">
+      <div style="font-size:.65rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;">📊 DATI ATTUALI</div>
+      <div id="backup-stats" style="font-size:.8rem;color:var(--soft);line-height:1.8;">Calcolo...</div>
+    </div>
+
+    <!-- EXPORT -->
+    <div style="font-size:.62rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:.8rem 0 .4rem;">📤 ESPORTA BACKUP</div>
+    <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.4rem;box-shadow:var(--one-shadow-sm);">
+      <div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:.25rem;">Scarica file JSON</div>
+      <div style="font-size:.72rem;color:var(--muted);margin-bottom:.6rem;">Salva tutti i tuoi dati in un file .json sul telefono. Conservalo in Drive o WhatsApp a te stesso.</div>
+      <button onclick="esportaBackup()" style="width:100%;background:var(--moss);color:#fff;border:none;border-radius:12px;padding:.65rem;font-size:.85rem;font-weight:700;cursor:pointer;">📥 Scarica backup-serra.json</button>
+    </div>
+
+    <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.8rem;box-shadow:var(--one-shadow-sm);">
+      <div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:.25rem;">Copia negli appunti</div>
+      <div style="font-size:.72rem;color:var(--muted);margin-bottom:.6rem;">Copia il JSON e incollalo su Notes, Google Docs, Telegram — ovunque.</div>
+      <button onclick="copiaBackup()" style="width:100%;background:var(--cream);color:var(--text);border:1.5px solid var(--sand);border-radius:12px;padding:.65rem;font-size:.85rem;font-weight:700;cursor:pointer;">📋 Copia negli appunti</button>
+    </div>
+
+    <!-- IMPORT -->
+    <div style="font-size:.62rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:.8rem 0 .4rem;">📥 RIPRISTINA BACKUP</div>
+    <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.4rem;box-shadow:var(--one-shadow-sm);">
+      <div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:.25rem;">Incolla JSON</div>
+      <div style="font-size:.72rem;color:var(--muted);margin-bottom:.5rem;">Incolla qui il contenuto del tuo backup e premi Ripristina.</div>
+      <textarea id="import-json-input" placeholder='Incolla qui il tuo JSON di backup...' style="width:100%;box-sizing:border-box;padding:.5rem .7rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-family:monospace;font-size:.72rem;color:var(--text);resize:none;height:80px;outline:none;margin-bottom:.5rem;"></textarea>
+      <button onclick="ripristinaBackup()" style="width:100%;background:#dc2626;color:#fff;border:none;border-radius:12px;padding:.65rem;font-size:.85rem;font-weight:700;cursor:pointer;">🔄 Ripristina dati</button>
+    </div>
+
+    <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;box-shadow:var(--one-shadow-sm);">
+      <div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:.25rem;">Carica file</div>
+      <div style="font-size:.72rem;color:var(--muted);margin-bottom:.5rem;">Seleziona il file .json salvato in precedenza.</div>
+      <label style="display:block;width:100%;box-sizing:border-box;background:var(--cream);color:var(--text);border:1.5px dashed var(--sand);border-radius:12px;padding:.65rem;font-size:.85rem;font-weight:700;cursor:pointer;text-align:center;">
+        📂 Seleziona backup-serra.json
+        <input type="file" accept=".json" onchange="caricaFileBackup(this)" style="display:none;">
+      </label>
+    </div>
+
+    <!-- Auto-backup IndexedDB -->
+    <div style="margin-top:.8rem;background:rgba(0,135,90,.08);border-radius:14px;padding:.8rem 1rem;border:1px solid rgba(0,135,90,.2);">
+      <div style="font-size:.72rem;font-weight:800;color:var(--moss);margin-bottom:.2rem;">✅ Auto-backup attivo</div>
+      <div style="font-size:.7rem;color:var(--soft);line-height:1.5;">I dati vengono salvati automaticamente anche in IndexedDB (più resistente di localStorage). Se localStorage si svuota, l'app tenta il ripristino automatico.</div>
+      <div id="idb-status" style="font-size:.68rem;color:var(--muted);margin-top:.3rem;">Verifica in corso...</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// SISTEMA BACKUP & RIPRISTINO DATI SERRA
+// ═══════════════════════════════════════════════════
+
+// ── IndexedDB — più persistente di localStorage ──
+var IDB_NAME = 'SerraDB', IDB_VERSION = 1, IDB_STORE = 'backup';
+var idbInstance = null;
+
+function apriIDB(cb) {
+  if(idbInstance) { cb(idbInstance); return; }
+  var req = indexedDB.open(IDB_NAME, IDB_VERSION);
+  req.onupgradeneeded = function(e) {
+    e.target.result.createObjectStore(IDB_STORE, {keyPath:'id'});
+  };
+  req.onsuccess = function(e) {
+    idbInstance = e.target.result;
+    cb(idbInstance);
+  };
+  req.onerror = function() { cb(null); };
+}
+
+function salvaIDB(data) {
+  apriIDB(function(db) {
+    if(!db) return;
+    var tx = db.transaction(IDB_STORE, 'readwrite');
+    tx.objectStore(IDB_STORE).put({
+      id: 'serra_main',
+      data: data,
+      ts: new Date().toISOString(),
+      versione: typeof DB !== 'undefined' ? (DB.version || '1') : '1'
+    });
+  });
+}
+
+function leggiIDB(cb) {
+  apriIDB(function(db) {
+    if(!db) { cb(null); return; }
+    var tx = db.transaction(IDB_STORE, 'readonly');
+    var req = tx.objectStore(IDB_STORE).get('serra_main');
+    req.onsuccess = function() { cb(req.result || null); };
+    req.onerror = function() { cb(null); };
+  });
+}
+
+// ── Salvataggio doppio: localStorage + IndexedDB ──
+// Intercetta la funzione salva() esistente
+var _salvaSerra_orig = null;
+function initBackupSystem() {
+  // Salva anche in IDB ogni volta che si salva in localStorage
+  var origSalva = window.salva;
+  if(origSalva) {
+    window.salva = function() {
+      origSalva.apply(this, arguments);
+      try {
+        var d = localStorage.getItem('serra5');
+        if(d) salvaIDB(d);
+      } catch(e) {}
+    };
+  }
+  var origSilent = window.salvaSilenzioso;
+  if(origSilent) {
+    window.salvaSilenzioso = function() {
+      origSilent.apply(this, arguments);
+      try {
+        var d = localStorage.getItem('serra5');
+        if(d) salvaIDB(d);
+      } catch(e) {}
+    };
+  }
+  // Verifica se localStorage è vuoto ma IDB ha dati → ripristino automatico
+  var curr = localStorage.getItem('serra5');
+  if(!curr || curr === 'null') {
+    leggiIDB(function(record) {
+      if(record && record.data) {
+        try {
+          localStorage.setItem('serra5', record.data);
+          var el = document.getElementById('idb-status');
+          if(el) el.innerHTML = '<strong style="color:var(--moss)">✅ Ripristino automatico eseguito da backup IDB del ' + new Date(record.ts).toLocaleDateString('it-IT') + '</strong>';
+          toast('✅ Dati ripristinati automaticamente!', 3000);
+          setTimeout(function() { location.reload(); }, 1500);
+        } catch(e) {}
+      }
+    });
+  }
+  // Salva subito in IDB al primo avvio
+  setTimeout(function() {
+    var d = localStorage.getItem('serra5');
+    if(d) salvaIDB(d);
+    aggiornaStatBackup();
+    var el = document.getElementById('idb-status');
+    if(el) el.textContent = '✅ IndexedDB attivo — backup automatico ad ogni salvataggio';
+  }, 1500);
+}
+
+// ── Pannello backup ──
+function apriBackupPanel() {
+  var el = document.getElementById('backup-panel');
+  if(el) el.style.display = 'block';
+  aggiornaStatBackup();
+}
+
+function aggiornaStatBackup() {
+  var el = document.getElementById('backup-stats');
+  if(!el) return;
+  try {
+    var raw = localStorage.getItem('serra5');
+    if(!raw) { el.innerHTML = '⚠️ Nessun dato trovato in localStorage'; return; }
+    var db = JSON.parse(raw);
+    var nGiorni = Object.keys(db.days || {}).length;
+    var nOp = Object.values(db.days || {}).reduce(function(t,d){ return t + Object.keys(d.ops||{}).length; }, 0);
+    var nPiante = (db.piante || []).length;
+    var tecAp = Object.values(db.tecStatus || {}).filter(Boolean).length;
+    var sizeKB = Math.round(raw.length / 1024);
+    el.innerHTML =
+      '📅 Giorni nel diario: <strong>' + nGiorni + '</strong><br>' +
+      '✅ Operazioni registrate: <strong>' + nOp + '</strong><br>' +
+      '🌿 Piante: <strong>' + nPiante + '</strong><br>' +
+      '⚡ Tecniche applicate: <strong>' + tecAp + '</strong><br>' +
+      '💾 Dimensione: <strong>' + sizeKB + ' KB</strong>';
+    leggiIDB(function(rec) {
+      if(rec) el.innerHTML += '<br>🔒 Ultimo backup IDB: <strong>' + new Date(rec.ts).toLocaleString('it-IT') + '</strong>';
+    });
+  } catch(e) {
+    el.textContent = 'Errore lettura dati: ' + e.message;
+  }
+}
+
+function esportaBackup() {
+  try {
+    var raw = localStorage.getItem('serra5');
+    if(!raw) { toast('Nessun dato da esportare', 2000); return; }
+    var blob = new Blob([raw], {type:'application/json'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    var data = new Date().toISOString().slice(0,10);
+    a.href = url;
+    a.download = 'backup-serra-' + data + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast('✅ Backup scaricato!', 2000);
+    salvaIDB(raw); // aggiorna anche IDB
+  } catch(e) {
+    toast('Errore export: ' + e.message, 3000);
+  }
+}
+
+function copiaBackup() {
+  try {
+    var raw = localStorage.getItem('serra5');
+    if(!raw) { toast('Nessun dato da copiare', 2000); return; }
+    navigator.clipboard.writeText(raw).then(function() {
+      toast('✅ Copiato negli appunti! Incollalo su Notes o Drive.', 2500);
+    }).catch(function() {
+      var ta = document.createElement('textarea');
+      ta.value = raw;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      toast('✅ Copiato!', 2000);
+    });
+  } catch(e) {
+    toast('Errore: ' + e.message, 2000);
+  }
+}
+
+function ripristinaBackup() {
+  var inp = document.getElementById('import-json-input');
+  if(!inp || !inp.value.trim()) { toast('Incolla prima il JSON', 2000); return; }
+  try {
+    var parsed = JSON.parse(inp.value.trim());
+    // Verifica che sia un DB serra valido
+    if(!parsed.days && !parsed.piante && !parsed.version) {
+      toast('⚠️ Il JSON non sembra un backup Serra valido', 2500);
+      return;
+    }
+    if(!confirm('Sovrascrivere i dati attuali con il backup? Questa azione non è reversibile.')) return;
+    localStorage.setItem('serra5', inp.value.trim());
+    salvaIDB(inp.value.trim());
+    toast('✅ Dati ripristinati! Ricarico l'app...', 2000);
+    setTimeout(function() { location.reload(); }, 1800);
+  } catch(e) {
+    toast('❌ JSON non valido: ' + e.message, 3000);
+  }
+}
+
+function caricaFileBackup(input) {
+  var file = input.files[0];
+  if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var content = e.target.result;
+      var parsed = JSON.parse(content);
+      if(!parsed.days && !parsed.piante && !parsed.version) {
+        toast('⚠️ File non valido — non sembra un backup Serra', 2500);
+        return;
+      }
+      if(!confirm('Ripristinare i dati da "' + file.name + '"? I dati attuali verranno sostituiti.')) return;
+      localStorage.setItem('serra5', content);
+      salvaIDB(content);
+      toast('✅ Dati ripristinati da file! Ricarico...', 2000);
+      setTimeout(function() { location.reload(); }, 1800);
+    } catch(err) {
+      toast('❌ File non valido: ' + err.message, 3000);
+    }
+  };
+  reader.readAsText(file);
+}
+
+// Avvia il sistema backup al caricamento
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(initBackupSystem, 800);
+});
 </script>
 </body>
 </html>
