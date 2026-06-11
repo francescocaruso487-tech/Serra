@@ -135,5 +135,26 @@
     "pdf_totali": 94,
     "pct": 32,
     "modo": "offline"
+  },
+  {
+    "data": "2026-06-11 23:11",
+    "batch": [
+      "Restrepo — Agricultura Organic",
+      "Corso Elettrocoltura",
+      "Tesla — Energia Frequenze Vibr",
+      "Gateway Secret — Potenzialita ",
+      "Tresoldi — I Misteri dell Anti",
+      "Nollet — Lezioni di Fisica 1",
+      "Ighina — El Atomo Magnetico",
+      "Ricerca Agro-Alimentare 2019",
+      "Elcult2",
+      "Nollet — De l'Electricite des "
+    ],
+    "nuove_connessioni": 6,
+    "totale_connessioni": 92,
+    "pdf_letti": 40,
+    "pdf_totali": 94,
+    "pct": 43,
+    "modo": "offline"
   }
 ]

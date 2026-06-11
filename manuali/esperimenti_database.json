@@ -1,5 +1,5 @@
 {
-  "versione": "2.8",
+  "versione": "2.9",
   "aggiornato": "2026-06-09",
   "categorie": [
     {
@@ -2697,9 +2697,105 @@
         "1EG4LZp95GXkQk_d_xUh82iuQ-2XI8I7f",
         "1HlreWsMdJTKToA_gK1LvT-wkVZnPodV_"
       ]
+    },
+    {
+      "a": "Vari — Corso Elettrocoltura",
+      "b": "Restrepo Pinheiro — Restrepo — Agricultura Organica Harina de Roc",
+      "nota": "Connessione reale: Vari e Restrepo Pinheiro condividono la comprensione della natura come forza ordinatrice del vivente. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "natura",
+        "crescita"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "1HMIFeQosi0kTPzC2stM4G8yiMcoQ2LvF",
+        "1Cz_NMIScAW63mJP4iglxqzNGhHPOygzR"
+      ]
+    },
+    {
+      "a": "Vari — Corso Elettrocoltura",
+      "b": "Roberto Tresoldi — Tresoldi — I Misteri dell Antico Egitto",
+      "nota": "Vari e Roberto Tresoldi convergono sulla natura: elettrocoltura la misura con strumenti fisici, coltivazione la descrive con simboli antichi. Due linguaggi, una sola forza. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "natura",
+        "crescita"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "1HMIFeQosi0kTPzC2stM4G8yiMcoQ2LvF",
+        "1Y7AvFUZh90HnDx4a21-gkeNZUsf6ywMP"
+      ]
+    },
+    {
+      "a": "Nikola Tesla — Tesla — Energia Frequenze Vibrazioni",
+      "b": "Restrepo Pinheiro — Restrepo — Agricultura Organica Harina de Roc",
+      "nota": "Restrepo Pinheiro (coltivazione) insegna che la natura e alla base di ogni trasformazione. Nikola Tesla lo dimostra empiricamente nel campo della elettrocoltura. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "natura",
+        "crescita"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "1jkvl9ZJY6ZESsf06lBOrzerDcqizj1HV",
+        "1Cz_NMIScAW63mJP4iglxqzNGhHPOygzR"
+      ]
+    },
+    {
+      "a": "Nikola Tesla — Tesla — Energia Frequenze Vibrazioni",
+      "b": "Roberto Tresoldi — Tresoldi — I Misteri dell Antico Egitto",
+      "nota": "Connessione reale: Nikola Tesla e Roberto Tresoldi condividono la comprensione della natura come forza ordinatrice del vivente. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "natura",
+        "crescita"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "1jkvl9ZJY6ZESsf06lBOrzerDcqizj1HV",
+        "1Y7AvFUZh90HnDx4a21-gkeNZUsf6ywMP"
+      ]
+    },
+    {
+      "a": "CIA + Vari — Gateway Secret — Potenzialita Cervello",
+      "b": "Restrepo Pinheiro — Restrepo — Agricultura Organica Harina de Roc",
+      "nota": "Connessione reale: CIA + Vari e Restrepo Pinheiro condividono la comprensione della natura come forza ordinatrice del vivente. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "natura",
+        "crescita"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "13OgT70YQllQ6bnhO4ew34GNP8UX_7pay",
+        "1Cz_NMIScAW63mJP4iglxqzNGhHPOygzR"
+      ]
+    },
+    {
+      "a": "CIA + Vari — Gateway Secret — Potenzialita Cervello",
+      "b": "Roberto Tresoldi — Tresoldi — I Misteri dell Antico Egitto",
+      "nota": "Roberto Tresoldi (coltivazione) insegna che la natura e alla base di ogni trasformazione. CIA + Vari lo dimostra empiricamente nel campo della elettrocoltura. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "natura",
+        "crescita"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "13OgT70YQllQ6bnhO4ew34GNP8UX_7pay",
+        "1Y7AvFUZh90HnDx4a21-gkeNZUsf6ywMP"
+      ]
     }
   ],
-  "ultimo_aggiornamento": "2026-06-11 23:00",
+  "ultimo_aggiornamento": "2026-06-11 23:11",
   "drive_folders": {
     "elettrocoltura": {
       "id": "1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ",
@@ -2985,7 +3081,7 @@
       "Il Quinto Accordo - Don Miguel e Don Jose Ruiz"
     ]
   },
-  "pdf_letti_134": 30,
+  "pdf_letti_134": 40,
   "pdf_totali_134": 94,
-  "pdf_percentuale": 32
+  "pdf_percentuale": 43
 }
