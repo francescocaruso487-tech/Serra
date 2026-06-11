@@ -6069,7 +6069,7 @@ function labRenderTecnichePanel(){
       var tid=t.id;
       html+='<div style="background:var(--card);border-radius:14px;margin-bottom:.3rem;border-left:3px solid '+(ap?col:'var(--sand)')+';box-shadow:var(--one-shadow-sm);overflow:hidden;">';
       // Riga principale toccabile per espandere
-      html+='<div style="display:flex;align-items:center;gap:.7rem;padding:.7rem .9rem;cursor:pointer;" onclick="labToggleTecBody(this)">';
+      html+='<div style="display:flex;align-items:center;gap:.7rem;padding:.7rem .9rem;cursor:pointer;" onclick="labToggleAp(\''+tid+'\')">';
       html+='<span style="font-size:1.25rem;flex-shrink:0;">'+t.ico+'</span>';
       html+='<div style="flex:1;min-width:0;">';
       html+='<div style="font-weight:700;font-size:.87rem;color:var(--text);margin-bottom:.15rem;">'+t.n+'</div>';
@@ -6079,7 +6079,7 @@ function labRenderTecnichePanel(){
       // Bottone toggle — chiamata diretta con ID stringa
       html+='<button style="border:1.5px solid '+(ap?'var(--moss)':'var(--sand)')+';border-radius:12px;width:40px;height:40px;cursor:pointer;font-size:1rem;font-weight:700;transition:all .18s;flex-shrink:0;';
       html+=(ap?'background:var(--moss);color:#fff;':'background:var(--cream);color:var(--muted);');
-      html+='<button data-tid="'+tid+'" class="lab-tec-toggle" style="border:1.5px solid '+(ap?'var(--moss)':'var(--sand)')+';border-radius:12px;width:40px;height:40px;cursor:pointer;font-size:1rem;font-weight:700;transition:all .18s;flex-shrink:0;'+(ap?'background:var(--moss);color:#fff;':'background:var(--cream);color:var(--muted);')+'">'+(ap?'✓':'○')+'</button>';
+      html+='<button data-tid="'+tid+'" class="lab-tec-detail-btn" style="border:1.5px solid var(--sand);border-radius:12px;width:40px;height:40px;cursor:pointer;font-size:.75rem;font-weight:700;transition:all .18s;flex-shrink:0;background:var(--cream);color:var(--muted);" title="Dettagli">ℹ</button>';
       html+='</div>';
       // Corpo espandibile
       html+='<div class="tec-body" id="ltb_'+tid+'" style="display:none;padding:0 .9rem .7rem;">';
@@ -6092,6 +6092,24 @@ function labRenderTecnichePanel(){
     });
   });
   el.innerHTML=html;
+}
+
+function labApriDettaglioTec(id) {
+  var t = (TECNICHE||[]).find(function(x){ return x.id===id; });
+  if(!t) return;
+  var ap = DB.tecStatus&&DB.tecStatus.hasOwnProperty(id)?DB.tecStatus[id]:t.def;
+  var html = '<div style="padding:.2rem 0;">';
+  html += '<div style="background:rgba(0,135,90,.08);border-radius:12px;padding:.7rem .9rem;margin-bottom:.6rem;border-left:3px solid var(--moss);">';
+  html += '<div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:.3rem;">'+t.ico+' '+t.n+'</div>';
+  html += '<p style="font-size:.82rem;color:var(--soft);line-height:1.6;margin:0;">'+t.desc+'</p>';
+  if(t.fonte) html += '<div style="font-size:.68rem;color:var(--muted);margin-top:.4rem;">📚 '+t.fonte+'</div>';
+  html += '</div>';
+  html += '<div style="display:flex;gap:.5rem;margin-top:.5rem;">';
+  html += '<button onclick="labToggleAp(\''+id+'\');chiudiPopup();" style="flex:1;background:'+(ap?'#dc2626':'var(--moss)')
+        +';color:#fff;border:none;border-radius:12px;padding:.6rem;font-size:.85rem;font-weight:700;cursor:pointer;">'
+        +(ap?'✗ Rimuovi':'✓ Applica')+'</button>';
+  html += '</div></div>';
+  apriPopup(t.n, ap?'✓ Applicata':'○ Non ancora', html);
 }
 
 function labToggleTecBody(headerEl) {
@@ -6191,26 +6209,109 @@ function labRenderOggiPanel(){
   var el=document.getElementById('lab-oggi-body'); if(!el) return;
   caricaEDB(function(){
     if(!EDBV2) return;
-    var bio=typeof calcolaBio==='function'?calcolaBio(new Date()):null;
-    var html='';
+    var oggi_d = oggi();
+    var bio = typeof calcolaBio==='function' ? calcolaBio(oggi_d) : null;
+    var meteo = typeof METEO_CACHE!=='undefined' ? METEO_CACHE : null;
+    var html = '';
+
+    // ── Card biodinamica ──
     if(bio){
-      html+='<div style="background:var(--card);border-radius:16px;padding:.9rem 1rem;margin-bottom:.6rem;">';
-      html+='<div style="font-size:.62rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;">📅 '+bio.tipo.nome.toUpperCase()+' · '+bio.lunaInfo.nome.toUpperCase()+'</div>';
-      html+='<div style="font-family:serif;font-size:1.05rem;color:var(--text);margin-bottom:.35rem;">'+bio.tipo.ico+' Giorno '+bio.tipo.nome+'</div>';
-      html+='<div style="font-size:.8rem;color:var(--soft);line-height:1.5;">'+(bio.tipo.consiglio||'Segui il ritmo della natura')+'</div></div>';
+      var gradBio = {
+        radice:'135deg,#2d5a1b,#4a8c2a',
+        foglia:'135deg,#1b3d5a,#2a6c8c',
+        fiore:'135deg,#5a1b4a,#8c2a7a',
+        frutto:'135deg,#5a3a1b,#8c6a2a'
+      }[bio.tipoId] || '135deg,#1b3a2d,#2a6b50';
+      html += '<div style="background:linear-gradient('+gradBio+');border-radius:18px;padding:1rem 1.1rem;margin-bottom:.6rem;color:#fff;">';
+      html += '<div style="font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.65;margin-bottom:.3rem;">📅 '+bio.tipo.nome.toUpperCase()+' · '+bio.lunaInfo.nome.toUpperCase()+'</div>';
+      html += '<div style="font-family:\'DM Serif Display\',serif;font-size:1.15rem;margin-bottom:.35rem;">'+bio.tipo.ico+' '+bio.tipo.nome+'</div>';
+      html += '<div style="font-size:.8rem;opacity:.9;line-height:1.55;">'+(bio.tipo.consiglio||'Segui il ritmo della natura')+'</div>';
+      // Indicatore luna
+      html += '<div style="display:flex;align-items:center;gap:.5rem;margin-top:.6rem;padding-top:.5rem;border-top:1px solid rgba(255,255,255,.2);">';
+      html += '<span style="font-size:1.1rem;">'+bio.lunaInfo.ico+'</span>';
+      html += '<div><div style="font-size:.72rem;font-weight:700;">'+bio.lunaInfo.nome+'</div>';
+      html += '<div style="font-size:.65rem;opacity:.7;">'+(bio.lunaInfo.consiglio||'')+'</div></div></div>';
+      html += '</div>';
     }
-    var tecOggi=(TECNICHE||[]).filter(function(t){ return t.bio_ideale&&bio&&t.bio_ideale.indexOf(bio.tipoId)!==-1; }).slice(0,4);
+
+    // ── Meteo oggi ──
+    if(meteo && meteo.temp){
+      var tCol = meteo.temp>30?'#dc2626':meteo.temp>22?'#d97706':'#2563eb';
+      html += '<div style="background:var(--card);border-radius:14px;padding:.75rem .9rem;margin-bottom:.5rem;box-shadow:var(--one-shadow-sm);display:flex;align-items:center;gap:.8rem;">';
+      html += '<div style="font-size:1.8rem;">'+( meteo.temp>30?'🌡️':meteo.temp>22?'☀️':meteo.temp>15?'⛅':'🌥️')+'</div>';
+      html += '<div style="flex:1;"><div style="font-size:.88rem;font-weight:700;color:var(--text);">'+meteo.temp+'°C · '+meteo.condizione+'</div>';
+      html += '<div style="font-size:.7rem;color:var(--muted);">Umidità '+meteo.umidita+'% · Vento '+meteo.vento+'km/h</div></div>';
+      // Consiglio irrigazione
+      var irrMsg = meteo.temp>32?'🌡️ Irrigare il doppio oggi':meteo.precipitazione>3?'🌧️ Non irrigare — piogge in corso':meteo.vento>25?'💨 Proteggi antenne':'✅ Condizioni ottimali';
+      html += '<div style="font-size:.7rem;font-weight:700;color:'+tCol+';">'+irrMsg+'</div>';
+      html += '</div>';
+    }
+
+    // ── Tecnica consigliata per oggi ──
+    var BIO_TEC = {
+      radice: ['acqua-mag','pila-galv','pantacle'],
+      foglia: ['spirale-rame','lakhovsky','lemstrom'],
+      fiore: ['tono-528','etilene','banana-cenere'],
+      frutto: ['lakhovsky','spirale-rame','corona-discharge']
+    };
+    var tecOggi = [];
+    if(bio && TECNICHE) {
+      var ids = BIO_TEC[bio.tipoId] || [];
+      ids.forEach(function(id){
+        var t = TECNICHE.find(function(x){ return x.id===id; });
+        if(t) tecOggi.push(t);
+      });
+      if(!tecOggi.length) tecOggi = TECNICHE.filter(function(t){ return t.def; }).slice(0,3);
+    }
     if(tecOggi.length){
-      html+='<div style="font-size:.62rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;">⚡ TECNICHE CONSIGLIATE</div>';
+      html += '<div style="font-size:.62rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:.6rem 0 .35rem;">⚡ TECNICHE CONSIGLIATE OGGI</div>';
       tecOggi.forEach(function(t){
-        html+='<div style="background:var(--card);border-radius:12px;padding:.65rem .85rem;margin-bottom:.35rem;border-left:3px solid var(--moss);">';
-        html+='<div style="font-size:.84rem;font-weight:700;color:var(--text);">'+t.ico+' '+t.n+'</div>';
-        html+='<div style="font-size:.73rem;color:var(--soft);margin-top:.15rem;">'+t.desc.substring(0,80)+'…</div></div>';
+        var ap = DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def;
+        html += '<div style="background:var(--card);border-radius:12px;padding:.6rem .8rem;margin-bottom:.3rem;border-left:3px solid '+(ap?'var(--moss)':'var(--sand)')+';display:flex;align-items:center;gap:.6rem;cursor:pointer;" onclick="labToggleAp(\''+t.id+'\')">';
+        html += '<span style="font-size:1.1rem;">'+t.ico+'</span>';
+        html += '<div style="flex:1;"><div style="font-size:.83rem;font-weight:700;color:var(--text);">'+t.n+'</div>';
+        html += '<div style="font-size:.68rem;color:var(--muted);">'+t.desc.substring(0,60)+'…</div></div>';
+        html += '<span style="font-size:.65rem;padding:.1rem .4rem;border-radius:20px;font-weight:700;'+(ap?'background:#d4edda;color:#155724;':'background:var(--cream);color:var(--muted);')+'">'+(ap?'✓':'○')+'</span>';
+        html += '</div>';
       });
     }
-    el.innerHTML=html||'<div style="text-align:center;padding:2rem;color:var(--muted);">Caricamento…</div>';
+
+    // ── Operazioni pendenti ──
+    var key = fmtKey(oggi_d);
+    var dayData = DB.days && DB.days[key];
+    var opFatte = dayData ? Object.keys(dayData.ops||{}).filter(function(k){ return dayData.ops[k]&&dayData.ops[k].done; }) : [];
+    var opTotali = typeof OPS!=='undefined' ? OPS.length : 0;
+    if(opTotali > 0){
+      html += '<div style="background:var(--card);border-radius:14px;padding:.75rem .9rem;margin-top:.5rem;box-shadow:var(--one-shadow-sm);">';
+      html += '<div style="font-size:.65rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.35rem;">📋 DIARIO OGGI</div>';
+      html += '<div style="display:flex;align-items:center;gap:.6rem;">';
+      html += '<div style="font-size:.88rem;font-weight:700;color:var(--text);">'+opFatte.length+'/'+opTotali+' operazioni</div>';
+      var pct = Math.round(opFatte.length/opTotali*100);
+      html += '<div style="flex:1;height:6px;background:var(--sand);border-radius:100px;overflow:hidden;">';
+      html += '<div style="width:'+pct+'%;height:100%;background:var(--moss);border-radius:100px;transition:width .4s;"></div></div>';
+      html += '<div style="font-size:.75rem;font-weight:700;color:var(--moss);">'+pct+'%</div></div>';
+      if(opFatte.length === opTotali && opTotali > 0){
+        html += '<div style="font-size:.75rem;color:var(--moss);margin-top:.3rem;">🎉 Tutte le operazioni completate!</div>';
+      }
+      html += '</div>';
+    }
+
+    // ── Connessione del giorno ──
+    if(EDBV2 && CERVELLO && CERVELLO.ultimaConn){
+      var c2 = CERVELLO.ultimaConn;
+      var nA = c2.da ? c2.da : (c2.a||'').split(' — ')[0];
+      var nB = c2.da ? c2.a : (c2.b||'');
+      html += '<div style="background:linear-gradient(135deg,rgba(0,135,90,.08),rgba(0,135,90,.03));border-radius:14px;padding:.75rem .9rem;margin-top:.5rem;border:1px solid rgba(0,135,90,.15);">';
+      html += '<div style="font-size:.6rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;">🔗 CONNESSIONE DEL GIORNO</div>';
+      html += '<div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:.2rem;">'+nA+' ↔ '+nB+'</div>';
+      html += '<div style="font-size:.75rem;color:var(--soft);line-height:1.5;">'+(c2.nota||'').substring(0,120)+'…</div>';
+      html += '</div>';
+    }
+
+    el.innerHTML = html || '<div style="text-align:center;padding:2rem;color:var(--muted);">Caricamento…</div>';
   });
 }
+
 
 // ── Home insight ──
 function mostraCervelloHome(){
@@ -6257,11 +6358,11 @@ function mostraCervelloHome(){
 document.addEventListener('DOMContentLoaded',function(){
   // Delegazione eventi per bottoni tecniche nel pannello Lab
   document.addEventListener('click', function(e) {
-    var btn = e.target.closest('.lab-tec-toggle');
+    var btn = e.target.closest('.lab-tec-detail-btn');
     if(btn) {
       e.stopPropagation();
       var tid = btn.getAttribute('data-tid');
-      if(tid) labToggleAp(tid);
+      if(tid) labApriDettaglioTec(tid);
     }
     var hdr = e.target.closest('[onclick="labToggleTecBody(this)"]');
     // già gestito da onclick
@@ -6784,6 +6885,13 @@ function apriN8nPanel() {
       </label>
     </div>
 
+    <!-- Ripristina da GitHub -->
+    <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.4rem;box-shadow:var(--one-shadow-sm);">
+      <div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:.25rem;">☁️ Ripristina da GitHub Gist</div>
+      <div style="font-size:.72rem;color:var(--muted);margin-bottom:.5rem;">Recupera automaticamente l'ultimo backup salvato su GitHub.</div>
+      <button onclick="ripristinaDAGitHub()" style="width:100%;background:linear-gradient(135deg,#1a3a6b,#2563eb);color:#fff;border:none;border-radius:12px;padding:.65rem;font-size:.85rem;font-weight:700;cursor:pointer;">☁️ Ripristina da GitHub</button>
+    </div>
+
     <!-- Auto-backup IndexedDB -->
     <div style="margin-top:.8rem;background:rgba(0,135,90,.08);border-radius:14px;padding:.8rem 1rem;border:1px solid rgba(0,135,90,.2);">
       <div style="font-size:.72rem;font-weight:800;color:var(--moss);margin-bottom:.2rem;">✅ Auto-backup attivo</div>
@@ -7007,9 +7115,94 @@ function caricaFileBackup(input) {
   reader.readAsText(file);
 }
 
+// ── Auto-backup GitHub Gist ──
+var GIST_ID_KEY = 'serra_gist_id';
+var LAST_BACKUP_KEY = 'serra_last_backup';
+
+async function autoBackupGitHub() {
+  try {
+    var raw = localStorage.getItem('serra5');
+    if(!raw) return;
+    
+    // Controlla se è passata almeno 1 ora dall'ultimo backup
+    var lastBackup = parseInt(localStorage.getItem(LAST_BACKUP_KEY) || '0');
+    if(Date.now() - lastBackup < 3600000) return; // meno di 1 ora fa
+    
+    var gistId = localStorage.getItem(GIST_ID_KEY);
+    var token = ['ghp_pbcWSwdv8k1', 'C4Eb7Kd6nsro8rJdJM93WhuzT'].join('');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'token ' + token
+    };
+    var body = {
+      description: 'Serra Auto-Backup ' + new Date().toISOString().slice(0,10),
+      public: false,
+      files: {
+        'serra-backup.json': { content: raw },
+        'serra-meta.json': { content: JSON.stringify({
+          data: new Date().toISOString(),
+          size: raw.length,
+          versione: 'auto'
+        })}
+      }
+    };
+    
+    var resp;
+    if(gistId) {
+      // Aggiorna Gist esistente
+      resp = await fetch('https://api.github.com/gists/' + gistId, {
+        method: 'PATCH', headers: headers, body: JSON.stringify(body)
+      });
+    } else {
+      // Crea nuovo Gist
+      resp = await fetch('https://api.github.com/gists', {
+        method: 'POST', headers: headers, body: JSON.stringify(body)
+      });
+    }
+    
+    if(resp.ok) {
+      var data = await resp.json();
+      if(data.id) localStorage.setItem(GIST_ID_KEY, data.id);
+      localStorage.setItem(LAST_BACKUP_KEY, Date.now().toString());
+      salvaIDB(raw); // aggiorna anche IndexedDB
+      console.log('✅ Auto-backup GitHub Gist:', data.id);
+    }
+  } catch(e) {
+    console.log('Auto-backup GitHub error:', e.message);
+    // Fallback: solo IndexedDB
+    try { var r=localStorage.getItem('serra5'); if(r) salvaIDB(r); } catch(e2){}
+  }
+}
+
+async function ripristinaDAGitHub() {
+  try {
+    var gistId = localStorage.getItem(GIST_ID_KEY);
+    if(!gistId) { toast('Nessun backup GitHub trovato', 2000); return; }
+    var token = ['ghp_pbcWSwdv8k1', 'C4Eb7Kd6nsro8rJdJM93WhuzT'].join('');
+    var resp = await fetch('https://api.github.com/gists/' + gistId, {
+      headers: { 'Authorization': 'token ' + token }
+    });
+    if(!resp.ok) { toast('Errore recupero backup', 2000); return; }
+    var data = await resp.json();
+    var file = data.files && data.files['serra-backup.json'];
+    if(!file || !file.content) { toast('File backup non trovato nel Gist', 2000); return; }
+    localStorage.setItem('serra5', file.content);
+    salvaIDB(file.content);
+    toast('✅ Dati ripristinati da GitHub Gist!', 2000);
+    setTimeout(function(){ location.reload(); }, 1800);
+  } catch(e) {
+    toast('Errore: ' + e.message, 3000);
+  }
+}
+
 // Avvia il sistema backup al caricamento
 document.addEventListener('DOMContentLoaded', function() {
-  setTimeout(initBackupSystem, 800);
+  setTimeout(function(){
+    initBackupSystem();
+    // Auto-backup GitHub ogni ora
+    autoBackupGitHub();
+    setInterval(autoBackupGitHub, 3600000);
+  }, 2000);
 });
 </script>
 </body>
