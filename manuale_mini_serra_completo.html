@@ -861,12 +861,13 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <!-- Widget N8n Automazioni -->
   <div style="margin:.2rem .85rem .1rem;">
     <div style="background:var(--card);border-radius:14px;padding:.65rem .9rem;box-shadow:var(--one-shadow-sm);border-left:3px solid #f97316;">
-      <div style="font-size:.58rem;font-weight:800;color:#f97316;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.25rem;">⚙️ N8N · 4 AUTOMAZIONI ATTIVE</div>
+      <div style="font-size:.58rem;font-weight:800;color:#f97316;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.25rem;">⚙️ N8N · 5 AUTOMAZIONI · NOTION SYNC</div>
       <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
         <span style="font-size:.68rem;background:rgba(249,115,22,.1);color:#f97316;border-radius:20px;padding:.15rem .5rem;">🧠 Cervello /6h</span>
         <span style="font-size:.68rem;background:rgba(249,115,22,.1);color:#f97316;border-radius:20px;padding:.15rem .5rem;">🌤️ Meteo /mattina</span>
         <span style="font-size:.68rem;background:rgba(249,115,22,.1);color:#f97316;border-radius:20px;padding:.15rem .5rem;">📋 Digest /lunedì</span>
         <span style="font-size:.68rem;background:rgba(249,115,22,.1);color:#f97316;border-radius:20px;padding:.15rem .5rem;">🤖 AI GPT /notte</span>
+        <span style="font-size:.68rem;background:rgba(0,0,0,.07);color:#000;border-radius:20px;padding:.15rem .5rem;">📋 Notion /notte</span>
       </div>
       <div style="font-size:.63rem;color:var(--muted);margin-top:.3rem;cursor:pointer;" onclick="apriN8nPanel()">Gestisci workflow → n8n.cloud</div>
     </div>
@@ -6757,7 +6758,7 @@ buildSistemaPrompt = function() {
     <button onclick="document.getElementById('n8n-panel').style.display='none'" style="background:rgba(255,255,255,.15);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:#fff;flex-shrink:0;">←</button>
     <div style="flex:1;">
       <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55);">N8N CLOUD · AUTOMAZIONI</div>
-      <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff;">⚙️ 4 Workflow Attivi</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff;">⚙️ 5 Workflow Attivi</div>
     </div>
     <a href="https://francesco467.app.n8n.cloud" target="_blank" style="font-size:.72rem;background:rgba(255,255,255,.2);color:#fff;border-radius:100px;padding:.25rem .65rem;text-decoration:none;font-weight:700;">Apri N8n →</a>
   </div>
@@ -6805,15 +6806,36 @@ buildSistemaPrompt = function() {
       <a href="https://francesco467.app.n8n.cloud/workflow/S46It7KEHtGuUWru" target="_blank" style="font-size:.65rem;color:#f59e0b;text-decoration:none;font-weight:700;">Apri in N8n →</a>
     </div>
 
+    <!-- Workflow 5 Notion -->
+    <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.4rem;border-left:3px solid #000000;box-shadow:var(--one-shadow-sm);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.3rem;">
+        <div style="font-weight:700;font-size:.88rem;color:var(--text);">📋 Sync Notion + Stats</div>
+        <span style="font-size:.65rem;background:#d1fae5;color:#065f46;border-radius:20px;padding:.1rem .45rem;font-weight:700;">ATTIVO</span>
+      </div>
+      <div style="font-size:.72rem;color:var(--muted);margin-bottom:.2rem;">Ogni notte alle 02:00 sincronizza statistiche Serra su Notion — connessioni, PDF, versione DB</div>
+      <div style="font-size:.65rem;color:#000;">⏰ Ore 02:00 ogni notte · ID: pg1LrA4iv1lFXPhj</div>
+      <div style="display:flex;gap:.6rem;margin-top:.3rem;flex-wrap:wrap;">
+        <a href="https://francesco467.app.n8n.cloud/workflow/pg1LrA4iv1lFXPhj" target="_blank" style="font-size:.65rem;color:#000;text-decoration:none;font-weight:700;">Apri in N8n →</a>
+        <a href="https://app.notion.com/p/a7b70e39f4b4436bb4570d3f0671e956" target="_blank" style="font-size:.65rem;color:#8b5cf6;text-decoration:none;font-weight:700;">Notion Connessioni →</a>
+        <a href="https://app.notion.com/p/5b5c9eabed3640f09ef91562a150fac6" target="_blank" style="font-size:.65rem;color:var(--moss);text-decoration:none;font-weight:700;">Notion Diario →</a>
+      </div>
+    </div>
+
     <!-- Stato configurazione -->
     <div style="background:rgba(0,135,90,.08);border-radius:14px;padding:.8rem 1rem;border:1.5px solid rgba(0,135,90,.2);">
-      <div style="font-size:.72rem;font-weight:700;color:var(--moss);margin-bottom:.35rem;">✅ Tutto configurato e attivo</div>
+      <div style="font-size:.72rem;font-weight:700;color:var(--moss);margin-bottom:.35rem;">✅ 5 Workflow attivi · Tutto automatico</div>
       <div style="font-size:.7rem;color:var(--soft);line-height:1.8;">
-        🧠 Cervello Notturno → ogni 6 ore analizza i PDF<br>
-        🌤️ Meteo Alert → ogni mattina alle 8:00<br>
-        📋 Digest → ogni lunedì 7:30<br>
+        🧠 Cervello Notturno → ogni 6 ore, analizza 134 PDF<br>
+        🌤️ Meteo Alert → ogni mattina ore 8:00<br>
+        📋 Digest Settimanale → lunedì 7:30<br>
         🤖 Cervello AI GPT-4o-mini → ogni notte ore 1:00<br>
-        <span style="color:var(--moss);font-weight:700;">Tutti i workflow girano automaticamente 🎉</span>
+        📋 Sync Notion → ogni notte ore 2:00<br>
+        <span style="color:var(--moss);font-weight:700;">Zero azioni manuali 🎉</span>
+      </div>
+      <div style="margin-top:.5rem;padding-top:.4rem;border-top:1px solid rgba(0,135,90,.15);">
+        <div style="font-size:.65rem;color:var(--muted);margin-bottom:.25rem;">📓 DATABASE NOTION</div>
+        <a href="https://app.notion.com/p/5b5c9eabed3640f09ef91562a150fac6" target="_blank" style="display:block;font-size:.72rem;color:#000;text-decoration:none;padding:.2rem 0;">🌱 Diario Operazioni Serra →</a>
+        <a href="https://app.notion.com/p/a7b70e39f4b4436bb4570d3f0671e956" target="_blank" style="display:block;font-size:.72rem;color:#8b5cf6;text-decoration:none;padding:.2rem 0;">🔗 Connessioni Cross-Dominio →</a>
       </div>
     </div>
   </div>
