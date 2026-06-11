@@ -1,5 +1,5 @@
 {
-  "versione": "2.4",
+  "versione": "2.5",
   "aggiornato": "2026-06-09",
   "categorie": [
     {
@@ -2435,9 +2435,81 @@
       "generata": "2026-06-11",
       "tipo": "sinergia",
       "fonte": "Drive"
+    },
+    {
+      "a": "S. Lemstrom",
+      "b": "Bhagavad Gita",
+      "nota": "La energia unisce S. e Bhagavad: elettrocoltura la misura con strumenti scientifici, spirituale la invoca con rituali millenari. Due linguaggi, una sola realtà.",
+      "tags": [
+        "energia",
+        "vibrazione"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Jairo Restrepo Rivera",
+      "b": "Tao Te Ching",
+      "nota": "Tao insegna che natura è alla base di ogni trasformazione. Jairo lo dimostra empiricamente: le piante rispondono a questa forza in modo misurabile.",
+      "tags": [
+        "acqua",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Jairo Restrepo Rivera",
+      "b": "Rudolf Steiner",
+      "nota": "Rudolf insegna che terra è alla base di ogni trasformazione. Jairo lo dimostra empiricamente: le piante rispondono a questa forza in modo misurabile.",
+      "tags": [
+        "terra",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Jairo Restrepo Rivera",
+      "b": "Vangelo Esseno della Pace",
+      "nota": "La natura unisce Jairo e Vangelo: elettrocoltura la misura con strumenti scientifici, spirituale la invoca con rituali millenari. Due linguaggi, una sola realtà.",
+      "tags": [
+        "acqua",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Jairo Restrepo Rivera",
+      "b": "Masanobu Fukuoka",
+      "nota": "Jairo e Masanobu convergono su un principio fondamentale: terra. Dove elettrocoltura usa strumenti fisici, coltivazione usa pratiche spirituali — ma entrambi descrivono la stessa forza.",
+      "tags": [
+        "terra",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
+    },
+    {
+      "a": "Viktor Schauberger",
+      "b": "Tao Te Ching",
+      "nota": "elettrocoltura e spirituale hanno sviluppato indipendentemente la stessa comprensione di natura. La scienza e la tradizione si incontrano nel giardino.",
+      "tags": [
+        "acqua",
+        "natura"
+      ],
+      "generata": "2026-06-11",
+      "tipo": "sinergia",
+      "fonte": "Drive"
     }
   ],
-  "ultimo_aggiornamento": "2026-06-11 17:59",
+  "ultimo_aggiornamento": "2026-06-11 20:39",
   "drive_folders": {
     "elettrocoltura": {
       "id": "1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ",

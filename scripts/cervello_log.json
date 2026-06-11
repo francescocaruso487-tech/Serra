@@ -61,5 +61,17 @@
       "libri_sacri",
       "coltivazione"
     ]
+  },
+  {
+    "data": "2026-06-11 20:39",
+    "connessioni_trovate": 6,
+    "totale_connessioni": 74,
+    "cartelle_analizzate": [
+      "elettrocoltura",
+      "magia",
+      "spirituali",
+      "libri_sacri",
+      "coltivazione"
+    ]
   }
 ]
