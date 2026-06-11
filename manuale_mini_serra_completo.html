@@ -6085,7 +6085,7 @@ function labRenderTecnichePanel(){
       html+='<div style="height:1px;background:var(--sand);margin-bottom:.55rem;"></div>';
       html+='<p style="font-size:.82rem;color:var(--soft);line-height:1.6;margin:0 0 .5rem;">'+t.desc+'</p>';
       if(t.fonte) html+='<div style="font-size:.68rem;color:var(--muted);margin-bottom:.4rem;">📚 '+t.fonte+'</div>';
-      html+='<textarea placeholder="Note personali..." style="width:100%;box-sizing:border-box;padding:.4rem .6rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-family:inherit;font-size:.78rem;color:var(--text);resize:none;min-height:60px;outline:none;" oninput="saveTecNota(''+tid+'',this.value)">'+(DB.tecNotes&&DB.tecNotes[tid]||'')+'</textarea>';
+      html+='<textarea data-notaid="'+tid+'" class="lab-tec-nota" placeholder="Note personali..." style="width:100%;box-sizing:border-box;padding:.4rem .6rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-family:inherit;font-size:.78rem;color:var(--text);resize:none;min-height:60px;outline:none;">'+(DB.tecNotes&&DB.tecNotes[tid]||'')+'</textarea>';
       html+='</div>';
       html+='</div>';
     });
@@ -6264,6 +6264,10 @@ document.addEventListener('DOMContentLoaded',function(){
     }
     var hdr = e.target.closest('[onclick="labToggleTecBody(this)"]');
     // già gestito da onclick
+  });
+  document.addEventListener('input', function(e) {
+    var ta = e.target.closest('.lab-tec-nota');
+    if(ta) { var nid=ta.getAttribute('data-notaid'); if(nid) saveTecNota(nid, ta.value); }
   });
   setTimeout(function(){
     var homeEl=document.getElementById('home');
