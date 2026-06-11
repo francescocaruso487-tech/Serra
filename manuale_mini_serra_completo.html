@@ -6313,7 +6313,7 @@ function apriLibreriaDrive() {
     var ico = cats[cat]||'📄';
     html += '<div style="font-size:.62rem;font-weight:800;color:'+col+';text-transform:uppercase;letter-spacing:.1em;padding:.7rem 1rem .2rem;">'+ico+' '+cat.toUpperCase()+' ('+gruppi[cat].length+')</div>';
     gruppi[cat].forEach(function(p) {
-      html += '<div onclick="apriPDFDrive(''+p.id+'')" style="margin:.2rem 1rem;background:var(--card);border-radius:14px;border-left:3px solid '+col+';padding:.65rem .9rem;cursor:pointer;display:flex;align-items:center;gap:.7rem;box-shadow:var(--one-shadow-sm);" data-titolo="'+p.t.toLowerCase()+'">';
+      html += '<div onclick="this.dataset.pid&&apriPDFDrive(this.dataset.pid)" data-pid="'+p.id+'" style="margin:.2rem 1rem;background:var(--card);border-radius:14px;border-left:3px solid '+col+';padding:.65rem .9rem;cursor:pointer;display:flex;align-items:center;gap:.7rem;box-shadow:var(--one-shadow-sm);" data-titolo="'+p.t.toLowerCase()+'">';
       html += '<span style="font-size:1.2rem;flex-shrink:0;">'+ico+'</span>';
       html += '<div style="flex:1;min-width:0;"><div style="font-size:.82rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+p.t+'</div>';
       html += '<div style="font-size:.63rem;color:var(--muted);margin-top:.1rem;">Tocca per aprire su Google Drive</div></div>';
