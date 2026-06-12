@@ -795,6 +795,38 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
 
 /* ===== CONNESSIONE PROGRESSIVA ===== */
 .conn-badge{display:inline-flex;align-items:center;gap:.3rem;background:rgba(106,72,168,0.1);color:#6a48a8;border-radius:100px;padding:.2rem .5rem;font-size:.68rem;font-weight:700;}
+
+/* ── GUIDE WEB DATABASE ── */
+.gw-fase-card{background:var(--card);border-radius:16px;padding:.85rem 1rem;margin-bottom:.7rem;box-shadow:var(--one-shadow-sm);border-left:4px solid var(--moss);}
+.gw-fase-header{display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem;cursor:pointer;}
+.gw-fase-ico{font-size:1.4rem;}
+.gw-fase-titolo{font-size:.9rem;font-weight:800;color:var(--text);}
+.gw-fase-fonte{font-size:.62rem;color:var(--muted);margin-top:.15rem;}
+.gw-consiglio{font-size:.76rem;color:var(--text);padding:.3rem 0;border-bottom:1px solid var(--sand);line-height:1.5;}
+.gw-consiglio:last-child{border-bottom:none;}
+.gw-consiglio::before{content:"▸ ";color:var(--moss);font-weight:700;}
+.gw-tag{display:inline-block;background:var(--moss);color:#fff;border-radius:20px;padding:.15rem .55rem;font-size:.62rem;font-weight:700;margin:.1rem;}
+.gw-alert{background:linear-gradient(135deg,#7f1d1d,#991b1b);border-radius:12px;padding:.75rem 1rem;color:#fff;margin-bottom:.55rem;}
+.gw-alert-titolo{font-size:.75rem;font-weight:800;margin-bottom:.3rem;}
+.gw-alert-body{font-size:.72rem;line-height:1.5;opacity:.9;}
+/* connettori */
+.conn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.45rem;}
+.conn-card{background:var(--card);border-radius:14px;padding:.7rem .6rem;text-align:center;cursor:pointer;box-shadow:var(--one-shadow-sm);transition:transform .12s;}
+.conn-card:active{transform:scale(.97);}
+.conn-ico{font-size:1.3rem;margin-bottom:.25rem;}
+.conn-nome{font-size:.7rem;font-weight:800;color:var(--text);}
+.conn-desc{font-size:.6rem;color:var(--soft);margin-top:.1rem;}
+.conn-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:.25rem;}
+.conn-stato{font-size:.6rem;font-weight:700;margin-top:.3rem;}
+/* pannello AI Claude */
+.claude-panel{background:linear-gradient(145deg,#1e0533,#2d0a4e);border-radius:18px;padding:1.1rem;margin:.6rem 0;border:1px solid rgba(139,92,246,.4);}
+.claude-header{font-size:.62rem;font-weight:800;letter-spacing:.12em;color:#a78bfa;margin-bottom:.5rem;text-transform:uppercase;}
+.claude-chip{display:inline-block;background:rgba(139,92,246,.2);border:1px solid rgba(139,92,246,.4);border-radius:20px;padding:.2rem .7rem;font-size:.68rem;color:#c4b5fd;margin:.15rem;cursor:pointer;}
+.claude-chip:active{background:rgba(139,92,246,.4);}
+
+.gw-btn-fase{background:var(--card);border:1px solid var(--sand);border-radius:20px;padding:.3rem .75rem;font-size:.7rem;color:var(--text);cursor:pointer;font-weight:600;}
+.gw-btn-fase.active{background:var(--moss);color:#fff;border-color:var(--moss);}
+
 </style>
 </head>
 <body>
@@ -857,23 +889,6 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
 
   <!-- Prossimo evento serra da Calendar -->
   <div id="home-calendar-widget" style="margin:.3rem .85rem .1rem;"></div>
-  <!-- ══ GUIDE WEB LIVE — Zamnesia + RQS ══ -->
-  <div style="margin:.3rem .85rem .4rem;" id="home-guide-widget">
-    <div style="font-size:.58rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem;">📚 GUIDE WEB · CONSIGLI LIVE</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.45rem;margin-bottom:.45rem;">
-      <a href="https://www.zamnesia.io/it/guida-coltivare-cannabis" target="_blank" style="background:linear-gradient(135deg,#00442E,#006B45);border-radius:14px;padding:.7rem .8rem;text-decoration:none;display:block;">
-        <div style="font-size:.65rem;font-weight:800;color:rgba(255,255,255,.6);margin-bottom:.2rem;">ZAMNESIA</div>
-        <div style="font-size:.78rem;color:#fff;font-weight:700;line-height:1.3;">Guida<br>Coltivazione</div>
-        <div style="font-size:.62rem;color:rgba(255,255,255,.55);margin-top:.3rem;">→ Apri guida</div>
-      </a>
-      <a href="https://www.royalqueenseeds.it/guida-alla-coltivazione-della-cannabis" target="_blank" style="background:linear-gradient(135deg,#1a2366,#2d3da8);border-radius:14px;padding:.7rem .8rem;text-decoration:none;display:block;">
-        <div style="font-size:.65rem;font-weight:800;color:rgba(255,255,255,.6);margin-bottom:.2rem;">ROYAL QUEEN</div>
-        <div style="font-size:.78rem;color:#fff;font-weight:700;line-height:1.3;">Grow<br>Guide Pro</div>
-        <div style="font-size:.62rem;color:rgba(255,255,255,.55);margin-top:.3rem;">→ Apri guida</div>
-      </a>
-    </div>
-    <div id="home-consiglio-live" style="background:var(--card);border-radius:12px;padding:.7rem .85rem;border-left:3px solid var(--sage);box-shadow:var(--one-shadow-sm);"></div>
-  </div>
 
   <!-- Widget N8n Automazioni -->
   <div style="margin:.2rem .85rem .1rem;">
@@ -1073,157 +1088,119 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
 
 <!-- ══ HEADER ══ -->
 <div style="position:sticky;top:0;z-index:20;background:var(--main-bg);padding:.75rem 1rem .5rem;border-bottom:1px solid var(--sand);">
-  <div style="font-size:.58rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--moss);">📚 GUIDE · CONNETTORI · MANUALI</div>
-  <div style="font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--text);line-height:1.2;">Centro Conoscenza Serra</div>
+  <div style="font-size:.58rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--moss);">📚 GUIDE · AI · CONNETTORI</div>
+  <div style="font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--text);">Serra Intelligence Hub</div>
 </div>
 
-<!-- ══ SEZIONE 1: LE 2 GUIDE WEB ══ -->
-<div style="padding:.9rem 1rem .4rem;">
-  <div style="font-size:.58rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;">🌐 GUIDE DI RIFERIMENTO LIVE</div>
+<!-- ══ 1. ALERT PIANTE OGGI ══ -->
+<div style="padding:.8rem 1rem .4rem;">
+  <div id="gw-alert-container"></div>
+</div>
 
-  <!-- Card Zamnesia -->
-  <div onclick="apriGuideZamnesia()" style="background:linear-gradient(135deg,#00442E,#006B45);border-radius:18px;padding:1rem 1.1rem;margin-bottom:.7rem;cursor:pointer;box-shadow:0 4px 16px rgba(0,68,46,.3);position:relative;overflow:hidden;">
-    <div style="position:absolute;top:-15px;right:-15px;width:80px;height:80px;background:rgba(255,255,255,.06);border-radius:50%;"></div>
-    <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem;">
-      <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:.4rem .6rem;font-size:1.1rem;">🌿</div>
+<!-- ══ 2. GUIDE WEB — Consigli fase attuale ══ -->
+<div style="padding:.2rem 1rem .6rem;">
+  <div style="font-size:.58rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;">🌐 GUIDE PROFESSIONALI — CONSIGLI FASE ATTUALE</div>
+  <div id="gw-fase-corrente"></div>
+  
+  <!-- Navigazione fasi -->
+  <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.7rem;" id="gw-nav-fasi">
+    <button onclick="mostraFaseGuida('germinazione')" class="gw-btn-fase">🌱 Germinazione</button>
+    <button onclick="mostraFaseGuida('vegetativa')" class="gw-btn-fase">🌿 Vegetativa</button>
+    <button onclick="mostraFaseGuida('fioritura')" class="gw-btn-fase">🌸 Fioritura</button>
+    <button onclick="mostraFaseGuida('raccolta')" class="gw-btn-fase">✂️ Raccolta</button>
+    <button onclick="mostraFaseGuida('problemi')" class="gw-btn-fase">🔍 Problemi</button>
+    <button onclick="mostraFaseGuida('essiccazione_concia')" class="gw-btn-fase">🫙 Concia</button>
+  </div>
+  <div id="gw-fase-detail" style="display:none;"></div>
+</div>
+
+<!-- ══ 3. AI CLAUDE INSIDE ══ -->
+<div style="padding:.2rem 1rem .6rem;">
+  <div class="claude-panel">
+    <div class="claude-header">🤖 Claude AI · Analisi avanzata</div>
+    <div style="font-size:.78rem;color:#e9d5ff;margin-bottom:.6rem;line-height:1.4;">Chiedi a Claude di analizzare le guide + i 134 PDF + lo stato delle tue piante</div>
+    <div style="margin-bottom:.6rem;">
+      <button class="claude-chip" onclick="chiedeClaude('Analizza lo stato attuale delle mie piante e dimmi cosa fare oggi secondo le guide Zamnesia e RQS')">📋 Stato piante oggi</button>
+      <button class="claude-chip" onclick="chiedeClaude('Quali sono i 5 consigli più importanti per la fase di fioritura secondo Zamnesia + RQS + i 134 PDF?')">🌸 Top 5 fioritura</button>
+      <button class="claude-chip" onclick="chiedeClaude('Come riconoscere e correggere le carenze più comuni secondo le guide professionali?')">🔍 Diagnosi carenze</button>
+      <button class="claude-chip" onclick="chiedeClaude('Crea un piano nutrizionale settimanale per le mie piante nelle prossime 4 settimane')">📅 Piano nutrimento</button>
+      <button class="claude-chip" onclick="chiedeClaude('Connessioni tra elettrocoltura, biodinamica e le guide RQS+Zamnesia per ottimizzare la mia serra')">⚡ Elettrocoltura × Guide</button>
+    </div>
+    <div id="claude-risposta-hub" style="display:none;background:rgba(0,0,0,.3);border-radius:10px;padding:.7rem;font-size:.75rem;color:#e9d5ff;line-height:1.5;max-height:200px;overflow-y:auto;"></div>
+    <div id="claude-loading" style="display:none;font-size:.72rem;color:#a78bfa;">⏳ Claude sta analizzando...</div>
+  </div>
+</div>
+
+<!-- ══ 4. CONNETTORI ATTIVI ══ -->
+<div style="padding:.2rem 1rem .6rem;">
+  <div style="font-size:.58rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;">🔌 CONNETTORI ATTIVI</div>
+  <div class="conn-grid">
+    <div class="conn-card" onclick="window.open('https://francesco467.app.n8n.cloud','_blank')" style="border-top:3px solid #f97316;">
+      <div class="conn-ico">⚙️</div>
+      <div class="conn-nome">N8n</div>
+      <div class="conn-desc">6 workflow</div>
+      <div class="conn-stato"><span class="conn-dot" style="background:#22c55e;box-shadow:0 0 5px #22c55e;"></span><span style="color:#22c55e;">LIVE</span></div>
+    </div>
+    <div class="conn-card" onclick="apriNotionSerra()" style="border-top:3px solid #374151;">
+      <div class="conn-ico">📋</div>
+      <div class="conn-nome">Notion</div>
+      <div class="conn-desc">Diario + DB</div>
+      <div class="conn-stato"><span class="conn-dot" style="background:#22c55e;"></span><span style="color:#22c55e;">SYNC</span></div>
+    </div>
+    <div class="conn-card" onclick="window.open('https://drive.google.com/drive/folders/0AMLbvEKt0nnsUk9PVA','_blank')" style="border-top:3px solid #1a73e8;">
+      <div class="conn-ico">📂</div>
+      <div class="conn-nome">Drive</div>
+      <div class="conn-desc">134 PDF</div>
+      <div class="conn-stato"><span class="conn-dot" style="background:#22c55e;"></span><span style="color:#22c55e;">PUBBLICO</span></div>
+    </div>
+    <div class="conn-card" onclick="window.open('https://calendar.google.com','_blank')" style="border-top:3px solid #ea4335;">
+      <div class="conn-ico">📅</div>
+      <div class="conn-nome">Calendar</div>
+      <div class="conn-desc">5 ricorrenti</div>
+      <div class="conn-stato"><span class="conn-dot" style="background:#22c55e;"></span><span style="color:#22c55e;">ATTIVO</span></div>
+    </div>
+    <div class="conn-card" onclick="apriGmailSerra()" style="border-top:3px solid #ea4335;">
+      <div class="conn-ico">📧</div>
+      <div class="conn-nome">Gmail</div>
+      <div class="conn-desc">Report serra</div>
+      <div class="conn-stato"><span class="conn-dot" style="background:#f59e0b;"></span><span style="color:#f59e0b;">TAP</span></div>
+    </div>
+    <div class="conn-card" onclick="apriZapierSerra()" style="border-top:3px solid #ff4a00;">
+      <div class="conn-ico">⚡</div>
+      <div class="conn-nome">Zapier</div>
+      <div class="conn-desc">Automazioni</div>
+      <div class="conn-stato"><span class="conn-dot" style="background:#f59e0b;"></span><span style="color:#f59e0b;">PRONTO</span></div>
+    </div>
+  </div>
+
+  <!-- Cervello Notturno Status -->
+  <div style="background:linear-gradient(135deg,#0a1a0a,#1a2e14);border-radius:14px;padding:.85rem 1rem;margin-top:.55rem;border:1px solid var(--moss);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
+      <div style="font-size:.62rem;font-weight:800;color:var(--sage);">🧠 CERVELLO NOTTURNO v4</div>
+      <div style="font-size:.62rem;color:var(--muted);">ogni 6 ore</div>
+    </div>
+    <div style="display:flex;gap:1rem;">
       <div>
-        <div style="color:#fff;font-weight:800;font-size:.9rem;">Zamnesia — Guida Completa</div>
-        <div style="color:rgba(255,255,255,.65);font-size:.7rem;">zamnesia.io/it</div>
+        <div style="font-size:1.3rem;font-weight:900;color:var(--sage);" id="cn-pdf-n">70</div>
+        <div style="font-size:.6rem;color:var(--muted);">PDF letti</div>
       </div>
-      <div style="margin-left:auto;color:rgba(255,255,255,.6);font-size:1.1rem;">→</div>
-    </div>
-    <div style="color:rgba(255,255,255,.82);font-size:.76rem;line-height:1.5;margin-bottom:.6rem;">Germinazione · Substrati · Nutrienti · Diagnosi problemi · Indoor/Outdoor · Varietà autofiorenti</div>
-    <div style="display:flex;gap:.4rem;flex-wrap:wrap;">
-      <span style="background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:.2rem .6rem;font-size:.65rem;">Germinazione</span>
-      <span style="background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:.2rem .6rem;font-size:.65rem;">Diagnosi</span>
-      <span style="background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:.2rem .6rem;font-size:.65rem;">Substrati</span>
-      <span style="background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:.2rem .6rem;font-size:.65rem;">Autofiorenti</span>
-    </div>
-  </div>
-
-  <!-- Card Royal Queen Seeds -->
-  <div onclick="apriGuideRQS()" style="background:linear-gradient(135deg,#1a2366,#2d3da8);border-radius:18px;padding:1rem 1.1rem;margin-bottom:.5rem;cursor:pointer;box-shadow:0 4px 16px rgba(26,35,102,.35);position:relative;overflow:hidden;">
-    <div style="position:absolute;top:-15px;right:-15px;width:80px;height:80px;background:rgba(255,255,255,.06);border-radius:50%;"></div>
-    <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem;">
-      <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:.4rem .6rem;font-size:1.1rem;">👑</div>
       <div>
-        <div style="color:#fff;font-weight:800;font-size:.9rem;">Royal Queen Seeds — Grow Guide</div>
-        <div style="color:rgba(255,255,255,.65);font-size:.7rem;">royalqueenseeds.it</div>
+        <div style="font-size:1.3rem;font-weight:900;color:var(--leaf);" id="cn-conn-n">110</div>
+        <div style="font-size:.6rem;color:var(--muted);">connessioni</div>
       </div>
-      <div style="margin-left:auto;color:rgba(255,255,255,.6);font-size:1.1rem;">→</div>
-    </div>
-    <div style="color:rgba(255,255,255,.82);font-size:.76rem;line-height:1.5;margin-bottom:.6rem;">Fioritura · Raccolta · Essiccazione · Concia · Trimming · Tecniche avanzate · Scrog/Lst/Topping</div>
-    <div style="display:flex;gap:.4rem;flex-wrap:wrap;">
-      <span style="background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:.2rem .6rem;font-size:.65rem;">Fioritura</span>
-      <span style="background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:.2rem .6rem;font-size:.65rem;">Raccolta</span>
-      <span style="background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:.2rem .6rem;font-size:.65rem;">Essiccazione</span>
-      <span style="background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:.2rem .6rem;font-size:.65rem;">Tecniche avanzate</span>
-    </div>
-  </div>
-
-  <!-- Consigli stagionali live -->
-  <div id="guide-stagionali" style="background:var(--card);border-radius:14px;padding:.8rem 1rem;border-left:4px solid var(--sage);box-shadow:var(--one-shadow-sm);">
-    <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;color:var(--sage);margin-bottom:.35rem;">📅 CONSIGLI STAGIONALI — GIUGNO 2026</div>
-    <div style="font-size:.8rem;color:var(--text);font-weight:600;margin-bottom:.3rem;">🔥 Epsilon F1 in raccolta imminente (~20 Giu)</div>
-    <div style="font-size:.76rem;color:var(--soft);line-height:1.5;">• Controlla i tricomi ogni 2 giorni con lente. 70-80% ambrati = pronta.<br>• Attiva generatore di etilene (mela matura nella serra)<br>• Da Zamnesia: flush finale 10-14 giorni prima della raccolta<br>• Da RQS: mantieni umidità &lt;45% nelle ultime 2 settimane</div>
-    <div style="margin-top:.5rem;font-size:.65rem;color:var(--muted);">Fonte: Zamnesia + Royal Queen Seeds — aggiornato automaticamente</div>
-  </div>
-</div>
-
-<!-- ══ SEZIONE 2: CONNETTORI ATTIVI ══ -->
-<div style="padding:.6rem 1rem .4rem;">
-  <div style="font-size:.58rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;">🔌 CONNETTORI ATTIVI</div>
-
-  <!-- Grid 2x connettori -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-bottom:.6rem;">
-
-    <!-- N8n -->
-    <div onclick="apriN8n()" style="background:var(--card);border-radius:14px;padding:.75rem;box-shadow:var(--one-shadow-sm);cursor:pointer;border-top:3px solid #f97316;">
-      <div style="font-size:1.2rem;margin-bottom:.3rem;">⚙️</div>
-      <div style="font-size:.78rem;font-weight:800;color:var(--text);">N8n</div>
-      <div style="font-size:.65rem;color:var(--soft);">6 workflow attivi</div>
-      <div style="margin-top:.4rem;display:flex;align-items:center;gap:.3rem;">
-        <div style="width:7px;height:7px;background:#22c55e;border-radius:50%;box-shadow:0 0 5px #22c55e;"></div>
-        <span style="font-size:.62rem;color:#22c55e;font-weight:700;">LIVE</span>
+      <div>
+        <div style="font-size:1.3rem;font-weight:900;color:#60a5fa;" id="cn-pct-n">74%</div>
+        <div style="font-size:.6rem;color:var(--muted);">completato</div>
       </div>
     </div>
-
-    <!-- Notion -->
-    <div onclick="apriNotion()" style="background:var(--card);border-radius:14px;padding:.75rem;box-shadow:var(--one-shadow-sm);cursor:pointer;border-top:3px solid #374151;">
-      <div style="font-size:1.2rem;margin-bottom:.3rem;">📋</div>
-      <div style="font-size:.78rem;font-weight:800;color:var(--text);">Notion</div>
-      <div style="font-size:.65rem;color:var(--soft);">Diario + Connessioni</div>
-      <div style="margin-top:.4rem;display:flex;align-items:center;gap:.3rem;">
-        <div style="width:7px;height:7px;background:#22c55e;border-radius:50%;"></div>
-        <span style="font-size:.62rem;color:#22c55e;font-weight:700;">SYNC</span>
-      </div>
-    </div>
-
-    <!-- Google Drive -->
-    <div onclick="apriDrive()" style="background:var(--card);border-radius:14px;padding:.75rem;box-shadow:var(--one-shadow-sm);cursor:pointer;border-top:3px solid #1a73e8;">
-      <div style="font-size:1.2rem;margin-bottom:.3rem;">📂</div>
-      <div style="font-size:.78rem;font-weight:800;color:var(--text);">Drive</div>
-      <div style="font-size:.65rem;color:var(--soft);" id="drive-badge-guida">134 PDF pubblici</div>
-      <div style="margin-top:.4rem;display:flex;align-items:center;gap:.3rem;">
-        <div style="width:7px;height:7px;background:#22c55e;border-radius:50%;"></div>
-        <span style="font-size:.62rem;color:#22c55e;font-weight:700;">PUBBLICO</span>
-      </div>
-    </div>
-
-    <!-- Google Calendar -->
-    <div onclick="apriCalendar()" style="background:var(--card);border-radius:14px;padding:.75rem;box-shadow:var(--one-shadow-sm);cursor:pointer;border-top:3px solid #ea4335;">
-      <div style="font-size:1.2rem;margin-bottom:.3rem;">📅</div>
-      <div style="font-size:.78rem;font-weight:800;color:var(--text);">Calendar</div>
-      <div style="font-size:.65rem;color:var(--soft);">5 eventi ricorrenti</div>
-      <div style="margin-top:.4rem;display:flex;align-items:center;gap:.3rem;">
-        <div style="width:7px;height:7px;background:#22c55e;border-radius:50%;"></div>
-        <span style="font-size:.62rem;color:#22c55e;font-weight:700;">ATTIVO</span>
-      </div>
-    </div>
-
-    <!-- Spotify -->
-    <div onclick="apriSpotify()" style="background:var(--card);border-radius:14px;padding:.75rem;box-shadow:var(--one-shadow-sm);cursor:pointer;border-top:3px solid #1db954;">
-      <div style="font-size:1.2rem;margin-bottom:.3rem;">🎵</div>
-      <div style="font-size:.78rem;font-weight:800;color:var(--text);">Spotify</div>
-      <div style="font-size:.65rem;color:var(--soft);">Playlist lavoro serra</div>
-      <div style="margin-top:.4rem;display:flex;align-items:center;gap:.3rem;">
-        <div style="width:7px;height:7px;background:#f59e0b;border-radius:50%;"></div>
-        <span style="font-size:.62rem;color:#f59e0b;font-weight:700;">TAP</span>
-      </div>
-    </div>
-
-    <!-- Zapier -->
-    <div onclick="apriZapier()" style="background:var(--card);border-radius:14px;padding:.75rem;box-shadow:var(--one-shadow-sm);cursor:pointer;border-top:3px solid #ff4a00;">
-      <div style="font-size:1.2rem;margin-bottom:.3rem;">⚡</div>
-      <div style="font-size:.78rem;font-weight:800;color:var(--text);">Zapier</div>
-      <div style="font-size:.65rem;color:var(--soft);">Automazioni extra</div>
-      <div style="margin-top:.4rem;display:flex;align-items:center;gap:.3rem;">
-        <div style="width:7px;height:7px;background:#f59e0b;border-radius:50%;"></div>
-        <span style="font-size:.62rem;color:#f59e0b;font-weight:700;">PRONTO</span>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Status Cervello Notturno -->
-  <div style="background:linear-gradient(135deg,#0a1a0a,#1a2e14);border-radius:14px;padding:.8rem 1rem;border:1px solid var(--moss);">
-    <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;color:var(--sage);margin-bottom:.4rem;">🧠 CERVELLO NOTTURNO v4 · LIVE</div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem;">
-      <div style="font-size:.76rem;color:var(--text);font-weight:600;">PDF letti realmente</div>
-      <div style="font-size:.76rem;color:var(--sage);font-weight:800;" id="cn-pdf-letti">70/94</div>
-    </div>
-    <div style="background:rgba(255,255,255,.08);border-radius:8px;height:6px;margin-bottom:.5rem;overflow:hidden;">
-      <div id="cn-pdf-bar" style="height:100%;background:linear-gradient(90deg,var(--moss),var(--sage));border-radius:8px;width:74%;transition:width .5s;"></div>
-    </div>
-    <div style="display:flex;justify-content:space-between;">
-      <div style="font-size:.68rem;color:var(--soft);" id="cn-conn-tot">110 connessioni generate</div>
-      <div style="font-size:.68rem;color:var(--muted);">ogni 6 ore</div>
+    <div style="background:rgba(255,255,255,.08);border-radius:6px;height:5px;margin-top:.5rem;overflow:hidden;">
+      <div id="cn-bar-new" style="height:100%;background:linear-gradient(90deg,var(--moss),var(--sage));border-radius:6px;width:74%;"></div>
     </div>
   </div>
 </div>
 
-<!-- ══ SEZIONE 3: MANUALI (accordion — già esistente) ══ -->
-<div style="padding:.6rem 1rem .3rem;">
+<!-- ══ 5. MANUALE OPERATIVO (accordion esistente) ══ -->
+<div style="padding:.2rem 1rem .3rem;">
   <div style="font-size:.58rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;">📖 MANUALE OPERATIVO</div>
   <div class="guida-list" id="guida-list"></div>
 </div>
@@ -1444,13 +1421,13 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
     </div>
     <!-- Domande rapide -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.35rem;margin-bottom:.65rem;">
-      <button onclick="inviaAI('Guarda lo stato delle mie piante oggi e dimmi cosa fare di urgente')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.72rem;color:var(--text);cursor:pointer;text-align:left;line-height:1.3;font-weight:600;">🔥 Cosa fare OGGI<br><span style="font-weight:400;color:var(--soft);">piante + urgenze</span></button>
-      <button onclick="inviaAI('Analizza il meteo di oggi, la fase lunare e la fase delle mie piante: qual è il momento migliore per irrigare, concimare o fare operazioni?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.72rem;color:var(--text);cursor:pointer;text-align:left;line-height:1.3;font-weight:600;">🌙 Meteo + Luna<br><span style="font-weight:400;color:var(--soft);">timing ottimale</span></button>
-      <button onclick="inviaAI('Le mie autofiorenti sono in fioritura avanzata. Secondo Zamnesia e Royal Queen Seeds, cosa fare nelle ultime settimane prima della raccolta? Flush, tricomi, etilene?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.72rem;color:var(--text);cursor:pointer;text-align:left;line-height:1.3;font-weight:600;">🌸 Raccolta<br><span style="font-weight:400;color:var(--soft);">Zamnesia + RQS</span></button>
-      <button onclick="inviaAI('Confronta le tecniche di Christofleau, Lakhovsky e Ighina per la fase di fioritura. Come applico la pila galvanica e il circuito di Lakhovsky adesso?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.72rem;color:var(--text);cursor:pointer;text-align:left;line-height:1.3;font-weight:600;">⚡ Elettrocoltura<br><span style="font-weight:400;color:var(--soft);">fioritura avanzata</span></button>
-      <button onclick="inviaAI('Mostrami le connessioni più sorprendenti tra i 134 PDF: come i testi di magia, ermetismo e biodinamica si collegano all elettrocoltura praticamente?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.72rem;color:var(--text);cursor:pointer;text-align:left;line-height:1.3;font-weight:600;">🔗 Connessioni<br><span style="font-weight:400;color:var(--soft);">134 PDF × magia</span></button>
-      <button onclick="inviaAI('Le mie femminizzate (Astro Lemonade, Cosmic Cheddar, Orbital Banana, Royal Gorilla, Mexican Rush) sono in vegetativa. Cosa devo fare da giugno a settembre per prepararle alla fioritura autunnale?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.72rem;color:var(--text);cursor:pointer;text-align:left;line-height:1.3;font-weight:600;">🌿 Femminizzate<br><span style="font-weight:400;color:var(--soft);">prep. fioritura autunnale</span></button>
-    </div>div>
+      <button onclick="inviaAI('Oggi è un buon giorno per lavorare nella serra? Analizza luna e biodinamica')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">🌙 Cosa fare oggi?</button>
+      <button onclick="inviaAI('Confronta Lakhovsky 1925, Christofleau 1920 e Lemstrom 1904: differenze pratiche')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">🔬 Confronta autori</button>
+      <button onclick="inviaAI('Crea un piano sperimentale per questa settimana con le tecniche disponibili')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">📋 Piano settimana</button>
+      <button onclick="inviaAI('Connessioni tra Kybalion, Tavole Smeraldine e elettrocoltura da applicare subito?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">⚗️ Magia+Elettroc.</button>
+      <button onclick="inviaAI('Analizza il meteo di oggi e dimmi cosa fare nella serra')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">🌤 Meteo+Serra</button>
+      <button onclick="inviaAI('Tecnica ottimale dai 134 manuali per la fase di fioritura?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">🌸 Fioritura</button>
+    </div>
     <!-- Chat -->
     <div id="ai-chat" style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:.5rem;min-height:80px;"></div>
   </div>
@@ -5680,120 +5657,44 @@ function removeAITyping() {
 }
 
 function buildSistemaPrompt() {
+  // Prepara il contesto dai dati dell'app
   var bio = calcolaBio ? calcolaBio(oggi()) : null;
   var bioCtx = bio ? 'Oggi è un giorno '+bio.tipo.nome+' ('+bio.tipo.el+') con Luna '+bio.lunaInfo.nome+'.' : '';
-
+  
   var espCtx = '';
   if(EDBV2 && EDBV2.categorie) {
     var tutti = [];
     EDBV2.categorie.forEach(function(cat){
       cat.esperimenti.forEach(function(e){
-        tutti.push(cat.ico+' '+e.nome+' ['+e.stato+', '+e.scientificita+']: '+e.principio.substring(0,120));
+        tutti.push(cat.ico+' '+e.nome+' ['+e.stato+', '+e.scientificita+']: '+e.principio.substring(0,150));
       });
     });
     espCtx = tutti.join('\n');
   }
 
-  var labCtx = labAttivi.length ? 'Esperimenti attivi: '+labAttivi.join(', ')+'.' : '';
+  var labCtx = labAttivi.length ? 'Esperimenti attivi nel Lab: '+labAttivi.join(', ')+'.' : '';
 
+
+  // Meteo da Open-Meteo
   var meteoCtx = '';
   if(typeof METEO_CACHE !== 'undefined' && METEO_CACHE && METEO_CACHE.temp) {
-    meteoCtx = 'METEO OGGI: '+METEO_CACHE.temp+'°C, '+METEO_CACHE.condizione+', umidità '+METEO_CACHE.umidita+'%.';
+    meteoCtx = ' METEO OGGI: '+METEO_CACHE.temp+'°C, '+METEO_CACHE.condizione+', umidità '+METEO_CACHE.umidita+'%.';
   }
-
-  // Stato piante calcolato dinamicamente dalla data di oggi
-  var oggi_d = new Date();
-  var piante_ctx = _buildPianteContext(oggi_d);
-
-  // Connessioni dal Cervello Notturno (ultime 5 dal DB)
-  var conn_ctx = _buildConnContext();
-
-  return [
-    '=== IDENTITÀ ===',
-    'Sei SerraAI, l\'assistente intelligente della Mini-Serra Living Soil. Hai accesso a dati live: meteo, stato piante, fase lunare, 134 manuali PDF, guide web professionali.',
-    '',
-    '=== KNOWLEDGE BASE — 134 PDF REALI ===',
-    'Elettrocoltura (73 PDF): Christofleau 1920, Nollet 3 volumi sui Vegetali, Ighina Atomo Magnetico, Tesla 5 libri, Arce Biohacker Guide, Ramos Beginners, Laemstrom, Hull, Cathie Energy Grid, Ruhlmann Mélodie des Végétaux, USPTO Patents, Corso Elettrocoltura.',
-    'Coltivazione (8 PDF): Ingham Soil Biology Primer, Howard Agricultural Testament, Restrepo Rivera 3 libri, Tompkins & Bird Vita Segreta Piante.',
-    'Magia/Esoterismo (24 PDF): Crowley 9 libri, Agrippa, Chiave Salomone, Kybalion, Corpus Hermeticum, Tavole Smeraldine, Alchimia Mutus Liber.',
-    'Spirituali (9 PDF): Vangelo Esseno, ROL 4 libri, Harry B. Joseph 3 libri.',
-    'Libri Sacri (10 PDF): Corano, Upanishad, Kojiki, Talmud, Buddhismo, Wicca.',
-    '',
-    '=== GUIDE WEB INTEGRATE ===',
-    'ZAMNESIA (zamnesia.io/it/guida-coltivare-cannabis):',
-    '- Germinazione: ammollo semi 24h, carta assorbente umida 20-25°C, trapianto dopo 2-3 giorni con radichetta 1cm',
-    '- Vegetativa: azoto alto (N), LST e topping dalla 3a settimana, 18h luce indoor',
-    '- Riconoscimento sesso: pistilli bianchi=femmina, sacchetti polline=maschio — eliminare maschi subito',
-    '- Fioritura: 12/12h per fotoperiodiche, autofiorenti no trigger, ridurre N aumentare P e K',
-    '- Irrigazione: tecnica lift-test (vaso leggero=irrigare), dito nel terreno 3-5cm',
-    '- Problemi comuni: carenza azoto=foglie gialle dal basso, carenza ferro=ingiallimento apici, muffa grigia=umidità alta',
-    '- Flush finale: 10-14 giorni prima raccolta con sola acqua per eliminare sali residui',
-    '- Essiccazione: 12-15 giorni a 18-22°C, 45-55% umidità, oscurità totale',
-    '',
-    'ROYAL QUEEN SEEDS (royalqueenseeds.it/guida-alla-coltivazione):',
-    '- Substrato Living Soil: rapporto ideale 60% terriccio + 30% perlite + 10% fibra cocco',
-    '- Vasi tessuto: air-pruning radici naturale, migliore aerazione, evitare root-bound',
-    '- Settimane fioritura autofiorenti: W1-W2 pre-fioritura, W3-W4 stretch, W5-W6 cime dense, W7 maturazione, W8 raccolta',
-    '- Settimane fioritura fotoperiodiche: W1-W2 transizione, W3-W4 formazione cime, W5-W6 ingrossamento, W7-W8 maturazione',
-    '- Tricomi: lente 60-100x — trasparenti=acerbi, lattiginosi=picco THC, ambrati=CBN alto/effetto fisico',
-    '- Nutrienti organici: worm casting ogni mese, compost tea, kelp meal per K, bone meal per P',
-    '- Tecniche training: LST basso stress, SCROG con rete, topping nodo 5-6, FIM nodo 3-4',
-    '- Essiccazione RQS: lenta 14-21 giorni ottimale, wet trimming subito o dry trimming dopo essiccazione',
-    '- Concia: 2-8 settimane in barattoli vetro, aprire 2x/giorno prima settimana, poi 1x/giorno',
-    '',
-    '=== STATO PIANTE OGGI ===',
-    piante_ctx,
-    '',
-    '=== CONNESSIONI CROSS-DOMINIO RECENTI ===',
-    conn_ctx,
-    '',
-    '=== CONTESTO LIVE ===',
-    meteoCtx,
-    bioCtx,
-    labCtx,
-    '',
-    '=== ISTRUZIONI ===',
-    'Rispondi SEMPRE in italiano. Sii specifico e pratico. Cita fonti (PDF o guida web). ',
-    'Quando parli di una pianta, considera il suo stato attuale (vedi STATO PIANTE). ',
-    'Integra sempre elettrocoltura + coltivazione biologica + saggezza antica nelle risposte. ',
-    'Proponi azioni concrete basate sul meteo, fase lunare e stato delle piante.'
-  ].join('\n') + '\n\nESPERIMENTI CATALOGATI:\n' + espCtx;
-}
-
-function _buildPianteContext(oggi_d) {
-  var PIANTE_DATA = [
-    {n:'Epsilon F1', tipo:'auto', germ:new Date('2026-04-21'), raccolta_gg:60, fase:'raccolta'},
-    {n:'Milky Way F1', tipo:'auto', germ:new Date('2026-04-23'), raccolta_gg:72, fase:'fioritura'},
-    {n:'Titan F1', tipo:'auto', germ:new Date('2026-04-22'), raccolta_gg:72, fase:'fioritura'},
-    {n:'Medusa F1', tipo:'auto', germ:new Date('2026-04-21'), raccolta_gg:72, fase:'fioritura'},
-    {n:'Gaia F1', tipo:'auto', germ:new Date('2026-04-21'), raccolta_gg:67, fase:'fioritura'},
-    {n:'Astro Lemonade F1', tipo:'femm', germ:new Date('2026-04-21'), raccolta_mese:'Dicembre 2026', fase:'vegetativa'},
-    {n:'Cosmic Cheddar F1', tipo:'femm', germ:new Date('2026-05-02'), raccolta_mese:'Dicembre 2026', fase:'vegetativa'},
-    {n:'Orbital Banana F1', tipo:'femm', germ:new Date('2026-04-30'), raccolta_mese:'Dicembre 2026', fase:'vegetativa'},
-    {n:'Royal Gorilla', tipo:'femm', germ:new Date('2026-04-22'), raccolta_mese:'Metà Dicembre 2026', fase:'vegetativa'},
-    {n:'Mexican Rush', tipo:'femm', germ:new Date('2026-04-21'), raccolta_mese:'Metà Dicembre 2026', fase:'vegetativa'},
-  ];
-  var lines = [];
-  PIANTE_DATA.forEach(function(p){
-    var gg = Math.round((oggi_d - p.germ)/(1000*60*60*24));
-    if(p.tipo==='auto' && p.raccolta_gg){
-      var rimanenti = p.raccolta_gg - gg;
-      var stato = rimanenti <= 3 ? '🔥 RACCOLTA IMMEDIATA' : rimanenti <= 10 ? '⚠️ RACCOLTA IMMINENTE' : '🌸 FIORITURA';
-      lines.push(p.n+': giorno '+gg+'/'+p.raccolta_gg+', ~'+Math.max(0,rimanenti)+' giorni alla raccolta — '+stato);
-    } else {
-      lines.push(p.n+': giorno '+gg+' vegetativa, raccolta '+p.raccolta_mese);
-    }
-  });
-  return lines.join('\n');
-}
-
-function _buildConnContext() {
-  try {
-    var db = JSON.parse(localStorage.getItem('serra5') || '{}');
-    var conns = (db.connessioni || db.CONNESSIONI_CROSS || []).slice(-5);
-    if(!conns.length) return 'Nessuna connessione disponibile.';
-    return conns.map(function(c){ return '• '+c.a+' ↔ '+c.b+': '+(c.nota||'').substring(0,150); }).join('\n');
-  } catch(e){ return ''; }
+  return meteoCtx + '\n' + 'Sei un assistente specializzato in elettrocoltura, biodinamica e coltivazione Living Soil. ' +
+    'Hai accesso alla knowledge base estratta da oltre 40 manuali PDF tra cui: Justin Christofleau - Electroculture (1920), ' +
+    'Georges Lakhovsky - ricerche 1925, Pierluigi Ighina - L\'Atomo Magnetico (1954), ' +
+    'Andrea Donnoli - Starter Kit Elettrocoltura, Errol Ramos - Electroculture for Beginners, ' +
+    'The Soil Biology Primer - Elaine Ingham, An Agricultural Testament - Albert Howard, ' +
+    'La Vita Segreta delle Piante - Tompkins & Bird, Agricultura Orgánica - Jairo Restrepo Rivera, ' +
+    'US Patents for Electroculture, La Mélodie Secrète des Végétaux - Ruhlmann, ' +
+    'Il Kybalion - I Tre Iniziati, Scoperte Scientifiche non Autorizzate - Pizzuti, ' +
+    'e molti altri testi di magia, ermetismo, alchimia vegetale e biodinamica.\n\n' +
+    'CONTESTO COLTIVAZIONE: Mini-serra con 10 piante in vasi 10L, sistema Living Soil water-only, ' +
+    'irrigazione solare automatica, ciclo 8 mesi. '+bioCtx+' '+labCtx+'\n\n' +
+    'ESPERIMENTI CATALOGATI:\n'+espCtx+'\n\n' +
+    'ISTRUZIONI: Rispondi in italiano. Sii specifico e pratico. ' +
+    'Cita sempre le fonti quando possibile. Quando proponi combinazioni, spiega perché funzionano insieme. ' +
+    'Evidenzia le scoperte più sorprendenti. Mantieni un tono entusiasta da ricercatore appassionato.';
 }
 
 async function inviaAI(domandaPreset) {
@@ -7762,111 +7663,236 @@ window.goNav = function(id, el){
 
 
 <script>
-// ═══ CONSIGLI LIVE basati su fase piante + guide web ═══
-var _CONSIGLI_FASI = {
-  raccolta: {
-    titolo: '🔥 Raccolta imminente — Zamnesia + RQS',
-    punti: [
-      'Controlla tricomi ogni 2 giorni con lente 60x',
-      '70-80% ambrati = pronta per raccolta',
-      'Flush finale: 10-14 giorni con sola acqua (Zamnesia)',
-      'Taglia quando umidità <50%, evita muffa',
-      'Etilene: mela matura nella serra per sincronizzare',
-      'Essiccazione: 18-22°C, 45-55% UR, oscurità totale'
-    ],
-    fonte: 'Zamnesia + Royal Queen Seeds',
-    colore: '#e53935'
-  },
-  fioritura: {
-    titolo: '🌸 Fioritura attiva — ottimizzazione',
-    punti: [
-      'Riduci azoto (N), aumenta fosforo (P) e potassio (K)',
-      'Tè banana + cenere ogni 2 settimane (fonte: manuale)',
-      'Non toccare le cime — no training in questa fase',
-      'Umidità ideale: 40-50% per prevenire muffa grigia',
-      'Controlla pila galvanica: chiodo in posizione?',
-      'Geomag sui gocciolatori: acqua magnetizzata attiva'
-    ],
-    fonte: 'RQS Grow Guide + Manuali Elettrocoltura',
-    colore: '#f57c00'
-  },
-  vegetativa: {
-    titolo: '🌿 Fase vegetativa — massimizza crescita',
-    punti: [
-      'Azoto alto (N), nutrienti biologici mensili',
-      'LST o topping dalla 3a settimana per allargare',
-      'Infuso ortiche 1x/mese per azoto + ferro',
-      'Controlla archi Pantacle e circuiti Lakhovsky',
-      'Agita serbatoio ogni lunedì + bordi vasi ogni 7 gg',
-      'Da giugno→settembre: prep. femminizzate per ottobre'
-    ],
-    fonte: 'Zamnesia + Restrepo Rivera + Ingham',
-    colore: '#2e7d32'
-  }
-};
+// ═══ DATABASE GUIDE WEB — Zamnesia + Royal Queen Seeds ═══
+var GUIDE_WEB_DB = {"meta": {"versione": "1.0", "generato": "2026-06-12", "aggiornamento": "settimanale", "fonti": ["https://www.zamnesia.io/it/guida-coltivare-cannabis", "https://www.royalqueenseeds.it/guida-alla-coltivazione-della-cannabis"]}, "fasi": {"germinazione": {"titolo": "Germinazione dei semi", "icona": "🌱", "durata": "2-7 giorni", "fonti": ["Zamnesia", "RQS"], "consigli": ["Metodo carta assorbente: semi tra 2 fogli umidi in luogo caldo (22-25°C), oscurità totale", "Metodo bicchiere d'acqua: immergere 12-24h finché non affondano, poi carta assorbente", "Trapianto quando radichetta è lunga 1-2 cm, usare pinzette e maneggiate con cura", "Temperatura ideale: 22-25°C — sotto 18°C germinazione lenta o assente", "Umidità ideale: 70-90% — usare cupola o sacchetto trasparente", "Prima irrigazione: acqua a temperatura ambiente, non fredda, pH 6.0-7.0", "Non toccare la radichetta con le dita — rischio di danni e contaminazione", "Profondità piantatura: 5mm nel substrato con radichetta verso il basso"], "errori_comuni": ["Terreno troppo bagnato → marcescenza", "Temperatura troppo bassa → germinazione lenta", "Radichetta esposta alla luce → stress", "Innaffiatura eccessiva → semi che annegano"], "integrazione_livingsoil": "Nel sistema Living Soil: aggiungere inoculo micorrize 0.5g nel buco prima di inserire la piantina. Le micorrize colonizzano le radici e migliorano l'assorbimento idrico fin dal primo giorno."}, "vegetativa": {"titolo": "Fase vegetativa", "icona": "🌿", "durata": "2-16 settimane (femminizzate), 2-4 settimane (autofiorenti)", "fonti": ["Zamnesia", "RQS"], "consigli": ["Nutrienti: alto azoto (N), medio fosforo (P), medio potassio (K) — rapporto 3:1:2", "Luce: 18h luce / 6h buio per indoor fotoperiodiche", "Autofiorenti: crescita automatica, non modificare il fotoperiodo", "Training LST (Low Stress Training): piegare i rami dalla 3a settimana per allargare la chioma", "Topping: tagliare l'apice al nodo 5-6 per creare 2 cime dominanti", "FIM: taglio parziale dell'apice al nodo 3-4, crea 4+ cime", "SCROG: rete orizzontale per distribuire uniformemente i rami", "Irrigazione: tecnica lift-test — vaso leggero = irrigare, pesante = aspettare", "Segno d'innaffiatura corretta: prime gocce escono dai fori di drenaggio", "Potatura: rimuovere foglie gialle e rami ombreggiati nella parte bassa", "Controlla pH acqua: 6.0-7.0 per substrato, 5.5-6.5 per idroponica"], "carenze_comuni": ["Azoto (N): foglie gialle partendo dal basso, crescita lenta", "Ferro (Fe): ingiallimento delle foglie nuove (apici), nervature verdi", "Magnesio (Mg): macchie gialle inter-nervali sulle foglie vecchie", "Calcio (Ca): macchie marroni sulle foglie, punte bruciate"], "integrazione_livingsoil": "Living Soil water-only: Super Soil già fertilizzato fornisce N nella fase vegetativa. Integrare con infuso ortiche 1x/mese (azoto+ferro) e miscela organica (calcio gusci + potassio banana + azoto caffè). La pila galvanica Ferro-Rame ionizza i nutrienti rendendoli più biodisponibili."}, "fioritura": {"titolo": "Fase di fioritura", "icona": "🌸", "durata": "6-12 settimane secondo varietà", "fonti": ["Zamnesia", "RQS"], "settimane": {"W1-W2": "Pre-fioritura: pistilli bianchi appaiono, stop training, aumento P e K", "W3-W4": "Stretch: pianta cresce 50-100%, cime si formano, odore aumenta", "W5-W6": "Ingrossamento cime: trichomi lattiginosi, massima densità, attenzione muffa", "W7-W8": "Maturazione: trichomi ambrati, pistilli arancioni, flush finale", "W8+": "Raccolta: 70-80% trichomi ambrati = momento ottimale"}, "consigli": ["Trigger fioritura fotoperiodiche: portare a 12h luce / 12h buio", "Autofiorenti: nessun trigger necessario, fioriscono automaticamente", "Nutrienti: ridurre N, aumentare P (fosforo) e K (potassio) in fioritura", "Tè banana + cenere ogni 2 settimane: K biodisponibile per cime più pesanti", "Umidità: abbassare a 40-50% per prevenire muffa grigia (Botrytis)", "Temperatura: 20-28°C giorno, non sotto 18°C notte", "Non fare training in fioritura — solo defoliazione leggera settimana 3-4", "Lollipoping: rimuovere rami bassi per concentrare energia sulle cime principali", "Attenzione a maschi ermafroditi: rimuovere immediatamente i sacchi polline", "Flush finale: 10-14 giorni prima raccolta solo acqua — elimina sali residui (Zamnesia)", "Generatore etilene: mela o banana matura nella serra ultime 2 settimane"], "tricomi": {"trasparenti": "Ancora acerbi — aspettare", "lattiginosi_bianchi": "Picco THC — momento ottimale per effetto mentale vivace", "ambrati_30pct": "Equilibrio THC/CBN — effetto bilanciato mentale+fisico", "ambrati_70pct": "Effetto più fisico e sedativo — raccolta consigliata", "ambrati_90pct": "CBN alto, effetto molto sedativo — tardi per THC"}, "integrazione_livingsoil": "Elettrocoltura in fioritura: il circuito Lakhovsky risuona con le frequenze cellulari aumentando la densità resinosa. La pila galvanica Ferro-Rame sposta K e Mg verso le radici — nutrienti chiave in fioritura. Controllare archi Pantacle per distribuzione uniforme."}, "raccolta": {"titolo": "Raccolta", "icona": "✂️", "fonti": ["Zamnesia", "RQS"], "segnali_maturita": ["70-80% trichomi ambrati (lente 60-100x)", "Pistilli: 70-90% arancioni/rossi", "Foglie: cominciano a ingiallire naturalmente", "Odore: massima intensità aromatica", "Peso: cime hanno smesso di ingrandirsi"], "procedura": ["Tagliare il gambo principale alla base", "Rimuovere foglie grosse subito (wet trimming) o dopo essiccazione (dry trimming)", "Appendere i rami capovolti in luogo buio, 18-22°C, 45-55% umidità", "Non sovraffollare — circolazione aria fondamentale contro muffa", "Essiccazione: 10-21 giorni — ramo si spezza (non si piega) = pronto", "Concia (curing): barattoli vetro ermetici, aprire 2x/giorno prima settimana", "Concia minima 2 settimane, ideale 4-8 settimane per aromi ottimali", "Temperatura concia: 18-22°C, umidità barattolo 60-65%"], "flush_finale": {"durata": "10-14 giorni prima raccolta", "metodo": "Solo acqua pH 6.0-6.5, nessun nutriente", "scopo": "Eliminare sali minerali residui, migliorare gusto e bruciatura", "segnale": "Foglie cominciano a ingiallire — normale e positivo"}}, "substrato": {"titolo": "Substrato e vasi", "icona": "🏺", "fonti": ["Zamnesia", "RQS"], "consigli": ["Mix ideale RQS: 60% terriccio qualità + 30% perlite + 10% fibra cocco", "Vasi tessuto: air-pruning naturale, migliore aerazione, previene root-bound", "pH substrato: 6.0-7.0 — verificare con pH-meter ogni irrigazione", "Super Soil: fertilizzazione lenta, sistema water-only per 8+ mesi", "Worm casting: 20-30% del mix per vita microbica, fertilizzazione biologica", "Perlite: migliora drenaggio, previene ristagno, ossigenazione radici", "Fibra cocco: ritenzione idrica bilanciata, pH neutro", "Dimensione vaso: 10L per piante medie (settimane 8-10 veg), 20L per grandi", "Segnale rinvaso: radici escono dai fori di drenaggio", "Evitare terriccio già fertilizzato con NPK chimico — incompatibile con Living Soil"], "integrazione_livingsoil": "Il sistema Mini-Serra usa già il mix ottimale: Light-Mix + fibra cocco + Super Soil + Worm Humus. Aggiungere micorrize al trapianto e mantenere il suolo vivo con infuso ortiche, miscela organica e melassa ogni 15 giorni."}, "problemi": {"titolo": "Diagnosi e problemi comuni", "icona": "🔍", "fonti": ["Zamnesia", "RQS"], "carenze": {"azoto": "Foglie gialle partendo dal basso e verso l'interno — aggiungere infuso ortiche o miscela caffè", "fosforo": "Foglie viola/porpora sul lato inferiore, crescita lenta — aggiungere tè banana", "potassio": "Bordi foglie bruciati/marroni, macchie rugginose — tè banana + cenere di legna", "calcio": "Macchie marroni sulle foglie, punte arricciate — gusci d'uovo in polvere", "magnesio": "Ingiallimento inter-nervale foglie vecchie — 1 cucchiaio solfato magnesio in 4L", "ferro": "Ingiallimento foglie nuove con nervature verdi — pH troppo alto, correggere a 6.0-6.5"}, "parassiti": {"funghi_gnats": "Moscerini del substrato — lasciare asciugare la superficie tra irrigazioni, trappole gialle", "ragno_rosso": "Ragnatele sotto le foglie — umidità alta, spray acqua+sapone di Castiglia", "afidi": "Insetti verdi/neri sugli apici — spray neem oil diluito 2% ogni 3 giorni", "muffa_grigia": "Botrytis su cime umide — abbassare umidità sotto 45%, rimuovere parti colpite"}, "eccessi": {"azoto": "Foglie arricciate a becco d'aquila, colore verde scuro quasi bluastro", "irrigazione": "Foglie cadenti, ingiallimento generalizzato, odore di marcio dalla radice", "luce": "Foglie superiori arricciate verso l'alto, sbiancamento apici"}}, "essiccazione_concia": {"titolo": "Essiccazione e concia", "icona": "🫙", "fonti": ["Zamnesia", "RQS"], "essiccazione": {"temperatura": "18-22°C", "umidita": "45-55%", "luce": "Oscurità totale — luce degrada i cannabinoidi", "aria": "Ventilazione leggera, non vento diretto sulle cime", "durata": "10-21 giorni — più lenta = migliore qualità", "test_pronto": "Il ramo sottile si spezza nettamente invece di piegarsi"}, "concia": {"contenitore": "Barattoli vetro ermetici (Mason jar)", "umidita_target": "60-65% dentro il barattolo (misurare con igrometro)", "apertura_W1": "2 volte al giorno per 15 minuti — elimina umidità in eccesso", "apertura_W2_4": "1 volta al giorno per 10 minuti", "apertura_poi": "1 volta ogni 2-3 giorni fino a completamento", "durata_minima": "2 settimane", "durata_ottimale": "4-8 settimane", "durata_premium": "3-6 mesi per aromi eccezionali", "segnale_troppo_umido": "Odore di ammoniaca = aprire immediatamente", "segnale_pronto": "Aroma fruttato/terpenico intenso e stabile"}}}, "autofiorenti_specifico": {"titolo": "Guida specifica autofiorenti", "icona": "⏱️", "fonti": ["Zamnesia", "RQS"], "caratteristiche": ["Ciclo automatico: germinazione → raccolta in 60-90 giorni", "Nessun cambio fotoperiodo — fioriscono con qualsiasi luce", "Dimensioni compatte: ideali per spazi ridotti", "Stress-sensitive: evitare training aggressivo (no topping/fimming)", "Recupero lento dallo stress — ogni errore costa più che con le fotoperiodiche", "Nutrienti: dosi ridotte rispetto alle fotoperiodiche (70% della dose standard)"], "calendario_settimane": {"W1-W2": "Semenzai: crescita radici, prime foglie vere", "W3-W4": "Crescita rapida: azoto alto, LST leggera se necessario", "W5-W6": "Pre-fioritura: appaiono pistilli, switch nutrienti verso P e K", "W7-W8": "Fioritura piena: cime si ingrossano, trichomi lattiginosi", "W9-W10": "Maturazione: tricomi ambrati, flush finale", "W10-W12": "Raccolta: 70-80% ambrati"}, "varietà_nostre": {"Epsilon_F1": "60 gg, XXL, raccolta ~20 Giu 2026", "Gaia_F1": "65-70 gg, XXL, raccolta ~25 Giu 2026", "Medusa_F1": "70-75 gg, XXXL, raccolta ~30 Giu 2026", "Titan_F1": "70-75 gg, XXL, raccolta ~01 Lug 2026", "Milky_Way_F1": "70-75 gg, XXL, raccolta ~02 Lug 2026"}}, "femminizzate_specifico": {"titolo": "Guida specifica femminizzate outdoor", "icona": "🍂", "fonti": ["Zamnesia", "RQS"], "fotoperiodo_outdoor": "Fioritura si attiva con l'accorciamento delle giornate (agosto-settembre in Italia)", "calendario_outdoor_italia": {"Aprile-Maggio": "Germinazione e fase seedling indoor, poi uscita graduale", "Giugno-Luglio": "Fase vegetativa intensa, training (LST, topping), massima crescita", "Luglio-Agosto": "Transizione vegetativa→fioritura con accorciamento giornate", "Agosto-Settembre": "Pre-fioritura e inizio fioritura, stop training", "Settembre-Ottobre": "Fioritura piena, attenzione muffa con piogge autunnali", "Ottobre-Dicembre": "Maturazione e raccolta (varietà nostre: ottobre-dicembre)"}, "varietà_nostre": {"Astro_Lemonade_F1": "50-60 gg fioritura, 100-130 cm, raccolta Dicembre 2026", "Cosmic_Cheddar_F1": "50-60 gg fioritura, 80-120 cm, raccolta Dicembre 2026", "Orbital_Banana_F1": "55-65 gg fioritura, 100-130 cm, raccolta Dicembre 2026", "Royal_Gorilla": "55-65 gg fioritura, 130-170 cm, 550-600g/pianta, raccolta Metà Dic 2026", "Mexican_Rush": "60-70 gg fioritura, 150-200 cm, 650-700g/pianta, raccolta Metà Dic 2026"}, "consigli_ora": ["Giugno: massimizzare crescita vegetativa con LST e training", "Luglio: ultima possibilità di topping prima che inizia la transizione", "Agosto: passare a nutrienti P+K, preparare per fioritura", "Settembre: protezione anti-muffa con umidità alta — considerare copertura notturna", "Ottobre: monitoraggio tricomi ogni 3-4 giorni"]}, "tecniche_avanzate": {"titolo": "Tecniche avanzate", "icona": "🔬", "fonti": ["Zamnesia", "RQS"], "training": {"LST": "Low Stress Training: piegare e legare i rami per allargare la chioma — sicuro per autofiorenti", "Topping": "Taglio apice al nodo 5-6 — crea 2 cime dominanti, NO per autofiorenti", "FIM": "Taglio parziale apice — crea 4+ cime, meno stress del topping", "SCROG": "Screen of Green: rete orizzontale per massimizzare la superficie luminosa", "Lollipoping": "Rimuovere rami bassi — concentra energia sulle cime principali", "Defoliazione": "Rimuovere foglie che bloccano la luce — solo in vegetativa e primissima fioritura"}, "organico_avanzato": {"compost_tea": "Acqua + worm casting + melassa + aria — inoculo microbico potente", "kelp_meal": "Alghe marine essiccate — potassio + microelementi + ormoni crescita", "bone_meal": "Farina d'ossa — fosforo biodisponibile per fioritura", "neem_cake": "Torta di neem — fungistatico naturale + nutrimento suolo", "biochar": "Carbone attivato vegetale — habitat microbico + CEC del suolo"}}};
 
-function renderConsigliLive() {
-  var el = document.getElementById('home-consiglio-live');
-  if(!el) return;
-  // Determina la fase prevalente
-  var oggi_d = new Date();
-  var PIANTE = [
-    {germ:new Date('2026-04-21'), gg:60, tipo:'auto'},
-    {germ:new Date('2026-04-21'), gg:67, tipo:'auto'},
-    {germ:new Date('2026-04-21'), gg:72, tipo:'auto'},
-    {germ:new Date('2026-04-22'), gg:72, tipo:'auto'},
-    {germ:new Date('2026-04-23'), gg:72, tipo:'auto'},
+// ═══ FASE CORRENTE — calcola automaticamente dalla data ═══
+function _fasePianteOggi() {
+  var oggi = new Date();
+  var auto = [
+    {n:'Epsilon F1', germ:new Date('2026-04-21'), gg:60},
+    {n:'Gaia F1', germ:new Date('2026-04-21'), gg:67},
+    {n:'Medusa F1', germ:new Date('2026-04-21'), gg:72},
+    {n:'Titan F1', germ:new Date('2026-04-22'), gg:72},
+    {n:'Milky Way F1', germ:new Date('2026-04-23'), gg:72},
   ];
-  var urgenti = 0, fioritura = 0;
-  PIANTE.forEach(function(p){
-    var gg = Math.round((oggi_d - p.germ)/(1000*60*60*24));
+  var urgenti = [], fioritura = [], vegetativa = [];
+  auto.forEach(function(p) {
+    var gg = Math.round((oggi - p.germ)/(864e5));
     var rim = p.gg - gg;
-    if(rim <= 7) urgenti++;
-    else fioritura++;
+    if(rim <= 5) urgenti.push({...p, gg_vissuti:gg, rimanenti:rim});
+    else if(rim <= 25) fioritura.push({...p, gg_vissuti:gg, rimanenti:rim});
+    else vegetativa.push({...p, gg_vissuti:gg, rimanenti:rim});
   });
-  var fase = urgenti > 0 ? 'raccolta' : fioritura > 0 ? 'fioritura' : 'vegetativa';
-  var info = _CONSIGLI_FASI[fase];
-  el.innerHTML = '<div style="font-size:.58rem;font-weight:800;letter-spacing:.1em;color:'+info.colore+';margin-bottom:.35rem;">'+info.titolo+'</div>' +
-    info.punti.slice(0,3).map(function(p){ return '<div style="font-size:.75rem;color:var(--text);padding:.15rem 0;">• '+p+'</div>'; }).join('') +
-    '<div style="font-size:.62rem;color:var(--muted);margin-top:.4rem;">Fonte: '+info.fonte+'</div>';
+  var femm = ['Astro Lemonade F1','Cosmic Cheddar F1','Orbital Banana F1','Royal Gorilla','Mexican Rush'];
+  return {urgenti, fioritura, vegetativa, femm_vegetativa: femm};
 }
 
-// Chiama al caricamento home e ogni 30 min
-document.addEventListener('DOMContentLoaded', function(){
-  setTimeout(renderConsigliLive, 500);
-});
-setInterval(renderConsigliLive, 30*60*1000);
+// ═══ ALERT PIANTE ═══
+function renderGwAlert() {
+  var el = document.getElementById('gw-alert-container');
+  if(!el) return;
+  var stato = _fasePianteOggi();
+  var html = '';
+  if(stato.urgenti.length > 0) {
+    stato.urgenti.forEach(function(p) {
+      html += '<div class="gw-alert"><div class="gw-alert-titolo">🔥 RACCOLTA ENTRO ' + Math.max(0,p.rimanenti) + ' GIORNI — ' + p.n + '</div>' +
+        '<div class="gw-alert-body">• Controlla tricomi con lente 60x (Zamnesia: 70-80% ambrati = raccogli)<br>• Flush finale: solo acqua ora<br>• Generatore etilene: mela matura nella serra</div></div>';
+    });
+  }
+  if(stato.fioritura.length > 0) {
+    var nomi = stato.fioritura.map(function(p){return p.n;}).join(', ');
+    html += '<div style="background:linear-gradient(135deg,#78350f,#92400e);border-radius:12px;padding:.75rem 1rem;color:#fff;margin-bottom:.55rem;">' +
+      '<div style="font-size:.75rem;font-weight:800;margin-bottom:.3rem;">🌸 IN FIORITURA: ' + nomi + '</div>' +
+      '<div style="font-size:.72rem;opacity:.9;line-height:1.5;">• Nutrienti: ridurre N, aumentare P e K (RQS)<br>• Umidità sotto 50% — prevenire muffa grigia<br>• Tè banana + cenere ogni 2 settimane</div></div>';
+  }
+  if(stato.femm_vegetativa.length > 0) {
+    html += '<div style="background:var(--card);border-radius:12px;padding:.75rem 1rem;margin-bottom:.55rem;border-left:3px solid var(--sage);">' +
+      '<div style="font-size:.7rem;font-weight:800;color:var(--sage);margin-bottom:.25rem;">🌿 FEMMINIZZATE IN VEGETATIVA</div>' +
+      '<div style="font-size:.72rem;color:var(--text);line-height:1.5;">Giugno-Luglio: massima crescita vegetativa. LST e topping prima di agosto.<br>Fioritura: ottobre con accorciamento giornate.</div></div>';
+  }
+  el.innerHTML = html || '<div style="font-size:.78rem;color:var(--soft);padding:.3rem 0;">✅ Tutto nella norma — consulta le guide per ottimizzare</div>';
+}
 
-// ═══ Override goNav per renderizzare guide alla navigazione ═══
-(function(){
-  var _orig = window.goNav;
-  window.goNav = function(id, el){
-    if(_orig) _orig.call(window, id, el);
-    if(id==='home') setTimeout(renderConsigliLive, 80);
-    if(id==='guida'){
-      setTimeout(function(){
-        if(typeof renderGuida === 'function') renderGuida();
-        _aggiornaBadgeCervello();
-      }, 80);
-    }
-  };
-})();
+// ═══ FASE CORRENTE GUIDE ═══  
+function renderGwFaseCorrente() {
+  var el = document.getElementById('gw-fase-corrente');
+  if(!el) return;
+  var stato = _fasePianteOggi();
+  var faseKey = stato.urgenti.length > 0 ? 'raccolta' : stato.fioritura.length > 0 ? 'fioritura' : 'vegetativa';
+  var fase = GUIDE_WEB_DB.fasi[faseKey];
+  if(!fase) return;
+  
+  el.innerHTML = '<div class="gw-fase-card" style="border-left-color:' + (faseKey==='raccolta'?'#e53935':faseKey==='fioritura'?'#f57c00':faseKey==='vegetativa'?'#2e7d32':'var(--moss)') + '">' +
+    '<div class="gw-fase-header">' +
+      '<div class="gw-fase-ico">' + fase.icona + '</div>' +
+      '<div><div class="gw-fase-titolo">Fase attuale: ' + fase.titolo + '</div>' +
+      '<div class="gw-fase-fonte">Fonti: ' + (fase.fonti||[]).join(' + ') + '</div></div>' +
+    '</div>' +
+    '<div>' + (fase.consigli||[]).slice(0,4).map(function(c){return '<div class="gw-consiglio">' + c + '</div>';}).join('') + '</div>' +
+    (fase.integrazione_livingsoil ? '<div style="background:rgba(0,135,90,.08);border-radius:8px;padding:.5rem .7rem;margin-top:.5rem;font-size:.72rem;color:var(--moss);line-height:1.4;"><strong>🌱 Living Soil:</strong> ' + fase.integrazione_livingsoil + '</div>' : '') +
+    '<div style="margin-top:.5rem;"><a onclick="mostraFaseGuida(\'' + faseKey + '\')" style="font-size:.7rem;color:var(--moss);cursor:pointer;font-weight:700;">Vedi tutti i consigli →</a></div>' +
+  '</div>';
+}
 
-function _aggiornaBadgeCervello(){
+// ═══ NAVIGAZIONE FASI ═══
+function mostraFaseGuida(faseKey) {
+  var el = document.getElementById('gw-fase-detail');
+  if(!el) return;
+  var fase = GUIDE_WEB_DB.fasi[faseKey];
+  if(!fase) {
+    // Prova autofiorenti/femminizzate
+    if(faseKey === 'autofiorenti') fase = GUIDE_WEB_DB.autofiorenti_specifico;
+    if(faseKey === 'femminizzate') fase = GUIDE_WEB_DB.femminizzate_specifico;
+    if(!fase) return;
+  }
+  
+  // Aggiorna bottoni attivi
+  document.querySelectorAll('.gw-btn-fase').forEach(function(b){b.classList.remove('active');});
+  event && event.target && event.target.classList && event.target.classList.add('active');
+  
+  var html = '<div class="gw-fase-card">';
+  html += '<div style="font-size:.85rem;font-weight:800;color:var(--text);margin-bottom:.6rem;">' + fase.icona + ' ' + fase.titolo + '</div>';
+  
+  if(fase.consigli) {
+    html += '<div style="font-size:.68rem;font-weight:700;color:var(--muted);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.1em;">CONSIGLI</div>';
+    html += fase.consigli.map(function(c){return '<div class="gw-consiglio">' + c + '</div>';}).join('');
+  }
+  
+  if(fase.settimane) {
+    html += '<div style="font-size:.68rem;font-weight:700;color:var(--muted);margin:.6rem 0 .3rem;text-transform:uppercase;letter-spacing:.1em;">SETTIMANE</div>';
+    Object.entries(fase.settimane).forEach(function(kv) {
+      html += '<div style="font-size:.74rem;padding:.25rem 0;border-bottom:1px solid var(--sand);"><strong style="color:var(--moss);">' + kv[0] + ':</strong> ' + kv[1] + '</div>';
+    });
+  }
+  
+  if(fase.tricomi) {
+    html += '<div style="font-size:.68rem;font-weight:700;color:var(--muted);margin:.6rem 0 .3rem;text-transform:uppercase;letter-spacing:.1em;">LETTURA TRICOMI</div>';
+    Object.entries(fase.tricomi).forEach(function(kv) {
+      var col = kv[0].includes('traspar') ? '#64748b' : kv[0].includes('lattigin') ? '#e2e8f0' : kv[0].includes('ambrati_3') ? '#f59e0b' : kv[0].includes('ambrati_7') ? '#d97706' : '#92400e';
+      html += '<div style="font-size:.72rem;padding:.2rem 0;border-bottom:1px solid var(--sand);"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:' + col + ';margin-right:.4rem;vertical-align:middle;"></span>' + kv[1] + '</div>';
+    });
+  }
+  
+  if(fase.carenze) {
+    html += '<div style="font-size:.68rem;font-weight:700;color:var(--muted);margin:.6rem 0 .3rem;text-transform:uppercase;letter-spacing:.1em;">CARENZE</div>';
+    Object.entries(fase.carenze).forEach(function(kv) {
+      html += '<div style="font-size:.72rem;padding:.25rem 0;border-bottom:1px solid var(--sand);"><strong style="color:#f59e0b;">' + kv[0].toUpperCase() + ':</strong> ' + kv[1] + '</div>';
+    });
+  }
+
+  if(fase.flush_finale) {
+    var f = fase.flush_finale;
+    html += '<div style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:.6rem .8rem;margin-top:.6rem;">' +
+      '<div style="font-size:.7rem;font-weight:800;color:#f87171;margin-bottom:.3rem;">💧 FLUSH FINALE</div>' +
+      '<div style="font-size:.72rem;color:var(--text);line-height:1.5;">Durata: ' + f.durata + '<br>Metodo: ' + f.metodo + '<br>Scopo: ' + f.scopo + '</div></div>';
+  }
+  
+  if(fase.integrazione_livingsoil) {
+    html += '<div style="background:rgba(0,135,90,.08);border-radius:8px;padding:.5rem .7rem;margin-top:.55rem;font-size:.72rem;color:var(--moss);line-height:1.4;"><strong>🌱 Living Soil:</strong> ' + fase.integrazione_livingsoil + '</div>';
+  }
+  
+  html += '</div>';
+  el.innerHTML = html;
+  el.style.display = 'block';
+  el.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// ═══ CLAUDE AI INSIDE ═══
+async function chiedeClaude(domanda) {
+  var el = document.getElementById('claude-risposta-hub');
+  var loading = document.getElementById('claude-loading');
+  if(!el || !loading) return;
+  
+  el.style.display = 'none';
+  loading.style.display = 'block';
+  
+  // Costruisce contesto
+  var stato = _fasePianteOggi();
+  var contesto = 'STATO PIANTE: urgenti=' + stato.urgenti.map(function(p){return p.n + '(' + p.rimanenti + 'gg)'}).join(',') + 
+    ' fioritura=' + stato.fioritura.map(function(p){return p.n}).join(',') +
+    ' femminizzate_vegetativa=5 (Astro Lemonade, Cosmic Cheddar, Orbital Banana, Royal Gorilla, Mexican Rush)';
+  
+  // Usa Groq/LLaMA che è già configurato nell'app
+  var GROQ_KEY = localStorage.getItem('groq_api_key') || '';
+  if(!GROQ_KEY) {
+    el.textContent = '⚠️ Configura la chiave Groq nel Laboratorio per usare Claude AI qui';
+    el.style.display = 'block'; loading.style.display = 'none';
+    return;
+  }
+  
+  try {
+    var sys = buildSistemaPrompt ? buildSistemaPrompt() : 'Sei SerraAI, esperto di coltivazione Living Soil.';
+    var resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+GROQ_KEY},
+      body: JSON.stringify({
+        model:'llama-3.3-70b-versatile',
+        messages:[
+          {role:'system', content: sys},
+          {role:'user', content: contesto + '\n\nDomanda: ' + domanda}
+        ],
+        max_tokens:600, temperature:0.7
+      })
+    });
+    var data = await resp.json();
+    var risposta = data.choices && data.choices[0] ? data.choices[0].message.content : 'Nessuna risposta';
+    el.textContent = risposta;
+    el.style.display = 'block';
+  } catch(e) {
+    el.textContent = '❌ Errore: ' + e.message;
+    el.style.display = 'block';
+  }
+  loading.style.display = 'none';
+}
+
+// ═══ CONNETTORI — funzioni ═══
+function apriNotionSerra() {
+  window.open('https://www.notion.so', '_blank');
+}
+function apriGmailSerra() {
+  var sogg = 'Report Serra ' + new Date().toLocaleDateString('it-IT');
+  var body = 'Aggiornamento Mini-Serra Living Soil%0A%0AInviato dall%27app Serra';
+  window.open('mailto:?subject=' + encodeURIComponent(sogg), '_blank');
+}
+function apriZapierSerra() {
+  window.open('https://zapier.com/app/zaps', '_blank');
+}
+
+// ═══ INIT sezione guida ═══
+function initGuideSection() {
+  renderGwAlert();
+  renderGwFaseCorrente();
+  _aggiornaCervelloStats();
+}
+
+function _aggiornaCervelloStats() {
   try {
     var db = JSON.parse(localStorage.getItem('serra5')||'{}');
     var letti = db.pdf_letti_134 || 70;
     var tot = db.pdf_totali_134 || 94;
     var conn = (db.connessioni||[]).length || 110;
     var pct = Math.round(letti/tot*100);
-    var el1 = document.getElementById('cn-pdf-letti');
-    var el2 = document.getElementById('cn-pdf-bar');
-    var el3 = document.getElementById('cn-conn-tot');
-    if(el1) el1.textContent = letti+'/'+tot;
-    if(el2) el2.style.width = pct+'%';
-    if(el3) el3.textContent = conn+' connessioni generate';
-  } catch(e){}
+    var e1=document.getElementById('cn-pdf-n'), e2=document.getElementById('cn-conn-n'), e3=document.getElementById('cn-pct-n'), e4=document.getElementById('cn-bar-new');
+    if(e1) e1.textContent=letti;
+    if(e2) e2.textContent=conn;
+    if(e3) e3.textContent=pct+'%';
+    if(e4) e4.style.width=pct+'%';
+  } catch(e) {}
 }
+
+// ═══ Override goNav ═══
+(function() {
+  var _orig = window.goNav;
+  window.goNav = function(id, el) {
+    if(_orig) _orig.call(window, id, el);
+    if(id === 'guida') setTimeout(function() {
+      if(typeof renderGuida === 'function') renderGuida();
+      initGuideSection();
+    }, 80);
+    if(id === 'home') setTimeout(renderConsigliLive, 80);
+  };
+})();
 </script>
 
 </body>
