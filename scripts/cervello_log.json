@@ -156,5 +156,26 @@
     "pdf_totali": 94,
     "pct": 43,
     "modo": "offline"
+  },
+  {
+    "data": "2026-06-12 04:01",
+    "batch": [
+      "Elcult1",
+      "Cathie — The Energy Grid",
+      "Hull — Electroculture",
+      "Restrepo — A B C Agricultura O",
+      "Ingham — The Soil Biology Prim",
+      "La Strega Verde — Magia delle ",
+      "Guerzoni — Antenna Uomo",
+      "Electroculture For Beginners S",
+      "Garnier Malet — Ouvertures Tem",
+      "Nollet — De l'Electricite du C"
+    ],
+    "nuove_connessioni": 6,
+    "totale_connessioni": 98,
+    "pdf_letti": 50,
+    "pdf_totali": 94,
+    "pct": 53,
+    "modo": "offline"
   }
 ]

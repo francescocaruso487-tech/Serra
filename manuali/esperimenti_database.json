@@ -1,5 +1,5 @@
 {
-  "versione": "2.9",
+  "versione": "3.0",
   "aggiornato": "2026-06-09",
   "categorie": [
     {
@@ -2793,9 +2793,107 @@
         "13OgT70YQllQ6bnhO4ew34GNP8UX_7pay",
         "1Y7AvFUZh90HnDx4a21-gkeNZUsf6ywMP"
       ]
+    },
+    {
+      "a": "N/D — Elcult1",
+      "b": "Jairo Restrepo Rivera — Restrepo — A B C Agricultura Organica",
+      "nota": "N/D e Jairo Restrepo Rivera convergono sulla natura: elettrocoltura la misura con strumenti fisici, coltivazione la descrive con simboli antichi. Due linguaggi, una sola forza. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "crescita",
+        "natura"
+      ],
+      "generata": "2026-06-12",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "10wvpnuZEMCIXhDULbXKYQT-KfEfrGWf4",
+        "1rmhXVBYZA01L-XwewL74J7nKb0kc1bM2"
+      ]
+    },
+    {
+      "a": "N/D — Elcult1",
+      "b": "Elaine Ingham — Ingham — The Soil Biology Primer",
+      "nota": "Connessione reale: N/D e Elaine Ingham condividono la comprensione della natura come forza ordinatrice del vivente. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "crescita",
+        "natura"
+      ],
+      "generata": "2026-06-12",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "10wvpnuZEMCIXhDULbXKYQT-KfEfrGWf4",
+        "1-P95imu3_c3b7MsE5UZ4gJb-SHvIkuwV"
+      ]
+    },
+    {
+      "a": "Bruce Cathie — Cathie — The Energy Grid",
+      "b": "Jairo Restrepo Rivera — Restrepo — A B C Agricultura Organica",
+      "nota": "Connessione reale: Bruce Cathie e Jairo Restrepo Rivera condividono la comprensione della terra come forza ordinatrice del vivente. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "armonia",
+        "terra",
+        "natura"
+      ],
+      "generata": "2026-06-12",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "16CzuDx9YxGpMOGRHRUcN35Sf6aq89nIA",
+        "1rmhXVBYZA01L-XwewL74J7nKb0kc1bM2"
+      ]
+    },
+    {
+      "a": "Bruce Cathie — Cathie — The Energy Grid",
+      "b": "Elaine Ingham — Ingham — The Soil Biology Primer",
+      "nota": "Dal testo reale di Bruce Cathie emerge la terra. Elaine Ingham tratta lo stesso tema nella tradizione coltivazione. La mini-serra diventa il punto di incontro. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "armonia",
+        "terra",
+        "natura"
+      ],
+      "generata": "2026-06-12",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "16CzuDx9YxGpMOGRHRUcN35Sf6aq89nIA",
+        "1-P95imu3_c3b7MsE5UZ4gJb-SHvIkuwV"
+      ]
+    },
+    {
+      "a": "Hull — Hull — Electroculture",
+      "b": "Jairo Restrepo Rivera — Restrepo — A B C Agricultura Organica",
+      "nota": "Dal testo reale di Hull emerge la natura. Jairo Restrepo Rivera tratta lo stesso tema nella tradizione coltivazione. La mini-serra diventa il punto di incontro. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "crescita",
+        "natura"
+      ],
+      "generata": "2026-06-12",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "15VZoTA5sfjnqwWkyMS6nW1E0y_wuAACO",
+        "1rmhXVBYZA01L-XwewL74J7nKb0kc1bM2"
+      ]
+    },
+    {
+      "a": "Hull — Hull — Electroculture",
+      "b": "Elaine Ingham — Ingham — The Soil Biology Primer",
+      "nota": "Elaine Ingham (coltivazione) insegna che la natura e alla base di ogni trasformazione. Hull lo dimostra empiricamente nel campo della elettrocoltura. [Fonte: «electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism r...»]",
+      "tags": [
+        "crescita",
+        "natura"
+      ],
+      "generata": "2026-06-12",
+      "tipo": "sinergia_134pdf",
+      "fonte": "Drive_Reale",
+      "pdf_ids": [
+        "15VZoTA5sfjnqwWkyMS6nW1E0y_wuAACO",
+        "1-P95imu3_c3b7MsE5UZ4gJb-SHvIkuwV"
+      ]
     }
   ],
-  "ultimo_aggiornamento": "2026-06-11 23:11",
+  "ultimo_aggiornamento": "2026-06-12 04:01",
   "drive_folders": {
     "elettrocoltura": {
       "id": "1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ",
@@ -3081,7 +3179,7 @@
       "Il Quinto Accordo - Don Miguel e Don Jose Ruiz"
     ]
   },
-  "pdf_letti_134": 40,
+  "pdf_letti_134": 50,
   "pdf_totali_134": 94,
-  "pdf_percentuale": 43
+  "pdf_percentuale": 53
 }
