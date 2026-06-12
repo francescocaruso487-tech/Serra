@@ -243,5 +243,27 @@
     "pct": 140,
     "guide_web": true,
     "modo": "filesystem_v5"
+  },
+  {
+    "data": "2026-06-12 10:01",
+    "batch": [
+      "dudgrichelcult_782a0268",
+      "Antenna uomo - Tiziano-Guerzon",
+      "Simboli della Scienza Sacra- R",
+      "Il-quinto-accordo-_Nuove-front",
+      "Scoperte scientifiche non auto",
+      "DE L'ELECTRICITE' DES METEORES",
+      "An Agricultural Testament - Al",
+      "Electroculture-The-Biohacker’s",
+      "ELECTROCULTURE FOR BEGINNERS 2",
+      "La Forza del Cervello Quantico"
+    ],
+    "nuove": 2,
+    "tot_conn": 117,
+    "pdf_letti": 90,
+    "tot_pdf": 57,
+    "pct": 158,
+    "guide_web": true,
+    "modo": "filesystem_v5"
   }
 ]
