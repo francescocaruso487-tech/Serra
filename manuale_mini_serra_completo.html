@@ -6876,23 +6876,31 @@ function filtraLibreria(q) {
 
 function buildSistemaPrompt() {
   var bio = typeof calcolaBio==='function' ? calcolaBio(new Date()) : null;
-  var bioCtx = bio ? 'Oggi: '+bio.tipo.nome+', Luna '+bio.lunaInfo.nome+'.' : '';
+  var bioCtx = bio ? 'BIODINAMICA OGGI: '+bio.tipo.nome+' ('+bio.tipo.el+'), Luna '+bio.lunaInfo.nome+'. Consiglio: '+(bio.tipo.consiglio||'')+'. ' : '';
   var meteoCtx = (typeof METEO_CACHE!=='undefined'&&METEO_CACHE&&METEO_CACHE.temp) ?
-    'Meteo: '+METEO_CACHE.temp+'C, '+METEO_CACHE.condizione+'.' : '';
-  var nPDF = PDF_DRIVE ? PDF_DRIVE.length : 36;
-  var sys = bioCtx+' '+meteoCtx;
-  sys += ' Sei il cervello della Mini-Serra Living Soil di Francesco.';
-  sys += ' Integri elettrocoltura, magia pratica, spiritualita e scienza.';
-  sys += ' Hai accesso a '+nPDF+' PDF su Google Drive:';
-  sys += ' ELETTROCOLTURA: Christofleau 1920, Lemstrom 1904, Tesla, Ighina, Bertholon, Nollet, Guerzoni, Cathie, Ruhlmann, Arce, Tompkins, Hull, Magnacult, Lemstrom, US Patents.';
-  sys += ' MAGIA: Crowley (Magick, Libro della Legge, Aforismi, Figlia della Luna, Liber333), Dion Fortune, La Strega Verde.';
-  sys += ' SPIRITUALE: Gateway Secret, Dawson Church, Garnier Malet, Ouspensky, Guenon, Tresoldi, Ruiz.';
-  sys += ' SCIENTIFICO: Halliday, Ulaby, Ortolani, Howard, Ingham Soil Biology.';
-  sys += ' TECNICHE ATTIVE: Antenna Rame, Anello Lakhovsky, Acqua Magnetizzata, Pila Galvanica, Pantacle, Living Soil, Biochar, Bokashi, 528Hz.';
-  sys += ' Rispondi in italiano. Connetti sempre scienza ed esoterismo.';
+    'METEO: '+METEO_CACHE.temp+'C, '+METEO_CACHE.condizione+', umidita '+METEO_CACHE.umidita+'%. ' : '';
+  var nPDF = PDF_DRIVE ? PDF_DRIVE.length : 134;
+  var stato = typeof _fasePianteOggi==='function' ? _fasePianteOggi() : null;
+  var pianteCtx = '';
+  if(stato) {
+    if(stato.urgenti.length) pianteCtx += 'URGENTE-RACCOLTA: '+stato.urgenti.map(function(p){return p.n+'('+p.rimanenti+'gg)';}).join(', ')+'. ';
+    if(stato.fioritura.length) pianteCtx += 'IN FIORITURA: '+stato.fioritura.map(function(p){return p.n;}).join(', ')+'. ';
+    if(stato.femm_vegetativa.length) pianteCtx += 'FEMMINIZZATE VEGETATIVA: '+stato.femm_vegetativa.join(', ')+'. ';
+  }
+  var tecAttive = [];
+  if(typeof TECNICHE!=='undefined'&&typeof DB!=='undefined'&&DB.tecStatus) {
+    TECNICHE.forEach(function(t){ if(DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def) tecAttive.push(t.n); });
+  }
+  var tecCtx = tecAttive.length ? 'TECNICHE ATTIVE: '+tecAttive.join(', ')+'. ' : '';
+  var sys = 'Sei SerraAI, il cervello della Mini-Serra Living Soil di Francesco. '+bioCtx+meteoCtx+pianteCtx+tecCtx;
+  sys += ' Hai accesso a '+nPDF+' PDF: ELETTROCOLTURA(Christofleau 1920 spirale rame, Lemstrom 1904 fili aerei, Lakhovsky 1925 anello risonanza, Tesla campi EM, Hull 1898 corona discharge, Ighina 1954 atomo magnetico, Bertholon, Nollet, Dudgeon, Arce, Guerzoni).';
+  sys += ' LIVING SOIL(Howard Agricultural Testament microbioma, Ingham Soil Biology funghi micorrizici, Restrepo Agricultura Organica, Tompkins Vita Segreta Piante coscienza vegetale).';
+  sys += ' MAGIA(Crowley Magick+Libro Legge+Liber333, Kybalion 7 principi ermetici, Tavole Smeraldine, Agrippa De Occulta Philosophia metalli planetari, Chiave Salomone, Wicca sabbat, Ruhlmann Melodie Secrete Vegetaux frequenze sonore 528Hz).';
+  sys += ' SPIRITUALE(Dawson Church Mente Materia, Garnier Malet doppio tempo, Registri Akashici Melissa Gomes, Gateway Secret, Ouspensky, Guenon).';
+  sys += ' GUIDE WEB ZAMNESIA+RQS: germinazione(22-25C carta umida, piantina no fert 2sett), vegetativa(LST 4-6 nodo, topping solo femminizzate, N alto 18-20h luce), fioritura W1-W8(W1-2 transiz N-PK, W3-4 umidita<50%, W5-6 max PK, W7 riduci irr 20%, W8+ flush), tricomi(trasp=no, latt=sativa, 30-50%ambr=bilanc, 70%=indica), raccolta(mattina, forbici steriliz, 18-22C 45-55%umid), essiccazione(10-14gg buio ventilato), concia(vetro ermetico, burping 2x/gg 2sett, 58-65%umid, 4-8sett), problemi(N-giallo basso ortiche, P-viola te banana, K-bordi cenere, Ca-macchie gusci uovo, Mg-clorosi pH, moscerini sabbia quarzo, ragnetto neem+umidita, botrytis ventilaz).';
+  sys += ' SISTEMA: 10 piante vasi 10L tessuto, Living Soil water-only, irrigazione solare automatica. Rispondi in italiano, pratico, bullet points. Cita sempre la fonte PDF o guida web per ogni consiglio.';
   return sys;
 }
-
 // ── Aggiorna contatore header lab ──
 function aggiornaHeaderLab() {
   var el = document.querySelector('#laboratorio .lab-header-conn, #lab-conn-num');
@@ -8044,6 +8052,506 @@ function apriGmailSerra() {
 }
 function apriZapierSerra() {
   window.open('https://zapier.com/app/zaps', '_blank');
+}
+
+// ═══ INIT sezione guida ═══
+function initGuideSection() {
+  renderGwAlert();
+  renderGwFaseCorrente();
+  _aggiornaCervelloStats();
+}
+
+function _aggiornaCervelloStats() {
+  try {
+    var db = JSON.parse(localStorage.getItem('serra5')||'{}');
+    var letti = db.pdf_letti_134 || 70;
+    var tot = db.pdf_totali_134 || 94;
+    var conn = (db.connessioni||[]).length || 110;
+    var pct = Math.round(letti/tot*100);
+    var e1=document.getElementById('cn-pdf-n'), e2=document.getElementById('cn-conn-n'), e3=document.getElementById('cn-pct-n'), e4=document.getElementById('cn-bar-new');
+    if(e1) e1.textContent=letti;
+    if(e2) e2.textContent=conn;
+    if(e3) e3.textContent=pct+'%';
+    if(e4) e4.style.width=pct+'%';
+  } catch(e) {}
+}
+
+// ═══ Override goNav ═══
+(function() {
+  var _orig = window.goNav;
+  window.goNav = function(id, el) {
+    if(_orig) _orig.call(window, id, el);
+    if(id === 'guida') setTimeout(function() {
+      if(typeof renderGuida === 'function') renderGuida();
+      initGuideSection();
+    }, 80);
+    if(id === 'home') setTimeout(renderConsigliLive, 80);
+  };
+})();
+</script>
+
+
+<!-- ═══════ OVERLAY — PDF VIEWER INLINE ═══════ -->
+<div id="overlay-pdf" class="serra-overlay" style="display:none;">
+  <div class="overlay-header">
+    <button class="overlay-back" onclick="chiudiOverlay('overlay-pdf')">← Indietro</button>
+    <div class="overlay-title" id="overlay-pdf-title">📄 Manuale</div>
+  </div>
+  <div class="overlay-body" id="overlay-pdf-body"></div>
+</div>
+
+<!-- ═══════ OVERLAY — GUIDA READER INLINE ═══════ -->
+<div id="overlay-guida" class="serra-overlay" style="display:none;">
+  <div class="overlay-header">
+    <button class="overlay-back" onclick="chiudiOverlay('overlay-guida')">← Indietro</button>
+    <div class="overlay-title" id="overlay-guida-title">📚 Guida</div>
+    <div id="overlay-guida-fonte" style="font-size:.6rem;color:var(--muted);"></div>
+  </div>
+  <div class="overlay-body" id="overlay-guida-body"></div>
+</div>
+
+<!-- ═══════ OVERLAY — ANALISI AI INLINE ═══════ -->
+<div id="overlay-ai" class="serra-overlay" style="display:none;">
+  <div class="overlay-header">
+    <button class="overlay-back" onclick="chiudiOverlay('overlay-ai')">← Indietro</button>
+    <div class="overlay-title">🤖 Analisi AI</div>
+  </div>
+  <div class="overlay-body">
+    <div id="overlay-ai-domanda" style="font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:.8rem;padding:.6rem .8rem;background:var(--cream);border-radius:10px;"></div>
+    <div class="analisi-card">
+      <div class="analisi-header">🧠 Serra AI — risposta completa</div>
+      <div id="overlay-ai-risposta" class="analisi-risposta">Elaborazione in corso...</div>
+    </div>
+    <div id="overlay-ai-fonti" style="font-size:.68rem;color:var(--muted);margin-top:.5rem;"></div>
+  </div>
+</div>
+
+<!-- ═══════ OVERLAY — CONNESSIONI CROSS-DOMAIN ═══════ -->
+<div id="overlay-conn" class="serra-overlay" style="display:none;">
+  <div class="overlay-header">
+    <button class="overlay-back" onclick="chiudiOverlay('overlay-conn')">← Indietro</button>
+    <div class="overlay-title">🔗 Connessioni Cross-Dominio</div>
+  </div>
+  <div class="overlay-body" id="overlay-conn-body"></div>
+</div>
+
+
+<script>
+// ╔═══════════════════════════════════════════════════════════╗
+// ║  SERRA INTELLIGENCE SYSTEM v5                             ║
+// ║  Tutto inline — niente link esterni                       ║
+// ╚═══════════════════════════════════════════════════════════╝
+
+var GUIDE_DB_FULL = {"meta": {"versione": "1.0", "generato": "2026-06-12", "aggiornamento": "settimanale", "fonti": ["https://www.zamnesia.io/it/guida-coltivare-cannabis", "https://www.royalqueenseeds.it/guida-alla-coltivazione-della-cannabis"]}, "fasi": {"germinazione": {"titolo": "Germinazione dei semi", "icona": "🌱", "durata": "2-7 giorni", "fonti": ["Zamnesia", "RQS"], "consigli": ["Metodo carta assorbente: semi tra 2 fogli umidi in luogo caldo (22-25°C), oscurità totale", "Metodo bicchiere d'acqua: immergere 12-24h finché non affondano, poi carta assorbente", "Trapianto quando radichetta è lunga 1-2 cm, usare pinzette e maneggiate con cura", "Temperatura ideale: 22-25°C — sotto 18°C germinazione lenta o assente", "Umidità ideale: 70-90% — usare cupola o sacchetto trasparente", "Prima irrigazione: acqua a temperatura ambiente, non fredda, pH 6.0-7.0", "Non toccare la radichetta con le dita — rischio di danni e contaminazione", "Profondità piantatura: 5mm nel substrato con radichetta verso il basso"], "errori_comuni": ["Terreno troppo bagnato → marcescenza", "Temperatura troppo bassa → germinazione lenta", "Radichetta esposta alla luce → stress", "Innaffiatura eccessiva → semi che annegano"], "integrazione_livingsoil": "Nel sistema Living Soil: aggiungere inoculo micorrize 0.5g nel buco prima di inserire la piantina. Le micorrize colonizzano le radici e migliorano l'assorbimento idrico fin dal primo giorno."}, "vegetativa": {"titolo": "Fase vegetativa", "icona": "🌿", "durata": "2-16 settimane (femminizzate), 2-4 settimane (autofiorenti)", "fonti": ["Zamnesia", "RQS"], "consigli": ["Nutrienti: alto azoto (N), medio fosforo (P), medio potassio (K) — rapporto 3:1:2", "Luce: 18h luce / 6h buio per indoor fotoperiodiche", "Autofiorenti: crescita automatica, non modificare il fotoperiodo", "Training LST (Low Stress Training): piegare i rami dalla 3a settimana per allargare la chioma", "Topping: tagliare l'apice al nodo 5-6 per creare 2 cime dominanti", "FIM: taglio parziale dell'apice al nodo 3-4, crea 4+ cime", "SCROG: rete orizzontale per distribuire uniformemente i rami", "Irrigazione: tecnica lift-test — vaso leggero = irrigare, pesante = aspettare", "Segno d'innaffiatura corretta: prime gocce escono dai fori di drenaggio", "Potatura: rimuovere foglie gialle e rami ombreggiati nella parte bassa", "Controlla pH acqua: 6.0-7.0 per substrato, 5.5-6.5 per idroponica"], "carenze_comuni": ["Azoto (N): foglie gialle partendo dal basso, crescita lenta", "Ferro (Fe): ingiallimento delle foglie nuove (apici), nervature verdi", "Magnesio (Mg): macchie gialle inter-nervali sulle foglie vecchie", "Calcio (Ca): macchie marroni sulle foglie, punte bruciate"], "integrazione_livingsoil": "Living Soil water-only: Super Soil già fertilizzato fornisce N nella fase vegetativa. Integrare con infuso ortiche 1x/mese (azoto+ferro) e miscela organica (calcio gusci + potassio banana + azoto caffè). La pila galvanica Ferro-Rame ionizza i nutrienti rendendoli più biodisponibili."}, "fioritura": {"titolo": "Fase di fioritura", "icona": "🌸", "durata": "6-12 settimane secondo varietà", "fonti": ["Zamnesia", "RQS"], "settimane": {"W1-W2": "Pre-fioritura: pistilli bianchi appaiono, stop training, aumento P e K", "W3-W4": "Stretch: pianta cresce 50-100%, cime si formano, odore aumenta", "W5-W6": "Ingrossamento cime: trichomi lattiginosi, massima densità, attenzione muffa", "W7-W8": "Maturazione: trichomi ambrati, pistilli arancioni, flush finale", "W8+": "Raccolta: 70-80% trichomi ambrati = momento ottimale"}, "consigli": ["Trigger fioritura fotoperiodiche: portare a 12h luce / 12h buio", "Autofiorenti: nessun trigger necessario, fioriscono automaticamente", "Nutrienti: ridurre N, aumentare P (fosforo) e K (potassio) in fioritura", "Tè banana + cenere ogni 2 settimane: K biodisponibile per cime più pesanti", "Umidità: abbassare a 40-50% per prevenire muffa grigia (Botrytis)", "Temperatura: 20-28°C giorno, non sotto 18°C notte", "Non fare training in fioritura — solo defoliazione leggera settimana 3-4", "Lollipoping: rimuovere rami bassi per concentrare energia sulle cime principali", "Attenzione a maschi ermafroditi: rimuovere immediatamente i sacchi polline", "Flush finale: 10-14 giorni prima raccolta solo acqua — elimina sali residui (Zamnesia)", "Generatore etilene: mela o banana matura nella serra ultime 2 settimane"], "tricomi": {"trasparenti": "Ancora acerbi — aspettare", "lattiginosi_bianchi": "Picco THC — momento ottimale per effetto mentale vivace", "ambrati_30pct": "Equilibrio THC/CBN — effetto bilanciato mentale+fisico", "ambrati_70pct": "Effetto più fisico e sedativo — raccolta consigliata", "ambrati_90pct": "CBN alto, effetto molto sedativo — tardi per THC"}, "integrazione_livingsoil": "Elettrocoltura in fioritura: il circuito Lakhovsky risuona con le frequenze cellulari aumentando la densità resinosa. La pila galvanica Ferro-Rame sposta K e Mg verso le radici — nutrienti chiave in fioritura. Controllare archi Pantacle per distribuzione uniforme."}, "raccolta": {"titolo": "Raccolta", "icona": "✂️", "fonti": ["Zamnesia", "RQS"], "segnali_maturita": ["70-80% trichomi ambrati (lente 60-100x)", "Pistilli: 70-90% arancioni/rossi", "Foglie: cominciano a ingiallire naturalmente", "Odore: massima intensità aromatica", "Peso: cime hanno smesso di ingrandirsi"], "procedura": ["Tagliare il gambo principale alla base", "Rimuovere foglie grosse subito (wet trimming) o dopo essiccazione (dry trimming)", "Appendere i rami capovolti in luogo buio, 18-22°C, 45-55% umidità", "Non sovraffollare — circolazione aria fondamentale contro muffa", "Essiccazione: 10-21 giorni — ramo si spezza (non si piega) = pronto", "Concia (curing): barattoli vetro ermetici, aprire 2x/giorno prima settimana", "Concia minima 2 settimane, ideale 4-8 settimane per aromi ottimali", "Temperatura concia: 18-22°C, umidità barattolo 60-65%"], "flush_finale": {"durata": "10-14 giorni prima raccolta", "metodo": "Solo acqua pH 6.0-6.5, nessun nutriente", "scopo": "Eliminare sali minerali residui, migliorare gusto e bruciatura", "segnale": "Foglie cominciano a ingiallire — normale e positivo"}}, "substrato": {"titolo": "Substrato e vasi", "icona": "🏺", "fonti": ["Zamnesia", "RQS"], "consigli": ["Mix ideale RQS: 60% terriccio qualità + 30% perlite + 10% fibra cocco", "Vasi tessuto: air-pruning naturale, migliore aerazione, previene root-bound", "pH substrato: 6.0-7.0 — verificare con pH-meter ogni irrigazione", "Super Soil: fertilizzazione lenta, sistema water-only per 8+ mesi", "Worm casting: 20-30% del mix per vita microbica, fertilizzazione biologica", "Perlite: migliora drenaggio, previene ristagno, ossigenazione radici", "Fibra cocco: ritenzione idrica bilanciata, pH neutro", "Dimensione vaso: 10L per piante medie (settimane 8-10 veg), 20L per grandi", "Segnale rinvaso: radici escono dai fori di drenaggio", "Evitare terriccio già fertilizzato con NPK chimico — incompatibile con Living Soil"], "integrazione_livingsoil": "Il sistema Mini-Serra usa già il mix ottimale: Light-Mix + fibra cocco + Super Soil + Worm Humus. Aggiungere micorrize al trapianto e mantenere il suolo vivo con infuso ortiche, miscela organica e melassa ogni 15 giorni."}, "problemi": {"titolo": "Diagnosi e problemi comuni", "icona": "🔍", "fonti": ["Zamnesia", "RQS"], "carenze": {"azoto": "Foglie gialle partendo dal basso e verso l'interno — aggiungere infuso ortiche o miscela caffè", "fosforo": "Foglie viola/porpora sul lato inferiore, crescita lenta — aggiungere tè banana", "potassio": "Bordi foglie bruciati/marroni, macchie rugginose — tè banana + cenere di legna", "calcio": "Macchie marroni sulle foglie, punte arricciate — gusci d'uovo in polvere", "magnesio": "Ingiallimento inter-nervale foglie vecchie — 1 cucchiaio solfato magnesio in 4L", "ferro": "Ingiallimento foglie nuove con nervature verdi — pH troppo alto, correggere a 6.0-6.5"}, "parassiti": {"funghi_gnats": "Moscerini del substrato — lasciare asciugare la superficie tra irrigazioni, trappole gialle", "ragno_rosso": "Ragnatele sotto le foglie — umidità alta, spray acqua+sapone di Castiglia", "afidi": "Insetti verdi/neri sugli apici — spray neem oil diluito 2% ogni 3 giorni", "muffa_grigia": "Botrytis su cime umide — abbassare umidità sotto 45%, rimuovere parti colpite"}, "eccessi": {"azoto": "Foglie arricciate a becco d'aquila, colore verde scuro quasi bluastro", "irrigazione": "Foglie cadenti, ingiallimento generalizzato, odore di marcio dalla radice", "luce": "Foglie superiori arricciate verso l'alto, sbiancamento apici"}}, "essiccazione_concia": {"titolo": "Essiccazione e concia", "icona": "🫙", "fonti": ["Zamnesia", "RQS"], "essiccazione": {"temperatura": "18-22°C", "umidita": "45-55%", "luce": "Oscurità totale — luce degrada i cannabinoidi", "aria": "Ventilazione leggera, non vento diretto sulle cime", "durata": "10-21 giorni — più lenta = migliore qualità", "test_pronto": "Il ramo sottile si spezza nettamente invece di piegarsi"}, "concia": {"contenitore": "Barattoli vetro ermetici (Mason jar)", "umidita_target": "60-65% dentro il barattolo (misurare con igrometro)", "apertura_W1": "2 volte al giorno per 15 minuti — elimina umidità in eccesso", "apertura_W2_4": "1 volta al giorno per 10 minuti", "apertura_poi": "1 volta ogni 2-3 giorni fino a completamento", "durata_minima": "2 settimane", "durata_ottimale": "4-8 settimane", "durata_premium": "3-6 mesi per aromi eccezionali", "segnale_troppo_umido": "Odore di ammoniaca = aprire immediatamente", "segnale_pronto": "Aroma fruttato/terpenico intenso e stabile"}}}, "autofiorenti_specifico": {"titolo": "Guida specifica autofiorenti", "icona": "⏱️", "fonti": ["Zamnesia", "RQS"], "caratteristiche": ["Ciclo automatico: germinazione → raccolta in 60-90 giorni", "Nessun cambio fotoperiodo — fioriscono con qualsiasi luce", "Dimensioni compatte: ideali per spazi ridotti", "Stress-sensitive: evitare training aggressivo (no topping/fimming)", "Recupero lento dallo stress — ogni errore costa più che con le fotoperiodiche", "Nutrienti: dosi ridotte rispetto alle fotoperiodiche (70% della dose standard)"], "calendario_settimane": {"W1-W2": "Semenzai: crescita radici, prime foglie vere", "W3-W4": "Crescita rapida: azoto alto, LST leggera se necessario", "W5-W6": "Pre-fioritura: appaiono pistilli, switch nutrienti verso P e K", "W7-W8": "Fioritura piena: cime si ingrossano, trichomi lattiginosi", "W9-W10": "Maturazione: tricomi ambrati, flush finale", "W10-W12": "Raccolta: 70-80% ambrati"}, "varietà_nostre": {"Epsilon_F1": "60 gg, XXL, raccolta ~20 Giu 2026", "Gaia_F1": "65-70 gg, XXL, raccolta ~25 Giu 2026", "Medusa_F1": "70-75 gg, XXXL, raccolta ~30 Giu 2026", "Titan_F1": "70-75 gg, XXL, raccolta ~01 Lug 2026", "Milky_Way_F1": "70-75 gg, XXL, raccolta ~02 Lug 2026"}}, "femminizzate_specifico": {"titolo": "Guida specifica femminizzate outdoor", "icona": "🍂", "fonti": ["Zamnesia", "RQS"], "fotoperiodo_outdoor": "Fioritura si attiva con l'accorciamento delle giornate (agosto-settembre in Italia)", "calendario_outdoor_italia": {"Aprile-Maggio": "Germinazione e fase seedling indoor, poi uscita graduale", "Giugno-Luglio": "Fase vegetativa intensa, training (LST, topping), massima crescita", "Luglio-Agosto": "Transizione vegetativa→fioritura con accorciamento giornate", "Agosto-Settembre": "Pre-fioritura e inizio fioritura, stop training", "Settembre-Ottobre": "Fioritura piena, attenzione muffa con piogge autunnali", "Ottobre-Dicembre": "Maturazione e raccolta (varietà nostre: ottobre-dicembre)"}, "varietà_nostre": {"Astro_Lemonade_F1": "50-60 gg fioritura, 100-130 cm, raccolta Dicembre 2026", "Cosmic_Cheddar_F1": "50-60 gg fioritura, 80-120 cm, raccolta Dicembre 2026", "Orbital_Banana_F1": "55-65 gg fioritura, 100-130 cm, raccolta Dicembre 2026", "Royal_Gorilla": "55-65 gg fioritura, 130-170 cm, 550-600g/pianta, raccolta Metà Dic 2026", "Mexican_Rush": "60-70 gg fioritura, 150-200 cm, 650-700g/pianta, raccolta Metà Dic 2026"}, "consigli_ora": ["Giugno: massimizzare crescita vegetativa con LST e training", "Luglio: ultima possibilità di topping prima che inizia la transizione", "Agosto: passare a nutrienti P+K, preparare per fioritura", "Settembre: protezione anti-muffa con umidità alta — considerare copertura notturna", "Ottobre: monitoraggio tricomi ogni 3-4 giorni"]}, "tecniche_avanzate": {"titolo": "Tecniche avanzate", "icona": "🔬", "fonti": ["Zamnesia", "RQS"], "training": {"LST": "Low Stress Training: piegare e legare i rami per allargare la chioma — sicuro per autofiorenti", "Topping": "Taglio apice al nodo 5-6 — crea 2 cime dominanti, NO per autofiorenti", "FIM": "Taglio parziale apice — crea 4+ cime, meno stress del topping", "SCROG": "Screen of Green: rete orizzontale per massimizzare la superficie luminosa", "Lollipoping": "Rimuovere rami bassi — concentra energia sulle cime principali", "Defoliazione": "Rimuovere foglie che bloccano la luce — solo in vegetativa e primissima fioritura"}, "organico_avanzato": {"compost_tea": "Acqua + worm casting + melassa + aria — inoculo microbico potente", "kelp_meal": "Alghe marine essiccate — potassio + microelementi + ormoni crescita", "bone_meal": "Farina d'ossa — fosforo biodisponibile per fioritura", "neem_cake": "Torta di neem — fungistatico naturale + nutrimento suolo", "biochar": "Carbone attivato vegetale — habitat microbico + CEC del suolo"}}};
+
+// ── Piante con dati completi ──
+var PIANTE_COMPLETO = [
+  {id:7, nome:'Epsilon F1', tipo:'auto', germ:'2026-04-21', gg_tot:60, altezza:'50-70cm', rendimento:'XXL', fioritura:'30-40 gg', stato:'raccolta'},
+  {id:8, nome:'Gaia F1', tipo:'auto', germ:'2026-04-21', gg_tot:67, altezza:'50-70cm', rendimento:'XXL', fioritura:'40-45 gg', stato:'fioritura_avanzata'},
+  {id:3, nome:'Medusa F1', tipo:'auto', germ:'2026-04-21', gg_tot:72, altezza:'60-90cm', rendimento:'XXXL', fioritura:'40-45 gg', stato:'fioritura'},
+  {id:2, nome:'Titan F1', tipo:'auto', germ:'2026-04-22', gg_tot:72, altezza:'55-75cm', rendimento:'XXL', fioritura:'40-45 gg', stato:'fioritura'},
+  {id:1, nome:'Milky Way F1', tipo:'auto', germ:'2026-04-23', gg_tot:72, altezza:'55-75cm', rendimento:'XXL', fioritura:'42-45 gg', stato:'inizio_fioritura'},
+  {id:4, nome:'Astro Lemonade F1', tipo:'femm', germ:'2026-04-21', gg_tot:null, altezza:'100-130cm', rendimento:'XXXL', fioritura:'50-60 gg', raccolta_mese:'Dicembre 2026', stato:'vegetativa'},
+  {id:11, nome:'Cosmic Cheddar F1', tipo:'femm', germ:'2026-05-02', gg_tot:null, altezza:'80-120cm', rendimento:'XXL', fioritura:'50-60 gg', raccolta_mese:'Dicembre 2026', stato:'vegetativa'},
+  {id:6, nome:'Orbital Banana F1', tipo:'femm', germ:'2026-04-30', gg_tot:null, altezza:'100-130cm', rendimento:'XXL', fioritura:'55-65 gg', raccolta_mese:'Dicembre 2026', stato:'vegetativa'},
+  {id:10, nome:'Royal Gorilla', tipo:'femm', germ:'2026-04-22', gg_tot:null, altezza:'130-170cm', rendimento:'550-600g/pianta', fioritura:'55-65 gg', raccolta_mese:'Metà Dic 2026', stato:'vegetativa'},
+  {id:9, nome:'Mexican Rush', tipo:'femm', germ:'2026-04-21', gg_tot:null, altezza:'150-200cm', rendimento:'650-700g/pianta', fioritura:'60-70 gg', raccolta_mese:'Metà Dic 2026', stato:'vegetativa'},
+];
+
+// ── Cache PDF dal DB connessioni ──
+var PDF_CACHE_TESTI = {};
+
+// ═══ OVERLAY SYSTEM ═══
+function apriOverlay(id) {
+  document.getElementById(id).style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function chiudiOverlay(id) {
+  document.getElementById(id).style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// ═══ GUIDA READER INLINE ═══
+function apriGuidaInterna(faseKey) {
+  // ── Database guide completo per ogni fase ──
+  var GUIDE_FASI = {
+    germinazione: {
+      titolo: '🌱 Germinazione & Piantina',
+      colore: 'linear-gradient(135deg,#064e3b,#065f46)',
+      fonti: ['Zamnesia', 'Royal Queen Seeds', 'Albert Howard', 'Soil Biology Primer'],
+      sezioni: [
+        { titolo: '📋 Procedura base — Metodo carta assorbente', items: [
+          '🌡️ Temperatura ideale: 22-25°C — usa un propagatore o il top del frigo',
+          '💧 Umidità semi: 2 fogli carta assorbente umidi (non bagnati fradici)',
+          '🌑 Oscurità totale per 24-72h — controlla ogni 12h',
+          '📏 Traspianta quando la radichetta è 0.5-1 cm — non aspettare oltre',
+          '🕳️ Buco nel substrato di 1 cm, radichetta verso il basso',
+          '💦 Prima irrigazione: 100-150 ml di acqua con micorrize intorno al seme'
+        ]},
+        { titolo: '🌊 Metodo acqua — Ammollo 24h', items: [
+          '🥃 Semi in bicchiere acqua 24h (non oltre — rischio asfissia)',
+          '✅ Semi pronti: vanno a fondo — semi flottanti potrebbero non germogliare',
+          '🔄 Trasferisci su carta umida per la radichetta — stessa procedura',
+          '⚡ Integrazione elettrocoltura: pre-trattamento Crown Discharge (Hull 1898) per stimolare germinazione'
+        ]},
+        { titolo: '🌿 Fase piantina (1-2 settimane)', items: [
+          '💡 Luce: 18-20h, intensità bassa — nessun fertilizzante per 2 settimane',
+          '🌡️ Temperatura: 20-25°C giorno, non sotto 18°C notte',
+          '💧 Irrigazione leggera: terreno leggermente umido, non saturo',
+          '🔬 Living Soil: le micorrize iniziano a colonizzare le radici in 3-5 gg',
+          '🌱 Nessun fertilizzante — il Super Soil è già ricco abbastanza'
+        ]},
+        { titolo: '📚 Connessioni dai 134 PDF', items: [
+          '⚡ Lemstrom (1904): campo elettrico debole accelera la germinazione del 15-25%',
+          '🔮 Lakhovsky: le cellule germinali risuonano a 750MHz — il cerchio aiuta la radichetta',
+          '🌱 Howard (Testament): substrato vivo riduce il tempo di germinazione del 30%',
+          '🧪 Ingham (Soil Biology): i funghi micorrizici aumentano l\'assorbimento di P in piantina del 200%'
+        ]},
+        { titolo: '⚗️ Tecniche elettrocoltura applicabili', items: [
+          '🌀 Anello Lakhovsky alla base del vasetto in piantina',
+          '🧲 Acqua magnetizzata per le prime irrigazioni (polo Nord)',
+          '📡 Antenna rame vicino al propagatore — cattura cariche atmosferiche',
+          '🔋 Pila galvanica: installa al trapianto, non in fase piantina'
+        ]}
+      ],
+      ai_domanda: 'Sono nella fase di germinazione/piantina del mio sistema Living Soil. Analizza i dati biodinamici di oggi e dimmi le 5 azioni più importanti basandoti sui 134 manuali e le guide Zamnesia+RQS. Considera: temperatura, luce, irrigazione, micorrize e possibili applicazioni di elettrocoltura.'
+    },
+    vegetativa: {
+      titolo: '🌿 Fase Vegetativa',
+      colore: 'linear-gradient(135deg,#14532d,#166534)',
+      fonti: ['Zamnesia', 'Royal Queen Seeds', 'Christofleau', 'Howard'],
+      sezioni: [
+        { titolo: '✂️ LST — Low Stress Training', items: [
+          '🪢 Inizia LST quando la pianta ha 4-6 nodi — non prima',
+          '📐 Piega i rami principali verso il basso e verso l\'esterno con clips o spago',
+          '☀️ Obiettivo: canopy piatta — tutti i cimini alla stessa altezza ricevono stessa luce',
+          '🔄 Aggiusta ogni 2-3 giorni mentre la pianta cresce',
+          '⚡ Connessione elettrocoltura: le piante LST hanno più superficie per le antenne Lakhovsky'
+        ]},
+        { titolo: '✂️ Topping — Raddoppia i cimini', items: [
+          '🎯 Taglia sopra il 4°-6° nodo con forbici sterilizzate con alcool',
+          '⏰ Dopo topping: 5-7 giorni di recupero — non irrigare troppo',
+          '🌿 Risultato: 2 cimini principali invece di 1 — adatto a FIM per 4 cimini',
+          '⚠️ NON fare topping alle autofiorenti (Epsilon, Gaia, Medusa, Titan, Milky Way) — perdita di tempo',
+          '✅ Solo per le 5 femminizzate (Astro Lemonade, Cosmic Cheddar, Orbital Banana, Royal Gorilla, Mexican Rush)'
+        ]},
+        { titolo: '💧 Nutrizione in vegetativa', items: [
+          '🟢 Azoto alto (N): è la fase di crescita fogliare — il Super Soil lo fornisce già',
+          '🍯 Melassa 1ml/L ogni 15 gg: nutre i microbi che rendono disponibile il N',
+          '🌱 Giornata biologica mensile: ortiche (azoto) + humus (microbi) + miscela organica',
+          '⚠️ NON aggiungere fertilizzanti extra: il Living Soil si autogestisce',
+          '📏 Obiettivo: crescita 2-4 cm/giorno nelle piante sane'
+        ]},
+        { titolo: '🔬 Monitoraggio radicale — Living Soil', items: [
+          '👁️ Radici bianche visibili dai lati del vaso = sistema radicale sano',
+          '🟤 Radici marroni = possibile asfissia o overwatering',
+          '💡 Escavatori di luce Mylar: controlla che siano integri e riflettano bene',
+          '🌡️ Temperatura substrato ideale: 18-22°C — sopra 26°C i microbi soffrono'
+        ]},
+        { titolo: '📚 Connessioni dai 134 PDF', items: [
+          '⚡ Christofleau (1920): spirale rame accelera crescita vegetativa del 20-35%',
+          '🔮 Pantacle rame: distribuisce cariche galvaniche tra tutti i 10 vasi uniformemente',
+          '🌱 Tompkins (Vita Segreta): le piante rispondono all\'intenzione del coltivatore in fase vegetativa',
+          '🧲 Acqua magnetizzata: polo Nord aumenta la traslocazione degli zuccheri nelle foglie'
+        ]},
+        { titolo: '⚗️ Azioni consigliate questa settimana', items: [
+          '🌀 Controlla e regola anello Lakhovsky alla base dei fusti principali',
+          '🔋 Verifica pila galvanica — chiodo arrugginito = più efficace',
+          '📐 LST settimanale per le 5 femminizzate',
+          '🍌 Tè banana+cenere ogni 2 sett. per le femminizzate in crescita accelerata'
+        ]}
+      ],
+      ai_domanda: 'Le mie piante femminizzate sono in fase vegetativa (Astro Lemonade, Cosmic Cheddar, Orbital Banana, Royal Gorilla, Mexican Rush). Analizza lo stato attuale del giorno biodinamico di oggi e dimmi: LST o topping questa settimana? Quali tecniche dai 134 manuali applicare? Piano nutrizionale specifico per Living Soil in vegetativa.'
+    },
+    fioritura: {
+      titolo: '🌸 Fase Fioritura',
+      colore: 'linear-gradient(135deg,#7c2d12,#92400e)',
+      fonti: ['Zamnesia W1-W8', 'Royal Queen Seeds', 'Lakhovsky', 'Ruhlmann'],
+      sezioni: [
+        { titolo: '📅 Settimane di fioritura — Zamnesia+RQS', items: [
+          '🌸 W1-W2: Pre-fioritura — appare il bianco dei pistilli. Transizione N→P/K',
+          '🌸 W3-W4: Fioritura vera — cimini si formano. Umidità sotto 50%. Temperatura 20-26°C',
+          '🌸 W5-W6: Gonfiamento — cimini crescono veloci. Massima dose P e K. No N',
+          '🌸 W7: Maturazione — terpeni intensi, colori cambiano. Riduci irrigazione del 20%',
+          '🌸 W8+: Fine ciclo — controlla tricomi. Prepara flush finale'
+        ]},
+        { titolo: '🔬 Lettura tricomi — timing perfetto', items: [
+          '⚪ Trasparenti = non pronte — aspetta ancora 1-2 settimane',
+          '🥛 Lattiginosi/bianchi = ready per effetto sativa più cerebrale',
+          '🟡 Ambrati 30% = momento ideale per effetto bilanciato (Zamnesia raccomanda)',
+          '🟠 Ambrati 70% = effetto indica più corpo e sedazione',
+          '🟤 Ambrati 90%+ = troppo tardi — effetto pesante e sonnolento'
+        ]},
+        { titolo: '💧 Nutrizione in fioritura', items: [
+          '🔴 Azoto (N): riduci drasticamente dalla W3 in poi',
+          '🟣 Fosforo (P) e Potassio (K): aumenta — tè banana+cenere ogni 2 settimane',
+          '🍯 Melassa: continua 1ml/L — nutre microbi che mobilizzano P',
+          '🌊 Flush finale: ultime 1-2 settimane solo acqua (RQS) o 10-14 gg (Zamnesia)',
+          '💡 Living Soil: il sistema si autoregola — non stressare con troppo fertilizzante'
+        ]},
+        { titolo: '🍎 Generatore di etilene', items: [
+          '🍎 Mela rossa matura o banana annerita nella serra (ultime 4-6 settimane)',
+          '🔄 Sostituisci ogni 3-4 giorni quando inizia a marcire',
+          '📡 Scienza: etilene (C2H4) è ormone che segnala maturazione a tutte le piante',
+          '🌸 Effetto: sincronizza la maturazione di tutti i cimini contemporaneamente'
+        ]},
+        { titolo: '📚 Connessioni dai 134 PDF', items: [
+          '🎵 Ruhlmann (Mélodie Secrète): musica 528Hz amplifica la produzione di terpeni in fioritura',
+          '🌀 Lakhovsky: l\'anello di risonanza massimizza l\'energia cellulare in fioritura',
+          '🔮 Magia Wicca: i Sabbat corrispondono alle fasi di fioritura — usa l\'energia ciclica',
+          '🔋 Pila galvanica: K+ ionizzato si sposta verso le radici — più efficace in fioritura'
+        ]}
+      ],
+      ai_domanda: 'Le mie autofiorenti sono in fase di fioritura avanzata. Analizza il giorno biodinamico di oggi e dimmi: in quale settimana di fioritura sono probabilmente le mie piante? Come leggo i tricomi correttamente? Quali tecniche dei 134 manuali PDF (Lakhovsky, Ruhlmann, elettrocoltura) applicare questa settimana per massimizzare terpeni e resina?'
+    },
+    raccolta: {
+      titolo: '✂️ Raccolta, Essiccazione & Concia',
+      colore: 'linear-gradient(135deg,#1e1b4b,#312e81)',
+      fonti: ['Zamnesia', 'Royal Queen Seeds', 'Tompkins', 'Ingham'],
+      sezioni: [
+        { titolo: '⏰ Timing perfetto — quando raccogliere', items: [
+          '🔬 Strumento: lente 60x-100x o microscopio tascabile',
+          '🟡 Obiettivo Zamnesia: 50-70% tricomi ambrati per effetto bilanciato',
+          '🟠 Obiettivo RQS: 60-80% ambrati per pieno effetto indica/sativa',
+          '🍎 Generatore etilene: continua fino alla raccolta',
+          '💧 Flush: 7-14 gg solo acqua prima della raccolta (dibattuto tra Zamnesia e RQS)',
+          '📅 Raccogli di mattina presto — dopo le ore di buio, terpeni sono al massimo'
+        ]},
+        { titolo: '✂️ Procedura di taglio', items: [
+          '✂️ Forbici sterilizzate con alcool isopropilico — importante per non contaminare',
+          '🌿 Taglio rami per rami, non pianta intera — lavora in sezioni',
+          '🧤 Guanti nitrile — le resine si appiccicano e non si lavano facilmente',
+          '🌡️ Temperatura ambiente: ideale 18-22°C con umidità 45-55%',
+          '💡 Oscurità o luce soffusa — la luce UV degrada i cannabinoidi'
+        ]},
+        { titolo: '🌬️ Essiccazione — 10-15 giorni', items: [
+          '📌 Appendi i rami a testa in giù in luogo buio e ventilato',
+          '🌡️ 18-22°C, umidità 45-55% — troppo secco = terpeni evaporano veloce',
+          '💨 Ventilazione lieve ma costante — no aria diretta sui cimini',
+          '✅ Pronto quando i rametti si spezzano (non si piegano) — circa 10-14 giorni',
+          '🔍 Zamnesia: essiccazione lenta migliora aroma del 40%'
+        ]},
+        { titolo: '🧪 Concia (Curing) — 2-8 settimane', items: [
+          '🫙 Barattoli di vetro ermetici — no plastica, altera il profilo terpenico',
+          '📂 Riempi al 75% — lascia spazio per l\'aria',
+          '🔄 Burping: apri 2x/giorno per 15 min nelle prime 2 settimane',
+          '📅 Poi 1x/giorno per 1 settimana, poi 1x/settimana',
+          '🌡️ Concia ideale: 18-21°C, 58-65% umidità — usa Boveda packs',
+          '⏳ 4-8 settimane di concia: aroma e potenza migliorano drasticamente'
+        ]},
+        { titolo: '📚 Connessioni dai 134 PDF', items: [
+          '🌱 Tompkins (Vita Segreta): l\'energia della pianta persiste dopo la raccolta',
+          '🧲 Acqua magnetizzata nel flush finale: cristallizza le molecole d\'acqua — migliore rimozione nutrienti',
+          '🔮 Biodinamica: raccogli in giorno Frutto (pianta al suo massimo energetico)',
+          '🌙 Raccogli in Luna Crescente o Piena per massimizzare potenza secondo la tradizione'
+        ]}
+      ],
+      ai_domanda: 'Sto per raccogliere le mie autofiorenti. Analizza il calendario biodinamico di oggi e dimmi: è un buon giorno per raccogliere? Qual è la finestra ottimale per le mie varietà specifiche? Come ottimizzare essiccazione e concia secondo le guide Zamnesia+RQS e i 134 manuali? Integra la biodinamica e le tecniche di elettrocoltura nel processo post-raccolta.'
+    },
+    problemi: {
+      titolo: '🔍 Diagnosi Problemi & Soluzioni',
+      colore: 'linear-gradient(135deg,#4c1d95,#5b21b6)',
+      fonti: ['Zamnesia', 'Royal Queen Seeds', 'Soil Biology Primer', 'Ingham'],
+      sezioni: [
+        { titolo: '⚠️ Carenze — riconoscimento rapido', items: [
+          '🟡 Azoto (N): foglie gialle che iniziano dal basso — applica infuso ortiche dil. 1:10',
+          '🟤 Fosforo (P): foglie viola/rosse sotto, crescita lenta — tè banana+cenere',
+          '🟠 Potassio (K): bordi foglie bruciati/marroni — cenere di legna + tè banana',
+          '⚪ Calcio (Ca): foglie arricciate, macchie marroni — gusci d\'uovo polverizzati',
+          '🟢 Magnesio (Mg): ingiallimento tra le nervature (clorosi internervale) — check pH',
+          '🔵 Ferro (Fe): foglie giovani gialle, nervature verdi — pila galvanica rilascia Fe ionizzato'
+        ]},
+        { titolo: '🪲 Parassiti — identificazione e trattamento', items: [
+          '🦟 Moscerini fungo (Sciaridae): larve mangiano radici. Sabbia quarzo 2cm in superficie',
+          '🕷️ Ragnetto rosso: pagina inferiore foglie, tele fini. Aumenta umidità + olio neem 1%',
+          '🐛 Afidi: piccoli insetti verdi/neri. Sapone di Castiglia 1% + acqua',
+          '🌸 Tripidi: argento sulle foglie. Trappole blu/gialle + olio neem',
+          '🍄 Botrytis (muffa grigia): in fioritura. Ventilazione + umidità sotto 45%',
+          '🔬 Oidio: polvere bianca. Bicarbonato sodio 1% + qualche goccia olio neem'
+        ]},
+        { titolo: '💧 Problemi di irrigazione', items: [
+          '🔴 Overwatering: foglie cadenti ma substrato umido — aspetta che si asciughi al 70%',
+          '🟠 Underwatering: foglie cadenti e substrato secco — irrigazione lenta e profonda',
+          '⚠️ Zone idrofobiche ai bordi: bagna manualmente i bordi con annaffiatoio',
+          '🧪 pH fuori range (6.0-6.8): usa pH meter — acqua di Caserta ~7.2, serve pH down',
+          '💡 Living Soil: il sistema tamponizza il pH naturalmente — ma controlla periodicamente'
+        ]},
+        { titolo: '🌡️ Problemi ambientali', items: [
+          '🌡️ Caldo eccessivo (>30°C): radici soffocano, microbi muoiono — ombreggia o raffredda',
+          '❄️ Freddo (<15°C): crescita blocca, muffe aumentano — isolamento termico',
+          '💨 Vento forte: antenne si spostano — controlla e fissa settimanalmente',
+          '🌧️ Pioggia intensa: blocca l\'irrigazione automatica — controlla il timer'
+        ]},
+        { titolo: '📚 Diagnosi AI + 134 PDF', items: [
+          '🤖 Usa l\'AI sotto per diagnosi immediata: descrivi il sintomo e ricevi soluzione',
+          '📚 Il sistema incrocia i 134 PDF con le guide Zamnesia+RQS per risposta precisa',
+          '🔬 Connessione Ingham: il suolo vivente autoregola molte carenze senza intervento',
+          '⚡ Connessione elettrocoltura: la pila galvanica rilascia Fe e corregge alcune carenze'
+        ]}
+      ],
+      ai_domanda: 'Ho bisogno di una diagnosi completa dei possibili problemi per le mie piante oggi. Analizza: 1) Il giorno biodinamico attuale e i rischi correlati, 2) Le carenze più probabili per questa fase (autofiorenti in fioritura + femminizzate in vegetativa), 3) I parassiti stagionali da giugno in Italia, 4) Come i 134 manuali e le guide Zamnesia+RQS consigliano di prevenire e trattare. Dammi una checklist di diagnosi visiva con soluzioni specifiche Living Soil.'
+    }
+  };
+
+  var fase = GUIDE_FASI[faseKey];
+  if(!fase) {
+    // Fallback al vecchio sistema per compatibilità
+    var faseOld = GUIDE_DB_FULL && GUIDE_DB_FULL.fasi && GUIDE_DB_FULL.fasi[faseKey];
+    if(faseOld) {
+      var el_title = document.getElementById('overlay-guida-title');
+      var el_body = document.getElementById('overlay-guida-body');
+      if(el_title) el_title.textContent = faseOld.icona + ' ' + faseOld.titolo;
+      if(el_body) el_body.innerHTML = '<div style="padding:1rem;color:var(--soft);">Fase non disponibile nel nuovo sistema.</div>';
+      apriOverlay('overlay-guida');
+    }
+    return;
+  }
+
+  var el_title = document.getElementById('overlay-guida-title');
+  var el_fonte = document.getElementById('overlay-guida-fonte');
+  var el_body  = document.getElementById('overlay-guida-body');
+  if(!el_body) return;
+
+  if(el_title) el_title.textContent = fase.titolo;
+  if(el_fonte) el_fonte.textContent = 'Fonti: ' + fase.fonti.join(' · ');
+
+  // Header con gradiente
+  var html = '<div style="background:'+fase.colore+';border-radius:16px;padding:1rem 1.1rem;margin-bottom:.8rem;color:#fff;">';
+  html += '<div style="font-size:1.2rem;font-weight:800;margin-bottom:.2rem;">'+fase.titolo+'</div>';
+  html += '<div style="font-size:.7rem;opacity:.75;">'+fase.fonti.join(' · ')+'</div>';
+  // Stato piante oggi
+  var stato = typeof _fasePianteOggi === 'function' ? _fasePianteOggi() : null;
+  if(stato) {
+    var inFase = [];
+    if(faseKey==='raccolta' && stato.urgenti.length) inFase = stato.urgenti.map(function(p){return p.n;});
+    else if(faseKey==='fioritura' && stato.fioritura.length) inFase = stato.fioritura.map(function(p){return p.n;});
+    else if(faseKey==='vegetativa') inFase = stato.femm_vegetativa;
+    if(inFase.length) {
+      html += '<div style="margin-top:.5rem;background:rgba(255,255,255,.15);border-radius:8px;padding:.4rem .7rem;font-size:.72rem;">';
+      html += '🌿 Piante in questa fase ora: <strong>'+inFase.join(', ')+'</strong></div>';
+    }
+  }
+  html += '</div>';
+
+  // Biodinamica oggi
+  var bio = typeof calcolaBio === 'function' ? calcolaBio(new Date()) : null;
+  if(bio) {
+    html += '<div style="background:var(--card);border-radius:12px;padding:.7rem .9rem;margin-bottom:.6rem;border-left:3px solid var(--gold);box-shadow:var(--one-shadow-sm);">';
+    html += '<div style="font-size:.6rem;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.2rem;">📅 Biodinamica Oggi</div>';
+    html += '<div style="font-size:.83rem;font-weight:700;color:var(--text);">'+bio.tipo.ico+' '+bio.tipo.nome+' · '+bio.lunaInfo.ico+' '+bio.lunaInfo.nome+'</div>';
+    html += '<div style="font-size:.72rem;color:var(--soft);margin-top:.2rem;">'+(bio.tipo.consiglio||'')+'</div>';
+    html += '</div>';
+  }
+
+  // Sezioni di contenuto
+  fase.sezioni.forEach(function(sez) {
+    html += '<div style="background:var(--card);border-radius:14px;padding:.75rem .9rem;margin-bottom:.5rem;box-shadow:var(--one-shadow-sm);">';
+    html += '<div style="font-size:.75rem;font-weight:800;color:var(--text);margin-bottom:.45rem;">'+sez.titolo+'</div>';
+    sez.items.forEach(function(item) {
+      html += '<div style="font-size:.8rem;color:var(--soft);line-height:1.6;padding:.2rem 0;border-bottom:1px solid var(--sand);">'+item+'</div>';
+    });
+    html += '</div>';
+  });
+
+  // Connessioni PDF rilevanti per questa fase
+  html += '<div style="background:rgba(0,135,90,.06);border-radius:14px;padding:.75rem .9rem;margin-bottom:.5rem;border:1px solid rgba(0,135,90,.15);">';
+  html += '<div style="font-size:.6rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;">🔗 Connessioni Cross-Dominio Rilevanti</div>';
+  var connRilev = (window.CONNESSIONI_CROSS||[]).slice(0,4);
+  connRilev.forEach(function(c) {
+    html += '<div style="font-size:.75rem;color:var(--text);margin-bottom:.3rem;padding:.3rem .4rem;background:var(--card);border-radius:8px;">';
+    html += '<span style="color:var(--moss);font-weight:700;">'+(c.a||'').substring(0,35)+'</span>';
+    html += '<span style="color:var(--muted);font-size:.65rem;"> ↔ </span>';
+    html += '<span style="color:var(--leaf);font-weight:700;">'+(c.b||'').substring(0,35)+'</span>';
+    html += '<div style="font-size:.68rem;color:var(--soft);margin-top:.15rem;">'+(c.nota||'').substring(0,100)+'…</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+
+  // AI INTEGRATA — risposta dinamica
+  html += '<div style="background:linear-gradient(135deg,#003D2B,#005C3F);border-radius:14px;padding:.75rem .9rem;margin-bottom:.5rem;">';
+  html += '<div style="font-size:.6rem;font-weight:800;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;">🤖 AI SPECIALIST — 134 PDF + Zamnesia + RQS</div>';
+  html += '<div id="guida-ai-risposta-'+faseKey+'" style="font-size:.78rem;color:rgba(255,255,255,.9);line-height:1.6;min-height:60px;">⏳ Genero analisi personalizzata...</div>';
+  html += '<button onclick="rigeneraGuidaAI(\''+faseKey+'\')" style="margin-top:.5rem;background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:8px;padding:.4rem .8rem;font-size:.72rem;cursor:pointer;">🔄 Rigenera</button>';
+  html += '</div>';
+
+  // Bottone domanda personalizzata
+  html += '<button onclick="apriAnalisiAIConFase(\''+faseKey+'\')" style="width:100%;background:var(--moss);color:#fff;border:none;border-radius:12px;padding:.7rem;font-size:.85rem;font-weight:700;cursor:pointer;margin-bottom:.5rem;">🤖 Fai una domanda specifica su questa fase →</button>';
+
+  el_body.innerHTML = html;
+  apriOverlay('overlay-guida');
+
+  // Avvia AI automaticamente
+  setTimeout(function() { generaGuidaAI(faseKey, fase.ai_domanda); }, 300);
+}
+
+// ── AI per le guide fase ──
+async function generaGuidaAI(faseKey, domanda) {
+  var el = document.getElementById('guida-ai-risposta-'+faseKey);
+  if(!el) return;
+  var GROQ_KEY = localStorage.getItem('groq_api_key') || '';
+  if(!GROQ_KEY) {
+    el.textContent = '⚠️ Configura la chiave Groq nel Laboratorio (⚗️) per l\'AI.';
+    return;
+  }
+  var bio = typeof calcolaBio === 'function' ? calcolaBio(new Date()) : null;
+  var bioCtx = bio ? 'Oggi: '+bio.tipo.nome+' ('+bio.tipo.el+'), Luna '+bio.lunaInfo.nome+'.' : '';
+  var stato = typeof _fasePianteOggi === 'function' ? _fasePianteOggi() : null;
+  var pianteCtx = stato ? 'Urgenti(raccolta):'+stato.urgenti.map(function(p){return p.n;}).join(',')
+    +' | Fioritura:'+stato.fioritura.map(function(p){return p.n;}).join(',')
+    +' | Femminizzate vegetativa:'+stato.femm_vegetativa.join(',') : '';
+  var meteoCtx = (typeof METEO_CACHE!=='undefined'&&METEO_CACHE&&METEO_CACHE.temp) ?
+    'Meteo: '+METEO_CACHE.temp+'°C, '+METEO_CACHE.condizione+'.' : '';
+
+  var sys = 'Sei SerraAI, esperto di coltivazione Living Soil, elettrocoltura e biodinamica. '
+    + 'Hai accesso a 134 PDF (Christofleau, Lakhovsky, Howard, Ingham, Tompkins, Tesla, Crowley, Kybalion, ecc.) '
+    + 'e alle guide complete di Zamnesia e Royal Queen Seeds sulla coltivazione cannabis. '
+    + bioCtx + ' ' + pianteCtx + ' ' + meteoCtx
+    + ' Mini-serra: 10 piante vasi 10L, Living Soil water-only, irrigazione solare automatica. '
+    + 'Rispondi in italiano, conciso (max 200 parole), pratico, con bullet points. '
+    + 'Cita sempre la fonte (PDF o guida web) per ogni consiglio.';
+
+  try {
+    var resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+GROQ_KEY},
+      body: JSON.stringify({
+        model:'llama-3.3-70b-versatile',
+        messages:[{role:'system',content:sys},{role:'user',content:domanda}],
+        max_tokens:500, temperature:0.7
+      })
+    });
+    var data = await resp.json();
+    var testo = data.choices && data.choices[0] ? data.choices[0].message.content : 'Nessuna risposta.';
+    el.textContent = testo;
+  } catch(e) {
+    el.textContent = '❌ '+e.message;
+  }
+}
+
+function rigeneraGuidaAI(faseKey) {
+  var GUIDE_FASI_DOMANDE = {
+    germinazione: 'Analisi fase germinazione/piantina: cosa fare oggi con il giorno biodinamico attuale?',
+    vegetativa: 'Analisi fase vegetativa per le femminizzate oggi: LST, nutrizione, tecniche elettrocoltura?',
+    fioritura: 'Analisi fase fioritura autofiorenti oggi: settimana corrente, tricomi, cosa applicare?',
+    raccolta: 'Analisi raccolta: timing ottimale, essiccazione, concia — tutto integrato con biodinamica e 134 PDF?',
+    problemi: 'Diagnosi completa possibili problemi oggi: carenze, parassiti, ambiente — soluzioni Living Soil?'
+  };
+  var el = document.getElementById('guida-ai-risposta-'+faseKey);
+  if(el) { el.textContent = '⏳ Rigenerazione...'; }
+  generaGuidaAI(faseKey, GUIDE_FASI_DOMANDE[faseKey] || 'Analisi fase '+faseKey);
+}
+
+function apriAnalisiAIConFase(faseKey) {
+  labChiudiPanel && labChiudiPanel('lab-panel-ai');
+  chiudiOverlay('overlay-guida');
+  goNav('laboratorio');
+  setTimeout(function() {
+    labApriAI && labApriAI();
+    setTimeout(function() {
+      var inp = document.getElementById('ai-input');
+      if(inp) inp.focus();
+    }, 300);
+  }, 200);
 }
 
 // ═══ INIT sezione guida ═══
