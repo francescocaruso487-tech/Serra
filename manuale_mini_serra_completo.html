@@ -6815,6 +6815,11 @@ async function autoBackupGitHubRepo(force) {
       var v = localStorage.getItem(k); if(v) aiKeys[k] = v;
     });
     if(Object.keys(aiKeys).length) backupObj._ai_keys = aiKeys;
+    // Non sovrascrivere GitHub con dati vuoti — protezione perdita dati
+    var hasDays = backupObj.days && Object.keys(backupObj.days).length > 0;
+    var hasPiante = backupObj.pianteFasi && Object.keys(backupObj.pianteFasi).length > 0;
+    var hasKeys = Object.keys(aiKeys).length > 0;
+    if(!hasDays && !hasPiante && !hasKeys) { _ghSaving = false; return; }
     var rawBackup = JSON.stringify(backupObj);
     var payload = {
       message: '⚡ Auto-backup Serra ' + new Date().toISOString().slice(0,16).replace('T',' '),
@@ -6887,10 +6892,16 @@ document.addEventListener('DOMContentLoaded', function() {
       if(zwh) { zbadge.textContent='✅ Attivo'; zbadge.style.background='#d1fae5'; zbadge.style.color='#065f46'; }
       else { zbadge.textContent='⚠️ Da configurare'; zbadge.style.background='#fef3c7'; zbadge.style.color='#92400e'; }
     }
-    // Auto-backup GitHub repo — al caricamento (force=true se localStorage ok)
-    var hasData = !!localStorage.getItem('serra5');
+    // Auto-backup GitHub repo — al caricamento
+    // Verifica che i dati locali siano significativi prima di fare backup
+    var raw5 = localStorage.getItem('serra5');
+    var hasData = false;
+    try {
+      var p5 = JSON.parse(raw5 || '{}');
+      hasData = (p5.days && Object.keys(p5.days).length > 0) ||
+                (p5.pianteFasi && Object.keys(p5.pianteFasi).length > 0);
+    } catch(e) {}
     if(hasData) {
-      // Prima tenta ripristino da GitHub se localStorage è fresco
       var lastGH = parseInt(localStorage.getItem('serra_gh_last')||'0');
       var ghOld = Date.now()-lastGH > 3600000*4; // più di 4h fa
       autoBackupGitHubRepo(ghOld); // force se backup vecchio
@@ -6899,11 +6910,16 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(autoCaricaChiaviAI, 4000);
     // Auto-backup ogni 30 minuti
     setInterval(function(){ autoBackupGitHubRepo(false); }, 1800000);
-    // Backup immediato anche ad ogni salvataggio (già fatto nel labToggleOp/labToggleAp)
   }, 2500);
-  // Ripristino automatico se localStorage vuoto ma GitHub ha dati
-  var curr = localStorage.getItem('serra5');
-  if(!curr || curr==='null' || curr==='{}') {
+  // Ripristino automatico se localStorage non ha dati significativi
+  var currRaw = localStorage.getItem('serra5');
+  var currEmpty = true;
+  try {
+    var pCurr = JSON.parse(currRaw || '{}');
+    currEmpty = (!pCurr.days || Object.keys(pCurr.days).length === 0) &&
+                (!pCurr.pianteFasi || Object.keys(pCurr.pianteFasi).length === 0);
+  } catch(e) {}
+  if(currEmpty) {
     setTimeout(function(){
       ripristinoDaGitHubSilenzioso();
     }, 3000);
@@ -6918,14 +6934,17 @@ async function ripristinoDaGitHubSilenzioso() {
     if(!data.content) return;
     var raw = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
     var parsed = JSON.parse(raw);
-    if(parsed.days || parsed.piante || parsed.version) {
+    // Ripristina se ci sono dati significativi (days, pianteFasi, piante, o versione)
+    var ghHasData = parsed.days || parsed.pianteFasi || parsed.piante || parsed.version;
+    if(ghHasData) {
+      // Ripristina sempre le chiavi AI (anche se erano presenti localmente)
       if(parsed._ai_keys) {
         Object.keys(parsed._ai_keys).forEach(function(k){ localStorage.setItem(k, parsed._ai_keys[k]); });
       }
       var cleanObj = Object.assign({}, parsed); delete cleanObj._ai_keys;
       var rawClean = JSON.stringify(cleanObj);
       localStorage.setItem('serra5', rawClean);
-      salvaIDB(rawClean);
+      try { salvaIDB(rawClean); } catch(e) {}
       toast('✅ Dati ripristinati automaticamente da GitHub!', 3000);
       setTimeout(function(){ location.reload(); }, 2000);
     }
@@ -7502,20 +7521,6 @@ function initGuideSection() {
   aggiornaBadgeAI && aggiornaBadgeAI();
 }
 
-function _aggiornaCervelloStats() {
-  try {
-    var db = JSON.parse(localStorage.getItem('serra5')||'{}');
-    var letti = db.pdf_letti_134 || 70;
-    var tot = db.pdf_totali_134 || 94;
-    var conn = (db.connessioni||[]).length || 110;
-    var pct = Math.round(letti/tot*100);
-    var e1=document.getElementById('cn-pdf-n'), e2=document.getElementById('cn-conn-n'), e3=document.getElementById('cn-pct-n'), e4=document.getElementById('cn-bar-new');
-    if(e1) e1.textContent=letti;
-    if(e2) e2.textContent=conn;
-    if(e3) e3.textContent=pct+'%';
-    if(e4) e4.style.width=pct+'%';
-  } catch(e) {}
-}
 
 
 
