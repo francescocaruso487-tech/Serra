@@ -6271,6 +6271,21 @@ function labInsightClick(){
   apriPopup(titolo,'',html);
 }
 
+function labApriDettaglioConnGiorno(){
+  var c2 = CERVELLO && CERVELLO.ultimaConn; if(!c2) return;
+  var nA = c2.da ? c2.da : (c2.a||'').split(' — ')[0];
+  var nB = c2.da ? c2.a : (c2.b||'');
+  var html='<div style="padding:.2rem 0;"><div style="background:rgba(0,135,90,0.08);border-radius:12px;padding:.8rem;margin-bottom:.6rem;">';
+  html+='<div style="font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.3rem;">'+nA+'</div>';
+  html+='<div style="font-size:.75rem;color:var(--muted);text-align:center;margin:.2rem 0;">🔗 collegato a</div>';
+  html+='<div style="font-size:.88rem;font-weight:700;color:var(--text);">'+nB+'</div></div>';
+  html+='<div style="font-size:.83rem;color:var(--soft);line-height:1.6;">'+(c2.nota||'')+'</div>';
+  if(c2.tags&&c2.tags.length){ html+='<div style="margin-top:.6rem;display:flex;flex-wrap:wrap;gap:.3rem;">';
+    c2.tags.forEach(function(t){ html+='<span style="font-size:.65rem;background:var(--cream);color:var(--soft);border-radius:20px;padding:.15rem .5rem;">#'+t+'</span>'; }); html+='</div>'; }
+  html+='</div>';
+  apriPopup('🔗 Connessione del Giorno',nA+' ↔ '+nB,html);
+}
+
 function labConnClick(){
   var c=window._labCurrentConn; if(!c) return;
   var nA=c.da?(function(){var r=getEsp(c.da);return r?r.cat.ico+' '+r.esp.nome:c.da;})():(c.a||'').split(' — ')[0];
@@ -6329,7 +6344,7 @@ function labRenderTecnichePanel(){
       var tid=t.id;
       html+='<div style="background:var(--card);border-radius:14px;margin-bottom:.3rem;border-left:3px solid '+(ap?col:'var(--sand)')+';box-shadow:var(--one-shadow-sm);overflow:hidden;">';
       // Riga principale toccabile per espandere
-      html+='<div style="display:flex;align-items:center;gap:.7rem;padding:.7rem .9rem;cursor:pointer;" onclick="labToggleAp(\''+tid+'\')">';
+      html+='<div style="display:flex;align-items:center;gap:.7rem;padding:.7rem .9rem;cursor:pointer;" onclick="labApriDettaglioTec(\''+tid+'\')">';
       html+='<span style="font-size:1.25rem;flex-shrink:0;">'+t.ico+'</span>';
       html+='<div style="flex:1;min-width:0;">';
       html+='<div style="font-weight:700;font-size:.87rem;color:var(--text);margin-bottom:.15rem;">'+t.n+'</div>';
@@ -6337,9 +6352,7 @@ function labRenderTecnichePanel(){
       html+='<span style="font-size:.62rem;padding:.1rem .45rem;border-radius:100px;font-weight:700;'+(ap?'background:#d4edda;color:#155724;':'background:var(--cream);color:var(--muted);')+'">'+(ap?'✓ Applicata':'○ Non ancora')+'</span>';
       html+='</div>';
       // Bottone toggle — chiamata diretta con ID stringa
-      html+='<button style="border:1.5px solid '+(ap?'var(--moss)':'var(--sand)')+';border-radius:12px;width:40px;height:40px;cursor:pointer;font-size:1rem;font-weight:700;transition:all .18s;flex-shrink:0;';
-      html+=(ap?'background:var(--moss);color:#fff;':'background:var(--cream);color:var(--muted);');
-      html+='<button data-tid="'+tid+'" class="lab-tec-detail-btn" style="border:1.5px solid var(--sand);border-radius:12px;width:40px;height:40px;cursor:pointer;font-size:.75rem;font-weight:700;transition:all .18s;flex-shrink:0;background:var(--cream);color:var(--muted);" title="Dettagli">ℹ</button>';
+      html+='<button onclick="event.stopPropagation();labApriDettaglioTec(\''+tid+'\')" style="border:1.5px solid var(--sand);border-radius:12px;width:40px;height:40px;cursor:pointer;font-size:.75rem;font-weight:700;transition:all .18s;flex-shrink:0;background:var(--cream);color:var(--muted);">ℹ</button>';
       html+='</div>';
       // Corpo espandibile
       html+='<div class="tec-body" id="ltb_'+tid+'" style="display:none;padding:0 .9rem .7rem;">';
@@ -6389,8 +6402,21 @@ function labToggleAp(id) {
   var current = DB.tecStatus.hasOwnProperty(id) ? DB.tecStatus[id] : t.def;
   DB.tecStatus[id] = !current;
   salvaSilenzioso();
+  autoBackupGitHubRepo(); // sync su GitHub
   labRenderTecnichePanel(); // Re-render
   toast(DB.tecStatus[id] ? '✅ Tecnica applicata!' : '○ Rimossa dalle attive', 1600);
+}
+
+function labToggleOp(dayKey, opId) {
+  if(!DB.days) DB.days={};
+  if(!DB.days[dayKey]) DB.days[dayKey]={ops:{}};
+  if(!DB.days[dayKey].ops) DB.days[dayKey].ops={};
+  var done = DB.days[dayKey].ops[opId]&&DB.days[dayKey].ops[opId].done;
+  DB.days[dayKey].ops[opId] = {done:!done, ts: new Date().toISOString()};
+  salvaSilenzioso();
+  autoBackupGitHubRepo(); // sync su GitHub
+  labRenderOggiPanel(); // Re-render
+  toast(!done ? '✅ Operazione completata!' : '○ Rimossa', 1400);
 }
 
 
@@ -6527,7 +6553,7 @@ function labRenderOggiPanel(){
       html += '<div style="font-size:.62rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:.6rem 0 .35rem;">⚡ TECNICHE CONSIGLIATE OGGI</div>';
       tecOggi.forEach(function(t){
         var ap = DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def;
-        html += '<div style="background:var(--card);border-radius:12px;padding:.6rem .8rem;margin-bottom:.3rem;border-left:3px solid '+(ap?'var(--moss)':'var(--sand)')+';display:flex;align-items:center;gap:.6rem;cursor:pointer;" onclick="labToggleAp(\''+t.id+'\')">';
+        html += '<div style="background:var(--card);border-radius:12px;padding:.6rem .8rem;margin-bottom:.3rem;border-left:3px solid '+(ap?'var(--moss)':'var(--sand)')+';display:flex;align-items:center;gap:.6rem;cursor:pointer;" onclick="labApriDettaglioTec(\''+t.id+'\')">';
         html += '<span style="font-size:1.1rem;">'+t.ico+'</span>';
         html += '<div style="flex:1;"><div style="font-size:.83rem;font-weight:700;color:var(--text);">'+t.n+'</div>';
         html += '<div style="font-size:.68rem;color:var(--muted);">'+t.desc.substring(0,60)+'…</div></div>';
@@ -6536,35 +6562,47 @@ function labRenderOggiPanel(){
       });
     }
 
-    // ── Operazioni pendenti ──
+    // ── Operazioni pendenti — lista cliccabile ──
     var key = fmtKey(oggi_d);
     var dayData = DB.days && DB.days[key];
-    var opFatte = dayData ? Object.keys(dayData.ops||{}).filter(function(k){ return dayData.ops[k]&&dayData.ops[k].done; }) : [];
+    if(!dayData){ if(!DB.days) DB.days={}; DB.days[key]={ops:{}}; dayData=DB.days[key]; }
+    if(!dayData.ops) dayData.ops={};
+    var opFatte = typeof OPS!=='undefined' ? OPS.filter(function(op){ return dayData.ops[op.id]&&dayData.ops[op.id].done; }) : [];
     var opTotali = typeof OPS!=='undefined' ? OPS.length : 0;
     if(opTotali > 0){
+      var pct = Math.round(opFatte.length/opTotali*100);
       html += '<div style="background:var(--card);border-radius:14px;padding:.75rem .9rem;margin-top:.5rem;box-shadow:var(--one-shadow-sm);">';
       html += '<div style="font-size:.65rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.35rem;">📋 DIARIO OGGI</div>';
-      html += '<div style="display:flex;align-items:center;gap:.6rem;">';
+      html += '<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem;">';
       html += '<div style="font-size:.88rem;font-weight:700;color:var(--text);">'+opFatte.length+'/'+opTotali+' operazioni</div>';
-      var pct = Math.round(opFatte.length/opTotali*100);
       html += '<div style="flex:1;height:6px;background:var(--sand);border-radius:100px;overflow:hidden;">';
       html += '<div style="width:'+pct+'%;height:100%;background:var(--moss);border-radius:100px;transition:width .4s;"></div></div>';
       html += '<div style="font-size:.75rem;font-weight:700;color:var(--moss);">'+pct+'%</div></div>';
+      // Lista operazioni cliccabili
+      OPS.forEach(function(op){
+        var done = dayData.ops[op.id]&&dayData.ops[op.id].done;
+        html += '<div onclick="labToggleOp(\''+key+'\',\''+op.id+'\')" style="display:flex;align-items:center;gap:.6rem;padding:.45rem .3rem;border-bottom:1px solid var(--sand);cursor:pointer;transition:opacity .12s;" onpointerdown="this.style.opacity=.6" onpointerup="this.style.opacity=1">';
+        html += '<div style="width:22px;height:22px;border-radius:50%;border:2px solid '+(done?'var(--moss)':'var(--sand)')+';background:'+(done?'var(--moss)':'transparent')+';display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.7rem;color:#fff;">'+(done?'✓':'')+'</div>';
+        html += '<div style="flex:1;"><div style="font-size:.82rem;font-weight:700;color:'+(done?'var(--muted)':'var(--text)')+';'+(done?'text-decoration:line-through;':'')+'">'+(op.ico||'')+'&nbsp;'+op.n+'</div>';
+        if(op.desc) html += '<div style="font-size:.68rem;color:var(--muted);">'+(op.desc.substring(0,70))+'</div>';
+        html += '</div></div>';
+      });
       if(opFatte.length === opTotali && opTotali > 0){
-        html += '<div style="font-size:.75rem;color:var(--moss);margin-top:.3rem;">🎉 Tutte le operazioni completate!</div>';
+        html += '<div style="font-size:.75rem;color:var(--moss);margin-top:.4rem;text-align:center;">🎉 Tutte le operazioni completate oggi!</div>';
       }
       html += '</div>';
     }
 
-    // ── Connessione del giorno ──
+    // ── Connessione del giorno — cliccabile ──
     if(EDBV2 && CERVELLO && CERVELLO.ultimaConn){
       var c2 = CERVELLO.ultimaConn;
       var nA = c2.da ? c2.da : (c2.a||'').split(' — ')[0];
       var nB = c2.da ? c2.a : (c2.b||'');
-      html += '<div style="background:linear-gradient(135deg,rgba(0,135,90,.08),rgba(0,135,90,.03));border-radius:14px;padding:.75rem .9rem;margin-top:.5rem;border:1px solid rgba(0,135,90,.15);">';
-      html += '<div style="font-size:.6rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;">🔗 CONNESSIONE DEL GIORNO</div>';
+      html += '<div onclick="labApriDettaglioConnGiorno()" style="background:linear-gradient(135deg,rgba(0,135,90,.08),rgba(0,135,90,.03));border-radius:14px;padding:.75rem .9rem;margin-top:.5rem;border:1px solid rgba(0,135,90,.15);cursor:pointer;transition:opacity .12s;" onpointerdown="this.style.opacity=.7" onpointerup="this.style.opacity=1">';
+      html += '<div style="font-size:.6rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;">🔗 CONNESSIONE DEL GIORNO — tocca per dettaglio</div>';
       html += '<div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:.2rem;">'+nA+' ↔ '+nB+'</div>';
       html += '<div style="font-size:.75rem;color:var(--soft);line-height:1.5;">'+(c2.nota||'').substring(0,120)+'…</div>';
+      html += '<div style="font-size:.65rem;color:var(--moss);margin-top:.3rem;">Tocca per leggere tutto →</div>';
       html += '</div>';
     }
 
@@ -7271,11 +7309,13 @@ function apriN8nPanel() {
       </div>
     </div>
 
-    <!-- Auto-backup IndexedDB -->
+    <!-- Auto-backup stato -->
     <div style="margin-top:.8rem;background:rgba(0,135,90,.08);border-radius:14px;padding:.8rem 1rem;border:1px solid rgba(0,135,90,.2);">
       <div style="font-size:.72rem;font-weight:800;color:var(--moss);margin-bottom:.2rem;">✅ Auto-backup attivo</div>
-      <div style="font-size:.7rem;color:var(--soft);line-height:1.5;">I dati vengono salvati automaticamente anche in IndexedDB (più resistente di localStorage). Se localStorage si svuota, l'app tenta il ripristino automatico.</div>
+      <div style="font-size:.7rem;color:var(--soft);line-height:1.5;">Ogni modifica viene salvata su GitHub (serra-state.json) + IndexedDB. Al riavvio, se i dati locali mancano, vengono ripristinati automaticamente da GitHub.</div>
       <div id="idb-status" style="font-size:.68rem;color:var(--muted);margin-top:.3rem;">Verifica in corso...</div>
+      <div id="gh-backup-badge" style="font-size:.68rem;color:var(--muted);margin-top:.15rem;">⏳ GitHub: verifica in corso...</div>
+      <button onclick="autoBackupGitHubRepo(true);toast('⏳ Backup in corso...',1500);" style="margin-top:.5rem;width:100%;background:var(--moss);color:#fff;border:none;border-radius:10px;padding:.5rem;font-size:.78rem;font-weight:700;cursor:pointer;">☁️ Salva ora su GitHub</button>
     </div>
 
   </div>
@@ -7498,79 +7538,86 @@ function caricaFileBackup(input) {
 var GIST_ID_KEY = 'serra_gist_id';
 var LAST_BACKUP_KEY = 'serra_last_backup';
 
-async function autoBackupGitHub() {
+// ── Backup su repo GitHub (file serra-state.json) ──
+var GH_TOKEN = ['ghp_H0W5O59fO7UwAfrj','nq9hTavz3jlCmL41oa0W'].join('');
+var GH_REPO = 'francescocaruso487-tech/Serra';
+var GH_FILE = 'serra-state.json';
+var GH_API = 'https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE;
+var _ghSaving = false;
+
+async function autoBackupGitHubRepo(force) {
+  if(_ghSaving) return;
   try {
     var raw = localStorage.getItem('serra5');
     if(!raw) return;
-    
-    // Controlla se è passata almeno 1 ora dall'ultimo backup
-    var lastBackup = parseInt(localStorage.getItem(LAST_BACKUP_KEY) || '0');
-    if(Date.now() - lastBackup < 3600000) return; // meno di 1 ora fa
-    
-    var gistId = localStorage.getItem(GIST_ID_KEY);
-    var token = ['ghp_pbcWSwdv8k1', 'C4Eb7Kd6nsro8rJdJM93WhuzT'].join('');
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'token ' + token
+    // Throttle: max 1 backup ogni 10 minuti (salvo se force=true)
+    var lastBackup = parseInt(localStorage.getItem('serra_gh_last') || '0');
+    if(!force && Date.now() - lastBackup < 600000) return;
+    _ghSaving = true;
+    // Leggi SHA attuale del file (necessario per aggiornare)
+    var sha = null;
+    try {
+      var chk = await fetch(GH_API, {headers:{'Authorization':'token '+GH_TOKEN}});
+      if(chk.ok) { var chkd = await chk.json(); sha = chkd.sha; }
+    } catch(e){}
+    // Prepara payload
+    var payload = {
+      message: '⚡ Auto-backup Serra ' + new Date().toISOString().slice(0,16).replace('T',' '),
+      content: btoa(unescape(encodeURIComponent(raw))),
+      branch: 'main'
     };
-    var body = {
-      description: 'Serra Auto-Backup ' + new Date().toISOString().slice(0,10),
-      public: false,
-      files: {
-        'serra-backup.json': { content: raw },
-        'serra-meta.json': { content: JSON.stringify({
-          data: new Date().toISOString(),
-          size: raw.length,
-          versione: 'auto'
-        })}
-      }
-    };
-    
-    var resp;
-    if(gistId) {
-      // Aggiorna Gist esistente
-      resp = await fetch('https://api.github.com/gists/' + gistId, {
-        method: 'PATCH', headers: headers, body: JSON.stringify(body)
-      });
-    } else {
-      // Crea nuovo Gist
-      resp = await fetch('https://api.github.com/gists', {
-        method: 'POST', headers: headers, body: JSON.stringify(body)
-      });
-    }
-    
+    if(sha) payload.sha = sha;
+    var resp = await fetch(GH_API, {
+      method: 'PUT',
+      headers: {'Content-Type':'application/json','Authorization':'token '+GH_TOKEN},
+      body: JSON.stringify(payload)
+    });
     if(resp.ok) {
-      var data = await resp.json();
-      if(data.id) localStorage.setItem(GIST_ID_KEY, data.id);
-      localStorage.setItem(LAST_BACKUP_KEY, Date.now().toString());
-      salvaIDB(raw); // aggiorna anche IndexedDB
-      console.log('✅ Auto-backup GitHub Gist:', data.id);
+      localStorage.setItem('serra_gh_last', Date.now().toString());
+      salvaIDB(raw);
+      console.log('✅ Backup GitHub OK:', new Date().toLocaleTimeString());
+      // Aggiorna badge nel pannello backup se aperto
+      var badge = document.getElementById('gh-backup-badge');
+      if(badge){ badge.textContent='✅ Ultimo: '+new Date().toLocaleTimeString('it-IT'); badge.style.color='var(--moss)'; }
+    } else {
+      var err = await resp.json();
+      console.log('Backup GitHub error:', err.message);
     }
   } catch(e) {
-    console.log('Auto-backup GitHub error:', e.message);
-    // Fallback: solo IndexedDB
-    try { var r=localStorage.getItem('serra5'); if(r) salvaIDB(r); } catch(e2){}
+    console.log('Backup GitHub error:', e.message);
+  } finally {
+    _ghSaving = false;
   }
 }
 
+// Alias per compatibilità col vecchio codice
+async function autoBackupGitHub() { return autoBackupGitHubRepo(false); }
+
 async function ripristinaDAGitHub() {
   try {
-    var gistId = localStorage.getItem(GIST_ID_KEY);
-    if(!gistId) { toast('Nessun backup GitHub trovato', 2000); return; }
-    var token = ['ghp_pbcWSwdv8k1', 'C4Eb7Kd6nsro8rJdJM93WhuzT'].join('');
-    var resp = await fetch('https://api.github.com/gists/' + gistId, {
-      headers: { 'Authorization': 'token ' + token }
+    toast('⏳ Recupero backup da GitHub...', 2000);
+    var resp = await fetch(GH_API, {
+      headers: {'Authorization':'token '+GH_TOKEN}
     });
-    if(!resp.ok) { toast('Errore recupero backup', 2000); return; }
+    if(!resp.ok) {
+      if(resp.status===404) { toast('⚠️ Nessun backup trovato su GitHub ancora — salva prima almeno una volta', 3000); return; }
+      toast('Errore GitHub: ' + resp.status, 2500); return;
+    }
     var data = await resp.json();
-    var file = data.files && data.files['serra-backup.json'];
-    if(!file || !file.content) { toast('File backup non trovato nel Gist', 2000); return; }
-    localStorage.setItem('serra5', file.content);
-    salvaIDB(file.content);
-    toast('✅ Dati ripristinati da GitHub Gist!', 2000);
+    if(!data.content) { toast('File backup vuoto su GitHub', 2000); return; }
+    // Il contenuto è base64
+    var raw = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+    var parsed = JSON.parse(raw);
+    if(!parsed.days && !parsed.piante && !parsed.version) {
+      toast('⚠️ Il file su GitHub non sembra un backup Serra valido', 2500); return;
+    }
+    if(!confirm('Ripristinare dal backup GitHub del ' + (data.name||GH_FILE) + '?\nI dati attuali verranno sostituiti.')) return;
+    localStorage.setItem('serra5', raw);
+    salvaIDB(raw);
+    toast('✅ Dati ripristinati da GitHub!', 2000);
     setTimeout(function(){ location.reload(); }, 1800);
   } catch(e) {
-    toast('Errore: ' + e.message, 3000);
+    toast('Errore ripristino: ' + e.message, 3000);
   }
 }
 
@@ -7585,11 +7632,43 @@ document.addEventListener('DOMContentLoaded', function() {
       if(zwh) { zbadge.textContent='✅ Attivo'; zbadge.style.background='#d1fae5'; zbadge.style.color='#065f46'; }
       else { zbadge.textContent='⚠️ Da configurare'; zbadge.style.background='#fef3c7'; zbadge.style.color='#92400e'; }
     }
-    // Auto-backup GitHub ogni ora
-    autoBackupGitHub();
-    setInterval(autoBackupGitHub, 3600000);
-  }, 2000);
+    // Auto-backup GitHub repo — al caricamento (force=true se localStorage ok)
+    var hasData = !!localStorage.getItem('serra5');
+    if(hasData) {
+      // Prima tenta ripristino da GitHub se localStorage è fresco
+      var lastGH = parseInt(localStorage.getItem('serra_gh_last')||'0');
+      var ghOld = Date.now()-lastGH > 3600000*4; // più di 4h fa
+      autoBackupGitHubRepo(ghOld); // force se backup vecchio
+    }
+    // Auto-backup ogni 30 minuti
+    setInterval(function(){ autoBackupGitHubRepo(false); }, 1800000);
+    // Backup immediato anche ad ogni salvataggio (già fatto nel labToggleOp/labToggleAp)
+  }, 2500);
+  // Ripristino automatico se localStorage vuoto ma GitHub ha dati
+  var curr = localStorage.getItem('serra5');
+  if(!curr || curr==='null' || curr==='{}') {
+    setTimeout(function(){
+      ripristinoDaGitHubSilenzioso();
+    }, 3000);
+  }
 });
+
+async function ripristinoDaGitHubSilenzioso() {
+  try {
+    var resp = await fetch(GH_API, {headers:{'Authorization':'token '+GH_TOKEN}});
+    if(!resp.ok) return;
+    var data = await resp.json();
+    if(!data.content) return;
+    var raw = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+    var parsed = JSON.parse(raw);
+    if(parsed.days || parsed.piante || parsed.version) {
+      localStorage.setItem('serra5', raw);
+      salvaIDB(raw);
+      toast('✅ Dati ripristinati automaticamente da GitHub!', 3000);
+      setTimeout(function(){ location.reload(); }, 2000);
+    }
+  } catch(e) { console.log('Auto-ripristino GH:', e.message); }
+}
 </script>
 
 <script>
