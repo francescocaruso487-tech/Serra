@@ -265,5 +265,27 @@
     "pct": 158,
     "guide_web": true,
     "modo": "filesystem_v5"
+  },
+  {
+    "data": "2026-06-12 12:36",
+    "batch": [
+      "La-Strega-Verde-Una-guida-prat",
+      "Corpo ermetico e Asclepio_28d3",
+      "Manual práctico El A, B, C de ",
+      "laemstromelcult_fae28ddd",
+      "elcult2_159cde25",
+      "IL-CODICE-TESLA-SECOLARIUM-SAG",
+      "LA-SCOPERTA-DELLATOMO-MAGNETIC",
+      "The energy grid - Harmonic 695",
+      "La-vita-segreta-delle-piante-_",
+      "Tesla_-lampo-di-genio_ed88f8f8"
+    ],
+    "nuove": 1,
+    "tot_conn": 118,
+    "pdf_letti": 100,
+    "tot_pdf": 57,
+    "pct": 175,
+    "guide_web": true,
+    "modo": "filesystem_v5"
   }
 ]

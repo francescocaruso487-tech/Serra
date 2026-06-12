@@ -1,5 +1,5 @@
 {
-  "versione": "3.4",
+  "versione": "3.5",
   "aggiornato": "2026-06-09",
   "categorie": [
     {
@@ -3168,9 +3168,23 @@
       "generata": "2026-06-12",
       "tipo": "guida_web_x_pdf",
       "fonte": "Zamnesia+RQS × elettrocoltura"
+    },
+    {
+      "a": "Guide Web (Zamnesia+RQS) — Germinazione dei semi",
+      "b": "N/D — La-Strega-Verde-Una-guida-pratica-per-sc",
+      "nota": "Le guide professionali sulla Germinazione dei semi e N/D convergono sul concetto di energia. Applicazione pratica: Nel sistema Living Soil: aggiungere inoculo micorrize 0.5g nel buco prima di inserire la piantina. Le micorrize colonizzano le radici e migliorano l'assorbimento idrico fin dal primo giorno.",
+      "tags": [
+        "energia",
+        "acqua",
+        "terra",
+        "natura"
+      ],
+      "generata": "2026-06-12",
+      "tipo": "guida_web_x_pdf",
+      "fonte": "Zamnesia+RQS × elettrocoltura"
     }
   ],
-  "ultimo_aggiornamento": "2026-06-12 10:01",
+  "ultimo_aggiornamento": "2026-06-12 12:36",
   "drive_folders": {
     "elettrocoltura": {
       "id": "1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ",
@@ -3456,8 +3470,8 @@
       "Il Quinto Accordo - Don Miguel e Don Jose Ruiz"
     ]
   },
-  "pdf_letti_134": 90,
+  "pdf_letti_134": 100,
   "pdf_totali_134": 57,
-  "pdf_percentuale": 158,
+  "pdf_percentuale": 175,
   "guide_web_integrate": true
 }
