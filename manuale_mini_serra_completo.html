@@ -926,6 +926,12 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <!-- INSIGHT DEL GIORNO -->
   <div style="padding:.7rem .85rem .1rem;">
     <div id="insight-home"></div>
+    <!-- Banner AI Setup — visibile solo se nessuna chiave configurata -->
+    <div id="ai-setup-banner" style="display:none;background:linear-gradient(135deg,#7c3aed,#ea4335);border-radius:14px;padding:.8rem 1rem;margin:.4rem 0;cursor:pointer;" onclick="apriOnboardingAI()">
+      <div style="font-size:.62rem;font-weight:800;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.2rem;">⚠️ NESSUNA AI CONFIGURATA</div>
+      <div style="font-size:.88rem;font-weight:700;color:#fff;margin-bottom:.2rem;">🧠 Configura Groq + Gemini gratis →</div>
+      <div style="font-size:.72rem;color:rgba(255,255,255,.8);">2 minuti • nessuna carta • AI in parallelo sui tuoi 134 PDF</div>
+    </div>
     <div id="insight-recap"></div>
   </div>
 
@@ -1488,7 +1494,7 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
     ">
       <div style="font-size:1.3rem;margin-bottom:.25rem;">🧠</div>
       <div style="font-size:.85rem;font-weight:700;color:#fff;">Multi-AI — Claude + Groq</div>
-      <div style="font-size:.65rem;color:rgba(255,255,255,.65);">Incrocia 134 PDF × Zamnesia × RQS con 2 AI</div>
+      <div style="font-size:.65rem;color:rgba(255,255,255,.65);">Groq + Gemini + Claude — gratis, in parallelo</div>
     </button>
   </div>
 </div>
@@ -9365,25 +9371,39 @@ document.addEventListener('DOMContentLoaded', function() {
     <button onclick="document.getElementById('multiAI-panel').style.display='none'" style="background:rgba(255,255,255,.15);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:#fff;flex-shrink:0;">←</button>
     <div style="flex:1;">
       <div style="font-size:.55rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);">LABORATORIO · ANALISI INCROCIATA</div>
-      <div style="font-size:1rem;font-weight:800;color:#fff;">🧠 Multi-AI — Claude + Groq</div>
+      <div style="font-size:1rem;font-weight:800;color:#fff;">🧠 Multi-AI — Groq + Gemini + Claude</div>
     </div>
     <div id="multiAI-status" style="font-size:.6rem;background:rgba(255,255,255,.15);color:#fff;border-radius:20px;padding:.2rem .6rem;">Caricamento...</div>
   </div>
   <div style="padding:.8rem 1rem;">
-    <!-- Config API keys -->
+    <!-- Config rapida AI -->
     <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.6rem;box-shadow:var(--one-shadow-sm);">
-      <div style="font-size:.65rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;">⚙️ CONFIGURAZIONE AI</div>
-      <!-- Claude -->
-      <div id="anthropic-key-section" style="margin-bottom:.5rem;">
-        <div style="font-size:.72rem;color:var(--muted);margin-bottom:.3rem;">🔵 Claude (Anthropic) — <a href="https://console.anthropic.com" target="_blank" style="color:#2563eb;">console.anthropic.com</a></div>
+      <div style="font-size:.65rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;">⚙️ CONFIGURAZIONE AI — GRATIS</div>
+      <!-- Groq -->
+      <div style="margin-bottom:.5rem;">
+        <div style="font-size:.7rem;color:var(--muted);margin-bottom:.25rem;">🟣 Groq LLaMA — gratis → <a href="https://console.groq.com" target="_blank" style="color:#7c3aed;">console.groq.com</a></div>
         <div style="display:flex;gap:.4rem;">
-          <input id="anthropic-key-input" type="password" placeholder="sk-ant-api03-..." style="flex:1;padding:.4rem .6rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-size:.75rem;color:var(--text);outline:none;">
-          <button onclick="salvaChiaveAnthropic()" style="background:#2563eb;color:#fff;border:none;border-radius:10px;padding:.4rem .9rem;font-size:.78rem;font-weight:700;cursor:pointer;">Salva</button>
+          <input id="quick-groq-key" type="password" placeholder="gsk_..." style="flex:1;padding:.4rem .6rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-size:.75rem;color:var(--text);outline:none;">
+          <button onclick="salvaChiaveRapida('groq','quick-groq-key')" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:.4rem .8rem;font-size:.75rem;font-weight:700;cursor:pointer;">Salva</button>
         </div>
       </div>
-      <div id="anthropic-status-badge" style="font-size:.68rem;padding:.2rem .5rem;border-radius:20px;display:inline-block;background:var(--cream);color:var(--muted);">🔵 Claude: non configurato</div>
-      <!-- Groq già configurato nel Lab -->
-      <div style="font-size:.68rem;color:var(--muted);margin-top:.4rem;">🟣 Groq LLaMA — configura nel tab ⚗️ del Laboratorio</div>
+      <!-- Gemini -->
+      <div style="margin-bottom:.5rem;">
+        <div style="font-size:.7rem;color:var(--muted);margin-bottom:.25rem;">🔴 Gemini — gratis → <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#ea4335;">aistudio.google.com</a></div>
+        <div style="display:flex;gap:.4rem;">
+          <input id="quick-gemini-key" type="password" placeholder="AIzaSy..." style="flex:1;padding:.4rem .6rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-size:.75rem;color:var(--text);outline:none;">
+          <button onclick="salvaChiaveRapida('gemini','quick-gemini-key')" style="background:#ea4335;color:#fff;border:none;border-radius:10px;padding:.4rem .8rem;font-size:.75rem;font-weight:700;cursor:pointer;">Salva</button>
+        </div>
+      </div>
+      <!-- Claude opzionale -->
+      <div>
+        <div style="font-size:.7rem;color:var(--muted);margin-bottom:.25rem;">🔵 Claude — opzionale → <a href="https://console.anthropic.com" target="_blank" style="color:#2563eb;">console.anthropic.com</a></div>
+        <div style="display:flex;gap:.4rem;">
+          <input id="anthropic-key-input" type="password" placeholder="sk-ant-api03-..." style="flex:1;padding:.4rem .6rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-size:.75rem;color:var(--text);outline:none;">
+          <button onclick="salvaChiaveRapida('claude','anthropic-key-input')" style="background:#2563eb;color:#fff;border:none;border-radius:10px;padding:.4rem .8rem;font-size:.75rem;font-weight:700;cursor:pointer;">Salva</button>
+        </div>
+      </div>
+      <button onclick="apriOnboardingAI()" style="width:100%;margin-top:.5rem;background:var(--cream);color:var(--text);border:1.5px solid var(--sand);border-radius:10px;padding:.45rem;font-size:.75rem;cursor:pointer;">📋 Guida step-by-step →</button>
     </div>
     <!-- Domande rapide -->
     <div style="font-size:.6rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;">⚡ ANALISI RAPIDE — 134 PDF × GUIDE WEB</div>
@@ -9658,6 +9678,9 @@ function initInterconnect() {
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(initInterconnect, 1000);
   setTimeout(aggiornaBadgeAI, 2000);
+  setTimeout(function() {
+    if(typeof checkAISetup === 'function') checkAISetup();
+  }, 2500);
 });
 </script>
 
@@ -9745,6 +9768,234 @@ document.addEventListener('DOMContentLoaded', function() {
       <button onclick="multiAIParallelo('Dimmi in 3 righe: cosa devo fare oggi nella mia serra con 10 piante Living Soil?','ai-test-output')" style="width:100%;background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;border:none;border-radius:12px;padding:.65rem;font-size:.85rem;font-weight:700;cursor:pointer;margin-bottom:.4rem;">🧠 Testa tutte le AI ora →</button>
       <div id="ai-test-output" style="min-height:40px;"></div>
     </div>
+
+  </div>
+</div>
+
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// 🚀 ONBOARDING AI — Setup guidato per Groq + Gemini gratis
+// ═══════════════════════════════════════════════════════════════════
+
+function checkAISetup() {
+  var hasGroq = !!localStorage.getItem('groq_api_key');
+  var hasGemini = !!localStorage.getItem('gemini_api_key');
+  var hasClaude = !!localStorage.getItem('anthropic_api_key');
+  var hasAny = hasGroq || hasGemini || hasClaude;
+
+  // Mostra/nascondi banner setup in Home
+  var banner = document.getElementById('ai-setup-banner');
+  if(banner) banner.style.display = hasAny ? 'none' : 'block';
+
+  // Aggiorna badge ovunque
+  var count = [hasGroq, hasGemini, hasClaude, !!localStorage.getItem('openai_api_key')].filter(Boolean).length + 1; // +1 SerraAI
+  document.querySelectorAll('.ai-count-badge').forEach(function(el) {
+    el.textContent = count + ' AI attive';
+    el.style.background = hasAny ? '#d1fae5' : '#fef3c7';
+    el.style.color = hasAny ? '#065f46' : '#92400e';
+  });
+
+  return {hasGroq, hasGemini, hasClaude, hasAny};
+}
+
+// Salva chiave e aggiorna subito
+function salvaChiaveRapida(tipo, inputId) {
+  var inp = document.getElementById(inputId);
+  if(!inp || !inp.value.trim()) { toast('Incolla prima la chiave', 2000); return; }
+  var k = inp.value.trim();
+
+  var mapping = {
+    groq: {ls:'groq_api_key', prefix:'gsk_', nome:'Groq'},
+    gemini: {ls:'gemini_api_key', prefix:'AIzaSy', nome:'Gemini'},
+    claude: {ls:'anthropic_api_key', prefix:'sk-ant-', nome:'Claude'},
+    openai: {ls:'openai_api_key', prefix:'sk-', nome:'GPT-4o Mini'}
+  };
+
+  var cfg = mapping[tipo];
+  if(!cfg) return;
+
+  if(tipo !== 'openai' && !k.startsWith(cfg.prefix)) {
+    toast('⚠️ Chiave '+cfg.nome+' non valida — inizia con '+cfg.prefix, 2500);
+    return;
+  }
+
+  localStorage.setItem(cfg.ls, k);
+  inp.value = '';
+
+  // Aggiorna anche i vecchi input se esistono
+  if(tipo === 'groq') {
+    var old = document.getElementById('groq-key-input');
+    if(old) { old.value = k; }
+    // Salva anche con la vecchia funzione
+    if(window.salvaGroqKey) {
+      var tmp = document.getElementById('groq-key-input');
+      if(tmp) tmp.value = k;
+    }
+  }
+  if(tipo === 'claude') {
+    var old2 = document.getElementById('anthropic-key-input');
+    if(old2) old2.value = k;
+  }
+
+  toast('✅ '+cfg.nome+' configurato! Puoi iniziare a usarlo.', 2500);
+  checkAISetup();
+  aggiornaBadgeAI && aggiornaBadgeAI();
+  autoBackupGitHubRepo && autoBackupGitHubRepo(true);
+
+  // Chiudi onboarding se ora ha almeno una chiave
+  var ob = document.getElementById('ai-onboarding-panel');
+  if(ob && localStorage.getItem('groq_api_key')) {
+    setTimeout(function() {
+      ob.style.display = 'none';
+      toast('🎉 AI pronta! Torna all\'app e premi "🧠 Chiedi all\'AI"', 3000);
+    }, 1500);
+  }
+}
+
+// Apri onboarding
+function apriOnboardingAI() {
+  var el = document.getElementById('ai-onboarding-panel');
+  if(el) { el.style.display = 'block'; el.scrollTop = 0; }
+}
+
+// Test rapido AI
+async function testAIRapido(tipo) {
+  var el = document.getElementById('test-'+tipo+'-output');
+  if(el) el.textContent = '⏳ Test in corso...';
+
+  var prompt = 'Dimmi in 1 frase: cosa è il Living Soil?';
+  var sys = 'Sei SerraAI. Rispondi brevemente in italiano.';
+  var ris = '';
+
+  try {
+    if(tipo === 'groq') {
+      var key = localStorage.getItem('groq_api_key');
+      if(!key) { if(el) el.textContent = '⚠️ Chiave non salvata'; return; }
+      var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+        body: JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'system',content:sys},{role:'user',content:prompt}],max_tokens:100})
+      });
+      var d = await r.json();
+      ris = d.choices && d.choices[0] ? '✅ '+d.choices[0].message.content : '❌ Errore risposta';
+    }
+    else if(tipo === 'gemini') {
+      var key = localStorage.getItem('gemini_api_key');
+      if(!key) { if(el) el.textContent = '⚠️ Chiave non salvata'; return; }
+      var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+key, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({contents:[{parts:[{text:sys+'\n\n'+prompt}]}],generationConfig:{maxOutputTokens:100}})
+      });
+      if(!r.ok) { ris = '❌ Errore '+r.status; }
+      else {
+        var d = await r.json();
+        ris = d.candidates && d.candidates[0] ? '✅ '+d.candidates[0].content.parts[0].text : '❌ Nessuna risposta';
+      }
+    }
+  } catch(e) { ris = '❌ '+e.message; }
+
+  if(el) el.textContent = ris;
+}
+
+// Init al caricamento
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(checkAISetup, 1500);
+});
+</script>
+
+<!-- ═══ PANNELLO ONBOARDING AI ═══ -->
+<div id="ai-onboarding-panel" style="display:none;position:fixed;inset:0;z-index:500;background:var(--main-bg);overflow-y:auto;padding-bottom:5rem;">
+  <div style="position:sticky;top:0;z-index:5;background:linear-gradient(135deg,#0f172a,#1e3a5f);padding:.85rem 1rem .7rem;display:flex;align-items:center;gap:.7rem;">
+    <button onclick="document.getElementById('ai-onboarding-panel').style.display='none'" style="background:rgba(255,255,255,.15);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:#fff;flex-shrink:0;">←</button>
+    <div style="flex:1;">
+      <div style="font-size:.55rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);">SETUP GUIDATO</div>
+      <div style="font-size:1rem;font-weight:800;color:#fff;">🧠 Configura le AI Gratis</div>
+    </div>
+    <div style="font-size:.62rem;background:rgba(255,255,255,.15);color:#fff;border-radius:20px;padding:.2rem .6rem;">2 minuti</div>
+  </div>
+
+  <div style="padding:.8rem 1rem;">
+
+    <!-- Intro -->
+    <div style="background:rgba(0,135,90,.08);border-radius:14px;padding:.8rem 1rem;margin-bottom:.8rem;border:1px solid rgba(0,135,90,.2);">
+      <div style="font-size:.78rem;font-weight:700;color:var(--moss);margin-bottom:.3rem;">🎯 Cosa ottieni configurando le AI</div>
+      <div style="font-size:.75rem;color:var(--soft);line-height:1.7;">
+        • Analisi personalizzata delle tue piante ogni giorno<br>
+        • Consigli incrociati da 134 PDF + Zamnesia + RQS<br>
+        • Diagnosi automatica di problemi e carenze<br>
+        • Piano settimanale basato su biodinamica e meteo<br>
+        • Tutto <strong>gratis</strong> — nessuna carta di credito richiesta
+      </div>
+    </div>
+
+    <!-- STEP 1: Groq -->
+    <div style="background:var(--card);border-radius:16px;padding:.9rem 1rem;margin-bottom:.5rem;border-left:4px solid #7c3aed;box-shadow:var(--one-shadow-sm);">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;">
+        <div style="width:24px;height:24px;border-radius:50%;background:#7c3aed;color:#fff;font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
+        <div style="font-size:.85rem;font-weight:800;color:var(--text);">🟣 Groq LLaMA — GRATIS, nessuna carta</div>
+      </div>
+      <div style="background:var(--cream);border-radius:10px;padding:.6rem .8rem;margin-bottom:.5rem;">
+        <div style="font-size:.72rem;color:var(--soft);line-height:1.7;">
+          1. Vai su <strong><a href="https://console.groq.com" target="_blank" style="color:#7c3aed;">console.groq.com</a></strong><br>
+          2. Clicca <strong>Sign Up</strong> — puoi usare Google<br>
+          3. Vai su <strong>API Keys</strong> → <strong>Create API Key</strong><br>
+          4. Copia la chiave (inizia con <code style="background:rgba(0,0,0,.06);padding:.1rem .3rem;border-radius:4px;">gsk_</code>)<br>
+          5. Incollala qui sotto ↓
+        </div>
+      </div>
+      <div style="display:flex;gap:.4rem;margin-bottom:.4rem;">
+        <input id="onboard-groq-key" type="password" placeholder="gsk_..." style="flex:1;padding:.5rem .7rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-size:.8rem;color:var(--text);outline:none;">
+        <button onclick="salvaChiaveRapida('groq','onboard-groq-key')" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:.5rem 1rem;font-size:.82rem;font-weight:700;cursor:pointer;">Salva</button>
+      </div>
+      <div style="display:flex;gap:.4rem;">
+        <button onclick="testAIRapido('groq')" style="flex:1;background:var(--cream);color:var(--text);border:1.5px solid var(--sand);border-radius:8px;padding:.4rem;font-size:.72rem;cursor:pointer;">🧪 Testa</button>
+        <div id="test-groq-output" style="flex:2;font-size:.7rem;color:var(--soft);padding:.4rem;line-height:1.4;"></div>
+      </div>
+    </div>
+
+    <!-- STEP 2: Gemini -->
+    <div style="background:var(--card);border-radius:16px;padding:.9rem 1rem;margin-bottom:.5rem;border-left:4px solid #ea4335;box-shadow:var(--one-shadow-sm);">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;">
+        <div style="width:24px;height:24px;border-radius:50%;background:#ea4335;color:#fff;font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+        <div style="font-size:.85rem;font-weight:800;color:var(--text);">🔴 Gemini — Google AI, GRATIS</div>
+      </div>
+      <div style="background:var(--cream);border-radius:10px;padding:.6rem .8rem;margin-bottom:.5rem;">
+        <div style="font-size:.72rem;color:var(--soft);line-height:1.7;">
+          1. Vai su <strong><a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#ea4335;">aistudio.google.com/app/apikey</a></strong><br>
+          2. Accedi con il tuo <strong>account Google</strong><br>
+          3. Clicca <strong>Create API Key</strong><br>
+          4. Copia la chiave (inizia con <code style="background:rgba(0,0,0,.06);padding:.1rem .3rem;border-radius:4px;">AIzaSy</code>)<br>
+          5. Incollala qui sotto ↓
+        </div>
+      </div>
+      <div style="display:flex;gap:.4rem;margin-bottom:.4rem;">
+        <input id="onboard-gemini-key" type="password" placeholder="AIzaSy..." style="flex:1;padding:.5rem .7rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-size:.8rem;color:var(--text);outline:none;">
+        <button onclick="salvaChiaveRapida('gemini','onboard-gemini-key')" style="background:#ea4335;color:#fff;border:none;border-radius:10px;padding:.5rem 1rem;font-size:.82rem;font-weight:700;cursor:pointer;">Salva</button>
+      </div>
+      <div style="display:flex;gap:.4rem;">
+        <button onclick="testAIRapido('gemini')" style="flex:1;background:var(--cream);color:var(--text);border:1.5px solid var(--sand);border-radius:8px;padding:.4rem;font-size:.72rem;cursor:pointer;">🧪 Testa</button>
+        <div id="test-gemini-output" style="flex:2;font-size:.7rem;color:var(--soft);padding:.4rem;line-height:1.4;"></div>
+      </div>
+    </div>
+
+    <!-- STEP 3: Claude (opzionale) -->
+    <div style="background:var(--card);border-radius:16px;padding:.9rem 1rem;margin-bottom:.8rem;border-left:4px solid #94a3b8;box-shadow:var(--one-shadow-sm);opacity:.8;">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem;">
+        <div style="width:24px;height:24px;border-radius:50%;background:#94a3b8;color:#fff;font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+        <div style="font-size:.85rem;font-weight:800;color:var(--text);">🔵 Claude — Opzionale, $5 gratuiti</div>
+      </div>
+      <div style="font-size:.7rem;color:var(--muted);margin-bottom:.4rem;">console.anthropic.com → API Keys. Chiave: sk-ant-...</div>
+      <div style="display:flex;gap:.4rem;">
+        <input id="onboard-claude-key" type="password" placeholder="sk-ant-api03-..." style="flex:1;padding:.5rem .7rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-size:.8rem;color:var(--text);outline:none;">
+        <button onclick="salvaChiaveRapida('claude','onboard-claude-key')" style="background:#2563eb;color:#fff;border:none;border-radius:10px;padding:.5rem 1rem;font-size:.82rem;font-weight:700;cursor:pointer;">Salva</button>
+      </div>
+    </div>
+
+    <!-- CTA finale -->
+    <button onclick="document.getElementById('ai-onboarding-panel').style.display='none';checkAISetup();" style="width:100%;background:linear-gradient(135deg,#00875A,#30D158);color:#fff;border:none;border-radius:14px;padding:.8rem;font-size:.9rem;font-weight:800;cursor:pointer;">
+      ✅ Ho configurato le chiavi — Vai all'app!
+    </button>
+    <div style="text-align:center;margin-top:.6rem;font-size:.7rem;color:var(--muted);">Anche con una sola chiave (Groq) l'app è già potente</div>
 
   </div>
 </div>
