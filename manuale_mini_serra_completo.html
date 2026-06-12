@@ -4037,10 +4037,23 @@ document.addEventListener('visibilitychange',function(){
 window.addEventListener('beforeunload',function(){salva();});
 
 // ================================================================
-// SERVICE WORKER
+// SERVICE WORKER — auto-update on new version
 // ================================================================
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js').catch(function(e){console.warn('SW:',e);});
+  navigator.serviceWorker.register('./sw.js').then(function(reg){
+    reg.addEventListener('updatefound', function(){
+      var newSW = reg.installing;
+      newSW.addEventListener('statechange', function(){
+        if(newSW.state === 'activated') {
+          window.location.reload();
+        }
+      });
+    });
+  }).catch(function(e){console.warn('SW:',e);});
+  // Reload when controller changes (new SW took over)
+  navigator.serviceWorker.addEventListener('controllerchange', function(){
+    window.location.reload();
+  });
 }
 
 
