@@ -1438,7 +1438,16 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
       <div style="font-size:.85rem;font-weight:700;color:#fff;">AI · LLaMA 3.3 70B</div>
       <div style="font-size:.65rem;color:rgba(255,255,255,.65);">Chiedi ai 134 PDF Drive</div>
     </button>
-    
+    <button onclick="apriMultiAIPanel()" style="
+      background:linear-gradient(135deg,#1e3a5f,#2563eb);border:none;border-radius:14px;
+      padding:.7rem .9rem;text-align:left;cursor:pointer;
+      box-shadow:0 4px 16px rgba(37,99,235,.3);transition:opacity .14s;
+      grid-column: span 2;
+    ">
+      <div style="font-size:1.3rem;margin-bottom:.25rem;">🧠</div>
+      <div style="font-size:.85rem;font-weight:700;color:#fff;">Multi-AI — Claude + Groq</div>
+      <div style="font-size:.65rem;color:rgba(255,255,255,.65);">Incrocia 134 PDF × Zamnesia × RQS con 2 AI</div>
+    </button>
   </div>
 </div>
 
@@ -1519,13 +1528,21 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
     <div id="ai-status-badge" style="font-size:.62rem;background:rgba(255,255,255,.15);color:#fff;border-radius:100px;padding:.2rem .6rem;">LLaMA 3.3</div>
   </div>
   <div style="padding:.8rem 1rem .4rem;">
-    <!-- Config chiave -->
-    <div id="groq-key-section" style="background:var(--cream);border-radius:14px;padding:.7rem .9rem;margin-bottom:.6rem;display:none;">
-      <div style="font-size:.67rem;color:var(--muted);margin-bottom:.35rem;">🔑 Chiave Groq — <a href="https://console.groq.com" target="_blank" style="color:var(--moss);">console.groq.com</a> (gratis)</div>
+    <!-- Config chiavi AI -->
+    <div id="groq-key-section" style="background:var(--cream);border-radius:14px;padding:.7rem .9rem;margin-bottom:.4rem;display:none;">
+      <div style="font-size:.67rem;color:var(--muted);margin-bottom:.35rem;">🟣 Groq LLaMA — <a href="https://console.groq.com" target="_blank" style="color:var(--moss);">console.groq.com</a> (gratis)</div>
       <div style="display:flex;gap:.4rem;">
         <input id="groq-key-input" type="password" placeholder="gsk_..." style="flex:1;padding:.4rem .6rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--card);font-size:.78rem;color:var(--text);outline:none;">
         <button onclick="salvaGroqKey()" style="background:var(--moss);color:#fff;border:none;border-radius:10px;padding:.4rem .9rem;font-size:.78rem;font-weight:700;cursor:pointer;">Salva</button>
       </div>
+    </div>
+    <div style="background:var(--cream);border-radius:14px;padding:.7rem .9rem;margin-bottom:.6rem;">
+      <div style="font-size:.67rem;color:var(--muted);margin-bottom:.35rem;">🔵 Claude (Anthropic) — <a href="https://console.anthropic.com" target="_blank" style="color:#2563eb;">console.anthropic.com</a></div>
+      <div style="display:flex;gap:.4rem;">
+        <input id="anthropic-key-input-lab" type="password" placeholder="sk-ant-api03-..." style="flex:1;padding:.4rem .6rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--card);font-size:.78rem;color:var(--text);outline:none;">
+        <button onclick="(function(){var inp=document.getElementById('anthropic-key-input-lab');if(!inp||!inp.value.trim())return;var k=inp.value.trim();if(!k.startsWith('sk-ant-')){toast('Chiave non valida',2000);return;}localStorage.setItem('anthropic_api_key',k);var inp2=document.getElementById('anthropic-key-input');if(inp2)inp2.value=k;toast('✅ Claude salvato!',2000);inp.value='';autoBackupGitHubRepo&&autoBackupGitHubRepo(true);})()" style="background:#2563eb;color:#fff;border:none;border-radius:10px;padding:.4rem .9rem;font-size:.78rem;font-weight:700;cursor:pointer;">Salva</button>
+      </div>
+      <div style="font-size:.65rem;color:var(--muted);margin-top:.3rem;">Per analisi incrociata con 🧠 Multi-AI panel</div>
     </div>
     <!-- Domande rapide -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.35rem;margin-bottom:.65rem;">
@@ -6435,12 +6452,21 @@ function labRenderConnessioniPanel(){
       var nA=c.da?(function(){var r=getEsp(c.da);return r?r.cat.ico+' '+r.esp.nome:c.da;})():(c.a||'').split(' — ')[0];
       var nB=c.da?(function(){var r=getEsp(c.a);return r?r.cat.ico+' '+r.esp.nome:c.a;})():(c.b||'');
       var tipo=c.tipo||'sinergia', col=tipo==='sinergia'?'var(--moss)':'var(--exp)';
-      html+='<div onclick="mostraDettaglioConnessione('+i+')" style="background:var(--card);border-radius:14px;padding:.7rem .9rem;margin-bottom:.4rem;border-left:3px solid '+col+';cursor:pointer;transition:opacity .14s;" onpointerdown="this.style.opacity=.7" onpointerup="this.style.opacity=1">';
+      html+='<div style="background:var(--card);border-radius:14px;padding:.7rem .9rem;margin-bottom:.4rem;border-left:3px solid '+col+';">';
+      html+='<div style="display:flex;align-items:flex-start;gap:.5rem;cursor:pointer;" onclick="mostraDettaglioConnessione('+i+')" onpointerdown="this.style.opacity=.7" onpointerup="this.style.opacity=1">';
+      html+='<div style="flex:1;">';
       html+='<div style="font-size:.62rem;background:'+col+';color:#fff;border-radius:20px;padding:.05rem .4rem;display:inline-block;margin-bottom:.25rem;">'+tipo+'</div>';
       html+='<div style="font-size:.83rem;font-weight:700;color:var(--text);">'+nA+'</div>';
       html+='<div style="font-size:.7rem;color:var(--muted);margin:.1rem 0;">↕</div>';
       html+='<div style="font-size:.83rem;font-weight:700;color:var(--text);">'+nB+'</div>';
       if(c.nota) html+='<div style="font-size:.73rem;color:var(--soft);margin-top:.3rem;line-height:1.4;">'+c.nota.substring(0,90)+'…</div>';
+      html+='</div><div style="font-size:.65rem;color:var(--muted);flex-shrink:0;">› dettaglio</div></div>';
+      html+='<div style="display:flex;gap:.3rem;margin-top:.5rem;padding-top:.4rem;border-top:1px solid var(--sand);">';
+      html+='<button onclick="event.stopPropagation();analisiIncrociata(\'Analizza la connessione: '+nA.replace(/\'/g,\'\').substring(0,40)+' ↔ '+nB.replace(/\'/g,\'\').substring(0,40)+'. Come applicarla concretamente nella mia mini-serra? Incrocia PDF e guide web.\',\'conn-ai-'+i+'\')" style="flex:1;background:linear-gradient(135deg,#1e3a5f,#2563eb);color:#fff;border:none;border-radius:8px;padding:.35rem;font-size:.65rem;font-weight:700;cursor:pointer;">🧠 Analizza AI</button>';
+      html+='<button onclick="event.stopPropagation();mostraDettaglioConnessione('+i+')" style="flex:1;background:var(--cream);color:var(--text);border:1.5px solid var(--sand);border-radius:8px;padding:.35rem;font-size:.65rem;font-weight:700;cursor:pointer;">🔍 Dettaglio</button>';
+      html+='<button onclick="event.stopPropagation();inviaReportGiornaliero&&inviaReportGiornaliero();toast(\'📤 Connessione condivisa via N8n!\',1800)" style="flex:1;background:var(--cream);color:var(--text);border:1.5px solid var(--sand);border-radius:8px;padding:.35rem;font-size:.65rem;font-weight:700;cursor:pointer;">📤 Condividi</button>';
+      html+='</div>';
+      html+='<div id="conn-ai-'+i+'" style="font-size:.73rem;color:var(--text);margin-top:.4rem;line-height:1.5;"></div>';
       html+='</div>';
     });
     el.innerHTML=html;
@@ -6605,6 +6631,13 @@ function labRenderOggiPanel(){
       html += '<div style="font-size:.65rem;color:var(--moss);margin-top:.3rem;">Tocca per leggere tutto →</div>';
       html += '</div>';
     }
+
+    // Aggiungi sezione azioni rapide in fondo al panel oggi
+    html += '<div style="margin-top:.8rem;display:grid;grid-template-columns:1fr 1fr;gap:.3rem;">';
+    html += '<button onclick="inviaReportGiornaliero&&inviaReportGiornaliero()" style="background:var(--moss);color:#fff;border:none;border-radius:10px;padding:.55rem;font-size:.72rem;font-weight:700;cursor:pointer;">📧 Invia report N8n</button>';
+    html += '<button onclick="autoBackupGitHubRepo&&autoBackupGitHubRepo(true);toast(\'☁️ Backup GitHub..\',1500)" style="background:var(--cream);color:var(--text);border:1.5px solid var(--sand);border-radius:10px;padding:.55rem;font-size:.72rem;font-weight:700;cursor:pointer;">☁️ Salva GitHub</button>';
+    html += '<button onclick="apriMultiAIPanel&&apriMultiAIPanel()" style="background:linear-gradient(135deg,#1e3a5f,#2563eb);color:#fff;border:none;border-radius:10px;padding:.55rem;font-size:.72rem;font-weight:700;cursor:pointer;grid-column:span 2;">🧠 Analisi AI approfondita →</button>';
+    html += '</div>';
 
     el.innerHTML = html || '<div style="text-align:center;padding:2rem;color:var(--muted);">Caricamento…</div>';
   });
@@ -7294,14 +7327,15 @@ function apriN8nPanel() {
       <button onclick="ripristinaDAGitHub()" style="width:100%;background:linear-gradient(135deg,#1a3a6b,#2563eb);color:#fff;border:none;border-radius:12px;padding:.65rem;font-size:.85rem;font-weight:700;cursor:pointer;">☁️ Ripristina da GitHub</button>
     </div>
 
-    <!-- Configurazione Zapier Webhook -->
+    <!-- N8n + Zapier Sync -->
     <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.4rem;box-shadow:var(--one-shadow-sm);">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.25rem;">
-        <div style="font-size:.82rem;font-weight:700;color:var(--text);">⚡ Zapier — Sync Universale</div>
-        <span id="zapier-status-badge" style="font-size:.62rem;border-radius:20px;padding:.1rem .4rem;font-weight:700;background:var(--cream);color:var(--muted);">Non configurato</span>
+        <div style="font-size:.82rem;font-weight:700;color:var(--text);">⚡ Automazioni — N8n + Zapier</div>
+        <span id="zapier-status-badge" style="font-size:.62rem;border-radius:20px;padding:.1rem .4rem;font-weight:700;background:#d1fae5;color:#065f46;">✅ N8n attivo</span>
       </div>
-      <div style="font-size:.72rem;color:var(--muted);margin-bottom:.5rem;">Ogni salvataggio → Notion + Calendar + Gmail automaticamente</div>
-      <button onclick="apriConfigZapier()" style="width:100%;background:linear-gradient(135deg,#ff4a00,#ff8c00);color:#fff;border:none;border-radius:12px;padding:.65rem;font-size:.85rem;font-weight:700;cursor:pointer;">⚡ Configura Zapier Webhook</button>
+      <div style="font-size:.72rem;color:var(--muted);margin-bottom:.5rem;">Ogni salvataggio → GitHub + N8n → Notion + Calendar + Gmail automaticamente</div>
+      <button onclick="inviaReportGiornaliero()" style="width:100%;background:linear-gradient(135deg,#059669,#047857);color:#fff;border:none;border-radius:12px;padding:.65rem;font-size:.85rem;font-weight:700;cursor:pointer;margin-bottom:.3rem;">📧 Invia report giornaliero ora</button>
+      <button onclick="apriConfigZapier()" style="width:100%;background:linear-gradient(135deg,#ff4a00,#ff8c00);color:#fff;border:none;border-radius:12px;padding:.65rem;font-size:.85rem;font-weight:700;cursor:pointer;">⚡ Configura Zapier Webhook (opzionale)</button>
       <div id="zapier-config-panel" style="display:none;margin-top:.5rem;">
         <div style="font-size:.68rem;color:var(--muted);margin-bottom:.35rem;">
           1. Vai su <a href="https://zapier.com/app/zaps" target="_blank" style="color:#ff4a00;">zapier.com</a> → Crea Zap<br>
@@ -9042,6 +9076,290 @@ document.addEventListener('keydown', function(e){
   }
 });
 </script>
+
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// 🧠 SISTEMA MULTI-AI — Claude Sonnet 4.6 + Groq LLaMA 3.3
+// Incrocia 134 PDF + Zamnesia + RQS con 2 intelligenze diverse
+// ═══════════════════════════════════════════════════════════════════
+
+var ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages';
+var ANTHROPIC_MODEL = 'claude-sonnet-4-6';
+var N8N_BASE = 'https://francisco467.app.n8n.cloud/webhook';
+
+// ── Chiama Claude Anthropic direttamente dall'app ──
+async function chiamaClaude(domanda, contesto) {
+  var key = localStorage.getItem('anthropic_api_key') || '';
+  if(!key) {
+    return '⚠️ Chiave Anthropic non configurata. Vai in Laboratorio → AI → ⚙️ Configurazione';
+  }
+  var sys = buildSistemaPrompt ? buildSistemaPrompt() : 'Sei SerraAI.';
+  if(contesto) sys += '\n\nCONTESTO AGGIUNTIVO: ' + contesto;
+  try {
+    var resp = await fetch(ANTHROPIC_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: ANTHROPIC_MODEL,
+        max_tokens: 1000,
+        system: sys,
+        messages: [{role: 'user', content: domanda}]
+      })
+    });
+    if(!resp.ok) {
+      var err = await resp.json();
+      return '❌ Claude API error: ' + (err.error && err.error.message || resp.status);
+    }
+    var data = await resp.json();
+    return data.content && data.content[0] ? data.content[0].text : 'Nessuna risposta';
+  } catch(e) {
+    return '❌ Errore Claude: ' + e.message;
+  }
+}
+
+// ── Chiama Groq LLaMA (già integrato) ──
+async function chiamaGroq(domanda, contesto) {
+  var key = localStorage.getItem('groq_api_key') || '';
+  if(!key) return '⚠️ Chiave Groq non configurata.';
+  var sys = buildSistemaPrompt ? buildSistemaPrompt() : 'Sei SerraAI.';
+  if(contesto) sys += '\n\nCONTESTO: ' + contesto;
+  try {
+    var resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','Authorization':'Bearer '+key},
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        messages: [{role:'system',content:sys},{role:'user',content:domanda}],
+        max_tokens: 800, temperature: 0.7
+      })
+    });
+    var data = await resp.json();
+    return data.choices && data.choices[0] ? data.choices[0].message.content : 'Nessuna risposta';
+  } catch(e) {
+    return '❌ Errore Groq: ' + e.message;
+  }
+}
+
+// ── Analisi incrociata: entrambe le AI, risultati messi a confronto ──
+async function analisiIncrociata(domanda, elId) {
+  var el = document.getElementById(elId);
+  if(!el) return;
+  el.innerHTML = '<div style="color:var(--muted);font-size:.78rem;">⏳ Claude + Groq stanno analizzando...</div>';
+  
+  var hasGroq = !!localStorage.getItem('groq_api_key');
+  var hasClaude = !!localStorage.getItem('anthropic_api_key');
+  
+  if(!hasGroq && !hasClaude) {
+    el.innerHTML = '<div style="font-size:.78rem;color:#f59e0b;">⚠️ Configura almeno una chiave AI nel Laboratorio → ⚗️ AI</div>';
+    return;
+  }
+  
+  var html = '';
+  
+  if(hasClaude) {
+    el.innerHTML = '<div style="font-size:.72rem;color:var(--muted);">🔵 Claude sta analizzando...</div>';
+    var risClaude = await chiamaClaude(domanda);
+    html += '<div style="background:rgba(0,100,255,.08);border-radius:10px;padding:.6rem .8rem;margin-bottom:.5rem;border-left:3px solid #2563eb;">';
+    html += '<div style="font-size:.6rem;font-weight:800;color:#2563eb;margin-bottom:.3rem;">🔵 CLAUDE SONNET 4.6 (Anthropic)</div>';
+    html += '<div style="font-size:.78rem;color:var(--text);line-height:1.6;white-space:pre-wrap;">'+risClaude+'</div></div>';
+  }
+  
+  if(hasGroq) {
+    if(hasClaude) el.innerHTML = html + '<div style="font-size:.72rem;color:var(--muted);">🟣 Groq LLaMA sta analizzando...</div>';
+    var risGroq = await chiamaGroq(domanda);
+    html += '<div style="background:rgba(139,92,246,.08);border-radius:10px;padding:.6rem .8rem;margin-bottom:.5rem;border-left:3px solid #7c3aed;">';
+    html += '<div style="font-size:.6rem;font-weight:800;color:#7c3aed;margin-bottom:.3rem;">🟣 LLAMA 3.3 70B (Groq)</div>';
+    html += '<div style="font-size:.78rem;color:var(--text);line-height:1.6;white-space:pre-wrap;">'+risGroq+'</div></div>';
+  }
+  
+  if(!hasClaude && hasGroq) {
+    html = '<div style="font-size:.7rem;color:var(--muted);margin-bottom:.4rem;">💡 Aggiungi chiave Anthropic per analisi incrociata con Claude</div>' + html;
+  }
+  
+  el.innerHTML = html || '<div style="font-size:.78rem;color:var(--muted);">Nessuna risposta disponibile.</div>';
+}
+
+// ── Salva chiave Anthropic ──
+function salvaChiaveAnthropic() {
+  var inp = document.getElementById('anthropic-key-input');
+  if(!inp || !inp.value.trim()) return;
+  var key = inp.value.trim();
+  if(!key.startsWith('sk-ant-')) {
+    toast('⚠️ La chiave Anthropic inizia con sk-ant-...', 2500); return;
+  }
+  localStorage.setItem('anthropic_api_key', key);
+  toast('✅ Chiave Claude salvata!', 2000);
+  var s = document.getElementById('anthropic-key-section');
+  if(s) s.style.display = 'none';
+  var b = document.getElementById('anthropic-status-badge');
+  if(b) { b.textContent = '✅ Claude attivo'; b.style.background='#d1fae5'; b.style.color='#065f46'; }
+  autoBackupGitHubRepo && autoBackupGitHubRepo(true);
+}
+
+// ── N8n Automazioni ──
+async function triggerN8n(workflow, payload) {
+  var url = N8N_BASE + '/' + workflow;
+  try {
+    var resp = await fetch(url, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        timestamp: new Date().toISOString(),
+        app: 'mini-serra',
+        ...payload
+      })
+    });
+    return resp.ok;
+  } catch(e) {
+    console.log('N8n trigger error:', e.message);
+    return false;
+  }
+}
+
+// ── Invia report giornaliero via N8n (→ Gmail + Notion + Calendar) ──
+async function inviaReportGiornaliero() {
+  var key = fmtKey(oggi());
+  var dayData = DB.days && DB.days[key];
+  var opFatte = dayData ? Object.keys(dayData.ops||{}).filter(function(k){ return dayData.ops[k]&&dayData.ops[k].done; }).length : 0;
+  var stato = typeof _fasePianteOggi==='function' ? _fasePianteOggi() : {};
+  var bio = typeof calcolaBio==='function' ? calcolaBio(new Date()) : null;
+  
+  var payload = {
+    data: new Date().toLocaleDateString('it-IT'),
+    operazioni_completate: opFatte,
+    piante_urgenti: stato.urgenti ? stato.urgenti.map(function(p){return p.n;}).join(', ') : '',
+    piante_fioritura: stato.fioritura ? stato.fioritura.map(function(p){return p.n;}).join(', ') : '',
+    giorno_biodinamico: bio ? bio.tipo.nome : '',
+    luna: bio ? bio.lunaInfo.nome : '',
+    note: (dayData && dayData.nota) || '',
+    db_size_kb: Math.round(JSON.stringify(DB).length/1024)
+  };
+  
+  var ok = await triggerN8n('serra-report', payload);
+  toast(ok ? '✅ Report inviato via N8n!' : '⚠️ N8n non raggiungibile', 2500);
+  return ok;
+}
+
+// ── Crea evento Google Calendar via N8n ──
+async function creaEventoCalendar(titolo, data, ora, descrizione) {
+  var ok = await triggerN8n('serra-calendar', {
+    titolo: titolo,
+    data: data || new Date().toISOString().slice(0,10),
+    ora: ora || '09:00',
+    descrizione: descrizione || 'Evento creato da Mini-Serra App'
+  });
+  toast(ok ? '✅ Evento creato su Calendar!' : '⚠️ N8n non disponibile', 2500);
+}
+
+// ── Apri pannello Multi-AI ──
+function apriMultiAIPanel() {
+  var el = document.getElementById('multiAI-panel');
+  if(!el) return;
+  el.style.display = 'block';
+  el.scrollTop = 0;
+  // Aggiorna badge stato
+  var hasClaude = !!localStorage.getItem('anthropic_api_key');
+  var hasGroq = !!localStorage.getItem('groq_api_key');
+  var badge = document.getElementById('multiAI-status');
+  if(badge) {
+    if(hasClaude && hasGroq) badge.innerHTML = '🔵 Claude ✅ &nbsp; 🟣 Groq ✅';
+    else if(hasClaude) badge.innerHTML = '🔵 Claude ✅ &nbsp; 🟣 Groq ⚙️';
+    else if(hasGroq) badge.innerHTML = '🔵 Claude ⚙️ &nbsp; 🟣 Groq ✅';
+    else badge.innerHTML = '⚠️ Nessuna AI configurata';
+  }
+}
+
+// ── Funzione principale analisi incrociata (chiamata dai panel) ──
+async function eseguiAnalisiIncrociata() {
+  var inp = document.getElementById('multiAI-input');
+  var domanda = inp ? inp.value.trim() : '';
+  if(!domanda) { toast('Scrivi prima una domanda', 1500); return; }
+  if(inp) inp.value = '';
+  analisiIncrociata(domanda, 'multiAI-risposta');
+}
+
+// ── Analisi automatica PDF + Guide web su una domanda ──  
+async function analisiPDFGuide(domanda, elId) {
+  var contesto = 'Hai accesso ai seguenti 134 PDF catalogati: ELETTROCOLTURA(Christofleau spirale rame, Lemstrom fili aerei, Lakhovsky anello risonanza, Tesla, Hull corona discharge, Ighina atomo magnetico, Dudgeon, Bertholon, Nollet, Arce, Guerzoni) + LIVING SOIL(Howard Agricultural Testament, Ingham Soil Biology, Restrepo, Tompkins Vita Segreta Piante) + MAGIA(Crowley Magick+LiberLegis+Liber333, Kybalion, Tavole Smeraldine, Agrippa De Occulta Philosophia, Chiave di Salomone, Wicca, Ruhlmann frequenze 528Hz) + SPIRITUALE(Dawson Church, Garnier Malet, Registri Akashici Melissa Gomes, Gateway Secret) + GUIDE WEB(Zamnesia: germinazione carta-umida 22-25C; vegetativa LST+topping+N-alto; fioritura W1-W8 P+K; tricomi trasparenti→lattiginosi→ambrati; raccolta mattina+forbici-sterilizzate; essiccazione 10-14gg; concia vetro-ermetico 4-8sett; problemi carenze+parassiti)(RQS: stesse fasi, enfasi su nutrizione organica, flush 10-14gg, LST avanzato, ScrOG). Incrocia SEMPRE dati PDF con guide web nella risposta.';
+  await analisiIncrociata(domanda, elId);
+}
+
+// Init al caricamento — controlla stato AI
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(function() {
+    var hasClaude = !!localStorage.getItem('anthropic_api_key');
+    var hasGroq = !!localStorage.getItem('groq_api_key');
+    // Aggiorna badge nell'AI panel del laboratorio
+    var badge = document.getElementById('ai-status-badge');
+    if(badge) {
+      if(hasClaude && hasGroq) badge.textContent = '🔵Claude+🟣Groq';
+      else if(hasClaude) badge.textContent = '🔵 Claude';
+      else if(hasGroq) badge.textContent = '🟣 Groq';
+    }
+  }, 1500);
+});
+</script>
+
+<!-- ═══════════ PANEL MULTI-AI ═══════════ -->
+<div id="multiAI-panel" style="display:none;position:fixed;inset:0;z-index:400;background:var(--main-bg);overflow-y:auto;padding-bottom:4rem;">
+  <div style="position:sticky;top:0;z-index:5;background:linear-gradient(135deg,#1e3a5f,#2563eb);padding:.85rem 1rem .7rem;display:flex;align-items:center;gap:.7rem;">
+    <button onclick="document.getElementById('multiAI-panel').style.display='none'" style="background:rgba(255,255,255,.15);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:#fff;flex-shrink:0;">←</button>
+    <div style="flex:1;">
+      <div style="font-size:.55rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);">LABORATORIO · ANALISI INCROCIATA</div>
+      <div style="font-size:1rem;font-weight:800;color:#fff;">🧠 Multi-AI — Claude + Groq</div>
+    </div>
+    <div id="multiAI-status" style="font-size:.6rem;background:rgba(255,255,255,.15);color:#fff;border-radius:20px;padding:.2rem .6rem;">Caricamento...</div>
+  </div>
+  <div style="padding:.8rem 1rem;">
+    <!-- Config API keys -->
+    <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.6rem;box-shadow:var(--one-shadow-sm);">
+      <div style="font-size:.65rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;">⚙️ CONFIGURAZIONE AI</div>
+      <!-- Claude -->
+      <div id="anthropic-key-section" style="margin-bottom:.5rem;">
+        <div style="font-size:.72rem;color:var(--muted);margin-bottom:.3rem;">🔵 Claude (Anthropic) — <a href="https://console.anthropic.com" target="_blank" style="color:#2563eb;">console.anthropic.com</a></div>
+        <div style="display:flex;gap:.4rem;">
+          <input id="anthropic-key-input" type="password" placeholder="sk-ant-api03-..." style="flex:1;padding:.4rem .6rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-size:.75rem;color:var(--text);outline:none;">
+          <button onclick="salvaChiaveAnthropic()" style="background:#2563eb;color:#fff;border:none;border-radius:10px;padding:.4rem .9rem;font-size:.78rem;font-weight:700;cursor:pointer;">Salva</button>
+        </div>
+      </div>
+      <div id="anthropic-status-badge" style="font-size:.68rem;padding:.2rem .5rem;border-radius:20px;display:inline-block;background:var(--cream);color:var(--muted);">🔵 Claude: non configurato</div>
+      <!-- Groq già configurato nel Lab -->
+      <div style="font-size:.68rem;color:var(--muted);margin-top:.4rem;">🟣 Groq LLaMA — configura nel tab ⚗️ del Laboratorio</div>
+    </div>
+    <!-- Domande rapide -->
+    <div style="font-size:.6rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;">⚡ ANALISI RAPIDE — 134 PDF × GUIDE WEB</div>
+    <div style="display:grid;grid-template-columns:1fr;gap:.3rem;margin-bottom:.6rem;">
+      <button onclick="analisiIncrociata('Incrocia i dati dei 134 PDF (Christofleau, Lakhovsky, Howard, Ingham) con le guide Zamnesia+RQS. Quali sono le 5 connessioni più sorprendenti e applicabili oggi alla mia serra?', 'multiAI-risposta')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.6rem .8rem;font-size:.77rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.4;">🔗 Incrocia PDF × Guide web — connessioni sorprendenti</button>
+      <button onclick="analisiIncrociata('Analizza la fase attuale delle mie piante e dimmi: quale tecnica dai 134 PDF (elettrocoltura, biodinamica, magia) si integra meglio con i consigli di Zamnesia e RQS per questa fase? Dammi un piano d\'azione concreto per oggi.', 'multiAI-risposta')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.6rem .8rem;font-size:.77rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.4;">🌿 Piano d'azione oggi — PDF × Guide × fase piante</button>
+      <button onclick="analisiIncrociata('Fai una diagnosi completa: analizza tutti i possibili problemi per le mie piante oggi. Confronta come i 134 PDF la vedono vs come la vedono Zamnesia e RQS. Quali divergono? Quali concordano?', 'multiAI-risposta')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.6rem .8rem;font-size:.77rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.4;">🔍 Diagnosi completa — PDF vs Zamnesia vs RQS</button>
+      <button onclick="analisiIncrociata('Dalla tradizione esoterica (Kybalion, Crowley, Tavole Smeraldine, Registri Akashici) quali principi applicabili alla coltivazione Living Soil? Come si collegano ai dati scientifici di Howard e Ingham? Dammi 5 pratiche concrete.', 'multiAI-risposta')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.6rem .8rem;font-size:.77rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.4;">🔮 Magia + Scienza — pratiche concrete dalla sintesi</button>
+      <button onclick="analisiIncrociata('Ottimizza il mio sistema elettrocoltura: confronta Christofleau (1920), Lemstrom (1904), Lakhovsky (1925) e Hull (1898). Quali differenze pratiche? Quale combinazione è più efficace per Living Soil con vasi 10L? Zamnesia e RQS cosa dicono sull\'elettrocoltura?', 'multiAI-risposta')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.6rem .8rem;font-size:.77rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.4;">⚡ Ottimizza elettrocoltura — Christofleau vs Lemstrom vs Lakhovsky</button>
+    </div>
+    <!-- Input libero -->
+    <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.6rem;box-shadow:var(--one-shadow-sm);">
+      <div style="font-size:.65rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;">💬 DOMANDA LIBERA</div>
+      <textarea id="multiAI-input" placeholder="Chiedi qualsiasi cosa... entrambe le AI risponderanno e confronteranno i dati dai 134 PDF e dalle guide Zamnesia+RQS" style="width:100%;box-sizing:border-box;padding:.5rem .7rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-family:inherit;font-size:.8rem;color:var(--text);resize:none;min-height:80px;outline:none;margin-bottom:.4rem;"></textarea>
+      <button onclick="eseguiAnalisiIncrociata()" style="width:100%;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:none;border-radius:12px;padding:.65rem;font-size:.85rem;font-weight:700;cursor:pointer;">🧠 Analisi incrociata Claude + Groq →</button>
+    </div>
+    <!-- Risultati -->
+    <div id="multiAI-risposta" style="min-height:60px;"></div>
+    <!-- Azioni post-analisi -->
+    <div style="background:rgba(0,135,90,.06);border-radius:14px;padding:.75rem 1rem;margin-top:.6rem;border:1px solid rgba(0,135,90,.15);">
+      <div style="font-size:.6rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;">🔄 AZIONI RAPIDE</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem;">
+        <button onclick="inviaReportGiornaliero()" style="background:var(--card);border:1.5px solid var(--sand);border-radius:10px;padding:.5rem;font-size:.72rem;color:var(--text);cursor:pointer;">📧 Invia report N8n</button>
+        <button onclick="autoBackupGitHubRepo&&autoBackupGitHubRepo(true);toast('☁️ Backup su GitHub in corso...',1500);" style="background:var(--card);border:1.5px solid var(--sand);border-radius:10px;padding:.5rem;font-size:.72rem;color:var(--text);cursor:pointer;">☁️ Backup GitHub ora</button>
+        <button onclick="creaEventoCalendar('🌱 Serra — '+new Date().toLocaleDateString(\'it-IT\'),null,null,'Report giornaliero Mini-Serra')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:10px;padding:.5rem;font-size:.72rem;color:var(--text);cursor:pointer;">📅 Crea evento Calendar</button>
+        <button onclick="goNav(\'laboratorio\');document.getElementById(\'multiAI-panel\').style.display=\'none\'" style="background:var(--card);border:1.5px solid var(--sand);border-radius:10px;padding:.5rem;font-size:.72rem;color:var(--text);cursor:pointer;">⚗️ Vai al Lab</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html
