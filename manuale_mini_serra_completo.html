@@ -7344,6 +7344,12 @@ function _aggiornaCervelloStats() {
   } catch(e) {}
 }
 
+function renderConsigliLive() {
+  if(typeof mostraCervelloHome === 'function') mostraCervelloHome();
+  if(typeof renderBioOggi === 'function') renderBioOggi();
+  if(typeof aggiornaBadgeAI === 'function') aggiornaBadgeAI();
+}
+
 // ═══ Override goNav ═══
 (function() {
   var _orig = window.goNav;
@@ -7353,7 +7359,7 @@ function _aggiornaCervelloStats() {
       if(typeof renderGuida === 'function') renderGuida();
       initGuideSection();
     }, 80);
-    if(id === 'home') setTimeout(renderConsigliLive, 80);
+    if(id === 'home') setTimeout(function() { if(typeof renderConsigliLive === 'function') renderConsigliLive(); }, 80);
   };
 })();
 </script>
@@ -7442,6 +7448,12 @@ function chiudiOverlay(id) {
 // ═══ GUIDA READER INLINE ═══
 // apriGuidaInterna: usa versione avanzata sotto
 
+function generaGuidaAI(faseKey, domanda) {
+  var domandaCompleta = domanda + ' — Integra dati dai 134 PDF e dalle guide Zamnesia+RQS.';
+  var elId = 'guida-ai-risposta-' + faseKey;
+  apriAnalisiAI(domandaCompleta);
+}
+
 function rigeneraGuidaAI(faseKey) {
   var GUIDE_FASI_DOMANDE = {
     germinazione: 'Analisi fase germinazione/piantina: cosa fare oggi con il giorno biodinamico attuale?',
@@ -7492,20 +7504,9 @@ function _aggiornaCervelloStats() {
   } catch(e) {}
 }
 
-// ═══ Override goNav ═══
-(function() {
-  var _orig = window.goNav;
-  window.goNav = function(id, el) {
-    if(_orig) _orig.call(window, id, el);
-    if(id === 'guida') setTimeout(function() {
-      if(typeof renderGuida === 'function') renderGuida();
-      initGuideSection();
-    }, 80);
-    if(id === 'home') setTimeout(renderConsigliLive, 80);
-  };
-})();
-</script>
 
+
+</script>
 
 <script>
 // ═══ GUIDA READER INLINE ═══
