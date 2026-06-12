@@ -857,6 +857,23 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
 
   <!-- Prossimo evento serra da Calendar -->
   <div id="home-calendar-widget" style="margin:.3rem .85rem .1rem;"></div>
+  <!-- ══ GUIDE WEB LIVE — Zamnesia + RQS ══ -->
+  <div style="margin:.3rem .85rem .4rem;" id="home-guide-widget">
+    <div style="font-size:.58rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem;">📚 GUIDE WEB · CONSIGLI LIVE</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.45rem;margin-bottom:.45rem;">
+      <a href="https://www.zamnesia.io/it/guida-coltivare-cannabis" target="_blank" style="background:linear-gradient(135deg,#00442E,#006B45);border-radius:14px;padding:.7rem .8rem;text-decoration:none;display:block;">
+        <div style="font-size:.65rem;font-weight:800;color:rgba(255,255,255,.6);margin-bottom:.2rem;">ZAMNESIA</div>
+        <div style="font-size:.78rem;color:#fff;font-weight:700;line-height:1.3;">Guida<br>Coltivazione</div>
+        <div style="font-size:.62rem;color:rgba(255,255,255,.55);margin-top:.3rem;">→ Apri guida</div>
+      </a>
+      <a href="https://www.royalqueenseeds.it/guida-alla-coltivazione-della-cannabis" target="_blank" style="background:linear-gradient(135deg,#1a2366,#2d3da8);border-radius:14px;padding:.7rem .8rem;text-decoration:none;display:block;">
+        <div style="font-size:.65rem;font-weight:800;color:rgba(255,255,255,.6);margin-bottom:.2rem;">ROYAL QUEEN</div>
+        <div style="font-size:.78rem;color:#fff;font-weight:700;line-height:1.3;">Grow<br>Guide Pro</div>
+        <div style="font-size:.62rem;color:rgba(255,255,255,.55);margin-top:.3rem;">→ Apri guida</div>
+      </a>
+    </div>
+    <div id="home-consiglio-live" style="background:var(--card);border-radius:12px;padding:.7rem .85rem;border-left:3px solid var(--sage);box-shadow:var(--one-shadow-sm);"></div>
+  </div>
 
   <!-- Widget N8n Automazioni -->
   <div style="margin:.2rem .85rem .1rem;">
@@ -1427,13 +1444,13 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
     </div>
     <!-- Domande rapide -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.35rem;margin-bottom:.65rem;">
-      <button onclick="inviaAI('Oggi è un buon giorno per lavorare nella serra? Analizza luna e biodinamica')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">🌙 Cosa fare oggi?</button>
-      <button onclick="inviaAI('Confronta Lakhovsky 1925, Christofleau 1920 e Lemstrom 1904: differenze pratiche')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">🔬 Confronta autori</button>
-      <button onclick="inviaAI('Crea un piano sperimentale per questa settimana con le tecniche disponibili')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">📋 Piano settimana</button>
-      <button onclick="inviaAI('Connessioni tra Kybalion, Tavole Smeraldine e elettrocoltura da applicare subito?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">⚗️ Magia+Elettroc.</button>
-      <button onclick="inviaAI('Analizza il meteo di oggi e dimmi cosa fare nella serra')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">🌤 Meteo+Serra</button>
-      <button onclick="inviaAI('Tecnica ottimale dai 134 manuali per la fase di fioritura?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.73rem;color:var(--text);text-align:left;cursor:pointer;line-height:1.3;">🌸 Fioritura</button>
-    </div>
+      <button onclick="inviaAI('Guarda lo stato delle mie piante oggi e dimmi cosa fare di urgente')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.72rem;color:var(--text);cursor:pointer;text-align:left;line-height:1.3;font-weight:600;">🔥 Cosa fare OGGI<br><span style="font-weight:400;color:var(--soft);">piante + urgenze</span></button>
+      <button onclick="inviaAI('Analizza il meteo di oggi, la fase lunare e la fase delle mie piante: qual è il momento migliore per irrigare, concimare o fare operazioni?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.72rem;color:var(--text);cursor:pointer;text-align:left;line-height:1.3;font-weight:600;">🌙 Meteo + Luna<br><span style="font-weight:400;color:var(--soft);">timing ottimale</span></button>
+      <button onclick="inviaAI('Le mie autofiorenti sono in fioritura avanzata. Secondo Zamnesia e Royal Queen Seeds, cosa fare nelle ultime settimane prima della raccolta? Flush, tricomi, etilene?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.72rem;color:var(--text);cursor:pointer;text-align:left;line-height:1.3;font-weight:600;">🌸 Raccolta<br><span style="font-weight:400;color:var(--soft);">Zamnesia + RQS</span></button>
+      <button onclick="inviaAI('Confronta le tecniche di Christofleau, Lakhovsky e Ighina per la fase di fioritura. Come applico la pila galvanica e il circuito di Lakhovsky adesso?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.72rem;color:var(--text);cursor:pointer;text-align:left;line-height:1.3;font-weight:600;">⚡ Elettrocoltura<br><span style="font-weight:400;color:var(--soft);">fioritura avanzata</span></button>
+      <button onclick="inviaAI('Mostrami le connessioni più sorprendenti tra i 134 PDF: come i testi di magia, ermetismo e biodinamica si collegano all elettrocoltura praticamente?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.72rem;color:var(--text);cursor:pointer;text-align:left;line-height:1.3;font-weight:600;">🔗 Connessioni<br><span style="font-weight:400;color:var(--soft);">134 PDF × magia</span></button>
+      <button onclick="inviaAI('Le mie femminizzate (Astro Lemonade, Cosmic Cheddar, Orbital Banana, Royal Gorilla, Mexican Rush) sono in vegetativa. Cosa devo fare da giugno a settembre per prepararle alla fioritura autunnale?')" style="background:var(--card);border:1.5px solid var(--sand);border-radius:12px;padding:.55rem .6rem;font-size:.72rem;color:var(--text);cursor:pointer;text-align:left;line-height:1.3;font-weight:600;">🌿 Femminizzate<br><span style="font-weight:400;color:var(--soft);">prep. fioritura autunnale</span></button>
+    </div>div>
     <!-- Chat -->
     <div id="ai-chat" style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:.5rem;min-height:80px;"></div>
   </div>
@@ -5663,44 +5680,120 @@ function removeAITyping() {
 }
 
 function buildSistemaPrompt() {
-  // Prepara il contesto dai dati dell'app
   var bio = calcolaBio ? calcolaBio(oggi()) : null;
   var bioCtx = bio ? 'Oggi è un giorno '+bio.tipo.nome+' ('+bio.tipo.el+') con Luna '+bio.lunaInfo.nome+'.' : '';
-  
+
   var espCtx = '';
   if(EDBV2 && EDBV2.categorie) {
     var tutti = [];
     EDBV2.categorie.forEach(function(cat){
       cat.esperimenti.forEach(function(e){
-        tutti.push(cat.ico+' '+e.nome+' ['+e.stato+', '+e.scientificita+']: '+e.principio.substring(0,150));
+        tutti.push(cat.ico+' '+e.nome+' ['+e.stato+', '+e.scientificita+']: '+e.principio.substring(0,120));
       });
     });
     espCtx = tutti.join('\n');
   }
 
-  var labCtx = labAttivi.length ? 'Esperimenti attivi nel Lab: '+labAttivi.join(', ')+'.' : '';
+  var labCtx = labAttivi.length ? 'Esperimenti attivi: '+labAttivi.join(', ')+'.' : '';
 
-
-  // Meteo da Open-Meteo
   var meteoCtx = '';
   if(typeof METEO_CACHE !== 'undefined' && METEO_CACHE && METEO_CACHE.temp) {
-    meteoCtx = ' METEO OGGI: '+METEO_CACHE.temp+'°C, '+METEO_CACHE.condizione+', umidità '+METEO_CACHE.umidita+'%.';
+    meteoCtx = 'METEO OGGI: '+METEO_CACHE.temp+'°C, '+METEO_CACHE.condizione+', umidità '+METEO_CACHE.umidita+'%.';
   }
-  return meteoCtx + '\n' + 'Sei un assistente specializzato in elettrocoltura, biodinamica e coltivazione Living Soil. ' +
-    'Hai accesso alla knowledge base estratta da oltre 40 manuali PDF tra cui: Justin Christofleau - Electroculture (1920), ' +
-    'Georges Lakhovsky - ricerche 1925, Pierluigi Ighina - L\'Atomo Magnetico (1954), ' +
-    'Andrea Donnoli - Starter Kit Elettrocoltura, Errol Ramos - Electroculture for Beginners, ' +
-    'The Soil Biology Primer - Elaine Ingham, An Agricultural Testament - Albert Howard, ' +
-    'La Vita Segreta delle Piante - Tompkins & Bird, Agricultura Orgánica - Jairo Restrepo Rivera, ' +
-    'US Patents for Electroculture, La Mélodie Secrète des Végétaux - Ruhlmann, ' +
-    'Il Kybalion - I Tre Iniziati, Scoperte Scientifiche non Autorizzate - Pizzuti, ' +
-    'e molti altri testi di magia, ermetismo, alchimia vegetale e biodinamica.\n\n' +
-    'CONTESTO COLTIVAZIONE: Mini-serra con 10 piante in vasi 10L, sistema Living Soil water-only, ' +
-    'irrigazione solare automatica, ciclo 8 mesi. '+bioCtx+' '+labCtx+'\n\n' +
-    'ESPERIMENTI CATALOGATI:\n'+espCtx+'\n\n' +
-    'ISTRUZIONI: Rispondi in italiano. Sii specifico e pratico. ' +
-    'Cita sempre le fonti quando possibile. Quando proponi combinazioni, spiega perché funzionano insieme. ' +
-    'Evidenzia le scoperte più sorprendenti. Mantieni un tono entusiasta da ricercatore appassionato.';
+
+  // Stato piante calcolato dinamicamente dalla data di oggi
+  var oggi_d = new Date();
+  var piante_ctx = _buildPianteContext(oggi_d);
+
+  // Connessioni dal Cervello Notturno (ultime 5 dal DB)
+  var conn_ctx = _buildConnContext();
+
+  return [
+    '=== IDENTITÀ ===',
+    'Sei SerraAI, l\'assistente intelligente della Mini-Serra Living Soil. Hai accesso a dati live: meteo, stato piante, fase lunare, 134 manuali PDF, guide web professionali.',
+    '',
+    '=== KNOWLEDGE BASE — 134 PDF REALI ===',
+    'Elettrocoltura (73 PDF): Christofleau 1920, Nollet 3 volumi sui Vegetali, Ighina Atomo Magnetico, Tesla 5 libri, Arce Biohacker Guide, Ramos Beginners, Laemstrom, Hull, Cathie Energy Grid, Ruhlmann Mélodie des Végétaux, USPTO Patents, Corso Elettrocoltura.',
+    'Coltivazione (8 PDF): Ingham Soil Biology Primer, Howard Agricultural Testament, Restrepo Rivera 3 libri, Tompkins & Bird Vita Segreta Piante.',
+    'Magia/Esoterismo (24 PDF): Crowley 9 libri, Agrippa, Chiave Salomone, Kybalion, Corpus Hermeticum, Tavole Smeraldine, Alchimia Mutus Liber.',
+    'Spirituali (9 PDF): Vangelo Esseno, ROL 4 libri, Harry B. Joseph 3 libri.',
+    'Libri Sacri (10 PDF): Corano, Upanishad, Kojiki, Talmud, Buddhismo, Wicca.',
+    '',
+    '=== GUIDE WEB INTEGRATE ===',
+    'ZAMNESIA (zamnesia.io/it/guida-coltivare-cannabis):',
+    '- Germinazione: ammollo semi 24h, carta assorbente umida 20-25°C, trapianto dopo 2-3 giorni con radichetta 1cm',
+    '- Vegetativa: azoto alto (N), LST e topping dalla 3a settimana, 18h luce indoor',
+    '- Riconoscimento sesso: pistilli bianchi=femmina, sacchetti polline=maschio — eliminare maschi subito',
+    '- Fioritura: 12/12h per fotoperiodiche, autofiorenti no trigger, ridurre N aumentare P e K',
+    '- Irrigazione: tecnica lift-test (vaso leggero=irrigare), dito nel terreno 3-5cm',
+    '- Problemi comuni: carenza azoto=foglie gialle dal basso, carenza ferro=ingiallimento apici, muffa grigia=umidità alta',
+    '- Flush finale: 10-14 giorni prima raccolta con sola acqua per eliminare sali residui',
+    '- Essiccazione: 12-15 giorni a 18-22°C, 45-55% umidità, oscurità totale',
+    '',
+    'ROYAL QUEEN SEEDS (royalqueenseeds.it/guida-alla-coltivazione):',
+    '- Substrato Living Soil: rapporto ideale 60% terriccio + 30% perlite + 10% fibra cocco',
+    '- Vasi tessuto: air-pruning radici naturale, migliore aerazione, evitare root-bound',
+    '- Settimane fioritura autofiorenti: W1-W2 pre-fioritura, W3-W4 stretch, W5-W6 cime dense, W7 maturazione, W8 raccolta',
+    '- Settimane fioritura fotoperiodiche: W1-W2 transizione, W3-W4 formazione cime, W5-W6 ingrossamento, W7-W8 maturazione',
+    '- Tricomi: lente 60-100x — trasparenti=acerbi, lattiginosi=picco THC, ambrati=CBN alto/effetto fisico',
+    '- Nutrienti organici: worm casting ogni mese, compost tea, kelp meal per K, bone meal per P',
+    '- Tecniche training: LST basso stress, SCROG con rete, topping nodo 5-6, FIM nodo 3-4',
+    '- Essiccazione RQS: lenta 14-21 giorni ottimale, wet trimming subito o dry trimming dopo essiccazione',
+    '- Concia: 2-8 settimane in barattoli vetro, aprire 2x/giorno prima settimana, poi 1x/giorno',
+    '',
+    '=== STATO PIANTE OGGI ===',
+    piante_ctx,
+    '',
+    '=== CONNESSIONI CROSS-DOMINIO RECENTI ===',
+    conn_ctx,
+    '',
+    '=== CONTESTO LIVE ===',
+    meteoCtx,
+    bioCtx,
+    labCtx,
+    '',
+    '=== ISTRUZIONI ===',
+    'Rispondi SEMPRE in italiano. Sii specifico e pratico. Cita fonti (PDF o guida web). ',
+    'Quando parli di una pianta, considera il suo stato attuale (vedi STATO PIANTE). ',
+    'Integra sempre elettrocoltura + coltivazione biologica + saggezza antica nelle risposte. ',
+    'Proponi azioni concrete basate sul meteo, fase lunare e stato delle piante.'
+  ].join('\n') + '\n\nESPERIMENTI CATALOGATI:\n' + espCtx;
+}
+
+function _buildPianteContext(oggi_d) {
+  var PIANTE_DATA = [
+    {n:'Epsilon F1', tipo:'auto', germ:new Date('2026-04-21'), raccolta_gg:60, fase:'raccolta'},
+    {n:'Milky Way F1', tipo:'auto', germ:new Date('2026-04-23'), raccolta_gg:72, fase:'fioritura'},
+    {n:'Titan F1', tipo:'auto', germ:new Date('2026-04-22'), raccolta_gg:72, fase:'fioritura'},
+    {n:'Medusa F1', tipo:'auto', germ:new Date('2026-04-21'), raccolta_gg:72, fase:'fioritura'},
+    {n:'Gaia F1', tipo:'auto', germ:new Date('2026-04-21'), raccolta_gg:67, fase:'fioritura'},
+    {n:'Astro Lemonade F1', tipo:'femm', germ:new Date('2026-04-21'), raccolta_mese:'Dicembre 2026', fase:'vegetativa'},
+    {n:'Cosmic Cheddar F1', tipo:'femm', germ:new Date('2026-05-02'), raccolta_mese:'Dicembre 2026', fase:'vegetativa'},
+    {n:'Orbital Banana F1', tipo:'femm', germ:new Date('2026-04-30'), raccolta_mese:'Dicembre 2026', fase:'vegetativa'},
+    {n:'Royal Gorilla', tipo:'femm', germ:new Date('2026-04-22'), raccolta_mese:'Metà Dicembre 2026', fase:'vegetativa'},
+    {n:'Mexican Rush', tipo:'femm', germ:new Date('2026-04-21'), raccolta_mese:'Metà Dicembre 2026', fase:'vegetativa'},
+  ];
+  var lines = [];
+  PIANTE_DATA.forEach(function(p){
+    var gg = Math.round((oggi_d - p.germ)/(1000*60*60*24));
+    if(p.tipo==='auto' && p.raccolta_gg){
+      var rimanenti = p.raccolta_gg - gg;
+      var stato = rimanenti <= 3 ? '🔥 RACCOLTA IMMEDIATA' : rimanenti <= 10 ? '⚠️ RACCOLTA IMMINENTE' : '🌸 FIORITURA';
+      lines.push(p.n+': giorno '+gg+'/'+p.raccolta_gg+', ~'+Math.max(0,rimanenti)+' giorni alla raccolta — '+stato);
+    } else {
+      lines.push(p.n+': giorno '+gg+' vegetativa, raccolta '+p.raccolta_mese);
+    }
+  });
+  return lines.join('\n');
+}
+
+function _buildConnContext() {
+  try {
+    var db = JSON.parse(localStorage.getItem('serra5') || '{}');
+    var conns = (db.connessioni || db.CONNESSIONI_CROSS || []).slice(-5);
+    if(!conns.length) return 'Nessuna connessione disponibile.';
+    return conns.map(function(c){ return '• '+c.a+' ↔ '+c.b+': '+(c.nota||'').substring(0,150); }).join('\n');
+  } catch(e){ return ''; }
 }
 
 async function inviaAI(domandaPreset) {
@@ -7665,6 +7758,115 @@ window.goNav = function(id, el){
     }, 80);
   }
 };
+</script>
+
+
+<script>
+// ═══ CONSIGLI LIVE basati su fase piante + guide web ═══
+var _CONSIGLI_FASI = {
+  raccolta: {
+    titolo: '🔥 Raccolta imminente — Zamnesia + RQS',
+    punti: [
+      'Controlla tricomi ogni 2 giorni con lente 60x',
+      '70-80% ambrati = pronta per raccolta',
+      'Flush finale: 10-14 giorni con sola acqua (Zamnesia)',
+      'Taglia quando umidità <50%, evita muffa',
+      'Etilene: mela matura nella serra per sincronizzare',
+      'Essiccazione: 18-22°C, 45-55% UR, oscurità totale'
+    ],
+    fonte: 'Zamnesia + Royal Queen Seeds',
+    colore: '#e53935'
+  },
+  fioritura: {
+    titolo: '🌸 Fioritura attiva — ottimizzazione',
+    punti: [
+      'Riduci azoto (N), aumenta fosforo (P) e potassio (K)',
+      'Tè banana + cenere ogni 2 settimane (fonte: manuale)',
+      'Non toccare le cime — no training in questa fase',
+      'Umidità ideale: 40-50% per prevenire muffa grigia',
+      'Controlla pila galvanica: chiodo in posizione?',
+      'Geomag sui gocciolatori: acqua magnetizzata attiva'
+    ],
+    fonte: 'RQS Grow Guide + Manuali Elettrocoltura',
+    colore: '#f57c00'
+  },
+  vegetativa: {
+    titolo: '🌿 Fase vegetativa — massimizza crescita',
+    punti: [
+      'Azoto alto (N), nutrienti biologici mensili',
+      'LST o topping dalla 3a settimana per allargare',
+      'Infuso ortiche 1x/mese per azoto + ferro',
+      'Controlla archi Pantacle e circuiti Lakhovsky',
+      'Agita serbatoio ogni lunedì + bordi vasi ogni 7 gg',
+      'Da giugno→settembre: prep. femminizzate per ottobre'
+    ],
+    fonte: 'Zamnesia + Restrepo Rivera + Ingham',
+    colore: '#2e7d32'
+  }
+};
+
+function renderConsigliLive() {
+  var el = document.getElementById('home-consiglio-live');
+  if(!el) return;
+  // Determina la fase prevalente
+  var oggi_d = new Date();
+  var PIANTE = [
+    {germ:new Date('2026-04-21'), gg:60, tipo:'auto'},
+    {germ:new Date('2026-04-21'), gg:67, tipo:'auto'},
+    {germ:new Date('2026-04-21'), gg:72, tipo:'auto'},
+    {germ:new Date('2026-04-22'), gg:72, tipo:'auto'},
+    {germ:new Date('2026-04-23'), gg:72, tipo:'auto'},
+  ];
+  var urgenti = 0, fioritura = 0;
+  PIANTE.forEach(function(p){
+    var gg = Math.round((oggi_d - p.germ)/(1000*60*60*24));
+    var rim = p.gg - gg;
+    if(rim <= 7) urgenti++;
+    else fioritura++;
+  });
+  var fase = urgenti > 0 ? 'raccolta' : fioritura > 0 ? 'fioritura' : 'vegetativa';
+  var info = _CONSIGLI_FASI[fase];
+  el.innerHTML = '<div style="font-size:.58rem;font-weight:800;letter-spacing:.1em;color:'+info.colore+';margin-bottom:.35rem;">'+info.titolo+'</div>' +
+    info.punti.slice(0,3).map(function(p){ return '<div style="font-size:.75rem;color:var(--text);padding:.15rem 0;">• '+p+'</div>'; }).join('') +
+    '<div style="font-size:.62rem;color:var(--muted);margin-top:.4rem;">Fonte: '+info.fonte+'</div>';
+}
+
+// Chiama al caricamento home e ogni 30 min
+document.addEventListener('DOMContentLoaded', function(){
+  setTimeout(renderConsigliLive, 500);
+});
+setInterval(renderConsigliLive, 30*60*1000);
+
+// ═══ Override goNav per renderizzare guide alla navigazione ═══
+(function(){
+  var _orig = window.goNav;
+  window.goNav = function(id, el){
+    if(_orig) _orig.call(window, id, el);
+    if(id==='home') setTimeout(renderConsigliLive, 80);
+    if(id==='guida'){
+      setTimeout(function(){
+        if(typeof renderGuida === 'function') renderGuida();
+        _aggiornaBadgeCervello();
+      }, 80);
+    }
+  };
+})();
+
+function _aggiornaBadgeCervello(){
+  try {
+    var db = JSON.parse(localStorage.getItem('serra5')||'{}');
+    var letti = db.pdf_letti_134 || 70;
+    var tot = db.pdf_totali_134 || 94;
+    var conn = (db.connessioni||[]).length || 110;
+    var pct = Math.round(letti/tot*100);
+    var el1 = document.getElementById('cn-pdf-letti');
+    var el2 = document.getElementById('cn-pdf-bar');
+    var el3 = document.getElementById('cn-conn-tot');
+    if(el1) el1.textContent = letti+'/'+tot;
+    if(el2) el2.style.width = pct+'%';
+    if(el3) el3.textContent = conn+' connessioni generate';
+  } catch(e){}
+}
 </script>
 
 </body>
