@@ -1,5 +1,5 @@
 {
-  "versione": "3.6",
+  "versione": "3.7",
   "aggiornato": "2026-06-09",
   "categorie": [
     {
@@ -3195,9 +3195,42 @@
       "generata": "2026-06-12",
       "tipo": "guida_web_x_pdf",
       "fonte": "Zamnesia+RQS × elettrocoltura"
+    },
+    {
+      "a": "Nikola Tesla — Nikola Tesla, un genio volutamente dimen",
+      "b": "N/D — Esoterismo-5-Libri-in-1.-Wicca_-Rune_-Ma",
+      "nota": "La vibrazione è il filo invisibile tra Nikola Tesla (elettrocoltura) e N/D (magia). La mini-serra è il laboratorio dove questo si manifesta. [Fonte: «1 a cura di VITTORIO BACCELLI NIKOLA TESLA un genio volutamente dimenticato Edizioni della Mirandola...»]",
+      "tags": [
+        "vibrazione"
+      ],
+      "generata": "2026-06-12",
+      "tipo": "sinergia_cache_locale_v5",
+      "fonte": "filesystem_cache"
+    },
+    {
+      "a": "Guide Web (Zamnesia+RQS) — Germinazione dei semi",
+      "b": "Nikola Tesla — Nikola Tesla, un genio volutamente dimen",
+      "nota": "Le guide professionali sulla Germinazione dei semi e Nikola Tesla convergono sul concetto di vibrazione. Applicazione pratica: Nel sistema Living Soil: aggiungere inoculo micorrize 0.5g nel buco prima di inserire la piantina. Le micorrize colonizzano le radici e migliorano l'assorbimento idrico fin dal primo giorno.",
+      "tags": [
+        "vibrazione"
+      ],
+      "generata": "2026-06-12",
+      "tipo": "guida_web_x_pdf",
+      "fonte": "Zamnesia+RQS × elettrocoltura"
+    },
+    {
+      "a": "Guide Web (Zamnesia+RQS) — Germinazione dei semi",
+      "b": "N/D — elcult3_d1f52256",
+      "nota": "Le guide professionali sulla Germinazione dei semi e N/D convergono sul concetto di energia. Applicazione pratica: Nel sistema Living Soil: aggiungere inoculo micorrize 0.5g nel buco prima di inserire la piantina. Le micorrize colonizzano le radici e migliorano l'assorbimento idrico fin dal primo giorno.",
+      "tags": [
+        "energia"
+      ],
+      "generata": "2026-06-12",
+      "tipo": "guida_web_x_pdf",
+      "fonte": "Zamnesia+RQS × elettrocoltura"
     }
   ],
-  "ultimo_aggiornamento": "2026-06-12 16:34",
+  "ultimo_aggiornamento": "2026-06-12 18:32",
   "drive_folders": {
     "elettrocoltura": {
       "id": "1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ",
@@ -3483,8 +3516,8 @@
       "Il Quinto Accordo - Don Miguel e Don Jose Ruiz"
     ]
   },
-  "pdf_letti_134": 110,
+  "pdf_letti_134": 120,
   "pdf_totali_134": 57,
-  "pdf_percentuale": 193,
+  "pdf_percentuale": 211,
   "guide_web_integrate": true
 }

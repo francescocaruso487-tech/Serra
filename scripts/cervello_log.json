@@ -309,5 +309,27 @@
     "pct": 193,
     "guide_web": true,
     "modo": "filesystem_v5"
+  },
+  {
+    "data": "2026-06-12 18:32",
+    "batch": [
+      "Nikola Tesla, un genio volutam",
+      "Nikola-Tesla-Come-Lenergia_-Le",
+      "elcult3_d1f52256",
+      "Esoterismo-5-Libri-in-1.-Wicca",
+      "Il-Grande-Grimorio-Una-Raccolt",
+      "Rol Il grande veggente (Renzo ",
+      "LA CABALA MISTICA_e6d00faa",
+      "LE-TAVOLE-SMERALDINE-DI-THOTH-",
+      "Aradia.-Vangelo-delle-Streghe.",
+      "Registri-Akashici-Accedi-Alla-"
+    ],
+    "nuove": 3,
+    "tot_conn": 122,
+    "pdf_letti": 120,
+    "tot_pdf": 57,
+    "pct": 211,
+    "guide_web": true,
+    "modo": "filesystem_v5"
   }
 ]
