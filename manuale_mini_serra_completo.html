@@ -1052,8 +1052,165 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
 </div>
 
 <!-- ===== GUIDA ===== -->
-<div id="guida" class="sec">
+<div id="guida" class="sec" style="padding-bottom:5rem;">
+
+<!-- ══ HEADER ══ -->
+<div style="position:sticky;top:0;z-index:20;background:var(--main-bg);padding:.75rem 1rem .5rem;border-bottom:1px solid var(--sand);">
+  <div style="font-size:.58rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--moss);">📚 GUIDE · CONNETTORI · MANUALI</div>
+  <div style="font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--text);line-height:1.2;">Centro Conoscenza Serra</div>
+</div>
+
+<!-- ══ SEZIONE 1: LE 2 GUIDE WEB ══ -->
+<div style="padding:.9rem 1rem .4rem;">
+  <div style="font-size:.58rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;">🌐 GUIDE DI RIFERIMENTO LIVE</div>
+
+  <!-- Card Zamnesia -->
+  <div onclick="apriGuideZamnesia()" style="background:linear-gradient(135deg,#00442E,#006B45);border-radius:18px;padding:1rem 1.1rem;margin-bottom:.7rem;cursor:pointer;box-shadow:0 4px 16px rgba(0,68,46,.3);position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-15px;right:-15px;width:80px;height:80px;background:rgba(255,255,255,.06);border-radius:50%;"></div>
+    <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem;">
+      <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:.4rem .6rem;font-size:1.1rem;">🌿</div>
+      <div>
+        <div style="color:#fff;font-weight:800;font-size:.9rem;">Zamnesia — Guida Completa</div>
+        <div style="color:rgba(255,255,255,.65);font-size:.7rem;">zamnesia.io/it</div>
+      </div>
+      <div style="margin-left:auto;color:rgba(255,255,255,.6);font-size:1.1rem;">→</div>
+    </div>
+    <div style="color:rgba(255,255,255,.82);font-size:.76rem;line-height:1.5;margin-bottom:.6rem;">Germinazione · Substrati · Nutrienti · Diagnosi problemi · Indoor/Outdoor · Varietà autofiorenti</div>
+    <div style="display:flex;gap:.4rem;flex-wrap:wrap;">
+      <span style="background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:.2rem .6rem;font-size:.65rem;">Germinazione</span>
+      <span style="background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:.2rem .6rem;font-size:.65rem;">Diagnosi</span>
+      <span style="background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:.2rem .6rem;font-size:.65rem;">Substrati</span>
+      <span style="background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:.2rem .6rem;font-size:.65rem;">Autofiorenti</span>
+    </div>
+  </div>
+
+  <!-- Card Royal Queen Seeds -->
+  <div onclick="apriGuideRQS()" style="background:linear-gradient(135deg,#1a2366,#2d3da8);border-radius:18px;padding:1rem 1.1rem;margin-bottom:.5rem;cursor:pointer;box-shadow:0 4px 16px rgba(26,35,102,.35);position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-15px;right:-15px;width:80px;height:80px;background:rgba(255,255,255,.06);border-radius:50%;"></div>
+    <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem;">
+      <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:.4rem .6rem;font-size:1.1rem;">👑</div>
+      <div>
+        <div style="color:#fff;font-weight:800;font-size:.9rem;">Royal Queen Seeds — Grow Guide</div>
+        <div style="color:rgba(255,255,255,.65);font-size:.7rem;">royalqueenseeds.it</div>
+      </div>
+      <div style="margin-left:auto;color:rgba(255,255,255,.6);font-size:1.1rem;">→</div>
+    </div>
+    <div style="color:rgba(255,255,255,.82);font-size:.76rem;line-height:1.5;margin-bottom:.6rem;">Fioritura · Raccolta · Essiccazione · Concia · Trimming · Tecniche avanzate · Scrog/Lst/Topping</div>
+    <div style="display:flex;gap:.4rem;flex-wrap:wrap;">
+      <span style="background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:.2rem .6rem;font-size:.65rem;">Fioritura</span>
+      <span style="background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:.2rem .6rem;font-size:.65rem;">Raccolta</span>
+      <span style="background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:.2rem .6rem;font-size:.65rem;">Essiccazione</span>
+      <span style="background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:.2rem .6rem;font-size:.65rem;">Tecniche avanzate</span>
+    </div>
+  </div>
+
+  <!-- Consigli stagionali live -->
+  <div id="guide-stagionali" style="background:var(--card);border-radius:14px;padding:.8rem 1rem;border-left:4px solid var(--sage);box-shadow:var(--one-shadow-sm);">
+    <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;color:var(--sage);margin-bottom:.35rem;">📅 CONSIGLI STAGIONALI — GIUGNO 2026</div>
+    <div style="font-size:.8rem;color:var(--text);font-weight:600;margin-bottom:.3rem;">🔥 Epsilon F1 in raccolta imminente (~20 Giu)</div>
+    <div style="font-size:.76rem;color:var(--soft);line-height:1.5;">• Controlla i tricomi ogni 2 giorni con lente. 70-80% ambrati = pronta.<br>• Attiva generatore di etilene (mela matura nella serra)<br>• Da Zamnesia: flush finale 10-14 giorni prima della raccolta<br>• Da RQS: mantieni umidità &lt;45% nelle ultime 2 settimane</div>
+    <div style="margin-top:.5rem;font-size:.65rem;color:var(--muted);">Fonte: Zamnesia + Royal Queen Seeds — aggiornato automaticamente</div>
+  </div>
+</div>
+
+<!-- ══ SEZIONE 2: CONNETTORI ATTIVI ══ -->
+<div style="padding:.6rem 1rem .4rem;">
+  <div style="font-size:.58rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;">🔌 CONNETTORI ATTIVI</div>
+
+  <!-- Grid 2x connettori -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-bottom:.6rem;">
+
+    <!-- N8n -->
+    <div onclick="apriN8n()" style="background:var(--card);border-radius:14px;padding:.75rem;box-shadow:var(--one-shadow-sm);cursor:pointer;border-top:3px solid #f97316;">
+      <div style="font-size:1.2rem;margin-bottom:.3rem;">⚙️</div>
+      <div style="font-size:.78rem;font-weight:800;color:var(--text);">N8n</div>
+      <div style="font-size:.65rem;color:var(--soft);">6 workflow attivi</div>
+      <div style="margin-top:.4rem;display:flex;align-items:center;gap:.3rem;">
+        <div style="width:7px;height:7px;background:#22c55e;border-radius:50%;box-shadow:0 0 5px #22c55e;"></div>
+        <span style="font-size:.62rem;color:#22c55e;font-weight:700;">LIVE</span>
+      </div>
+    </div>
+
+    <!-- Notion -->
+    <div onclick="apriNotion()" style="background:var(--card);border-radius:14px;padding:.75rem;box-shadow:var(--one-shadow-sm);cursor:pointer;border-top:3px solid #374151;">
+      <div style="font-size:1.2rem;margin-bottom:.3rem;">📋</div>
+      <div style="font-size:.78rem;font-weight:800;color:var(--text);">Notion</div>
+      <div style="font-size:.65rem;color:var(--soft);">Diario + Connessioni</div>
+      <div style="margin-top:.4rem;display:flex;align-items:center;gap:.3rem;">
+        <div style="width:7px;height:7px;background:#22c55e;border-radius:50%;"></div>
+        <span style="font-size:.62rem;color:#22c55e;font-weight:700;">SYNC</span>
+      </div>
+    </div>
+
+    <!-- Google Drive -->
+    <div onclick="apriDrive()" style="background:var(--card);border-radius:14px;padding:.75rem;box-shadow:var(--one-shadow-sm);cursor:pointer;border-top:3px solid #1a73e8;">
+      <div style="font-size:1.2rem;margin-bottom:.3rem;">📂</div>
+      <div style="font-size:.78rem;font-weight:800;color:var(--text);">Drive</div>
+      <div style="font-size:.65rem;color:var(--soft);" id="drive-badge-guida">134 PDF pubblici</div>
+      <div style="margin-top:.4rem;display:flex;align-items:center;gap:.3rem;">
+        <div style="width:7px;height:7px;background:#22c55e;border-radius:50%;"></div>
+        <span style="font-size:.62rem;color:#22c55e;font-weight:700;">PUBBLICO</span>
+      </div>
+    </div>
+
+    <!-- Google Calendar -->
+    <div onclick="apriCalendar()" style="background:var(--card);border-radius:14px;padding:.75rem;box-shadow:var(--one-shadow-sm);cursor:pointer;border-top:3px solid #ea4335;">
+      <div style="font-size:1.2rem;margin-bottom:.3rem;">📅</div>
+      <div style="font-size:.78rem;font-weight:800;color:var(--text);">Calendar</div>
+      <div style="font-size:.65rem;color:var(--soft);">5 eventi ricorrenti</div>
+      <div style="margin-top:.4rem;display:flex;align-items:center;gap:.3rem;">
+        <div style="width:7px;height:7px;background:#22c55e;border-radius:50%;"></div>
+        <span style="font-size:.62rem;color:#22c55e;font-weight:700;">ATTIVO</span>
+      </div>
+    </div>
+
+    <!-- Spotify -->
+    <div onclick="apriSpotify()" style="background:var(--card);border-radius:14px;padding:.75rem;box-shadow:var(--one-shadow-sm);cursor:pointer;border-top:3px solid #1db954;">
+      <div style="font-size:1.2rem;margin-bottom:.3rem;">🎵</div>
+      <div style="font-size:.78rem;font-weight:800;color:var(--text);">Spotify</div>
+      <div style="font-size:.65rem;color:var(--soft);">Playlist lavoro serra</div>
+      <div style="margin-top:.4rem;display:flex;align-items:center;gap:.3rem;">
+        <div style="width:7px;height:7px;background:#f59e0b;border-radius:50%;"></div>
+        <span style="font-size:.62rem;color:#f59e0b;font-weight:700;">TAP</span>
+      </div>
+    </div>
+
+    <!-- Zapier -->
+    <div onclick="apriZapier()" style="background:var(--card);border-radius:14px;padding:.75rem;box-shadow:var(--one-shadow-sm);cursor:pointer;border-top:3px solid #ff4a00;">
+      <div style="font-size:1.2rem;margin-bottom:.3rem;">⚡</div>
+      <div style="font-size:.78rem;font-weight:800;color:var(--text);">Zapier</div>
+      <div style="font-size:.65rem;color:var(--soft);">Automazioni extra</div>
+      <div style="margin-top:.4rem;display:flex;align-items:center;gap:.3rem;">
+        <div style="width:7px;height:7px;background:#f59e0b;border-radius:50%;"></div>
+        <span style="font-size:.62rem;color:#f59e0b;font-weight:700;">PRONTO</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Status Cervello Notturno -->
+  <div style="background:linear-gradient(135deg,#0a1a0a,#1a2e14);border-radius:14px;padding:.8rem 1rem;border:1px solid var(--moss);">
+    <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;color:var(--sage);margin-bottom:.4rem;">🧠 CERVELLO NOTTURNO v4 · LIVE</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem;">
+      <div style="font-size:.76rem;color:var(--text);font-weight:600;">PDF letti realmente</div>
+      <div style="font-size:.76rem;color:var(--sage);font-weight:800;" id="cn-pdf-letti">70/94</div>
+    </div>
+    <div style="background:rgba(255,255,255,.08);border-radius:8px;height:6px;margin-bottom:.5rem;overflow:hidden;">
+      <div id="cn-pdf-bar" style="height:100%;background:linear-gradient(90deg,var(--moss),var(--sage));border-radius:8px;width:74%;transition:width .5s;"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;">
+      <div style="font-size:.68rem;color:var(--soft);" id="cn-conn-tot">110 connessioni generate</div>
+      <div style="font-size:.68rem;color:var(--muted);">ogni 6 ore</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SEZIONE 3: MANUALI (accordion — già esistente) ══ -->
+<div style="padding:.6rem 1rem .3rem;">
+  <div style="font-size:.58rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;">📖 MANUALE OPERATIVO</div>
   <div class="guida-list" id="guida-list"></div>
+</div>
+
 </div>
 
 <!-- ===== ARCHIVIO ===== -->
@@ -7447,5 +7604,68 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(initSyncUniversale, 1500);
 });
 </script>
+
+<script>
+// ═══ GUIDE WEB — apertura ═══
+function apriGuideZamnesia(){
+  if(confirm('Aprire la guida Zamnesia in una nuova scheda?'))
+    window.open('https://www.zamnesia.io/it/guida-coltivare-cannabis','_blank');
+}
+function apriGuideRQS(){
+  if(confirm('Aprire la guida Royal Queen Seeds in una nuova scheda?'))
+    window.open('https://www.royalqueenseeds.it/guida-alla-coltivazione-della-cannabis','_blank');
+}
+
+// ═══ CONNETTORI — apertura ═══
+function apriN8n(){
+  window.open('https://francesco467.app.n8n.cloud','_blank');
+}
+function apriNotion(){
+  window.open('https://www.notion.so','_blank');
+}
+function apriDrive(){
+  window.open('https://drive.google.com/drive/folders/0AMLbvEKt0nnsUk9PVA','_blank');
+}
+function apriCalendar(){
+  window.open('https://calendar.google.com','_blank');
+}
+function apriSpotify(){
+  // Playlist "Serra Working Session" — focus per lavori in serra
+  window.open('https://open.spotify.com/search/focus%20nature%20work','_blank');
+}
+function apriZapier(){
+  window.open('https://zapier.com/app/zaps','_blank');
+}
+
+// ═══ Aggiorna badge Cervello Notturno dalla pagina Guide ═══
+function aggiornaBadgeCervello(){
+  try {
+    var db = JSON.parse(localStorage.getItem('serra5') || '{}');
+    var extra = db.cervello_extra || {};
+    var letti  = extra.pdf_letti_134  || 70;
+    var totali = extra.pdf_totali_134 || 94;
+    var conn   = extra.tot_connessioni || 110;
+    var pct = Math.round(letti/totali*100);
+    var elLetti = document.getElementById('cn-pdf-letti');
+    var elBar   = document.getElementById('cn-pdf-bar');
+    var elConn  = document.getElementById('cn-conn-tot');
+    if(elLetti) elLetti.textContent = letti+'/'+totali;
+    if(elBar)   elBar.style.width   = pct+'%';
+    if(elConn)  elConn.textContent  = conn+' connessioni generate';
+  } catch(e){}
+}
+// Chiama all'apertura della sezione guida
+var _origGoNav = window.goNav;
+window.goNav = function(id, el){
+  _origGoNav && _origGoNav(id, el);
+  if(id==='guida'){
+    setTimeout(function(){
+      renderGuida && renderGuida();
+      aggiornaBadgeCervello();
+    }, 80);
+  }
+};
+</script>
+
 </body>
 </html>
