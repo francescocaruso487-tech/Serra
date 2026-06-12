@@ -1,5 +1,5 @@
 {
-  "versione": "3.2",
+  "versione": "3.3",
   "aggiornato": "2026-06-09",
   "categorie": [
     {
@@ -3077,9 +3077,75 @@
         "1Ipbo9B-dPmBtDCeVxWYcJqKgc_peJjd_",
         "1LT_JLH4mKETjamYvIc97JT1VUF7E1baf"
       ]
+    },
+    {
+      "a": "Pier Luigi Ighina — Ighina_El_Atomo_Magnetico_text_2cc1c4df",
+      "b": "Elaine Ingham — The Soil Biology Primer - Elaine Ingham_",
+      "nota": "La terra è il filo invisibile tra Pier Luigi Ighina (elettrocoltura) e Elaine Ingham (coltivazione). La mini-serra è il laboratorio dove questo si manifesta. [Fonte: «Pier Luigi Ighina L’ATOMO MAGNETICO Studi, teorie, progetti e applicazioni di grandi scoperte scient...»]",
+      "tags": [
+        "natura",
+        "energia",
+        "terra"
+      ],
+      "generata": "2026-06-12",
+      "tipo": "sinergia_cache_locale_v5",
+      "fonte": "filesystem_cache"
+    },
+    {
+      "a": "N/D — hull-elcult_36008b95",
+      "b": "Elaine Ingham — The Soil Biology Primer - Elaine Ingham_",
+      "nota": "La energia è il filo invisibile tra N/D (elettrocoltura) e Elaine Ingham (coltivazione). La mini-serra è il laboratorio dove questo si manifesta. [Fonte: «X* LIBRARY UNIVERSITY OF CALIFORNIA GIFT OK Received J&/VU Accession No. \"YZO o 3 ' ^ass ^' /9oo / n...»]",
+      "tags": [
+        "natura",
+        "energia",
+        "luce",
+        "terra"
+      ],
+      "generata": "2026-06-12",
+      "tipo": "sinergia_cache_locale_v5",
+      "fonte": "filesystem_cache"
+    },
+    {
+      "a": "Guide Web (Zamnesia+RQS) — Germinazione dei semi",
+      "b": "Pier Luigi Ighina — Ighina_El_Atomo_Magnetico_text_2cc1c4df",
+      "nota": "Le guide professionali sulla Germinazione dei semi e Pier Luigi Ighina convergono sul concetto di natura. Applicazione pratica: Nel sistema Living Soil: aggiungere inoculo micorrize 0.5g nel buco prima di inserire la piantina. Le micorrize colonizzano le radici e migliorano l'assorbimento idrico fin dal primo giorno.",
+      "tags": [
+        "natura",
+        "energia",
+        "terra"
+      ],
+      "generata": "2026-06-12",
+      "tipo": "guida_web_x_pdf",
+      "fonte": "Zamnesia+RQS × elettrocoltura"
+    },
+    {
+      "a": "Guide Web (Zamnesia+RQS) — Germinazione dei semi",
+      "b": "Elaine Ingham — The Soil Biology Primer - Elaine Ingham_",
+      "nota": "Le guide professionali sulla Germinazione dei semi e Elaine Ingham convergono sul concetto di natura. Applicazione pratica: Nel sistema Living Soil: aggiungere inoculo micorrize 0.5g nel buco prima di inserire la piantina. Le micorrize colonizzano le radici e migliorano l'assorbimento idrico fin dal primo giorno.",
+      "tags": [
+        "natura",
+        "energia",
+        "terra"
+      ],
+      "generata": "2026-06-12",
+      "tipo": "guida_web_x_pdf",
+      "fonte": "Zamnesia+RQS × coltivazione"
+    },
+    {
+      "a": "Guide Web (Zamnesia+RQS) — Germinazione dei semi",
+      "b": "N/D — hull-elcult_36008b95",
+      "nota": "Le guide professionali sulla Germinazione dei semi e N/D convergono sul concetto di natura. Applicazione pratica: Nel sistema Living Soil: aggiungere inoculo micorrize 0.5g nel buco prima di inserire la piantina. Le micorrize colonizzano le radici e migliorano l'assorbimento idrico fin dal primo giorno.",
+      "tags": [
+        "natura",
+        "energia",
+        "terra"
+      ],
+      "generata": "2026-06-12",
+      "tipo": "guida_web_x_pdf",
+      "fonte": "Zamnesia+RQS × elettrocoltura"
     }
   ],
-  "ultimo_aggiornamento": "2026-06-12 05:00",
+  "ultimo_aggiornamento": "2026-06-12 07:23",
   "drive_folders": {
     "elettrocoltura": {
       "id": "1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ",
@@ -3365,7 +3431,8 @@
       "Il Quinto Accordo - Don Miguel e Don Jose Ruiz"
     ]
   },
-  "pdf_letti_134": 70,
-  "pdf_totali_134": 94,
-  "pdf_percentuale": 74
+  "pdf_letti_134": 80,
+  "pdf_totali_134": 57,
+  "pdf_percentuale": 140,
+  "guide_web_integrate": true
 }

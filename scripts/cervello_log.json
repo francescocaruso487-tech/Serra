@@ -221,5 +221,27 @@
     "tot_pdf": 94,
     "pct": 74,
     "modo": "pubblico_v4"
+  },
+  {
+    "data": "2026-06-12 07:23",
+    "batch": [
+      "Ighina_El_Atomo_Magnetico_text",
+      "nollet_lezioni_di_fisica_1_425",
+      "The Soil Biology Primer - Elai",
+      "hull-elcult_36008b95",
+      "magnacult_09cf984b",
+      "Electroculture (Christofleau J",
+      "DE L'ELECTRICITE' DES VEGETAUX",
+      "Ricerca agro-alimentare, giugn",
+      "elcult1_20b9ce2c",
+      "Le-mie-invenzioni-lautobiograf"
+    ],
+    "nuove": 5,
+    "tot_conn": 115,
+    "pdf_letti": 80,
+    "tot_pdf": 57,
+    "pct": 140,
+    "guide_web": true,
+    "modo": "filesystem_v5"
   }
 ]
