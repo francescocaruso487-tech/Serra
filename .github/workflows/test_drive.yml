@@ -1,0 +1,35 @@
+name: 🧪 Test Drive Pubblico
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔬 Test accesso PDF pubblici Drive
+        run: |
+          echo "=== Test 1: US Patents PDF (piccolo) ==="
+          HTTP=$(curl -s -L -o /tmp/test.pdf -w "%{http_code}" \
+            "https://drive.google.com/uc?export=download&id=1bFn9cnepyf8AHaKfdBGcWXT7iGXiBf1y&confirm=t")
+          SIZE=$(wc -c < /tmp/test.pdf)
+          echo "HTTP: $HTTP | Size: $SIZE bytes"
+          
+          echo "=== Test 2: Kybalion PDF ==="
+          HTTP2=$(curl -s -L -o /tmp/test2.pdf -w "%{http_code}" \
+            "https://drive.google.com/uc?export=download&id=1crmVDByL75-L_Yr34wFjnilVheii-8UL&confirm=t")
+          SIZE2=$(wc -c < /tmp/test2.pdf)
+          echo "HTTP: $HTTP2 | Size: $SIZE2 bytes"
+          
+          echo "=== Estrazione testo ==="
+          pip install pypdf -q
+          python3 -c "
+          from pypdf import PdfReader
+          for f,name in [('/tmp/test.pdf','US Patents'),('/tmp/test2.pdf','Kybalion')]:
+              try:
+                  r=PdfReader(f)
+                  t=r.pages[0].extract_text()
+                  print(f'✅ {name}: {len(r.pages)} pag, testo: {t[:100]}')
+              except Exception as e:
+                  print(f'❌ {name}: {e}')
+          "
