@@ -1,5 +1,5 @@
 // Service Worker — Mini-Serra Living Soil PWA
-const CACHE = 'serra-v50';
+const CACHE = 'serra-v54';
 const ASSETS = ['./manuale_mini_serra_completo.html'];
 
 self.addEventListener('install', e => {
@@ -16,23 +16,14 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   e.respondWith(
-    fetch(e.request).catch(() => caches.match(e.request))
-  );
-});
-
-// Notifiche push pianificate via postMessage
-self.addEventListener('message', e => {
-  if (e.data && e.data.type === 'SCHEDULE_NOTIF') {
-    const { title, body, delay } = e.data;
-    setTimeout(() => {
-      self.registration.showNotification(title, {
-        body,
-        icon: './icon-192.png',
-        badge: './icon-192.png',
-        vibrate: [200, 100, 200],
-        tag: 'serra-reminder',
-        renotify: true
+    caches.match(e.request).then(cached => {
+      return cached || fetch(e.request).then(resp => {
+        if(resp.ok && e.request.url.includes('manuale_mini_serra')) {
+          var clone = resp.clone();
+          caches.open(CACHE).then(c => c.put(e.request, clone));
+        }
+        return resp;
       });
-    }, delay);
-  }
+    }).catch(() => caches.match('./manuale_mini_serra_completo.html'))
+  );
 });
