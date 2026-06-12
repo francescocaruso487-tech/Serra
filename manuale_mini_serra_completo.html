@@ -976,7 +976,7 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
     </div>
   </div>
 
-  <!-- Quick actions -->
+  <!-- Quick actions + AI + Interconnect -->
   <div style="padding:.3rem .85rem .1rem;">
     <div style="font-family:'DM Serif Display',serif;font-size:.95rem;color:var(--bark);margin-bottom:.4rem;">⚡ Azioni rapide</div>
     <div class="qa-grid">
@@ -986,7 +986,19 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
       <div class="qa" onclick="goNav('calendario')"><div class="qa-ico">📅</div><div class="qa-lbl">Calendario</div></div>
       <div class="qa" onclick="goNav('laboratorio')"><div class="qa-ico">⚗️</div><div class="qa-lbl">Laboratorio</div></div>
       <div class="qa" onclick="goNav('guida')"><div class="qa-ico">📖</div><div class="qa-lbl">Guida</div></div>
+      <div class="qa" onclick="apriConfigAIPanel()"><div class="qa-ico">🧠</div><div class="qa-lbl">5 AI Config</div></div>
+      <div class="qa" onclick="apriMultiAIPanel()"><div class="qa-ico">🔬</div><div class="qa-lbl">Multi-AI Lab</div></div>
     </div>
+    <!-- AI Contestuale Home -->
+    <div style="margin-top:.5rem;background:var(--card);border-radius:14px;padding:.7rem .9rem;box-shadow:var(--one-shadow-sm);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;">
+        <div style="font-size:.65rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;">🧠 AI — Analisi di oggi</div>
+        <div id="ai-engines-badge" style="display:flex;gap:.2rem;flex-wrap:wrap;"></div>
+      </div>
+      <button onclick="aiContestuale('home','home-ai-output')" style="width:100%;background:linear-gradient(135deg,#0f172a,#1e3a5f);color:#fff;border:none;border-radius:10px;padding:.55rem;font-size:.78rem;font-weight:700;cursor:pointer;margin-bottom:.4rem;">🧠 Tutte le AI — cosa fare oggi →</button>
+      <div id="home-ai-output" style="min-height:0;"></div>
+    </div>
+    <div id="nav-interconnect-home"></div>
   </div>
 
   <!-- Piante strip -->
@@ -1057,6 +1069,12 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <!-- Storico -->
   <div class="sec-lbl" style="margin-top:.2rem;"><h3>📚 Storico</h3><a onclick="apriPopupStorico()">Tutto →</a></div>
   <div class="sto-wrap" id="sto-list"></div>
+  <!-- AI Diario + Nav -->
+  <div style="padding:.5rem .85rem .5rem;">
+    <button onclick="aiContestuale('diario','diario-ai-output')" style="width:100%;background:linear-gradient(135deg,#0f172a,#1e3a5f);color:#fff;border:none;border-radius:10px;padding:.55rem;font-size:.78rem;font-weight:700;cursor:pointer;margin-bottom:.4rem;">🧠 Cosa fare oggi nel diario →</button>
+    <div id="diario-ai-output" style="min-height:0;margin-bottom:.3rem;"></div>
+    <div id="nav-interconnect-diario"></div>
+  </div>
 </div>
 
 <!-- ===== NATURA (Meteo + Luna) ===== -->
@@ -1103,6 +1121,12 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
     <div style="font-size:.82rem;color:var(--muted);padding:.5rem;"></div>
   </div>
 
+  <!-- AI Natura -->
+  <div style="padding:.3rem .85rem .5rem;">
+    <button onclick="aiContestuale('natura','natura-ai-output')" style="width:100%;background:linear-gradient(135deg,#0f172a,#1e3a5f);color:#fff;border:none;border-radius:10px;padding:.55rem;font-size:.78rem;font-weight:700;cursor:pointer;margin-bottom:.4rem;">🧠 Meteo + Luna — impatto sulle mie piante →</button>
+    <div id="natura-ai-output" style="min-height:0;margin-bottom:.3rem;"></div>
+    <div id="nav-interconnect-natura"></div>
+  </div>
   <div class="card nc" style="margin:.2rem .9rem .9rem;background:var(--card);border-left:4px solid var(--sky);">
     <div class="card-label">🌱 Come leggere il calendario</div>
     <p style="font-size:.82rem;color:var(--text);line-height:1.65;">Il colore di sfondo di ogni giorno indica il tipo biodinamico: 🌸 <b>Fiore</b> (Aria) · 🍎 <b>Frutto</b> (Fuoco) · 🌱 <b>Radice</b> (Terra) · 🍃 <b>Foglia</b> (Acqua). L'icona indica la fase lunare. Tocca qualsiasi giorno per vedere tutti i consigli.</p>
@@ -1133,6 +1157,12 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   </div>
   <div style="padding:.1rem .9rem .2rem;font-size:.82rem;color:var(--soft);" id="piante-riepilogo"></div>
   <div class="piante-list" id="piante-list" style="padding:.3rem .9rem;"></div>
+  <!-- AI Piante + Nav -->
+  <div style="padding:.3rem .85rem .5rem;">
+    <button onclick="aiContestuale('piante','piante-ai-output')" style="width:100%;background:linear-gradient(135deg,#0f172a,#1e3a5f);color:#fff;border:none;border-radius:10px;padding:.55rem;font-size:.78rem;font-weight:700;cursor:pointer;margin-bottom:.4rem;">🧠 Analisi stato piante — azioni urgenti →</button>
+    <div id="piante-ai-output" style="min-height:0;margin-bottom:.3rem;"></div>
+    <div id="nav-interconnect-piante"></div>
+  </div>
 </div>
 <!-- Bottone + aggiungi pianta (fisso) -->
 <button id="btn-add-pianta" onclick="apriFormNuovaPianta()" style="position:fixed;bottom:5.5rem;right:1rem;z-index:200;background:var(--moss);color:#fff;border:none;border-radius:50%;width:56px;height:56px;font-size:1.6rem;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;font-family:Nunito,sans-serif;">＋</button>
@@ -1185,8 +1215,20 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   <div id="gw-fase-detail" style="display:none;"></div>
 </div>
 
-<!-- ══ 3. AI CLAUDE INSIDE ══ -->
+<!-- ══ 3. MULTI-AI INSIDE GUIDA ══ -->
 <div style="padding:.2rem 1rem .6rem;">
+  <div style="background:linear-gradient(135deg,#0f172a,#1e293b);border-radius:16px;padding:.85rem 1rem;margin-bottom:.5rem;">
+    <div style="font-size:.6rem;font-weight:800;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.3rem;">INTELLIGENCE HUB · 5 AI INTEGRATE</div>
+    <div style="font-size:.9rem;font-weight:700;color:#fff;margin-bottom:.5rem;">🧠 Analisi Multi-AI — Guide + 134 PDF</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.35rem;margin-bottom:.5rem;">
+      <button onclick="multiAIParallelo('Analizza la fase corrente delle mie piante secondo Zamnesia+RQS+134PDF. Cosa fare questa settimana?','guida-ai-output')" style="background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:10px;padding:.5rem;font-size:.72rem;cursor:pointer;text-align:left;">🌿 Fase attuale piante</button>
+      <button onclick="multiAIParallelo('Quali sono le 5 connessioni più utili tra i 134 PDF e le guide Zamnesia+RQS per questa settimana?','guida-ai-output')" style="background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:10px;padding:.5rem;font-size:.72rem;cursor:pointer;text-align:left;">🔗 Connessioni PDF×Guide</button>
+      <button onclick="multiAIParallelo('Diagnosi completa: carenze, parassiti, problemi ambientali. Cosa controllare oggi?','guida-ai-output')" style="background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:10px;padding:.5rem;font-size:.72rem;cursor:pointer;text-align:left;">🔍 Diagnosi problemi</button>
+      <button onclick="multiAIParallelo('Piano di raccolta, essiccazione e concia ottimale per le mie varietà specifiche','guida-ai-output')" style="background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:10px;padding:.5rem;font-size:.72rem;cursor:pointer;text-align:left;">✂️ Piano raccolta</button>
+    </div>
+    <div id="guida-ai-output" style="min-height:0;"></div>
+    <div id="nav-interconnect-guida" style="margin-top:.4rem;"></div>
+  </div>
   <div class="claude-panel">
     <div class="claude-header">🤖 Claude AI · Analisi avanzata</div>
     <div style="font-size:.78rem;color:#e9d5ff;margin-bottom:.6rem;line-height:1.4;">Chiedi a Claude di analizzare le guide + i 134 PDF + lo stato delle tue piante</div>
@@ -1459,6 +1501,12 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   </div>
   <div id="lab-log-list" style="display:flex;flex-direction:column;gap:.3rem;"></div>
 </div>
+<!-- ═══ SEZIONE 5: AI CONTESTUALE LAB ═══ -->
+<div style="padding:.3rem 1rem .5rem;">
+  <button onclick="aiContestuale('laboratorio','lab-ai-output')" style="width:100%;background:linear-gradient(135deg,#0f172a,#1e3a5f);color:#fff;border:none;border-radius:10px;padding:.55rem;font-size:.78rem;font-weight:700;cursor:pointer;margin-bottom:.4rem;">🧠 Tutte le AI — tecnica consigliata oggi →</button>
+  <div id="lab-ai-output" style="min-height:0;margin-bottom:.3rem;"></div>
+  <div id="nav-interconnect-laboratorio"></div>
+</div>
 
 <!-- ═══ PANEL OVERLAY: TECNICHE ═══ -->
 <div id="lab-panel-tecniche" style="
@@ -1602,6 +1650,8 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
     <div class="qa" onclick="toggleTema()" id="qa-tema"><div class="qa-ico" id="qa-tema-ico">☀️</div><div class="qa-lbl" id="qa-tema-lbl">Tema Chiaro</div></div>
     <div class="qa" onclick="apriN8nPanel();chiudiAltro()"><div class="qa-ico">⚙️</div><div class="qa-lbl">Automazioni</div></div>
     <div class="qa" onclick="apriBackupPanel();chiudiAltro()"><div class="qa-ico">💾</div><div class="qa-lbl">Backup Dati</div></div>
+    <div class="qa" onclick="apriConfigAIPanel();chiudiAltro()"><div class="qa-ico">🧠</div><div class="qa-lbl">Config 5 AI</div></div>
+    <div class="qa" onclick="apriMultiAIPanel();chiudiAltro()"><div class="qa-ico">🔬</div><div class="qa-lbl">Multi-AI Lab</div></div>
   </div>
 </div>
 
@@ -8093,6 +8143,8 @@ function initGuideSection() {
   renderGwAlert();
   renderGwFaseCorrente();
   _aggiornaCervelloStats();
+  renderNavBar('guida');
+  aggiornaBadgeAI && aggiornaBadgeAI();
 }
 
 function _aggiornaCervelloStats() {
@@ -8593,6 +8645,8 @@ function initGuideSection() {
   renderGwAlert();
   renderGwFaseCorrente();
   _aggiornaCervelloStats();
+  renderNavBar('guida');
+  aggiornaBadgeAI && aggiornaBadgeAI();
 }
 
 function _aggiornaCervelloStats() {
@@ -9358,6 +9412,340 @@ document.addEventListener('DOMContentLoaded', function() {
         <button onclick="goNav(\'laboratorio\');document.getElementById(\'multiAI-panel\').style.display=\'none\'" style="background:var(--card);border:1.5px solid var(--sand);border-radius:10px;padding:.5rem;font-size:.72rem;color:var(--text);cursor:pointer;">⚗️ Vai al Lab</button>
       </div>
     </div>
+  </div>
+</div>
+
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// 🌐 SERRA INTERCONNECT v57
+// Sistema nervoso centrale che collega TUTTE le sezioni
+// 5 AI + automazioni + navigazione contestuale
+// ═══════════════════════════════════════════════════════════════════
+
+// ─── Config AI ───
+var AI_ENGINES = {
+  claude:  { name:'Claude Sonnet 4.6',  color:'#2563eb', ico:'🔵', key:'anthropic_api_key',   active: false },
+  groq:    { name:'Groq LLaMA 3.3 70B', color:'#7c3aed', ico:'🟣', key:'groq_api_key',         active: false },
+  gemini:  { name:'Gemini 2.0 Flash',   color:'#ea4335', ico:'🔴', key:'gemini_api_key',       active: false },
+  gpt4:    { name:'GPT-4o Mini',        color:'#16a34a', ico:'🟢', key:'openai_api_key',       active: false },
+  serraai: { name:'SerraAI Locale',     color:'#f59e0b', ico:'🟡', key: null,                  active: true  }
+};
+
+function aggiornaStatoAI() {
+  Object.keys(AI_ENGINES).forEach(function(k) {
+    var eng = AI_ENGINES[k];
+    if(eng.key) eng.active = !!localStorage.getItem(eng.key);
+  });
+}
+
+function aiAttive() {
+  aggiornaStatoAI();
+  return Object.keys(AI_ENGINES).filter(function(k){ return AI_ENGINES[k].active; });
+}
+
+// ─── Chiama AI specifica ───
+async function chiamaAIEngine(engine, prompt, sistema) {
+  var sys = sistema || (buildSistemaPrompt ? buildSistemaPrompt() : 'Sei SerraAI.');
+  var key = engine.key ? localStorage.getItem(engine.key) : null;
+
+  if(engine === AI_ENGINES.claude) {
+    if(!key) return null;
+    var r = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST', headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01'},
+      body: JSON.stringify({model:'claude-sonnet-4-6',max_tokens:600,system:sys,messages:[{role:'user',content:prompt}]})
+    });
+    if(!r.ok) return '❌ Claude: '+r.status;
+    var d = await r.json();
+    return d.content && d.content[0] ? d.content[0].text : null;
+  }
+
+  if(engine === AI_ENGINES.groq) {
+    if(!key) return null;
+    var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+      body: JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'system',content:sys},{role:'user',content:prompt}],max_tokens:600,temperature:0.7})
+    });
+    var d = await r.json();
+    return d.choices && d.choices[0] ? d.choices[0].message.content : null;
+  }
+
+  if(engine === AI_ENGINES.gemini) {
+    if(!key) return null;
+    var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+key, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({contents:[{parts:[{text:sys+'\n\n'+prompt}]}],generationConfig:{maxOutputTokens:600}})
+    });
+    if(!r.ok) return '❌ Gemini: '+r.status;
+    var d = await r.json();
+    return d.candidates && d.candidates[0] ? d.candidates[0].content.parts[0].text : null;
+  }
+
+  if(engine === AI_ENGINES.gpt4) {
+    if(!key) return null;
+    var r = await fetch('https://api.openai.com/v1/chat/completions', {
+      method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+      body: JSON.stringify({model:'gpt-4o-mini',messages:[{role:'system',content:sys},{role:'user',content:prompt}],max_tokens:600})
+    });
+    if(!r.ok) return '❌ GPT: '+r.status;
+    var d = await r.json();
+    return d.choices && d.choices[0] ? d.choices[0].message.content : null;
+  }
+
+  if(engine === AI_ENGINES.serraai) {
+    // SerraAI locale — usa Groq come fallback o risposta built-in
+    var gKey = localStorage.getItem('groq_api_key');
+    if(gKey) {
+      var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+gKey},
+        body: JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'system',content:sys+' Rispondi come SerraAI, l\'intelligenza della serra.'},{role:'user',content:prompt}],max_tokens:400,temperature:0.8})
+      });
+      var d = await r.json();
+      return d.choices && d.choices[0] ? '🌱 '+d.choices[0].message.content : null;
+    }
+    return '🌱 SerraAI: aggiungi una chiave AI per risposte personalizzate.';
+  }
+
+  return null;
+}
+
+// ─── Analisi multi-AI in parallelo ───
+async function multiAIParallelo(prompt, elId, engines) {
+  var el = document.getElementById(elId);
+  if(!el) return;
+  aggiornaStatoAI();
+  var lista = engines || aiAttive();
+  if(!lista.length) {
+    el.innerHTML = '<div style="font-size:.78rem;color:#f59e0b;padding:.5rem;">⚠️ Configura almeno una chiave AI nel Laboratorio → ⚗️</div>';
+    return;
+  }
+  el.innerHTML = '<div style="font-size:.72rem;color:var(--muted);padding:.3rem;">⏳ '+lista.length+' AI stanno analizzando in parallelo...</div>';
+  var sys = buildSistemaPrompt ? buildSistemaPrompt() : '';
+
+  var promises = lista.map(function(k) {
+    return chiamaAIEngine(AI_ENGINES[k], prompt, sys).then(function(ris) {
+      return {k:k, ris:ris};
+    }).catch(function(e) {
+      return {k:k, ris:'❌ Errore: '+e.message};
+    });
+  });
+
+  var results = await Promise.all(promises);
+  var html = '';
+  results.forEach(function(res) {
+    if(!res.ris) return;
+    var eng = AI_ENGINES[res.k];
+    html += '<div style="background:var(--card);border-radius:12px;padding:.65rem .85rem;margin-bottom:.4rem;border-left:3px solid '+eng.color+';box-shadow:var(--one-shadow-sm);">';
+    html += '<div style="font-size:.58rem;font-weight:800;color:'+eng.color+';text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;">'+eng.ico+' '+eng.name+'</div>';
+    html += '<div style="font-size:.78rem;color:var(--text);line-height:1.6;white-space:pre-wrap;">'+res.ris+'</div>';
+    html += '</div>';
+  });
+
+  if(!html) html = '<div style="font-size:.78rem;color:var(--muted);">Nessuna risposta ricevuta. Verifica le chiavi API.</div>';
+
+  // Pulsante azioni post-analisi
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem;margin-top:.5rem;">';
+  html += '<button onclick="inviaReportGiornaliero&&inviaReportGiornaliero()" style="background:var(--moss);color:#fff;border:none;border-radius:8px;padding:.4rem;font-size:.68rem;cursor:pointer;">📧 Condividi via N8n</button>';
+  html += '<button onclick="autoBackupGitHubRepo&&autoBackupGitHubRepo(true)" style="background:var(--cream);color:var(--text);border:1.5px solid var(--sand);border-radius:8px;padding:.4rem;font-size:.68rem;cursor:pointer;">☁️ Salva GitHub</button>';
+  html += '</div>';
+
+  el.innerHTML = html;
+}
+
+// ─── Salva chiavi AI ───
+function salvaChiaveAI(tipo) {
+  var inp = document.getElementById('ai-key-'+tipo);
+  if(!inp || !inp.value.trim()) return;
+  var k = inp.value.trim();
+  var mapping = {claude:'anthropic_api_key', gemini:'gemini_api_key', gpt4:'openai_api_key', groq:'groq_api_key'};
+  if(mapping[tipo]) {
+    localStorage.setItem(mapping[tipo], k);
+    toast('✅ Chiave '+tipo+' salvata!', 2000);
+    inp.value = '';
+    aggiornaStatoAI();
+    aggiornaBadgeAI();
+    autoBackupGitHubRepo && autoBackupGitHubRepo(true);
+  }
+}
+
+function aggiornaBadgeAI() {
+  aggiornaStatoAI();
+  var attive = aiAttive();
+  var badge = document.getElementById('ai-status-badge');
+  if(badge) badge.textContent = attive.length + ' AI attive';
+  var badge2 = document.getElementById('multiAI-status');
+  if(badge2) badge2.innerHTML = attive.map(function(k){ return AI_ENGINES[k].ico+' '+AI_ENGINES[k].name.split(' ')[0]; }).join(' &nbsp;') || '⚠️ Nessuna AI';
+  var badge3 = document.getElementById('ai-engines-badge');
+  if(badge3) {
+    badge3.innerHTML = Object.keys(AI_ENGINES).map(function(k) {
+      var e = AI_ENGINES[k];
+      return '<span style="font-size:.6rem;padding:.15rem .4rem;border-radius:20px;font-weight:700;background:'+(e.active?e.color+'22':'var(--cream)')+';color:'+(e.active?e.color:'var(--muted)')+';">'+e.ico+' '+e.name.split(' ')[0]+(e.active?' ✓':' ○')+'</span>';
+    }).join(' ');
+  }
+}
+
+// ─── SISTEMA DI NAVIGAZIONE CONTESTUALE ───
+// Ogni sezione sa dove portarti dopo
+var SEZIONE_SUCCESSIVA = {
+  home:        ['diario','natura','laboratorio'],
+  diario:      ['piante','laboratorio','home'],
+  natura:      ['calendario','diario','laboratorio'],
+  piante:      ['diario','laboratorio','guida'],
+  calendario:  ['diario','natura','piante'],
+  laboratorio: ['guida','diario','home'],
+  guida:       ['laboratorio','piante','diario'],
+  archivio:    ['home','diario','laboratorio']
+};
+
+function navSuggerita(sezioneCorrente) {
+  var sez = SEZIONE_SUCCESSIVA[sezioneCorrente] || [];
+  if(!sez.length) return '';
+  var NOMI = {home:'🏠 Home',diario:'📓 Diario',natura:'🌤 Meteo',piante:'🌿 Piante',calendario:'📅 Calendario',laboratorio:'⚗️ Lab',guida:'📚 Guida',archivio:'🗄 Archivio'};
+  var html = '<div style="display:flex;gap:.3rem;flex-wrap:wrap;margin:.5rem 0 0;">';
+  html += '<div style="font-size:.58rem;font-weight:800;color:var(--muted);text-transform:uppercase;width:100%;margin-bottom:.2rem;">Vai a →</div>';
+  sez.forEach(function(s) {
+    html += '<button onclick="goNav(\''+s+'\')" style="background:var(--cream);color:var(--text);border:1.5px solid var(--sand);border-radius:20px;padding:.25rem .7rem;font-size:.7rem;font-weight:700;cursor:pointer;">'+NOMI[s]+'</button>';
+  });
+  html += '</div>';
+  return html;
+}
+
+// ─── Widget connessione rapida sezioni — appare in ogni sezione ───
+function renderNavBar(sezione) {
+  var el = document.getElementById('nav-interconnect-'+sezione);
+  if(!el) return;
+  el.innerHTML = navSuggerita(sezione);
+}
+
+// ─── AI contestuale per ogni sezione ───
+async function aiContestuale(sezione, elId) {
+  var domande = {
+    home: 'Dammi una panoramica rapida di cosa fare oggi nella serra: biodinamica + meteo + piante urgenti + tecniche consigliate. Massimo 5 punti.',
+    diario: 'Oggi nel diario: quali operazioni sono più urgenti? Cosa non posso rimandare? Considera la fase delle piante e la biodinamica.',
+    natura: 'Analizza le condizioni meteo e la fase lunare di oggi: quali effetti hanno sulle mie piante? Cosa devo fare o evitare?',
+    piante: 'Analisi stato piante: chi ha bisogno di attenzione urgente oggi? Autofiorenti vs femminizzate — azioni diverse.',
+    calendario: 'Prossimi 7 giorni: quali sono i giorni migliori per irrigare, concimare, potare? Usa biodinamica e meteo.',
+    laboratorio: 'Quale tecnica dai 134 PDF si dovrebbe attivare oggi in base alla biodinamica? Connettila con le guide Zamnesia+RQS.',
+    guida: 'Fammi un briefing completo sulla fase attuale: cosa dicono Zamnesia, RQS e i 134 PDF insieme? 5 azioni concrete.',
+    archivio: 'Analizza i dati storici: trend di crescita, operazioni più frequenti, cosa ottimizzare nelle prossime settimane.'
+  };
+  var prompt = domande[sezione] || 'Analisi contestuale della sezione '+sezione;
+  await multiAIParallelo(prompt, elId);
+}
+
+// ─── Pannello Config AI Globale ───
+function apriConfigAIPanel() {
+  var el = document.getElementById('config-ai-panel');
+  if(el) { el.style.display='block'; el.scrollTop=0; aggiornaStatoAI(); aggiornaBadgeAI(); }
+}
+
+// ─── Aggiungi widget interconnect a ogni sezione al caricamento ───
+function initInterconnect() {
+  aggiornaStatoAI();
+  aggiornaBadgeAI();
+  // Override goNav per iniettare widget
+  var _orig = window.goNav;
+  window.goNav = function(id, el) {
+    if(_orig) _orig.call(window, id, el);
+    setTimeout(function() {
+      renderNavBar(id);
+      // Aggiorna badge AI ovunque
+      aggiornaBadgeAI();
+    }, 100);
+  };
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(initInterconnect, 1000);
+  setTimeout(aggiornaBadgeAI, 2000);
+});
+</script>
+
+<!-- ═══ PANNELLO CONFIG AI GLOBALE ═══ -->
+<div id="config-ai-panel" style="display:none;position:fixed;inset:0;z-index:450;background:var(--main-bg);overflow-y:auto;padding-bottom:4rem;">
+  <div style="position:sticky;top:0;z-index:5;background:linear-gradient(135deg,#0f172a,#1e293b);padding:.85rem 1rem .7rem;display:flex;align-items:center;gap:.7rem;">
+    <button onclick="document.getElementById('config-ai-panel').style.display='none'" style="background:rgba(255,255,255,.15);border:none;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:#fff;">←</button>
+    <div style="flex:1;">
+      <div style="font-size:.55rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45);">MINI-SERRA · INTELLIGENZE ARTIFICIALI</div>
+      <div style="font-size:1rem;font-weight:800;color:#fff;">🧠 Configura le 5 AI</div>
+    </div>
+  </div>
+  <div style="padding:.8rem 1rem;">
+
+    <!-- Badge stato -->
+    <div id="ai-engines-badge" style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.8rem;"></div>
+
+    <!-- Istruzioni -->
+    <div style="background:rgba(0,135,90,.08);border-radius:12px;padding:.7rem .9rem;margin-bottom:.8rem;border:1px solid rgba(0,135,90,.15);">
+      <div style="font-size:.68rem;color:var(--moss);font-weight:700;margin-bottom:.3rem;">📋 Come funziona il sistema Multi-AI</div>
+      <div style="font-size:.72rem;color:var(--soft);line-height:1.6;">Ogni AI risponde alla stessa domanda — vedi prospettive diverse sugli stessi dati. Claude eccelle nell'analisi profonda, Groq è più veloce, Gemini è aggiornato a dati recenti, GPT-4o Mini bilancia velocità e qualità. SerraAI usa sempre Groq come motore locale.</div>
+    </div>
+
+    <!-- Claude -->
+    <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.5rem;border-left:3px solid #2563eb;box-shadow:var(--one-shadow-sm);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;">
+        <div style="font-size:.82rem;font-weight:700;color:var(--text);">🔵 Claude Sonnet 4.6</div>
+        <span id="claude-active-badge" style="font-size:.6rem;border-radius:20px;padding:.1rem .4rem;background:var(--cream);color:var(--muted);">○ Non configurato</span>
+      </div>
+      <div style="font-size:.68rem;color:var(--muted);margin-bottom:.4rem;">Anthropic — <a href="https://console.anthropic.com" target="_blank" style="color:#2563eb;">console.anthropic.com</a> — Piano gratuito disponibile</div>
+      <div style="display:flex;gap:.4rem;">
+        <input id="ai-key-claude" type="password" placeholder="sk-ant-api03-..." style="flex:1;padding:.4rem .6rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-size:.75rem;color:var(--text);outline:none;">
+        <button onclick="salvaChiaveAI('claude')" style="background:#2563eb;color:#fff;border:none;border-radius:10px;padding:.4rem .9rem;font-size:.78rem;font-weight:700;cursor:pointer;">Salva</button>
+      </div>
+    </div>
+
+    <!-- Groq -->
+    <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.5rem;border-left:3px solid #7c3aed;box-shadow:var(--one-shadow-sm);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;">
+        <div style="font-size:.82rem;font-weight:700;color:var(--text);">🟣 Groq LLaMA 3.3 70B</div>
+        <span id="groq-active-badge" style="font-size:.6rem;border-radius:20px;padding:.1rem .4rem;background:var(--cream);color:var(--muted);">○ Non configurato</span>
+      </div>
+      <div style="font-size:.68rem;color:var(--muted);margin-bottom:.4rem;">Groq — <a href="https://console.groq.com" target="_blank" style="color:#7c3aed;">console.groq.com</a> — GRATIS, velocissimo</div>
+      <div style="display:flex;gap:.4rem;">
+        <input id="ai-key-groq" type="password" placeholder="gsk_..." style="flex:1;padding:.4rem .6rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-size:.75rem;color:var(--text);outline:none;">
+        <button onclick="salvaChiaveAI('groq');var inp=document.getElementById('groq-key-input');if(inp)inp.value=document.getElementById('ai-key-groq').value;salvaGroqKey();" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:.4rem .9rem;font-size:.78rem;font-weight:700;cursor:pointer;">Salva</button>
+      </div>
+    </div>
+
+    <!-- Gemini -->
+    <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.5rem;border-left:3px solid #ea4335;box-shadow:var(--one-shadow-sm);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;">
+        <div style="font-size:.82rem;font-weight:700;color:var(--text);">🔴 Gemini 2.0 Flash</div>
+        <span id="gemini-active-badge" style="font-size:.6rem;border-radius:20px;padding:.1rem .4rem;background:var(--cream);color:var(--muted);">○ Non configurato</span>
+      </div>
+      <div style="font-size:.68rem;color:var(--muted);margin-bottom:.4rem;">Google — <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#ea4335;">aistudio.google.com</a> — GRATIS fino a 1500 req/giorno</div>
+      <div style="display:flex;gap:.4rem;">
+        <input id="ai-key-gemini" type="password" placeholder="AIzaSy..." style="flex:1;padding:.4rem .6rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-size:.75rem;color:var(--text);outline:none;">
+        <button onclick="salvaChiaveAI('gemini')" style="background:#ea4335;color:#fff;border:none;border-radius:10px;padding:.4rem .9rem;font-size:.78rem;font-weight:700;cursor:pointer;">Salva</button>
+      </div>
+    </div>
+
+    <!-- GPT-4o Mini -->
+    <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.5rem;border-left:3px solid #16a34a;box-shadow:var(--one-shadow-sm);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;">
+        <div style="font-size:.82rem;font-weight:700;color:var(--text);">🟢 GPT-4o Mini</div>
+        <span id="gpt4-active-badge" style="font-size:.6rem;border-radius:20px;padding:.1rem .4rem;background:var(--cream);color:var(--muted);">○ Non configurato</span>
+      </div>
+      <div style="font-size:.68rem;color:var(--muted);margin-bottom:.4rem;">OpenAI — <a href="https://platform.openai.com/api-keys" target="_blank" style="color:#16a34a;">platform.openai.com</a> — ~$0.60/M token</div>
+      <div style="display:flex;gap:.4rem;">
+        <input id="ai-key-gpt4" type="password" placeholder="sk-proj-..." style="flex:1;padding:.4rem .6rem;border-radius:10px;border:1.5px solid var(--sand);background:var(--cream);font-size:.75rem;color:var(--text);outline:none;">
+        <button onclick="salvaChiaveAI('gpt4')" style="background:#16a34a;color:#fff;border:none;border-radius:10px;padding:.4rem .9rem;font-size:.78rem;font-weight:700;cursor:pointer;">Salva</button>
+      </div>
+    </div>
+
+    <!-- SerraAI -->
+    <div style="background:rgba(245,158,11,.08);border-radius:14px;padding:.8rem 1rem;margin-bottom:.5rem;border-left:3px solid #f59e0b;">
+      <div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:.2rem;">🟡 SerraAI Locale</div>
+      <div style="font-size:.72rem;color:var(--soft);">Sempre attivo — usa Groq come motore quando disponibile, altrimenti risposta built-in dal sistema serra.</div>
+    </div>
+
+    <!-- Test Multi-AI -->
+    <div style="background:var(--card);border-radius:14px;padding:.8rem 1rem;margin-bottom:.5rem;box-shadow:var(--one-shadow-sm);">
+      <div style="font-size:.65rem;font-weight:800;color:var(--moss);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;">⚡ TEST — Tutte le AI insieme</div>
+      <button onclick="multiAIParallelo('Dimmi in 3 righe: cosa devo fare oggi nella mia serra con 10 piante Living Soil?','ai-test-output')" style="width:100%;background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;border:none;border-radius:12px;padding:.65rem;font-size:.85rem;font-weight:700;cursor:pointer;margin-bottom:.4rem;">🧠 Testa tutte le AI ora →</button>
+      <div id="ai-test-output" style="min-height:40px;"></div>
+    </div>
+
   </div>
 </div>
 
