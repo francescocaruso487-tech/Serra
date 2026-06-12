@@ -1163,6 +1163,15 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   </div>
   <div style="padding:.1rem .9rem .2rem;font-size:.82rem;color:var(--soft);" id="piante-riepilogo"></div>
   <div class="piante-list" id="piante-list" style="padding:.3rem .9rem;"></div>
+  <!-- Smart Pianta Widget -->
+  <div style="margin:.5rem .9rem 1rem;display:none;" id="pianta-smart-panel">
+    <div class="smart-widget">
+      <div class="smart-widget-label">🧠 Guida intelligente — seleziona una pianta</div>
+      <div id="pianta-smart-content" style="font-size:.76rem;color:var(--soft);">
+        Seleziona una pianta nella lista per vedere i consigli specifici dalle guide Zamnesia + RQS e dai 134 manuali.
+      </div>
+    </div>
+  </div>
   <!-- AI Piante + Nav -->
   <div style="padding:.3rem .85rem .5rem;">
     <button onclick="aiContestuale('piante','piante-ai-output')" style="width:100%;background:linear-gradient(135deg,#0f172a,#1e3a5f);color:#fff;border:none;border-radius:10px;padding:.55rem;font-size:.78rem;font-weight:700;cursor:pointer;margin-bottom:.4rem;">🧠 Analisi stato piante — azioni urgenti →</button>
@@ -1396,6 +1405,10 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
   ">
     <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:.3rem;">🔗 CONNESSIONE SCOPERTA</div>
     <div id="lab-conn-testo" style="font-size:.83rem;color:var(--text);font-weight:600;line-height:1.4;margin-bottom:.2rem;"></div>
+    <div id="lab-conn-nota" style="font-size:.74rem;color:var(--soft);line-height:1.45;"></div>
+  </div>
+</div>
+
 <!-- ═══ GUIDE INLINE NEL LABORATORIO ═══ -->
 <div style="padding:.3rem 1rem .5rem;">
   <div style="font-size:.58rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;">📚 GUIDE LIVE — SFOGLIA SENZA USCIRE</div>
@@ -1430,10 +1443,6 @@ body.dark .cl-day.radice{background:#0a2a10!important;}body.dark .cl-day.foglia{
       <div style="font-size:.72rem;font-weight:800;color:#fff;">134 Manuali</div>
       <div style="font-size:.6rem;color:rgba(255,255,255,.6);">Sfoglia inline</div>
     </div>
-  </div>
-</div>
-
-    <div id="lab-conn-nota" style="font-size:.74rem;color:var(--soft);line-height:1.45;"></div>
   </div>
 </div>
 
@@ -6033,6 +6042,242 @@ function apriFolderDrive(cat) {
   if(url) window.open(url, '_blank');
 }
 
+// ── Lab Panel Functions ──
+function labChiudiPanel(id) {
+  var el = document.getElementById(id);
+  if(el) { el.style.display = 'none'; el.scrollTop = 0; }
+}
+
+function labApriTecniche() {
+  var el = document.getElementById('lab-panel-tecniche');
+  if(!el) return;
+  el.style.display = 'block'; el.scrollTop = 0;
+  var body = document.getElementById('lab-tec-body');
+  if(!body) return;
+  var html = '';
+  var CAT_COLORI = {'Elettromagnetico':'#c0392b','Galvanico':'#d35400','Suolo Vivente':'#27ae60','Acqua':'#2980b9','Vibrazione':'#8e44ad','Alchimia':'#d4870a','Biodinamica':'#1e6e3a'};
+  var cats = {};
+  TECNICHE.forEach(function(t){ var c=t.cat||'Altro'; if(!cats[c]) cats[c]=[]; cats[c].push(t); });
+  var totAp = TECNICHE.filter(function(t){ return DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def; }).length;
+  html += '<div style="background:var(--card);border-radius:var(--radius-sm);padding:.7rem .9rem;margin:.5rem .9rem .3rem;display:flex;gap:.8rem;align-items:center;">';
+  html += '<div style="flex:1;"><div style="font-family:DM Serif Display,serif;font-size:1.1rem;color:var(--text);">⚡ '+TECNICHE.length+' Tecniche dai Manuali</div>';
+  html += '<div style="font-size:.75rem;color:var(--muted);">'+totAp+' applicate · '+(TECNICHE.length-totAp)+' da provare</div></div>';
+  html += '<div style="background:var(--moss);color:#fff;border-radius:100px;padding:.25rem .7rem;font-size:.75rem;font-weight:700;">'+totAp+'/'+TECNICHE.length+'</div></div>';
+  Object.keys(cats).forEach(function(cat){
+    var col = CAT_COLORI[cat]||'var(--muted)';
+    html += '<div style="font-size:.68rem;font-weight:800;color:'+col+';text-transform:uppercase;letter-spacing:.1em;padding:.7rem .9rem .2rem;margin-top:.2rem;">'+cat+'</div>';
+    cats[cat].forEach(function(t){
+      var ap = DB.tecStatus&&DB.tecStatus.hasOwnProperty(t.id)?DB.tecStatus[t.id]:t.def;
+      html += '<div style="background:var(--card);border-radius:12px;padding:.65rem .9rem;margin:.15rem .9rem;border-left:3px solid '+(ap?col:'var(--sand)')+';">';
+      html += '<div style="display:flex;align-items:center;justify-content:space-between;">';
+      html += '<div style="flex:1;"><div style="font-weight:700;font-size:.88rem;color:var(--text);">'+t.ico+' '+t.n+'</div>';
+      if(t.fonte) html += '<div style="font-size:.62rem;color:var(--muted);margin-top:.05rem;">📚 '+t.fonte+'</div>';
+      html += '<div style="font-size:.72rem;color:'+(ap?col:'var(--muted)')+';margin-top:.1rem;">'+(ap?'✓ Applicata':'○ Non ancora')+'</div>';
+      html += '<div style="font-size:.74rem;color:var(--soft);margin-top:.4rem;line-height:1.4;">'+t.desc.substring(0,150)+'…</div></div>';
+      html += '<button onclick="event.stopPropagation();toggleApTec(\''+t.id+'\')" style="background:'+(ap?col:'var(--cream)')+';color:'+(ap?'#fff':'var(--muted)')+';border:none;border-radius:50%;width:32px;height:32px;font-size:.85rem;cursor:pointer;flex-shrink:0;margin-left:.5rem;">'+(ap?'✓':'○')+'</button>';
+      html += '</div></div>';
+    });
+  });
+  body.innerHTML = html;
+}
+
+function labApriConnessioni() {
+  var el = document.getElementById('lab-panel-connessioni');
+  if(!el) return;
+  el.style.display = 'block'; el.scrollTop = 0;
+  caricaEDB(function(){
+    var body = document.getElementById('lab-conn-body');
+    if(!body) return;
+    var cross = (typeof CONNESSIONI_CROSS!=='undefined' ? CONNESSIONI_CROSS : []);
+    var allConns = (EDBV2.connessioni||[]).concat(cross);
+    var countEl = document.getElementById('lab-conn-panel-count');
+    if(countEl) countEl.textContent = allConns.length+' connessioni';
+    var html = '';
+    allConns.forEach(function(c, i){
+      var nomeA = c.da ? (function(){ var r=getEsp(c.da); return r?r.cat.ico+' '+r.esp.nome:c.da; })() : (c.a||'');
+      var nomeB = c.da ? (function(){ var r=getEsp(c.a); return r?r.cat.ico+' '+r.esp.nome:c.a; })() : (c.b||'');
+      if(!nomeA||nomeA===nomeB) return;
+      var nota = c.nota||''; var tipo = c.tipo||'sinergia';
+      var col = tipo==='sinergia'?'#27ae60':'#8e44ad';
+      html += '<div style="background:var(--card);border-radius:12px;padding:.65rem .85rem;margin-bottom:.4rem;border-left:3px solid '+col+';cursor:pointer;" onclick="mostraDettaglioConnessione('+i+')">';
+      html += '<span style="font-size:.65rem;background:'+col+';color:#fff;border-radius:20px;padding:.05rem .4rem;">'+tipo+'</span>';
+      html += '<div style="font-size:.82rem;font-weight:700;color:var(--text);line-height:1.3;margin-top:.2rem;">'+nomeA+'</div>';
+      html += '<div style="font-size:.72rem;color:var(--muted);margin:.1rem 0;">↕</div>';
+      html += '<div style="font-size:.82rem;font-weight:700;color:var(--text);line-height:1.3;">'+nomeB+'</div>';
+      if(nota) html += '<div style="font-size:.74rem;color:var(--soft);margin-top:.3rem;line-height:1.45;">'+nota.substring(0,120)+'…</div>';
+      html += '</div>';
+    });
+    window._allConnsCache = allConns;
+    body.innerHTML = html||'<div style="text-align:center;color:var(--muted);padding:2rem;">Nessuna connessione trovata</div>';
+    var labConnCount = document.getElementById('lab-conn-count');
+    if(labConnCount) labConnCount.textContent = allConns.length+' cross-manuale';
+  });
+}
+
+function labApriEsplora() {
+  var el = document.getElementById('lab-panel-esplora');
+  if(!el) return;
+  el.style.display = 'block'; el.scrollTop = 0;
+  labRenderEsplora();
+}
+
+function labRenderEsplora() {
+  caricaEDB(function(){
+    var body = document.getElementById('lab-esplora-body');
+    if(!body) return;
+    var search = ((document.getElementById('lab-search-input')||{}).value||'').toLowerCase();
+    var html = '';
+    EDBV2.categorie.forEach(function(cat){
+      var catEsps = cat.esperimenti.filter(function(e){
+        return !search || e.nome.toLowerCase().indexOf(search)!==-1 ||
+               e.principio.toLowerCase().indexOf(search)!==-1 ||
+               (e.tags||[]).some(function(t){ return t.indexOf(search)!==-1; });
+      });
+      if(!catEsps.length) return;
+      html += '<div style="font-size:.68rem;font-weight:700;color:'+cat.colore+';text-transform:uppercase;margin:.5rem 0 .3rem;letter-spacing:.05em;">'+cat.ico+' '+cat.nome+'</div>';
+      catEsps.forEach(function(esp){
+        var statCol=esp.stato==='attivo'?'#27ae60':esp.stato==='opzionale'?'#e67e22':'#95a5a6';
+        html+='<div style="background:var(--card);border-radius:12px;padding:.65rem .85rem;margin-bottom:.45rem;border-left:3px solid '+cat.colore+';cursor:pointer;" onclick="apriEsp(\''+cat.id+'\',\''+esp.id+'\')">';
+        html+='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.2rem;">';
+        html+='<div style="font-weight:700;font-size:.88rem;color:var(--text);flex:1;">'+cat.ico+' '+esp.nome+'</div>';
+        html+='<span style="font-size:.65rem;background:'+statCol+';color:#fff;border-radius:20px;padding:.1rem .35rem;">'+esp.stato+'</span>';
+        html+='</div><div style="font-size:.75rem;color:var(--soft);line-height:1.4;">'+esp.principio.substring(0,100)+'…</div></div>';
+      });
+    });
+    body.innerHTML = html||'<div style="text-align:center;color:var(--muted);padding:2rem;">Nessun risultato</div>';
+  });
+}
+
+function labApriOggi() {
+  var el = document.getElementById('lab-panel-oggi');
+  if(!el) return;
+  el.style.display = 'block'; el.scrollTop = 0;
+  caricaEDB(function(){
+    var body = document.getElementById('lab-oggi-body');
+    if(!body) return;
+    var bio = typeof calcolaBio==='function' ? calcolaBio(oggi()) : null;
+    var luna = bio ? bio.lunaInfo : null;
+    var html = '';
+    if(bio) {
+      html += '<div style="background:linear-gradient(135deg,'+bio.tipo.sfondo+');border-radius:12px;padding:.8rem;margin-bottom:.7rem;color:#fff;">';
+      html += '<div style="font-size:1.2rem;margin-bottom:.2rem;">'+bio.tipo.ico+' '+bio.tipo.nome+(luna?' · '+luna.ico+' '+luna.nome:'')+'</div>';
+      html += '<div style="font-size:.78rem;opacity:.9;">Oggi è un giorno '+(bio.tipo.el||bio.tipoId||'')+' — esperimenti consigliati</div></div>';
+    }
+    var consigliati=[], possibili=[];
+    EDBV2.categorie.forEach(function(cat){
+      cat.esperimenti.forEach(function(esp){
+        if(!bio) { possibili.push({esp:esp,cat:cat}); return; }
+        var bioOk=(esp.bio_ideale||[]).indexOf(bio.tipoId)!==-1;
+        var lunaOk=(esp.luna_ideale||[]).some(function(l){ return luna&&luna.nome&&luna.nome.toLowerCase().indexOf(l)!==-1; });
+        var score=(bioOk?2:0)+(lunaOk?1:0);
+        if(score>=2) consigliati.push({esp:esp,cat:cat});
+        else if(score>=1) possibili.push({esp:esp,cat:cat});
+      });
+    });
+    if(consigliati.length) {
+      html += '<div style="font-size:.7rem;font-weight:700;color:#27ae60;text-transform:uppercase;margin-bottom:.4rem;">⭐ Ideali oggi</div>';
+      consigliati.forEach(function(r){ html += typeof libCardSmall==='function'?libCardSmall(r.esp,r.cat,'#27ae60'):''; });
+    }
+    if(possibili.length) {
+      html += '<div style="font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin:.6rem 0 .4rem;">○ Comunque ok</div>';
+      possibili.slice(0,6).forEach(function(r){ html += typeof libCardSmall==='function'?libCardSmall(r.esp,r.cat,r.cat.colore):''; });
+    }
+    body.innerHTML = html||'<div style="text-align:center;color:var(--muted);padding:2rem;">Nessun consiglio disponibile</div>';
+  });
+}
+
+function labApriAI() {
+  var el = document.getElementById('lab-panel-ai');
+  if(!el) return;
+  el.style.display = 'block'; el.scrollTop = 0;
+  if(typeof initAI==='function') initAI();
+  setTimeout(function(){ var inp=document.getElementById('ai-input'); if(inp) inp.focus(); }, 350);
+}
+
+function labInsightClick() { labApriAI(); }
+function labConnClick() { labApriConnessioni(); }
+
+async function inviaAI(testoPredef) {
+  var inp = document.getElementById('ai-input');
+  var testo = testoPredef || (inp ? inp.value.trim() : '');
+  if(!testo) return;
+  if(inp && !testoPredef) inp.value = '';
+  if(typeof appendAIMsg==='function') appendAIMsg('user', testo);
+  if(typeof appendAITyping==='function') appendAITyping();
+  var sys = typeof buildSistemaPrompt==='function' ? buildSistemaPrompt() : 'Sei SerraAI, assistente per la Mini-Serra Living Soil.';
+  var risposta = null;
+  try {
+    var gKey=localStorage.getItem('groq_api_key'), gemKey=localStorage.getItem('gemini_api_key'), cKey=localStorage.getItem('anthropic_api_key');
+    if(gKey) risposta = await chiamaAIEngine(AI_ENGINES.groq, testo, sys);
+    if(!risposta && gemKey) risposta = await chiamaAIEngine(AI_ENGINES.gemini, testo, sys);
+    if(!risposta && cKey) risposta = await chiamaAIEngine(AI_ENGINES.claude, testo, sys);
+    if(!risposta) risposta = '⚠️ Configura una chiave AI (Groq o Gemini) nel pannello per ricevere risposte personalizzate.';
+  } catch(e) { risposta = '❌ Errore: '+e.message; }
+  if(typeof removeAITyping==='function') removeAITyping();
+  if(typeof appendAIMsg==='function') appendAIMsg('assistant', risposta);
+}
+
+function azzeraChat() {
+  var chat = document.getElementById('ai-chat');
+  if(chat) { chat.innerHTML = ''; if(typeof initAI==='function') setTimeout(initAI, 100); }
+}
+
+function iniziaAscolto() {
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR) { toast('⚠️ Riconoscimento vocale non supportato', 2500); return; }
+  var rec = new SR();
+  rec.lang = 'it-IT'; rec.interimResults = false;
+  var btn = document.getElementById('btn-mic');
+  if(btn) { btn.textContent = '🔴'; btn.style.background = '#ffeeee'; }
+  rec.onresult = function(e) {
+    var t = e.results[0][0].transcript;
+    var inp = document.getElementById('ai-input');
+    if(inp) inp.value = t;
+    if(btn) { btn.textContent = '🎤'; btn.style.background = ''; }
+  };
+  rec.onerror = rec.onend = function() {
+    if(btn) { btn.textContent = '🎤'; btn.style.background = ''; }
+  };
+  rec.start();
+}
+
+function parla(testo) {
+  if(!testo || !('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  var utt = new SpeechSynthesisUtterance(testo);
+  utt.lang = 'it-IT'; utt.rate = 0.9;
+  window.speechSynthesis.speak(utt);
+}
+
+function salvaGroqKey() {
+  var inp = document.getElementById('groq-key-input');
+  if(!inp || !inp.value.trim()) return;
+  var k = inp.value.trim();
+  if(!k.startsWith('gsk_')) { toast('⚠️ Chiave Groq non valida — deve iniziare con gsk_', 2500); return; }
+  localStorage.setItem('groq_api_key', k);
+  toast('✅ Groq salvato!', 2000);
+  inp.value = '';
+  if(typeof aggiornaBadgeAI==='function') aggiornaBadgeAI();
+  if(typeof autoBackupGitHubRepo==='function') autoBackupGitHubRepo(true);
+}
+
+function aggiungiBottoneDrive() {
+  var countEl = document.getElementById('lab-tec-count');
+  if(countEl && typeof TECNICHE!=='undefined') countEl.textContent = TECNICHE.length+' dai manuali';
+  caricaEDB(function(){
+    var connCountEl = document.getElementById('lab-conn-count');
+    if(connCountEl && EDBV2) {
+      var cross = (typeof CONNESSIONI_CROSS!=='undefined' ? CONNESSIONI_CROSS : []);
+      connCountEl.textContent = ((EDBV2.connessioni||[]).length + cross.length)+' cross-manuale';
+    }
+    var labConnTotal = document.getElementById('lab-conn-total');
+    if(labConnTotal && EDBV2) {
+      var cross2 = (typeof CONNESSIONI_CROSS!=='undefined' ? CONNESSIONI_CROSS : []);
+      labConnTotal.textContent = ((EDBV2.connessioni||[]).length + cross2.length);
+    }
+  });
+}
+
 // ── Widget Calendario in Home ──
 async function aggiornaCalendarioHome() {
   var el = document.getElementById('home-calendar-widget');
@@ -7612,7 +7857,9 @@ function filtraConn(tipo) {
 function mostraSuggerimentiPianta(piantaId) {
   var el = document.getElementById('pianta-smart-content');
   if(!el) return;
-  
+  var panel = document.getElementById('pianta-smart-panel');
+  if(panel) panel.style.display = 'block';
+
   var pianta = PIANTE_COMPLETO.find(function(p){return p.id===piantaId;});
   if(!pianta) return;
   
@@ -8578,14 +8825,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 </body>
-</html
-<!-- ── SUGGERIMENTI SMART PER PIANTA ── -->
-<div style="margin:.5rem .9rem 1rem;" id="pianta-smart-panel">
-  <div class="smart-widget">
-    <div class="smart-widget-label">🧠 Guida intelligente — seleziona una pianta</div>
-    <div id="pianta-smart-content" style="font-size:.76rem;color:var(--soft);">
-      Seleziona una pianta nella lista per vedere i consigli specifici dalle guide Zamnesia + RQS e dai 134 manuali.
-    </div>
-  </div>
-</div>
->
+</html>
