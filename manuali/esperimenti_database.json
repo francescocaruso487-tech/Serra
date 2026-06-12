@@ -1,5 +1,5 @@
 {
-  "versione": "3.7",
+  "versione": "3.8",
   "aggiornato": "2026-06-09",
   "categorie": [
     {
@@ -3230,7 +3230,7 @@
       "fonte": "Zamnesia+RQS × elettrocoltura"
     }
   ],
-  "ultimo_aggiornamento": "2026-06-12 18:32",
+  "ultimo_aggiornamento": "2026-06-12 23:02",
   "drive_folders": {
     "elettrocoltura": {
       "id": "1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ",
@@ -3516,8 +3516,8 @@
       "Il Quinto Accordo - Don Miguel e Don Jose Ruiz"
     ]
   },
-  "pdf_letti_134": 120,
+  "pdf_letti_134": 127,
   "pdf_totali_134": 57,
-  "pdf_percentuale": 211,
+  "pdf_percentuale": 223,
   "guide_web_integrate": true
 }

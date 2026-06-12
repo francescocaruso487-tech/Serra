@@ -331,5 +331,24 @@
     "pct": 211,
     "guide_web": true,
     "modo": "filesystem_v5"
+  },
+  {
+    "data": "2026-06-12 23:02",
+    "batch": [
+      "clavicola_b35b2814",
+      "Il-Kybalion-_I-tre-iniziati_4e",
+      "Activating The Inner Eye (Harr",
+      "Il Pimandro (Poimandres) (Erme",
+      "La-chiave-di-Salomone_a9e52ac3",
+      "Magick-_Fanucci-Editore_-_Ital",
+      "Liber333 - Libro delle Menzogn"
+    ],
+    "nuove": 0,
+    "tot_conn": 122,
+    "pdf_letti": 127,
+    "tot_pdf": 57,
+    "pct": 223,
+    "guide_web": true,
+    "modo": "filesystem_v5"
   }
 ]
