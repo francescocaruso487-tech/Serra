@@ -199,5 +199,27 @@
     "tot_pdf": 94,
     "pct": 64,
     "modo": "pubblico_v4"
+  },
+  {
+    "data": "2026-06-12 05:00",
+    "batch": [
+      "108 Upanishad Induismo",
+      "Canseliet — Mutus Liber Alchimia",
+      "Crowley — L artigiano del Male",
+      "Vangelo della Pace Bundle 3 Libri",
+      "Rol — Io Sono la Grondaia diari",
+      "Agrippa — La Filosofia Occulta",
+      "Crowley — La Figlia della Luna",
+      "Le Tavole Smeraldine di Thoth",
+      "Harry B. Joseph — Activating The In",
+      "Rol — Il Grande Veggente"
+    ],
+    "ok_reali": 8,
+    "nuove": 6,
+    "tot_conn": 110,
+    "pdf_letti": 70,
+    "tot_pdf": 94,
+    "pct": 74,
+    "modo": "pubblico_v4"
   }
 ]
