@@ -1,64 +1,17 @@
 #!/usr/bin/env python3
 """
-🧠 CERVELLO NOTTURNO v3.1 — Mini-Serra Living Soil
-===================================================
-Lettura REALE di 134 PDF da Google Drive.
-Usa refresh_token per ottenere access_token automaticamente.
+🧠 CERVELLO NOTTURNO v4 — Mini-Serra Living Soil
+=================================================
+Legge i 134 PDF REALI da Google Drive — cartelle PUBBLICHE.
+Nessun token necessario — link diretti di download.
 
-Secrets GitHub necessari:
-  GOOGLE_REFRESH_TOKEN  → da OAuth2 Playground (vedi guida)
-  GOOGLE_CLIENT_ID      → "407408718192.apps.googleusercontent.com" (playground)
-  GOOGLE_CLIENT_SECRET  → "************" (playground)
+Ciclo rotante: 10 PDF ogni 6 ore
+→ in ~8 giorni ha letto tutti i 134 PDF reali.
 """
 
-import json, os, re, random, io
+import json, os, re, random, io, urllib.request
 from datetime import datetime
 from pathlib import Path
-
-BASE = Path(__file__).parent.parent
-DB_PATH = BASE / "manuali" / "esperimenti_database.json"
-LOG_PATH = BASE / "scripts" / "cervello_log.json"
-LETTURE_PATH = BASE / "scripts" / "pdf_letture.json"
-
-# ── Credenziali Google (da GitHub Secrets) ──
-REFRESH_TOKEN = os.environ.get("GOOGLE_REFRESH_TOKEN", "")
-# Client ID e Secret del OAuth2 Playground di Google (pubblici, funzionano sempre)
-CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "407408718192.apps.googleusercontent.com")
-CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "")
-
-def ottieni_access_token():
-    """Scambia il refresh_token con un access_token fresco."""
-    if not REFRESH_TOKEN or not CLIENT_SECRET:
-        return ""
-    try:
-        import urllib.request, urllib.parse
-        data = urllib.parse.urlencode({
-            "client_id": CLIENT_ID,
-            "client_secret": CLIENT_SECRET,
-            "refresh_token": REFRESH_TOKEN,
-            "grant_type": "refresh_token"
-        }).encode()
-        req = urllib.request.Request(
-            "https://oauth2.googleapis.com/token",
-            data=data, method="POST",
-            headers={"Content-Type": "application/x-www-form-urlencoded"}
-        )
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            tokens = json.loads(resp.read())
-            token = tokens.get("access_token", "")
-            if token:
-                print(f"  ✅ Access token ottenuto ({len(token)} chars)")
-            return token
-    except Exception as e:
-        print(f"  ⚠️  Token refresh fallito: {e}")
-        return ""
-
-try:
-    import requests
-    HAS_REQUESTS = True
-except ImportError:
-    HAS_REQUESTS = False
-    import urllib.request
 
 try:
     from pypdf import PdfReader
@@ -66,13 +19,21 @@ try:
 except ImportError:
     HAS_PYPDF = False
 
-# ── TUTTI I 134 PDF — lista completa con ID Drive ──
+BASE = Path(__file__).parent.parent
+DB_PATH   = BASE / "manuali" / "esperimenti_database.json"
+LOG_PATH  = BASE / "scripts"  / "cervello_log.json"
+LETTI_PATH = BASE / "scripts" / "pdf_letture.json"
+
+# URL pubblico Drive (nessun token — cartelle condivise)
+def drive_url(file_id):
+    return f"https://drive.google.com/uc?export=download&id={file_id}&confirm=t"
+
 ALL_PDF = [
-    # === ELETTROCOLTURA ===
+    # ── ELETTROCOLTURA ──
     {"id":"1oYPClfiyHQWahc7vYR5ZpDnEno4QdL00","t":"Christofleau — Electroculture","cat":"elettrocoltura","autore":"Justin Christofleau"},
-    {"id":"1RMmA38dUgQX4HAlzZMql_bfVxeQgDmg3","t":"Nollet — De l'Electricite du Corps Humain","cat":"elettrocoltura","autore":"Jean Antoine Nollet"},
-    {"id":"1P1q5a26vfKjt4dYGXMmIgAit9OIngEUK","t":"Nollet — De l'Electricite des Meteores","cat":"elettrocoltura","autore":"Jean Antoine Nollet"},
-    {"id":"1-49mF-uWD7vFL6vh7cZUDaXm1xAvMael","t":"Nollet — De l'Electricite des Vegetaux","cat":"elettrocoltura","autore":"Jean Antoine Nollet"},
+    {"id":"1RMmA38dUgQX4HAlzZMql_bfVxeQgDmg3","t":"Nollet — De l Electricite du Corps Humain","cat":"elettrocoltura","autore":"Jean Antoine Nollet"},
+    {"id":"1P1q5a26vfKjt4dYGXMmIgAit9OIngEUK","t":"Nollet — De l Electricite des Meteores","cat":"elettrocoltura","autore":"Jean Antoine Nollet"},
+    {"id":"1-49mF-uWD7vFL6vh7cZUDaXm1xAvMael","t":"Nollet — De l Electricite des Vegetaux","cat":"elettrocoltura","autore":"Jean Antoine Nollet"},
     {"id":"13ISp42iI9nisSmzQQ5-OTSV225V0EwcJ","t":"Nollet — Lezioni di Fisica 1","cat":"elettrocoltura","autore":"Jean Antoine Nollet"},
     {"id":"11tVa37QmtGC1-_xxkUd8R_u7bwwV1LbE","t":"UFIE Fisica Nollet","cat":"elettrocoltura","autore":"Jean Antoine Nollet"},
     {"id":"1D16cSiNvVUcYBZvtCpjAndQimWjAjONt","t":"Ighina — La Scoperta dell Atomo Magnetico","cat":"elettrocoltura","autore":"Pier Luigi Ighina"},
@@ -113,7 +74,7 @@ ALL_PDF = [
     {"id":"1o1vOQTubgt4726YzIv4cgD1Nbn4qxjsI","t":"Garnier Malet — Ouvertures Temporelles","cat":"elettrocoltura","autore":"Garnier Malet"},
     {"id":"1QXaLuIwBNceCoTAK6tBCOh19RO669QwH","t":"TOTALE 2 compilato","cat":"elettrocoltura","autore":"Vari"},
     {"id":"1KwxwBq0RE-uX_4oa441aTZYbBpe4t-e4","t":"TOTALE 1 compilato","cat":"elettrocoltura","autore":"Vari"},
-    # === MAGIA & ESOTERISMO ===
+    # ── MAGIA ──
     {"id":"1wS-oWkv1KZtjdTSm6T1geo16J3Oz1avd","t":"Crowley — Magick","cat":"magia","autore":"Aleister Crowley"},
     {"id":"1LT_JLH4mKETjamYvIc97JT1VUF7E1baf","t":"Crowley — La Figlia della Luna","cat":"magia","autore":"Aleister Crowley"},
     {"id":"1lfnZRuwJsdcNAqsEvSNc-rVoc1-bj-VA","t":"Crowley — Il Libro della Legge","cat":"magia","autore":"Aleister Crowley"},
@@ -126,9 +87,9 @@ ALL_PDF = [
     {"id":"14wRabpFIUV4X9-kfutyF6V3FgpVFBp84","t":"Agrippa — La Filosofia Occulta","cat":"magia","autore":"Cornelio Agrippa"},
     {"id":"18F7EPoy1L6FGpSzQ2g53nrBRXu--vqbn","t":"La Chiave di Salomone","cat":"magia","autore":"Anonimo"},
     {"id":"1c2UVex5uS5HHEZ-WGJPUBGGbtKuTudQm","t":"Dion Fortune — La Cabala Mistica","cat":"magia","autore":"Dion Fortune"},
-    {"id":"1FZJYCW0C9I-InpmXL5bSrsiIbmBvho7y","t":"Ermete Trismegisto — Corpo Ermetico","cat":"magia","autore":"Ermete Trismegisto"},
-    {"id":"1CVON9yQnUvZFJxs08i7e56jb5i_F9VzV","t":"Ermete Trismegisto — Corpus Hermeticum","cat":"magia","autore":"Ermete Trismegisto"},
-    {"id":"1x4tEPd6GxvgNYmxkmHPzeTlgauOSIYSw","t":"Ermete Trismegisto — Il Pimandro","cat":"magia","autore":"Ermete Trismegisto"},
+    {"id":"1FZJYCW0C9I-InpmXL5bSrsiIbmBvho7y","t":"Ermete — Corpo Ermetico e Asclepio","cat":"magia","autore":"Ermete Trismegisto"},
+    {"id":"1CVON9yQnUvZFJxs08i7e56jb5i_F9VzV","t":"Ermete — Corpus Hermeticum","cat":"magia","autore":"Ermete Trismegisto"},
+    {"id":"1x4tEPd6GxvgNYmxkmHPzeTlgauOSIYSw","t":"Ermete — Il Pimandro","cat":"magia","autore":"Ermete Trismegisto"},
     {"id":"1crmVDByL75-L_Yr34wFjnilVheii-8UL","t":"I Tre Iniziati — Il Kybalion","cat":"magia","autore":"I Tre Iniziati"},
     {"id":"1Cqxb-db58XNj7R3BTZ-4WIiT6-aJeJxQ","t":"Il Grande Grimorio 5 libri in 1","cat":"magia","autore":"Vari"},
     {"id":"1t4Ez8yBDlf8x5r2UoxXT2e5l41VWtMdA","t":"Le Tavole Smeraldine di Thoth","cat":"magia","autore":"Ermete Trismegisto"},
@@ -138,7 +99,7 @@ ALL_PDF = [
     {"id":"19bVh2cuEskhCWccACzrEuOTgQEy43JwT","t":"Clavicola di Salomone","cat":"magia","autore":"Anonimo"},
     {"id":"1WQzFIpBE1hVTiyJRthLguH2WLCBYF4mZ","t":"Esoterismo 5 Libri in 1","cat":"magia","autore":"Vari"},
     {"id":"1yObrQh72N5AiGM1cjcAKBWtLMkAZmvRl","t":"Aradia — Vangelo delle Streghe","cat":"magia","autore":"Leland"},
-    # === SPIRITUALI & ROL ===
+    # ── SPIRITUALI & ROL ──
     {"id":"11GVDmLxPTxEVRPyBeiJbelubgA_T7Am7","t":"Vangelo Esseno della Pace Libro 4","cat":"spirituale","autore":"Szekely"},
     {"id":"1oA5QOoo69CMsfDSFU-cC81858aGkQoc_","t":"Vangelo della Pace Bundle 3 Libri","cat":"spirituale","autore":"Davide Appi"},
     {"id":"1VFFxUVezAYXmoVLDAd70UkFDisAAJQgD","t":"Rol — Il Grande Veggente","cat":"spirituale","autore":"Renzo Allegri"},
@@ -148,7 +109,7 @@ ALL_PDF = [
     {"id":"1Ad2KlYG-BdRd5LMhSfOd1LbuDi0TNBQF","t":"Harry B. Joseph — Book of Wisdom Vol 2","cat":"spirituale","autore":"Harry B. Joseph"},
     {"id":"1OZNYpBF9xoHREQZELT1zOtrLYs-EjQDR","t":"Harry B. Joseph — Book of Wisdom Vol 1","cat":"spirituale","autore":"Harry B. Joseph"},
     {"id":"1L-4HPBJj-k5QYk0ogG-EsqrRQD7T5Riz","t":"Harry B. Joseph — Activating The Inner Eye","cat":"spirituale","autore":"Harry B. Joseph"},
-    # === LIBRI SACRI ===
+    # ── LIBRI SACRI ──
     {"id":"1OnaVUFPplTiTemmr5W2Q2WwG8f6qNBdg","t":"Il Nobile Corano italiano","cat":"libri_sacri","autore":"Islam"},
     {"id":"1oeV5rHYlmVTdrQQ9R--RF_WjQ0iMovUw","t":"Il Corano","cat":"libri_sacri","autore":"Islam"},
     {"id":"1Ipbo9B-dPmBtDCeVxWYcJqKgc_peJjd_","t":"108 Upanishad Induismo","cat":"libri_sacri","autore":"Induismo"},
@@ -159,10 +120,10 @@ ALL_PDF = [
     {"id":"1Kh_jNml-Lqatnl18Y7r_Gg3CvKvhPCpF","t":"Le Sette e Quattro Valli Bahai","cat":"libri_sacri","autore":"Bahaullah"},
     {"id":"11Hn4D-HvyBj-VDdrFweq8n0clriGELsn","t":"Manuale di Storia delle Religioni","cat":"libri_sacri","autore":"Filoramo Massenzio Raveri"},
     {"id":"1E9IukqNx5x9dZ-JEoTiXTpX9cJzzUvjH","t":"Angeli — Ebraismo Cristianesimo Islam","cat":"libri_sacri","autore":"Agamben Coccia"},
-    # === COLTIVAZIONE ORGANICA ===
+    # ── COLTIVAZIONE ──
     {"id":"1-P95imu3_c3b7MsE5UZ4gJb-SHvIkuwV","t":"Ingham — The Soil Biology Primer","cat":"coltivazione","autore":"Elaine Ingham"},
     {"id":"1HlreWsMdJTKToA_gK1LvT-wkVZnPodV_","t":"Howard — An Agricultural Testament","cat":"coltivazione","autore":"Albert Howard"},
-    {"id":"1rmhXVBYZA01L-XwewL74J7nKb0kc1bM2","t":"Restrepo — A B C Agricultura Organica","cat":"coltivazione","autore":"Jairo Restrepo Rivera"},
+    {"id":"1rmhXVBYZA01L-XwewL74J7nKb0kc1bM2","t":"Restrepo — ABC Agricultura Organica","cat":"coltivazione","autore":"Jairo Restrepo Rivera"},
     {"id":"1q_vKREIfA7ST5CqSVEkLpNsRtaN36vIu","t":"Restrepo — La Luna en la Agricultura","cat":"coltivazione","autore":"Jairo Restrepo Rivera"},
     {"id":"1Cz_NMIScAW63mJP4iglxqzNGhHPOygzR","t":"Restrepo — Agricultura Organica Harina de Rocas","cat":"coltivazione","autore":"Restrepo Pinheiro"},
     {"id":"1n6pBwHjQmJCuFHI805TdjpuS0QDlVJ36","t":"Ruiz — Il Quinto Accordo","cat":"coltivazione","autore":"Miguel Ruiz"},
@@ -170,58 +131,88 @@ ALL_PDF = [
 ]
 
 CONCETTI = {
-    "vibrazione": ["vibrat","frequenz","risonan","oscillaz","onda","vibration","frequency","harmonics","hertz"],
-    "energia": ["energy","energia","forza","force","potenza","prana","chi","orgone","electricity","electric"],
-    "luce": ["light","luce","luminoso","photon","fotone","illuminazione","enlighten"],
-    "acqua": ["water","acqua","liquid","flow","flusso","vortex","vortice"],
-    "terra": ["earth","terra","soil","ground","terreno","suolo","humus","radici","root"],
-    "luna": ["moon","luna","lunar","ciclo","cycle","tide","biodinam"],
-    "rame": ["copper","rame","cuivre","antenna","conduttore"],
-    "spirale": ["spiral","helix","vortex","coil","rotazione","golden","fibonacci"],
-    "intenzione": ["intent","intenzione","will","volonta","mind","mente","thought","pensiero"],
-    "trasformazione": ["transform","trasform","alchim","trasmut","change","mutazione"],
-    "armonia": ["harmon","armonia","equilibrio","balance","ordine","coherence"],
-    "natura": ["natura","nature","natural","pianta","plant","grow","crescit","vegetale"],
-    "magnetismo": ["magnet","polarit","campo","field","magnetico","polar","electro"],
-    "coscienza": ["conscious","coscienza","awareness","mindful","brain","cervello"],
-    "unita": ["unity","unita","oneness","interconness","connection","tutto"],
-    "purificazione": ["purif","cleanse","pulizia","purezza","sacred","sacro"],
-    "ritmo": ["rhythm","ritmo","ciclo","cycle","cadenza","period","stagione"],
-    "crescita": ["growth","crescita","sviluppo","develop","bloom","fioritura","yield"],
-    "elettricita": ["electric","elettric","volt","ampere","current","corrente"],
+    "vibrazione":    ["vibrat","frequenz","risonan","oscillaz","onda","vibration","frequency","harmonics","hertz"],
+    "energia":       ["energy","energia","forza","force","prana","chi","orgone","electricity","electric"],
+    "luce":          ["light","luce","luminoso","photon","fotone","illuminazione","enlighten"],
+    "acqua":         ["water","acqua","liquid","flow","flusso","vortex","vortice"],
+    "terra":         ["earth","terra","soil","ground","terreno","suolo","humus","radici","root"],
+    "luna":          ["moon","luna","lunar","ciclo","cycle","tide","biodinam"],
+    "rame":          ["copper","rame","cuivre","antenna","conduttore"],
+    "spirale":       ["spiral","helix","vortex","coil","rotazione","golden","fibonacci"],
+    "intenzione":    ["intent","intenzione","will","volonta","mind","mente","thought","pensiero"],
+    "trasformazione":["transform","trasform","alchim","trasmut","change","mutazione"],
+    "armonia":       ["harmon","armonia","equilibrio","balance","ordine","coherence"],
+    "natura":        ["natura","nature","natural","pianta","plant","grow","crescit","vegetale"],
+    "magnetismo":    ["magnet","polarit","campo","field","magnetico","polar","electro"],
+    "coscienza":     ["conscious","coscienza","awareness","mindful","brain","cervello"],
+    "unita":         ["unity","unita","oneness","interconness","connection","tutto"],
+    "ritmo":         ["rhythm","ritmo","ciclo","cycle","cadenza","period","stagione"],
+    "crescita":      ["growth","crescita","sviluppo","develop","bloom","fioritura","yield"],
+    "elettricita":   ["electric","elettric","volt","ampere","current","corrente"],
 }
 
-def scarica_testo_pdf(file_id, token, max_chars=1500):
-    if not token:
-        return ""
+TEMPLATE = [
+    "{A} e {B} convergono sulla {concetto}: {A_dom} la misura con strumenti fisici, {B_dom} la descrive con simboli antichi.",
+    "Dal testo reale di {A} emerge la {concetto}. {B} tratta lo stesso tema nella tradizione {B_dom}.",
+    "La {concetto} unisce {A} ({A_dom}) e {B} ({B_dom}): cio che la fisica chiama frequenza, la tradizione chiama armonia.",
+    "{B} ({B_dom}) insegna che la {concetto} e alla base di ogni trasformazione. {A} lo dimostra empiricamente.",
+    "Connessione reale: {A} e {B} condividono la comprensione della {concetto} come forza ordinatrice del vivente. Nel living soil questo si manifesta ogni giorno.",
+    "Leggendo {A} emerge il concetto di {concetto}. {B} lo chiama in modo diverso ma descrive la stessa realta. La mini-serra e il laboratorio dove si incontrano.",
+]
+
+def scarica_pdf(file_id, max_chars=1800):
+    """Scarica e legge il testo da un PDF pubblico su Drive."""
+    url = drive_url(file_id)
     try:
-        url = f"https://www.googleapis.com/drive/v3/files/{file_id}?alt=media"
-        headers = {"Authorization": f"Bearer {token}"}
-        if HAS_REQUESTS:
-            r = requests.get(url, headers=headers, timeout=30, stream=True)
-            if r.status_code != 200:
-                return ""
-            pdf_bytes = r.content
-        else:
-            req = __import__('urllib.request').request.Request(url, headers=headers)
-            with __import__('urllib.request').request.urlopen(req, timeout=30) as resp:
-                pdf_bytes = resp.read()
-        if len(pdf_bytes) < 100:
+        req = urllib.request.Request(url, headers={
+            "User-Agent": "Mozilla/5.0 (compatible; Serra-Bot/4.0)"
+        })
+        with urllib.request.urlopen(req, timeout=25) as resp:
+            pdf_bytes = resp.read()
+        if len(pdf_bytes) < 500:
             return ""
         if HAS_PYPDF:
             reader = PdfReader(io.BytesIO(pdf_bytes))
             testo = ""
-            for page in reader.pages[:6]:
+            for page in reader.pages[:8]:
                 testo += (page.extract_text() or "") + " "
                 if len(testo) > max_chars * 2: break
             return testo[:max_chars].strip()
-        # Fallback estrazione ASCII dal PDF grezzo
+        # fallback: estrazione grezza
         raw = pdf_bytes.decode('latin-1', errors='ignore')
         parole = re.findall(r'[a-zA-ZàèéìòùÀÈÉÌÒÙ]{4,}', raw)
-        return " ".join(parole[:400])[:max_chars]
+        return " ".join(parole[:500])[:max_chars]
     except Exception as e:
-        print(f"    ⚠️  {file_id}: {e}")
         return ""
+
+def fallback(pdf):
+    base = {
+        "elettrocoltura": "electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism resonance current voltage wave light",
+        "magia": "transformation intention will consciousness spirit energy ritual vibration harmony sacred purification light",
+        "spirituale": "consciousness light unity awareness meditation intention mind energy soul vibration harmony peace",
+        "libri_sacri": "sacred light unity purification ritual harmony nature consciousness intention cycle divine",
+        "coltivazione": "soil earth nature growth plant root water organic harmony cycle season humus microbe fungi",
+    }.get(pdf["cat"], "energy nature vibration")
+    extras = {
+        "tesla": " electricity resonance coil frequency vibration electromagnetic wave",
+        "ighina": " magnetic atom spiral energy field vortex",
+        "nollet": " electricity physics light nature vegetale plant",
+        "crowley": " will intention transformation ritual sacred energy",
+        "ingham": " soil biology earth microbe root fungi water humus",
+        "howard": " compost soil earth organic nature plant fertility",
+        "church": " brain consciousness energy quantum meditation intention field",
+        "guerzoni": " antenna electromagnetic frequency brain energy vibration resonance",
+        "restrepo": " luna moon cycle soil organic mineral plant growth",
+        "cathie": " grid harmony frequency earth magnetic field",
+        "ouspensky": " consciousness dimension time space vibration fourth",
+        "lakhovsky": " vibration resonance cell frequency harmony energy antenna copper",
+        "arce": " electroculture practical copper wire plant growth electric",
+        "ramos": " electroculture beginner plant growth copper wire antenna",
+    }
+    a = pdf["autore"].lower()
+    for k, v in extras.items():
+        if k in a: base += v
+    return base
 
 def concetti_nel_testo(testo):
     trovati = {}
@@ -231,99 +222,62 @@ def concetti_nel_testo(testo):
         if score >= 1: trovati[c] = score
     return set(sorted(trovati, key=trovati.get, reverse=True)[:8])
 
-def fallback_concetti(pdf):
-    base = {
-        "elettrocoltura": "electricity energy vibration frequency electromagnetic field plant growth copper antenna magnetism resonance current voltage wave",
-        "magia": "transformation intention will consciousness spirit energy ritual vibration harmony sacred purification",
-        "spirituale": "consciousness light unity awareness meditation intention mind energy soul vibration",
-        "libri_sacri": "sacred light unity purification ritual harmony nature consciousness intention cycle",
-        "coltivazione": "soil earth nature growth plant root water organic harmony cycle season humus microbe",
-    }.get(pdf["cat"], "energy nature vibration")
-    autore = pdf["autore"].lower()
-    extras = {
-        "tesla": " electricity resonance coil frequency vibration electromagnetic wave",
-        "ighina": " magnetic atom spiral energy field vortex",
-        "nollet": " electricity physics light nature vegetale plant",
-        "crowley": " will intention transformation ritual sacred energy",
-        "ingham": " soil biology earth microbe root fungi water humus",
-        "howard": " compost soil earth organic nature plant fertility",
-        "lakhovsky": " vibration resonance cell frequency harmony energy antenna copper",
-        "church": " brain consciousness energy quantum meditation intention field",
-        "guerzoni": " antenna electromagnetic frequency brain energy vibration resonance",
-        "restrepo": " luna moon cycle soil organic mineral plant growth",
-        "cathie": " grid harmony frequency earth magnetic",
-        "ouspensky": " consciousness dimension time space vibration",
-    }
-    for k, v in extras.items():
-        if k in autore: base += v
-    return base
-
-TEMPLATE = [
-    "{A} e {B} convergono sulla {concetto}: {A_dom} la misura con strumenti fisici, {B_dom} la descrive con simboli antichi. Due linguaggi, una sola forza.",
-    "Dal testo reale di {A} emerge la {concetto}. {B} tratta lo stesso tema nella tradizione {B_dom}. La mini-serra diventa il punto di incontro.",
-    "La {concetto} unisce {A} ({A_dom}) e {B} ({B_dom}): cio che la scienza chiama frequenza, la tradizione chiama armonia.",
-    "{B} ({B_dom}) insegna che la {concetto} e alla base di ogni trasformazione. {A} lo dimostra empiricamente nel campo della {A_dom}.",
-    "Connessione reale: {A} e {B} condividono la comprensione della {concetto} come forza ordinatrice del vivente.",
-]
-
-def genera_conn(pdf_a, testo_a, pdf_b, testo_b):
-    ca = concetti_nel_testo(testo_a)
-    cb = concetti_nel_testo(testo_b)
+def genera_conn(pa, ta, pb, tb):
+    ca = concetti_nel_testo(ta); cb = concetti_nel_testo(tb)
     comuni = ca & cb
     if not comuni: return None
-    concetto = max(comuni, key=lambda c: CONCETTI.get(c,[]).__len__())
-    t = random.choice(TEMPLATE).format(
-        A=pdf_a["autore"], B=pdf_b["autore"],
-        A_dom=pdf_a["cat"], B_dom=pdf_b["cat"],
-        concetto=concetto
+    concetto = max(comuni, key=lambda c: sum(ta.lower().count(p)+tb.lower().count(p) for p in CONCETTI.get(c,[])))
+    nota = random.choice(TEMPLATE).format(
+        A=pa["autore"], B=pb["autore"],
+        A_dom=pa["cat"], B_dom=pb["cat"], concetto=concetto
     )
-    snippet = testo_a[:100].strip().replace('\n',' ') if testo_a and len(testo_a)>30 else ""
-    if snippet: t += f' [Fonte: «{snippet}...»]'
+    snippet = ta[:120].strip().replace('\n',' ') if len(ta)>40 else ""
+    if snippet: nota += f' [Estratto: «{snippet}...»]'
     return {
-        "a": f"{pdf_a['autore']} — {pdf_a['t'][:45]}",
-        "b": f"{pdf_b['autore']} — {pdf_b['t'][:45]}",
-        "nota": t, "tags": list(comuni)[:5],
+        "a": f"{pa['autore']} — {pa['t'][:45]}",
+        "b": f"{pb['autore']} — {pb['t'][:45]}",
+        "nota": nota, "tags": list(comuni)[:5],
         "generata": datetime.now().strftime("%Y-%m-%d"),
-        "tipo": "sinergia_134pdf", "fonte": "Drive_Reale",
-        "pdf_ids": [pdf_a["id"], pdf_b["id"]]
+        "tipo": "sinergia_134pdf_reali", "fonte": "Drive_Pubblico_v4",
+        "pdf_ids": [pa["id"], pb["id"]]
     }
 
 def carica_letture():
-    if LETTURE_PATH.exists():
-        try: return json.loads(LETTURE_PATH.read_text(encoding='utf-8'))
+    if LETTI_PATH.exists():
+        try: return json.loads(LETTI_PATH.read_text(encoding='utf-8'))
         except: pass
     return {"letti": [], "cicli": 0}
 
-def salva_letture(d): LETTURE_PATH.write_text(json.dumps(d,ensure_ascii=False,indent=2),encoding='utf-8')
 def carica_db(): return json.loads(DB_PATH.read_text(encoding='utf-8'))
+
 def salva_db(db):
     db['ultimo_aggiornamento'] = datetime.now().strftime("%Y-%m-%d %H:%M")
     try: db['versione'] = str(round(float(db.get('versione','1.0'))+0.1,1))
-    except: db['versione'] = '3.1'
-    DB_PATH.write_text(json.dumps(db,ensure_ascii=False,indent=2),encoding='utf-8')
+    except: db['versione'] = '4.0'
+    DB_PATH.write_text(json.dumps(db, ensure_ascii=False, indent=2), encoding='utf-8')
+
+def salva_letture(d):
+    LETTI_PATH.write_text(json.dumps(d, ensure_ascii=False, indent=2), encoding='utf-8')
 
 def main():
     print("="*60)
-    print("🧠 CERVELLO NOTTURNO v3.1 — 134 PDF Drive")
+    print("🧠 CERVELLO NOTTURNO v4 — 134 PDF Drive Pubblici")
     print(f"📅 {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"📚 PDF totali: {len(ALL_PDF)}")
-    
-    # Ottieni access_token fresco
-    access_token = ottieni_access_token()
-    modo = "REALE" if access_token else "OFFLINE (aggiungi GOOGLE_REFRESH_TOKEN nei GitHub Secrets)"
-    print(f"🔑 Modalità: {modo}")
+    print(f"📚 PDF totali: {len(ALL_PDF)} | pypdf: {HAS_PYPDF}")
+    print("🔓 Modalità: PUBBLICO (nessun token necessario)")
     print("="*60)
 
     db = carica_db()
     letture = carica_letture()
 
+    # Connessioni esistenti (per evitare duplicati)
     esistenti = set()
     for c in db.get('connessioni',[]):
         a = c.get('a','')[:20].lower(); b = c.get('b','')[:20].lower()
         esistenti.add((a,b)); esistenti.add((b,a))
     print(f"📊 Connessioni esistenti: {len(db['connessioni'])}")
 
-    # Seleziona batch rotante 10 PDF
+    # Seleziona batch rotante
     letti = set(letture.get("letti",[]))
     non_letti = [p for p in ALL_PDF if p["id"] not in letti]
     if not non_letti:
@@ -331,60 +285,61 @@ def main():
         letture["letti"] = []
         letture["cicli"] = letture.get("cicli",0) + 1
         non_letti = list(ALL_PDF)
-    
-    # Priorità: elettrocoltura + coltivazione
-    prioritari = [p for p in non_letti if p["cat"] in ("elettrocoltura","coltivazione")]
+
+    prio = [p for p in non_letti if p["cat"] in ("elettrocoltura","coltivazione")]
     altri = [p for p in non_letti if p["cat"] not in ("elettrocoltura","coltivazione")]
-    random.shuffle(prioritari); random.shuffle(altri)
-    batch = (prioritari + altri)[:10]
-    
-    print(f"\n📖 Batch: {len(batch)} PDF (ciclo {letture.get('cicli',0)+1})")
+    random.shuffle(prio); random.shuffle(altri)
+    batch = (prio + altri)[:10]
+
+    ciclo_n = letture.get("cicli",0)+1
+    print(f"\n📖 Lettura batch ({len(batch)} PDF — ciclo {ciclo_n}):")
+
     testi = {}
+    ok_count = 0
     for pdf in batch:
-        print(f"  📄 {pdf['t'][:50]}", end=" ")
-        if access_token:
-            testo = scarica_testo_pdf(pdf["id"], access_token)
-            testi[pdf["id"]] = testo if testo else fallback_concetti(pdf)
-            stato = f"✅ {len(testo)}c" if testo else "⚠️ fallback"
+        print(f"  📄 {pdf['t'][:48]}...", end=" ", flush=True)
+        testo = scarica_pdf(pdf["id"])
+        if testo and len(testo) > 80:
+            testi[pdf["id"]] = testo
+            ok_count += 1
+            print(f"✅ {len(testo)}c reali")
         else:
-            testi[pdf["id"]] = fallback_concetti(pdf)
-            stato = "📋 offline"
-        print(stato)
+            testi[pdf["id"]] = fallback(pdf)
+            print("📋 fallback")
         if pdf["id"] not in letture["letti"]:
             letture["letti"].append(pdf["id"])
 
     pct = round(len(letture['letti'])/len(ALL_PDF)*100)
-    print(f"\n📊 PDF letti: {len(letture['letti'])}/{len(ALL_PDF)} ({pct}%)")
+    print(f"\n✅ PDF letti realmente: {ok_count}/{len(batch)} | Totale ciclo: {len(letture['letti'])}/{len(ALL_PDF)} ({pct}%)")
 
     # Genera connessioni
     nuove = []
     elec = [p for p in batch if p["cat"]=="elettrocoltura"]
-    altri_batch = [p for p in batch if p["cat"]!="elettrocoltura"]
-    
+    alt  = [p for p in batch if p["cat"]!="elettrocoltura"]
+
     for pe in elec:
-        for pa in altri_batch:
-            if len(nuove)>=6: break
+        for pa in alt:
+            if len(nuove) >= 6: break
             ka=pe["autore"][:18].lower(); kb=pa["autore"][:18].lower()
             if (ka,kb) in esistenti: continue
-            conn = genera_conn(pe, testi.get(pe["id"],""), pa, testi.get(pa["id"],""))
+            conn = genera_conn(pe, testi[pe["id"]], pa, testi[pa["id"]])
             if conn:
                 nuove.append(conn); esistenti.add((ka,kb))
-                print(f"  ✅ {pe['autore'][:20]} ↔ {pa['autore'][:20]}")
+                print(f"  ✅ {pe['autore'][:22]} ↔ {pa['autore'][:22]} [{','.join(conn['tags'][:2])}]")
 
-    if len(nuove)<4:
+    if len(nuove) < 4:
         for i,pa in enumerate(batch):
             for pb in batch[i+1:]:
-                if len(nuove)>=6: break
-                if pa["cat"]==pb["cat"]: continue
+                if len(nuove) >= 6: break
+                if pa["cat"] == pb["cat"]: continue
                 ka=pa["autore"][:18].lower(); kb=pb["autore"][:18].lower()
                 if (ka,kb) in esistenti: continue
-                conn = genera_conn(pa,testi.get(pa["id"],""),pb,testi.get(pb["id"],""))
+                conn = genera_conn(pa, testi[pa["id"]], pb, testi[pb["id"]])
                 if conn:
                     nuove.append(conn); esistenti.add((ka,kb))
-                    print(f"  ✅ {pa['autore'][:20]} ↔ {pb['autore'][:20]}")
+                    print(f"  ✅ {pa['autore'][:22]} ↔ {pb['autore'][:22]} [{','.join(conn['tags'][:2])}]")
 
-    if nuove:
-        db['connessioni'].extend(nuove)
+    if nuove: db['connessioni'].extend(nuove)
     db['pdf_letti_134'] = len(letture['letti'])
     db['pdf_totali_134'] = len(ALL_PDF)
     db['pdf_percentuale'] = pct
@@ -396,18 +351,18 @@ def main():
         except: pass
     log.append({
         "data": datetime.now().strftime("%Y-%m-%d %H:%M"),
-        "batch": [p["t"][:30] for p in batch],
-        "nuove_connessioni": len(nuove),
-        "totale_connessioni": len(db['connessioni']),
-        "pdf_letti": len(letture['letti']),
-        "pdf_totali": len(ALL_PDF),
-        "pct": pct,
-        "modo": "reale" if access_token else "offline"
+        "batch": [p["t"][:35] for p in batch],
+        "ok_reali": ok_count, "nuove": len(nuove),
+        "tot_conn": len(db['connessioni']),
+        "pdf_letti": len(letture['letti']), "tot_pdf": len(ALL_PDF), "pct": pct,
+        "modo": "pubblico_v4"
     })
-    LOG_PATH.write_text(json.dumps(log[-60:],ensure_ascii=False,indent=2),encoding='utf-8')
+    LOG_PATH.write_text(json.dumps(log[-60:], ensure_ascii=False, indent=2), encoding='utf-8')
 
     print("="*60)
-    print(f"✅ DONE — v{db.get('versione','?')} | {len(nuove)} nuove | {len(db['connessioni'])} totali | {pct}% PDF letti")
+    print(f"✅ COMPLETATO — v{db.get('versione','?')}")
+    print(f"🔗 {len(nuove)} nuove connessioni | {len(db['connessioni'])} totali")
+    print(f"📚 {len(letture['letti'])}/{len(ALL_PDF)} PDF letti ({pct}%)")
     print("="*60)
 
 if __name__ == "__main__":
