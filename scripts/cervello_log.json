@@ -287,5 +287,27 @@
     "pct": 175,
     "guide_web": true,
     "modo": "filesystem_v5"
+  },
+  {
+    "data": "2026-06-12 16:34",
+    "batch": [
+      "La-Mélodie-secrète-des-végétau",
+      "elettrocoltura-andrea-starterk",
+      "ELECTROCULTURE-FOR-BEGINNERS-A",
+      "Agricultura Orgánica Harina de",
+      "Manuale-Di-Magia-Nera_526cc7bd",
+      "Fondamenti di campi elettromag",
+      "ufie003301_to0261_cor-26166_00",
+      "Tertium Organum (P. D. Ouspens",
+      "I misteri dellAntico Egitto - ",
+      "La filosofia occulta o la magi"
+    ],
+    "nuove": 1,
+    "tot_conn": 119,
+    "pdf_letti": 110,
+    "tot_pdf": 57,
+    "pct": 193,
+    "guide_web": true,
+    "modo": "filesystem_v5"
   }
 ]
