@@ -177,5 +177,27 @@
     "pdf_totali": 94,
     "pct": 53,
     "modo": "offline"
+  },
+  {
+    "data": "2026-06-12 04:57",
+    "batch": [
+      "Magnacult",
+      "I Tre Iniziati — Il Kybalion",
+      "I Giardini dei Devoti Buddhismo",
+      "Ermete — Il Pimandro",
+      "Crowley — Magick",
+      "Harry B. Joseph — Book of Wisdom Vo",
+      "Esoterismo 5 Libri in 1",
+      "Liber333 — Libro delle Menzogne",
+      "Manuale di Storia delle Religioni",
+      "Crowley — Il Libro della Legge"
+    ],
+    "ok_reali": 9,
+    "nuove": 6,
+    "tot_conn": 104,
+    "pdf_letti": 60,
+    "tot_pdf": 94,
+    "pct": 64,
+    "modo": "pubblico_v4"
   }
 ]
