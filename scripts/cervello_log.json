@@ -372,5 +372,27 @@
     "pct": 18,
     "guide_web": true,
     "modo": "filesystem_v5"
+  },
+  {
+    "data": "2026-06-13 12:09",
+    "batch": [
+      "Tesla_-lampo-di-genio_ed88f8f8",
+      "La-Strega-Verde-Una-guida-prat",
+      "dudgrichelcult_782a0268",
+      "ufie003301_to0261_cor-26166_00",
+      "Agricultura Orgánica Harina de",
+      "Nikola Tesla, un genio volutam",
+      "La-Mélodie-secrète-des-végétau",
+      "Corpo ermetico e Asclepio_28d3",
+      "Scoperte scientifiche non auto",
+      "Ricerca agro-alimentare, giugn"
+    ],
+    "nuove": 2,
+    "tot_conn": 129,
+    "pdf_letti": 20,
+    "tot_pdf": 57,
+    "pct": 35,
+    "guide_web": true,
+    "modo": "filesystem_v5"
   }
 ]
