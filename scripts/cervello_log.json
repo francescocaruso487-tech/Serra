@@ -350,5 +350,27 @@
     "pct": 223,
     "guide_web": true,
     "modo": "filesystem_v5"
+  },
+  {
+    "data": "2026-06-13 10:13",
+    "batch": [
+      "The Soil Biology Primer - Elai",
+      "DE L'ELECTRICITE' DES METEORES",
+      "elettrocoltura-andrea-starterk",
+      "La filosofia occulta o la magi",
+      "magnacult_09cf984b",
+      "laemstromelcult_fae28ddd",
+      "Tertium Organum (P. D. Ouspens",
+      "La Forza del Cervello Quantico",
+      "ELECTROCULTURE-FOR-BEGINNERS-A",
+      "Antenna uomo - Tiziano-Guerzon"
+    ],
+    "nuove": 5,
+    "tot_conn": 127,
+    "pdf_letti": 10,
+    "tot_pdf": 57,
+    "pct": 18,
+    "guide_web": true,
+    "modo": "filesystem_v5"
   }
 ]
