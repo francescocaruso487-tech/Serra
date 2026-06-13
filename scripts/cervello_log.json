@@ -416,5 +416,27 @@
     "pct": 53,
     "guide_web": true,
     "modo": "filesystem_v5"
+  },
+  {
+    "data": "2026-06-13 21:53",
+    "batch": [
+      "Ighina_El_Atomo_Magnetico_text",
+      "La-vita-segreta-delle-piante-_",
+      "Electroculture (Christofleau J",
+      "LA-SCOPERTA-DELLATOMO-MAGNETIC",
+      "ELECTROCULTURE FOR BEGINNERS 2",
+      "Fondamenti di campi elettromag",
+      "Nikola-Tesla-Come-Lenergia_-Le",
+      "Electroculture-The-Biohacker’s",
+      "IL-CODICE-TESLA-SECOLARIUM-SAG",
+      "The energy grid - Harmonic 695"
+    ],
+    "nuove": 2,
+    "tot_conn": 132,
+    "pdf_letti": 40,
+    "tot_pdf": 57,
+    "pct": 70,
+    "guide_web": true,
+    "modo": "filesystem_v5"
   }
 ]
