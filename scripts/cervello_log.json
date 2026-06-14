@@ -438,5 +438,27 @@
     "pct": 70,
     "guide_web": true,
     "modo": "filesystem_v5"
+  },
+  {
+    "data": "2026-06-14 10:40",
+    "batch": [
+      "I misteri dellAntico Egitto - ",
+      "elcult2_159cde25",
+      "nollet_lezioni_di_fisica_1_425",
+      "Il-Kybalion-_I-tre-iniziati_4e",
+      "LE-TAVOLE-SMERALDINE-DI-THOTH-",
+      "Il Pimandro (Poimandres) (Erme",
+      "La-chiave-di-Salomone_a9e52ac3",
+      "clavicola_b35b2814",
+      "Rol Il grande veggente (Renzo ",
+      "Aradia.-Vangelo-delle-Streghe."
+    ],
+    "nuove": 1,
+    "tot_conn": 133,
+    "pdf_letti": 50,
+    "tot_pdf": 57,
+    "pct": 88,
+    "guide_web": true,
+    "modo": "filesystem_v5"
   }
 ]
