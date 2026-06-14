@@ -1,5 +1,5 @@
 {
-  "versione": "4.4",
+  "versione": "4.5",
   "aggiornato": "2026-06-09",
   "categorie": [
     {
@@ -3364,9 +3364,55 @@
       "generata": "2026-06-14",
       "tipo": "guida_web_x_pdf",
       "fonte": "Zamnesia+RQS × elettrocoltura"
+    },
+    {
+      "a": "Nikola Tesla — Tesla_-lampo-di-genio_ed88f8f8",
+      "b": "Elaine Ingham — The Soil Biology Primer - Elaine Ingham_",
+      "nota": "Connessione reale da testo estratto: Nikola Tesla e Elaine Ingham parlano della stessa energia con linguaggi diversi — scienza e tradizione convergono. [Fonte: «Gentile Lettrice, Gentile Lettore, i libri che ti proponiamo coinvolgono molte persone - traduttori,...»]",
+      "tags": [
+        "energia"
+      ],
+      "generata": "2026-06-14",
+      "tipo": "sinergia_cache_locale_v5",
+      "fonte": "filesystem_cache"
+    },
+    {
+      "a": "N/D — Le-mie-invenzioni-lautobiografia-di-un-g",
+      "b": "Elaine Ingham — The Soil Biology Primer - Elaine Ingham_",
+      "nota": "Elaine Ingham (coltivazione): la natura come principio ordinatore. N/D la dimostra empiricamente nell'ambito della elettrocoltura. [Fonte: «Nikola Tesla LE MIE INVENZIONI L'autobiograﬁa di un genio © 2025 CRESCERE LIBRERIA EDITRICE S.r.l. C...»]",
+      "tags": [
+        "energia",
+        "natura"
+      ],
+      "generata": "2026-06-14",
+      "tipo": "sinergia_cache_locale_v5",
+      "fonte": "filesystem_cache"
+    },
+    {
+      "a": "Guide Web (Zamnesia+RQS) — Germinazione dei semi",
+      "b": "Nikola Tesla — Tesla_-lampo-di-genio_ed88f8f8",
+      "nota": "Le guide professionali sulla Germinazione dei semi e Nikola Tesla convergono sul concetto di energia. Applicazione pratica: Nel sistema Living Soil: aggiungere inoculo micorrize 0.5g nel buco prima di inserire la piantina. Le micorrize colonizzano le radici e migliorano l'assorbimento idrico fin dal primo giorno.",
+      "tags": [
+        "energia"
+      ],
+      "generata": "2026-06-14",
+      "tipo": "guida_web_x_pdf",
+      "fonte": "Zamnesia+RQS × elettrocoltura"
+    },
+    {
+      "a": "Guide Web (Zamnesia+RQS) — Germinazione dei semi",
+      "b": "N/D — Le-mie-invenzioni-lautobiografia-di-un-g",
+      "nota": "Le guide professionali sulla Germinazione dei semi e N/D convergono sul concetto di energia. Applicazione pratica: Nel sistema Living Soil: aggiungere inoculo micorrize 0.5g nel buco prima di inserire la piantina. Le micorrize colonizzano le radici e migliorano l'assorbimento idrico fin dal primo giorno.",
+      "tags": [
+        "energia",
+        "natura"
+      ],
+      "generata": "2026-06-14",
+      "tipo": "guida_web_x_pdf",
+      "fonte": "Zamnesia+RQS × elettrocoltura"
     }
   ],
-  "ultimo_aggiornamento": "2026-06-14 12:29",
+  "ultimo_aggiornamento": "2026-06-14 17:01",
   "drive_folders": {
     "elettrocoltura": {
       "id": "1jsfuStnrXnDGfjhf_0EJceiJy3UQcYJQ",
@@ -3652,8 +3698,8 @@
       "Il Quinto Accordo - Don Miguel e Don Jose Ruiz"
     ]
   },
-  "pdf_letti_134": 57,
+  "pdf_letti_134": 10,
   "pdf_totali_134": 57,
-  "pdf_percentuale": 100,
+  "pdf_percentuale": 18,
   "guide_web_integrate": true
 }

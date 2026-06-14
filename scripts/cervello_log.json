@@ -479,5 +479,27 @@
     "pct": 100,
     "guide_web": true,
     "modo": "filesystem_v5"
+  },
+  {
+    "data": "2026-06-14 17:01",
+    "batch": [
+      "Tesla_-lampo-di-genio_ed88f8f8",
+      "Le-mie-invenzioni-lautobiograf",
+      "La-Strega-Verde-Una-guida-prat",
+      "Il-quinto-accordo-_Nuove-front",
+      "elettrocoltura-andrea-starterk",
+      "Ricerca agro-alimentare, giugn",
+      "hull-elcult_36008b95",
+      "DE L'ELECTRICITE' DES VEGETAUX",
+      "The energy grid - Harmonic 695",
+      "The Soil Biology Primer - Elai"
+    ],
+    "nuove": 4,
+    "tot_conn": 137,
+    "pdf_letti": 10,
+    "tot_pdf": 57,
+    "pct": 18,
+    "guide_web": true,
+    "modo": "filesystem_v5"
   }
 ]
