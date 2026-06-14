@@ -501,5 +501,27 @@
     "pct": 18,
     "guide_web": true,
     "modo": "filesystem_v5"
+  },
+  {
+    "data": "2026-06-14 21:59",
+    "batch": [
+      "La-Mélodie-secrète-des-végétau",
+      "La Forza del Cervello Quantico",
+      "ufie003301_to0261_cor-26166_00",
+      "Tertium Organum (P. D. Ouspens",
+      "elcult3_d1f52256",
+      "La-vita-segreta-delle-piante-_",
+      "dudgrichelcult_782a0268",
+      "ELECTROCULTURE FOR BEGINNERS 2",
+      "Electroculture (Christofleau J",
+      "I misteri dellAntico Egitto - "
+    ],
+    "nuove": 2,
+    "tot_conn": 139,
+    "pdf_letti": 20,
+    "tot_pdf": 57,
+    "pct": 35,
+    "guide_web": true,
+    "modo": "filesystem_v5"
   }
 ]
