@@ -460,5 +460,24 @@
     "pct": 88,
     "guide_web": true,
     "modo": "filesystem_v5"
+  },
+  {
+    "data": "2026-06-14 12:29",
+    "batch": [
+      "Liber333 - Libro delle Menzogn",
+      "Registri-Akashici-Accedi-Alla-",
+      "Il-Grande-Grimorio-Una-Raccolt",
+      "LA CABALA MISTICA_e6d00faa",
+      "Esoterismo-5-Libri-in-1.-Wicca",
+      "Magick-_Fanucci-Editore_-_Ital",
+      "Activating The Inner Eye (Harr"
+    ],
+    "nuove": 0,
+    "tot_conn": 133,
+    "pdf_letti": 57,
+    "tot_pdf": 57,
+    "pct": 100,
+    "guide_web": true,
+    "modo": "filesystem_v5"
   }
 ]
