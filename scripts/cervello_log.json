@@ -523,5 +523,27 @@
     "pct": 35,
     "guide_web": true,
     "modo": "filesystem_v5"
+  },
+  {
+    "data": "2026-06-15 18:07",
+    "batch": [
+      "An Agricultural Testament - Al",
+      "elcult1_20b9ce2c",
+      "Fondamenti di campi elettromag",
+      "La filosofia occulta o la magi",
+      "LA-SCOPERTA-DELLATOMO-MAGNETIC",
+      "elcult2_159cde25",
+      "Nikola-Tesla-Come-Lenergia_-Le",
+      "Scoperte scientifiche non auto",
+      "laemstromelcult_fae28ddd",
+      "Nikola Tesla, un genio volutam"
+    ],
+    "nuove": 1,
+    "tot_conn": 140,
+    "pdf_letti": 30,
+    "tot_pdf": 57,
+    "pct": 53,
+    "guide_web": true,
+    "modo": "filesystem_v5"
   }
 ]
